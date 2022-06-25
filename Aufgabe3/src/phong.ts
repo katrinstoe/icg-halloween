@@ -21,28 +21,34 @@ export default function phong(
   const kD = 0.5;
   const kS = 0.5;
   // TODO
-
   let p = intersection.point;
   let n = intersection.normal;
-  let s = new Ray(p, lightPositions[0].sub(p));
-  let l = s.direction
   let v = cameraPosition;
 
-
   //berechnung r
-  let skalarSN = s.direction.dot(n)
+  /*let skalarSN = s.direction.dot(n)
   let n_length = n.length
   let s_length = s.direction.length
-  let quotient = (skalarSN) / (n_length*s_length)
+  let quotient = (skalarSN) / (n_length*s_length)*/
 
-  let r = n.sub(l).mul(2* n.dot(l))
-
-//ambient lighting = k_a*L^a
+  //ambient lighting = k_a*L^a
   let ambientLighting = lightColor.length * kA;
-  let f_lambertian = Math.max(0.0, n.dot(l))*kD
-  let specular = kS*Math.pow(Math.max(0.0, r.dot(v)), shininess)
 
-  let phong = ambientLighting+ f_lambertian + specular
+  //let f_lambertian = Math.max(0.0, (n.dot(l))/(n.length * l.length)*shininess)*kD
+  //let f_lambertian = Math.max(0.0, n.dot(l) *color.length * shininess)*kD
+  let f_lambertian = 0;
+  let specular = 0;
 
-  return color.mul(specular);
+  for (let lightPosition of lightPositions) {
+    let s = new Ray(p, lightPosition.sub(p));
+    let l = s.direction
+    let r = n.sub(l).mul(2* n.dot(l))
+
+    f_lambertian += Math.max(0.0, n.dot(l))*kD
+    specular += Math.pow(Math.max(0.0, r.dot(v)), shininess)*kS
+
+  }
+  let phong = ambientLighting+ f_lambertian +specular
+
+  return color.mul(phong);
 }
