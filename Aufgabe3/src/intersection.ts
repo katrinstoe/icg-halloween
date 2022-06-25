@@ -6,15 +6,15 @@ import Vector from './vector';
 export default class Intersection {
   /**
    * Create an Intersection
-   * @param t The distance on the ray
-   * @param point The intersection point
-   * @param normal The normal in the intersection
+   * @param _t The distance on the ray
+   * @param _point The intersection point
+   * @param _normal The normal in the intersection
    */
-  constructor(public t: number, public point: Vector, public normal: Vector) {
-    if (t) {
-      this.t = t;
+  constructor(public _t: number, public _point: Vector, public _normal: Vector) {
+    if (_t) {
+      this._t = _t;
     } else {
-      this.t = Infinity;
+      this._t = Infinity;
     }
   }
 
@@ -25,7 +25,20 @@ export default class Intersection {
    * @return The result
    */
   closerThan(other: Intersection): boolean {
-    if (this.t < other.t) return true;
+    if (this._t < other._t) return true;
     else return false;
+  }
+
+
+  get t(): number {
+    return this._t;
+  }
+
+  get point(): Vector {
+    return this._point;
+  }
+
+  get normal(): Vector {
+    return this._normal;
   }
 }

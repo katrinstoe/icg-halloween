@@ -28,21 +28,13 @@ export default class Sphere {
 
     let x0 = ray.origin.sub(this.center);
 
-
-    let x0Squared = (Math.pow(ray.origin.x, 2), Math.pow(ray.origin.y, 2), Math.pow(ray.origin.z, 2), Math.pow(ray.origin.w, 2))
-    let dSquared = (Math.pow(ray.direction.x, 2), Math.pow(ray.origin.y, 2), Math.pow(ray.origin.z, 2), Math.pow(ray.origin.w, 2))
+    let x0Squared = x0.dot(x0)
+    //let dSquared = (Math.pow(ray.direction.x, 2), Math.pow(ray.origin.y, 2), Math.pow(ray.origin.z, 2), Math.pow(ray.origin.w, 2))
     let t = - x0.dot(ray.direction) + Math.sqrt((Math.pow(x0.dot(ray.direction), 2))- x0Squared + Math.pow(this.radius, 2));
     let t2 = - x0.dot(ray.direction) - Math.sqrt((Math.pow(x0.dot(ray.direction), 2))- x0Squared + Math.pow(this.radius, 2));
 
 
     let shorterT;
-    let intersectionPoint = x0.add(ray.direction.mul(shorterT))
-    //let rSquared = x0Squared + 2* t* x0 * ray.direction + Math.pow(t, 2)*dSquared;
-
-    let normal = intersectionPoint.sub(this.center).normalize()
-
-
-
 
     let c = Math.pow(x0.dot(ray.direction), 2)-x0Squared+Math.pow(this.radius, 2)
     let amountOfIntersections;
@@ -60,8 +52,12 @@ export default class Sphere {
     }
 //ray equation
     //let raySphereIntersection = Math.pow(t, 2) + 2*shorterT*(ray.origin.dot(ray.direction))+(x0Squared-Math.pow(this.radius, 2));
+    let intersectionPoint = x0.add(ray.direction.mul(shorterT))
+    let normal = intersectionPoint.sub(this.center).normalize()
 
     return new Intersection(shorterT, normal, intersectionPoint)
 
   }
+
 }
+

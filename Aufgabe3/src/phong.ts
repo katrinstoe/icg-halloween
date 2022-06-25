@@ -1,5 +1,6 @@
 import Vector from './vector';
 import Intersection from './intersection';
+import Ray from "./ray";
 
 /**
  * Calculate the colour of an object at the intersection point according to the Phong Lighting model.
@@ -20,11 +21,28 @@ export default function phong(
   const kD = 0.5;
   const kS = 0.5;
   // TODO
-  //ambient lighting = k_a*L^a
-  let ambientLight = lightColor.mul(kA)
+
+  let p = intersection.point;
+  let n = intersection.normal;
+  let s = new Ray(p, lightPositions[0].sub(p));
+  let l = s.direction
+  let v = cameraPosition;
 
 
-  intersection.normal
+  //berechnung r
+  let skalarSN = s.direction.dot(n)
+  let n_length = n.length
+  let s_length = s.direction.length
+  let quotient = (skalarSN) / (n_length*s_length)
 
-  return color;
+  let r = n.sub(l).mul(2* n.dot(l))
+
+//ambient lighting = k_a*L^a
+  let ambientLighting = lightColor.length * kA;
+  let f_lambertian = Math.max(0.0, n.dot(l))*kD
+  let specular = kS*Math.pow(Math.max(0.0, r.dot(v)), shininess)
+
+  let phong = ambientLighting+ f_lambertian + specular
+
+  return color.mul(specular);
 }
