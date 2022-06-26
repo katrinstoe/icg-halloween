@@ -17,37 +17,50 @@ export default function phong(
   cameraPosition: Vector
 ): Vector {
   const lightColor = new Vector(0.8, 0.8, 0.8, 0);
+  const white = new Vector(1, 1, 1, 0)
   const kA = 0.8;
   const kD = 0.5;
   const kS = 0.5;
 
   let p = intersection.point;
-  let n = intersection.normal;
+  let n = intersection.normal.normalize();
   let v = cameraPosition.sub(p);
 
   let diffuse = new Vector(0,0,0,0);
   let specular = new Vector(0,0,0,0);
+  // let specular = 0
+  // let diffuse = 0
 
   let ambient = lightColor.mul(kA);
+  // let ambient = lightColor.x * kA
 
 
   for (let lightPosition of lightPositions) {
-    let s = new Ray(p, lightPosition.sub(p));
-    let l = s.direction;
+    /*let s = new Ray(p, lightPosition.sub(p));
+    let l = s.direction;*/
+    let l = lightPosition.sub(p).normalize();
     let nDotL = n.dot(l)
     let term = n.mul(2 * nDotL)
     let r = term.sub(l);
+    ///let r = n.sub(l).mul(2* n.dot(l))
 
 
     diffuse = diffuse.add(lightColor.mul(Math.max(0.0, n.dot(l))).mul(kD));
-    specular = specular.add(lightColor.mul(Math.max(0.0, Math.pow(r.dot(v), shininess))));
+    specular = specular.add(white.mul(Math.max(0.0, Math.pow(r.dot(v), shininess))));
+    // let diffuse2 = lightColor.x*(Math.max(0.0, n.dot(l))) *kD
+    // diffuse += diffuse2
+    // specular += white.x * (Math.pow(Math.max(r.dot(v), 0.0), shininess));
+
   }
 
-  //const clampNumber = (num, a, b) => Math.max(Math.min(num, Math.max(a, b)), Math.min(a, b));
 
   let specularSum = specular.mul(kS)
 
   let phong = ambient.add(diffuse.add(specularSum));
 
   return color.multiply(phong);
+
+  // let phong = ambient + specular + diffuse
+  //
+  // return color.mul(phong)
 }
