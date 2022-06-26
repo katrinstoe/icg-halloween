@@ -20,35 +20,34 @@ export default function phong(
   const kA = 0.8;
   const kD = 0.5;
   const kS = 0.5;
-  // TODO
+
   let p = intersection.point;
   let n = intersection.normal;
-  let v = cameraPosition;
+  let v = cameraPosition.sub(p);
 
-  //berechnung r
-  /*let skalarSN = s.direction.dot(n)
-  let n_length = n.length
-  let s_length = s.direction.length
-  let quotient = (skalarSN) / (n_length*s_length)*/
+  let diffuse = new Vector(0,0,0,0);
+  let specular = new Vector(0,0,0,0);
 
-  //ambient lighting = k_a*L^a
-  let ambientLighting = lightColor.length * kA;
+  let ambient = lightColor.mul(kA);
 
-  //let f_lambertian = Math.max(0.0, (n.dot(l))/(n.length * l.length)*shininess)*kD
-  //let f_lambertian = Math.max(0.0, n.dot(l) *color.length * shininess)*kD
-  let f_lambertian = 0;
-  let specular = 0;
 
   for (let lightPosition of lightPositions) {
     let s = new Ray(p, lightPosition.sub(p));
-    let l = s.direction
-    let r = n.sub(l).mul(2* n.dot(l))
+    let l = s.direction;
+    let nDotL = n.dot(l)
+    let term = n.mul(2 * nDotL)
+    let r = term.sub(l);
 
-    f_lambertian += Math.max(0.0, n.dot(l))*kD
-    specular += Math.pow(Math.max(0.0, r.dot(v)), shininess)*kS
 
+    diffuse = diffuse.add(lightColor.mul(Math.max(0.0, n.dot(l))).mul(kD));
+    specular = specular.add(lightColor.mul(Math.max(0.0, Math.pow(r.dot(v), shininess))));
   }
-  let phong = ambientLighting+ f_lambertian +specular
 
-  return color.mul(phong);
+  //const clampNumber = (num, a, b) => Math.max(Math.min(num, Math.max(a, b)), Math.min(a, b));
+
+  let specularSum = specular.mul(kS)
+
+  let phong = ambient.add(diffuse.add(specularSum));
+
+  return color.multiply(phong);
 }

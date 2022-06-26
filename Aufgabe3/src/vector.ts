@@ -270,6 +270,11 @@ export default class Vector {
     // TODO
     return Math.sqrt(Math.pow(this.data[0], 2)+ Math.pow(this.data[1], 2)+ Math.pow(this.data[2], 2)+ Math.pow(this.data[3], 2));
   }
+
+  multiply(other: Vector): Vector{
+
+    return new Vector(this.x*other.x, this.y*other.y, this.z * other.z, 0)
+  }
 }
 
 function isEqual(a:number, b:number){
