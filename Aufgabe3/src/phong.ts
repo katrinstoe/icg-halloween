@@ -18,15 +18,16 @@ export default function phong(
 ): Vector {
   const lightColor = new Vector(0.8, 0.8, 0.8, 0);
   const kA = 0.8;
-  const kD = 5;
+  const kD = 0.5;
   const kS = 0.5;
 
   let p = intersection.point;
-  let n = intersection.normal;
+  let n = intersection.normal.normalize();
   let v = cameraPosition.sub(p).normalize();
 
   let diffuse = new Vector(0,0,0,0);
   let specular = new Vector(0,0,0,0);
+  let white = new Vector(1,1,1,0)
 
   let ambient = lightColor.mul(kA);
 
@@ -37,12 +38,19 @@ export default function phong(
     let mal2 = term.mul(2)
     let r = mal2.sub(l);
 
+    let rDotV = r.dot(v);
+
     diffuse = diffuse.add(lightColor.mul(Math.max(0.0, n.dot(l))).mul(kD));
-    specular = specular.add(lightColor.mul(Math.pow(Math.max(0.0, r.dot(v)), shininess)));
+    specular = specular.add(lightColor.mul(Math.pow(Math.max(0.0, rDotV), shininess)));
   }
 
   let specularKS = specular.mul(kS)
-  let phong = ambient.add(diffuse.add(specular));
+
+  if(specularKS.length>0){
+    console.log(specularKS)
+  }
+
+  let phong = ambient.add(diffuse.add(specularKS));
   //Wieso geht nicht cross
-  return color.multiply(phong);
+  return color.multiply(ambient.add(phong));
 }
