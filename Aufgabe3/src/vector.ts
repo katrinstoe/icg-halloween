@@ -209,8 +209,8 @@ export default class Vector {
    * @return The result of the dot product
    */
   dot(other: Vector): number {
-    // TODO
-    return (this.data[0] * other.x + this.data[1] * other.y + this.data[2] * other.z + this.data[3] * other.w)
+    //Maybe Problem?
+    return this.x*other.x + this.y*other.y + this.z*other.z + this.w * other.w;
   }
 
   /**

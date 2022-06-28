@@ -12,18 +12,19 @@ import Ray from "./ray";
  * @return The resulting colour
  */
 export default function phong(
-    color: Vector, intersection: Intersection,
-    lightPositions: Array<Vector>, shininess: number,
-    cameraPosition: Vector
+  color: Vector, intersection: Intersection,
+  lightPositions: Array<Vector>, shininess: number,
+  cameraPosition: Vector
 ): Vector {
   const lightColor = new Vector(0.8, 0.8, 0.8, 0);
+  const white = new Vector(1, 1, 1, 0)
   const kA = 0.8;
   const kD = 0.5;
   const kS = 0.5;
 
   let p = intersection.point;
   let n = intersection.normal.normalize();
-  let v = cameraPosition.sub(p).normalize();
+  let v = cameraPosition.sub(p);
 
   let diffuse = new Vector(0,0,0,0);
   let specular = new Vector(0,0,0,0);
@@ -32,7 +33,6 @@ export default function phong(
 
   for (let lightPosition of lightPositions) {
     let l = lightPosition.sub(p).normalize();
-    //r berechnen
     let nDotL = n.dot(l)
     let term = n.mul(nDotL)
     let mal2 = term.mul(2)
@@ -41,7 +41,9 @@ export default function phong(
     diffuse = diffuse.add(lightColor.mul(Math.max(0.0, n.dot(l))).mul(kD));
     specular = specular.add(lightColor.mul(Math.pow(Math.max(0.0, r.dot(v)), shininess)).mul(kS));
   }
-
+  if(specular.length>0){
+    console.log(specular)
+  }
   let phong = ambient.add(diffuse.add(specular));
   return color.multiply(phong);
 }

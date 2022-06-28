@@ -27,17 +27,12 @@ export default class Sphere {
     // TODO
 
     let x0 = ray.origin.sub(this.center);
-    // let x0 = new Vector(x0Old.x, x0Old.y, x0Old.z,1)
-
 
     let x0Squared = x0.dot(x0)
     let d = ray.direction.normalize();
     let t = - x0.dot(d) + Math.sqrt((Math.pow(x0.dot(d), 2))- x0Squared + Math.pow(this.radius, 2));
     let t2 = - x0.dot(d) - Math.sqrt((Math.pow(x0.dot(d), 2))- x0Squared + Math.pow(this.radius, 2));
 
-
-    // let t = - x0.dot(d) + Math.sqrt((Math.pow(x0.dot(d), 2))- x0Squared.length + Math.pow(this.radius, 2));
-    // let t2 = - x0.dot(d) - Math.sqrt((Math.pow(x0.dot(d), 2))- x0Squared.length + Math.pow(this.radius, 2));
 
     let shorterT;
 
