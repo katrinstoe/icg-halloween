@@ -241,7 +241,11 @@ export default class Vector {
    * @returns this vector for easier function chaining
    */
   normalize(): Vector {
-    return new Vector(this.x/this.length, this.y/this.length, this.z/this.length, 0);
+    const length = this.length
+    for (let i = 0; i < this.data.length; i++) {
+      this.data[i] = this.data[i] / length
+    }
+    return this
   }
 
   /**

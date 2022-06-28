@@ -29,7 +29,8 @@ export default class Sphere {
     let x0 = ray.origin.sub(this.center);
 
     let x0Squared = x0.dot(x0)
-    let d = ray.direction.normalize();
+    let direction = ray.direction;
+    let d = new Vector(...ray.direction.data).normalize();
     let t = - x0.dot(d) + Math.sqrt((Math.pow(x0.dot(d), 2))- x0Squared + Math.pow(this.radius, 2));
     let t2 = - x0.dot(d) - Math.sqrt((Math.pow(x0.dot(d), 2))- x0Squared + Math.pow(this.radius, 2));
 
@@ -57,9 +58,7 @@ export default class Sphere {
 
     let intersectionPoint = ray.origin.add(d.mul(shorterT))
     intersectionPoint.w = 1;
-    let normal = intersectionPoint.sub(this.center)
-    normal.w = 0
-    normal.normalize()
+    let normal = intersectionPoint.sub(this.center).normalize()
     return new Intersection(shorterT, intersectionPoint, normal)
 
 
