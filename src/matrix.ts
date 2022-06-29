@@ -50,6 +50,7 @@ export default class Matrix {
      */
     static translation(translation: Vector): Matrix {
         // TODO
+        return null
     }
 
     /**
@@ -60,6 +61,7 @@ export default class Matrix {
      */
     static rotation(axis: Vector, angle: number): Matrix {
         // TODO
+        return null
     }
 
     /**
@@ -69,6 +71,7 @@ export default class Matrix {
      */
     static scaling(scale: Vector): Matrix {
         // TODO
+        return null
     }
 
     /**
@@ -80,6 +83,7 @@ export default class Matrix {
      */
     static lookat(eye: Vector, center: Vector, up: Vector): Matrix {
         // TODO
+        return null
     }
 
     /**
@@ -94,6 +98,7 @@ export default class Matrix {
      */
     static frustum(left: number, right: number, bottom: number, top: number, near: number, far: number): Matrix {
         // TODO
+        return null
     }
 
     /**
@@ -106,6 +111,7 @@ export default class Matrix {
      */
     static perspective(fovy: number, aspect: number, near: number, far: number): Matrix {
         // TODO
+        return null
     }
 
     /**
@@ -128,19 +134,17 @@ export default class Matrix {
      */
     mul(other: Matrix): Matrix {
         // TODO
-        let resultArray = new Array<number>()
-        let i = 0;
-        let row = 0;
+        let resArray = new Array<number>();
 
-        for (let nextRowOrColumn = 0; nextRowOrColumn < 4; nextRowOrColumn++){
-            for (let column = 0; column < 4; column++) {
-                resultArray[i] += this.data[column * 4 + row] * other.data[row * 4 + column]
-                i++;
-                row++;
+        let i, j, k;
+        for (let row = 0; row < 4; row++) {
+            for (let col = 0; col < 4; col++) {
+                resArray[row * 4 + col] = 0;
+                for (k = 0; k < 4; k++)
+                    resArray[row * 4 + col] += this.data[4 * row + k] * other.data[col + 4 * k];
             }
         }
-
-        return new Matrix(resultArray);
+        return new Matrix(resArray);
     }
 
     /**
@@ -150,7 +154,15 @@ export default class Matrix {
      */
     mulVec(other: Vector): Vector {
         // TODO
+        let resArray = new Array<number>();
 
+        let i, k;
+        for (let row = 0; row < 4; row++) {
+            resArray[row] = 0;
+            for (k = 0; k < 4; k++)
+                resArray[row] += this.data[4 * row + k] * other.data[k];
+        }
+        return new Vector(resArray[0], resArray[1], resArray[2], resArray[3]);
     }
 
     /**
@@ -159,6 +171,7 @@ export default class Matrix {
      */
     transpose(): Matrix {
         // TODO
+        return null
     }
 
     /**

@@ -58,6 +58,7 @@ export default class AABox {
    */
   intersect(ray: Ray): Intersection | null {
     // TODO
+    return null
   }
 
 }
