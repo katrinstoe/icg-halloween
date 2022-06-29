@@ -190,7 +190,7 @@ export default class Vector {
    */
   mul(other: number): Vector {
     // TODO
-    return new Vector(this.data[0]*other, this.data[1]*other, this.data[2]*other, this.data[3]*other)
+    return new Vector(this.data[0]*other, this.data[1]*other, this.data[2]*other, 0)
   }
 
   /**
@@ -200,7 +200,7 @@ export default class Vector {
    */
   div(other: number): Vector {
     // TODO
-    return new Vector(this.data[0]/other, this.data[1]/other, this.data[2]/other, this.data[3]/other)
+    return new Vector(this.data[0]/other, this.data[1]/other, this.data[2]/other, 0)
   }
 
   /**
@@ -209,8 +209,8 @@ export default class Vector {
    * @return The result of the dot product
    */
   dot(other: Vector): number {
-    // TODO
-    return (this.data[0] * other.x + this.data[1] * other.y + this.data[2] * other.z + this.data[3] * other.w)
+    //Maybe Problem?
+    return this.x*other.x + this.y*other.y + this.z*other.z + this.w * other.w;
   }
 
   /**
@@ -241,11 +241,11 @@ export default class Vector {
    * @returns this vector for easier function chaining
    */
   normalize(): Vector {
-    // TODO
-    let vec = new Vector(this.data[0], this.data[1], this.data[2], this.data[3])
-    var m = this.length
-    let normalizedVec = new Vector(vec.x / m, vec.y / m, vec.z/m, vec.w/m)
-    return normalizedVec;
+    const length = this.length
+    for (let i = 0; i < this.data.length; i++) {
+      this.data[i] = this.data[i] / length
+    }
+    return this
   }
 
   /**
@@ -268,7 +268,12 @@ export default class Vector {
    */
   get length(): number {
     // TODO
-    return Math.sqrt(Math.pow(this.data[0], 2)+ Math.pow(this.data[1], 2)+ Math.pow(this.data[2], 2)+ Math.pow(this.data[3], 2));
+    return Math.sqrt(Math.pow(this.data[0], 2)+ Math.pow(this.data[1], 2)+ Math.pow(this.data[2], 2));
+  }
+
+  multiply(other: Vector): Vector{
+
+    return new Vector(this.x*other.x, this.y*other.y, this.z * other.z, 0)
   }
 }
 
