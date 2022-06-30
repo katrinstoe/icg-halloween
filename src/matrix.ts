@@ -64,8 +64,12 @@ export default class Matrix {
      * @return The resulting rotation matrix
      */
     static rotation(axis: Vector, angle: number): Matrix {
-        // TODO
-        return null
+        return new Matrix([
+            Math.cos(angle), -Math.sin(angle), 0, 0,
+            Math.sin(angle), Math.cos(angle), 0, 0,
+            0, 0, 1, 0,
+            0, 0, 0, 1
+        ]);
     }
 
     /**
