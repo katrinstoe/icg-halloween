@@ -2,6 +2,7 @@ import Visitor from './visitor';
 import Vector from './vector';
 import { Transformation } from './transformation';
 
+
 /**
  * Class representing a Node in a Scenegraph
  */
@@ -21,14 +22,17 @@ export class Node {
  */
 export class GroupNode extends Node {
   // TODO declare instance variables
+  children = new Array<Node>;
 
   /**
    * Constructor
    * @param transform The node's transformation
    */
-  constructor(public transform: Transformation) {
+
+
+  constructor(children: any) {
     super();
-    // TODO
+    this.children = children;
   }
 
   /**
@@ -44,7 +48,7 @@ export class GroupNode extends Node {
    * @param childNode The child node to add
    */
   add(childNode: Node) {
-    // TODO
+    this.children.push(childNode)
   }
 }
 
