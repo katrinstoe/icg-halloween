@@ -78,8 +78,12 @@ export default class Matrix {
      * @return The resulting scaling matrix
      */
     static scaling(scale: Vector): Matrix {
-        // TODO
-        return null
+        return new Matrix([
+            scale.x, 0, 0, 0,
+            0, scale.y, 0, 0,
+            0, 0, scale.z, 0,
+            0, 0, 0, 1
+        ]);
     }
 
     /**
