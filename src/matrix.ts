@@ -68,7 +68,8 @@ export default class Matrix {
             Math.cos(angle), -Math.sin(angle), 0, 0,
             Math.sin(angle), Math.cos(angle), 0, 0,
             0, 0, 1, 0,
-            0, 0, 0, 1]);
+            0, 0, 0, 1
+        ]);
     }
 
     /**
@@ -77,13 +78,12 @@ export default class Matrix {
      * @return The resulting scaling matrix
      */
     static scaling(scale: Vector): Matrix {
-        // TODO
         return new Matrix([
             scale.x, 0, 0, 0,
             0, scale.y, 0, 0,
             0, 0, scale.z, 0,
             0, 0, 0, 1
-        ])
+        ]);
     }
 
     /**
