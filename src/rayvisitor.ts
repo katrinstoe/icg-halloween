@@ -26,7 +26,7 @@ export default class RayVisitor implements Visitor {
   imageData: ImageData;
 
   // TODO declare instance variables here
-  transformations: Array<Matrix>
+  model: Array<Matrix>
   inverse: Array<Matrix>
   intersection: Intersection | null;
   intersectionColor: Vector;
@@ -69,8 +69,8 @@ export default class RayVisitor implements Visitor {
         this.ray = Ray.makeRay(x, y, camera);
 
         // TODO initialize the matrix stack
-        this.transformations = new Array<Matrix>()
-        this.inverse = new Array<Matrix>()
+        this.model = new Array<Matrix>(Matrix.identity())
+        this.inverse = new Array<Matrix>(Matrix.identity())
         this.intersection = null;
         rootNode.accept(this);
 
@@ -100,7 +100,15 @@ export default class RayVisitor implements Visitor {
   visitGroupNode(node: GroupNode) {
     // TODO traverse the graph and build the model matrix
     let children = node.childNodes
+    let matrix = node.transform.getMatrix()
+    let inverseMatrix= node.transform.getInverseMatrix()
+    let identity = this.model[this.model.length - 1]
+    this.model.push(identity.mul(matrix))
+    this.inverse.push(identity.mul(inverseMatrix))
 
+    for(let child of children){
+      child.accept(this);
+    }
   }
 
   /**

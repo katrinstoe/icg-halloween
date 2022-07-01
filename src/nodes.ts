@@ -41,9 +41,7 @@ export class GroupNode extends Node {
   accept(visitor: Visitor) {
     // TODO
     visitor.visitGroupNode(this);
-    for(let child of this.childNodes){
-      child.accept(visitor);
-    }
+
   }
 
   /**
