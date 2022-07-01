@@ -2,7 +2,6 @@ import Visitor from './visitor';
 import Vector from './vector';
 import { Transformation } from './transformation';
 
-
 /**
  * Class representing a Node in a Scenegraph
  */
@@ -22,17 +21,17 @@ export class Node {
  */
 export class GroupNode extends Node {
   // TODO declare instance variables
-  children = new Array<Node>;
+  childNodes;
+  transformer;
 
   /**
    * Constructor
    * @param transform The node's transformation
    */
-
-
-  constructor(children: any) {
+  constructor(public transform : Transformation, public children: Array<Node>) {
     super();
-    this.children = children;
+    this.childNodes = children;
+    this.transformer = transform;
   }
 
   /**
@@ -41,6 +40,10 @@ export class GroupNode extends Node {
    */
   accept(visitor: Visitor) {
     // TODO
+    visitor.visitGroupNode(this);
+    for(let child of this.childNodes){
+      child.accept(visitor);
+    }
   }
 
   /**
@@ -76,6 +79,7 @@ export class SphereNode extends Node {
    */
   accept(visitor: Visitor) {
     // TODO
+    visitor.visitSphereNode(this);
   }
 }
 
@@ -101,6 +105,7 @@ export class AABoxNode extends Node {
    */
   accept(visitor: Visitor) {
     // TODO
+    visitor.visitAABoxNode(this);
   }
 }
 
