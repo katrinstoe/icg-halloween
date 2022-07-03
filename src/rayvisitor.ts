@@ -26,12 +26,8 @@ export default class RayVisitor implements Visitor {
   imageData: ImageData;
 
   // TODO declare instance variables here
-  // modelMatrix: Array<Matrix>
-  // inverse: Array<Matrix>
-  modelMatrixStack: Array<Matrix>
-  inverseStack: Array<Matrix>
-  modelMatrix: Matrix
-  inverse: Matrix
+  model: Array<Matrix>
+  inverse: Array<Matrix>
   intersection: Intersection | null;
   intersectionColor: Vector;
   ray: Ray;
@@ -73,10 +69,8 @@ export default class RayVisitor implements Visitor {
         this.ray = Ray.makeRay(x, y, camera);
 
         // TODO initialize the matrix stack
-        // this.modelMatrix = new Array<Matrix>(Matrix.identity())
-        // this.inverse = new Array<Matrix>(Matrix.identity())
-        this.modelMatrix = Matrix.identity()
-        this.inverse = Matrix.identity()
+        this.model = new Array<Matrix>(Matrix.identity())
+        this.inverse = new Array<Matrix>(Matrix.identity())
         this.intersection = null;
         rootNode.accept(this);
 
@@ -107,12 +101,10 @@ export default class RayVisitor implements Visitor {
     // TODO traverse the graph and build the model matrix
     let children = node.childNodes
     let matrix = node.transform.getMatrix()
-    let inverseMatrix = node.transform.getInverseMatrix()
-
-    let identity = this.modelMatrixStack[(this.modelMatrixStack.length)-1]
-    this.modelMatrixStack.push(identity.mul(matrix))
-    this.inverseStack.push(identity.mul(inverseMatrix))
-
+    let inverseMatrix= node.transform.getInverseMatrix()
+    let identity = this.model[this.model.length - 1]
+    this.model.push(identity.mul(matrix))
+    this.inverse.push(identity.mul(inverseMatrix))
 
     for(let child of children){
       child.accept(this);
@@ -127,7 +119,6 @@ export default class RayVisitor implements Visitor {
     let toWorld = Matrix.identity();
     let fromWorld = Matrix.identity();
     // TODO assign the model matrix and its inverse
-    SphereNode.apply(this.modelMatrixStack, this.inverseStack.pop())
 
     const ray = new Ray(fromWorld.mulVec(this.ray.origin), fromWorld.mulVec(this.ray.direction).normalize());
     let intersection = UNIT_SPHERE.intersect(ray);
@@ -152,13 +143,9 @@ export default class RayVisitor implements Visitor {
    * @param node The node to visit
    */
   visitAABoxNode(node: AABoxNode) {
-    // let toWorld = Matrix.identity();
-    // let fromWorld = Matrix.identity();
-    let toWorld = this.modelMatrixStack.pop()
-    let fromWorld = this.inverseStack.pop()
+    let toWorld = Matrix.identity();
+    let fromWorld = Matrix.identity();
     // TODO assign the model matrix and its inverse
-    SphereNode.apply(this.modelMatrixStack, this.inverseStack.pop())
-
 
     const ray = new Ray(fromWorld.mulVec(this.ray.origin), fromWorld.mulVec(this.ray.direction).normalize());
     let intersection = UNIT_AABOX.intersect(ray);
