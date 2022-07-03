@@ -64,13 +64,31 @@ export default class Matrix {
      * @return The resulting rotation matrix
      */
     static rotation(axis: Vector, angle: number): Matrix {
-        return new Matrix([
-            Math.cos(angle), -Math.sin(angle), 0, 0,
-            Math.sin(angle), Math.cos(angle), 0, 0,
-            0, 0, 1, 0,
-            0, 0, 0, 1
-        ]);
-        //    TODO: Üeberprüfen über welche Axis rotiert wird
+        if (axis.x != 0){
+            return new Matrix([
+                1, 0,0,0,
+                0, Math.cos(angle), -Math.sin(angle),0,
+                0, Math.sin(angle), Math.cos(angle), 0,
+                0, 0, 0, 1
+            ])
+        }
+        if (axis.z != 0) {
+            return new Matrix([
+                Math.cos(angle), -Math.sin(angle), 0, 0,
+                Math.sin(angle), Math.cos(angle), 0, 0,
+                0, 0, 1, 0,
+                0, 0, 0, 1
+            ]);
+        }
+        if (axis.y != 0){
+            return new Matrix([
+                Math.cos(angle), 0, Math.sin(angle), 0,
+                0, 1, 0, 0
+                -Math.sin(angle), 0, Math.cos(angle), 0,
+                0, 0, 0, 1
+            ])
+        }
+        //    TODO: Überprüfen über welche Axis rotiert wird
     }
 
     /**
