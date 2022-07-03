@@ -103,12 +103,18 @@ export default class RayVisitor implements Visitor {
     let matrix = node.transform.getMatrix()
     let inverseMatrix= node.transform.getInverseMatrix()
     let identity = this.model[this.model.length - 1]
-    this.model.push(identity.mul(matrix))
-    this.inverse.push(identity.mul(inverseMatrix))
+    // this.model.push(identity.mul(matrix))
+    // this.inverse.push(identity.mul(inverseMatrix))
+    this.inverse.push(inverseMatrix)
+    this.model.push(matrix)
+    // this.inverse.push(inverseMatrix.mul(this.inverse[this.inverse.length-1]))
 
     for(let child of children){
       child.accept(this);
     }
+    this.model.pop()
+    this.inverse.pop()
+
   }
 
   /**
@@ -116,17 +122,19 @@ export default class RayVisitor implements Visitor {
    * @param node - The node to visit
    */
   visitSphereNode(node: SphereNode) {
-    let toWorld = this.model[this.model.length-1];
-    let fromWorld = this.inverse[this.inverse.length-1];
+    let toWorld = Matrix.identity();
+    let fromWorld = Matrix.identity();
     // TODO assign the model matrix and its inverse
+    for (let i = 0; i < this.model.length; i++) {
+      toWorld = toWorld.mul(this.model[i]);
+      fromWorld = this.inverse[i].mul(fromWorld);
+    }
+
 
     const ray = new Ray(fromWorld.mulVec(this.ray.origin), fromWorld.mulVec(this.ray.direction).normalize());
     let intersection = UNIT_SPHERE.intersect(ray);
-    // for (let child = 0; child < this.model.length; child++) {
-    //   let childHitW = new Intersection(child, ray, fromWorld)
-    // }
 
-    if (intersection) {
+    if (intersection){
       const intersectionPointWorld = toWorld.mulVec(intersection.point);
       const intersectionNormalWorld = toWorld.mulVec(intersection.normal).normalize();
       intersection = new Intersection(
@@ -139,6 +147,7 @@ export default class RayVisitor implements Visitor {
         this.intersectionColor = node.color;
       }
     }
+
   }
 
   /**
@@ -146,12 +155,13 @@ export default class RayVisitor implements Visitor {
    * @param node The node to visit
    */
   visitAABoxNode(node: AABoxNode) {
-    // let toWorld = Matrix.identity();
-    // let fromWorld = Matrix.identity();
-    let toWorld = this.model[this.model.length-1];
-    let fromWorld = this.inverse[this.inverse.length-1];
+    let toWorld = Matrix.identity();
+    let fromWorld = Matrix.identity();
     // TODO assign the model matrix and its inverse
-
+    for (let i = 0; i < this.model.length; i++) {
+      toWorld = toWorld.mul(this.model[i]);
+      fromWorld = this.inverse[i].mul(fromWorld);
+    }
     const ray = new Ray(fromWorld.mulVec(this.ray.origin), fromWorld.mulVec(this.ray.direction).normalize());
     let intersection = UNIT_AABOX.intersect(ray);
 
