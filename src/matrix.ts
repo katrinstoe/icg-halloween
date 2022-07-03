@@ -70,6 +70,7 @@ export default class Matrix {
             0, 0, 1, 0,
             0, 0, 0, 1
         ]);
+        //    TODO: Üeberprüfen über welche Axis rotiert wird
     }
 
     /**
@@ -164,7 +165,7 @@ export default class Matrix {
      * @param other The vector to multiply with
      * @return The result of the multiplication this*other
      */
-    mulVec(other: Vector): Vector {
+    mulVec(other: Vector):Vector {
         // TODO
         let resArray = new Array<number>();
 
@@ -181,7 +182,9 @@ export default class Matrix {
      * Returns the transpose of this matrix
      * @return A new matrix that is the transposed of this
      */
-    transpose(): Matrix {
+    transpose()
+        :
+        Matrix {
         // TODO
         return null
     }

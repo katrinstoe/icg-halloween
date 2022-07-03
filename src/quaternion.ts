@@ -18,13 +18,19 @@ export default class Quaternion {
     get conjugate(): Quaternion {
         let q = new Quaternion(1, 0, 0, 0);
         // TODO
+        q.data.x = -1*q.data.x;
+        q.data.y = -1*q.data.y;
+        q.data.z = -1*q.data.z;
+        q.data.w = -1*q.data.w;
         return q;
     }
 
     get inverse(): Quaternion {
         let q = this.conjugate;
         // TODO
-        return q;
+        let q_nenner = Math.pow(q.data.length, 2)
+        // this.data = q/q_nenner
+        return ;
     }
 
     slerp(other: Quaternion, t: number): Quaternion {
