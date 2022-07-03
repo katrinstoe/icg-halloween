@@ -116,12 +116,15 @@ export default class RayVisitor implements Visitor {
    * @param node - The node to visit
    */
   visitSphereNode(node: SphereNode) {
-    let toWorld = Matrix.identity();
-    let fromWorld = Matrix.identity();
+    let toWorld = this.model[this.model.length-1];
+    let fromWorld = this.inverse[this.inverse.length-1];
     // TODO assign the model matrix and its inverse
 
     const ray = new Ray(fromWorld.mulVec(this.ray.origin), fromWorld.mulVec(this.ray.direction).normalize());
     let intersection = UNIT_SPHERE.intersect(ray);
+    // for (let child = 0; child < this.model.length; child++) {
+    //   let childHitW = new Intersection(child, ray, fromWorld)
+    // }
 
     if (intersection) {
       const intersectionPointWorld = toWorld.mulVec(intersection.point);
@@ -143,8 +146,10 @@ export default class RayVisitor implements Visitor {
    * @param node The node to visit
    */
   visitAABoxNode(node: AABoxNode) {
-    let toWorld = Matrix.identity();
-    let fromWorld = Matrix.identity();
+    // let toWorld = Matrix.identity();
+    // let fromWorld = Matrix.identity();
+    let toWorld = this.model[this.model.length-1];
+    let fromWorld = this.inverse[this.inverse.length-1];
     // TODO assign the model matrix and its inverse
 
     const ray = new Ray(fromWorld.mulVec(this.ray.origin), fromWorld.mulVec(this.ray.direction).normalize());
