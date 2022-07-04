@@ -88,7 +88,7 @@ export default class Matrix {
                 0, 0, 0, 1
             ])
         }
-        //    TODO: Überprüfen über welche Axis rotiert wird
+        //    TODO: JAcob: man kann nur um eine Achse rotieren, das ist vllt ein problem
     }
 
     /**
@@ -164,18 +164,19 @@ export default class Matrix {
      * @return The result of the multiplication this*other
      */
     mul(other: Matrix): Matrix {
-        // TODO
-        let resArray = new Array<number>();
-
-        let i, j, k;
+        const newMatrix = new Matrix([]);
         for (let row = 0; row < 4; row++) {
+
             for (let col = 0; col < 4; col++) {
-                resArray[row * 4 + col] = 0;
-                for (k = 0; k < 4; k++)
-                    resArray[row * 4 + col] += this.data[4 * row + k] * other.data[col + 4 * k];
+                let val = 0
+                for (let i = 0; i < 4; i++) {
+                    val += this.getVal(row, i) * other.getVal(i, col)
+                }
+                newMatrix.setVal(row, col, val)
+
             }
         }
-        return new Matrix(resArray);
+        return newMatrix
     }
 
     /**
@@ -183,17 +184,19 @@ export default class Matrix {
      * @param other The vector to multiply with
      * @return The result of the multiplication this*other
      */
-    mulVec(other: Vector):Vector {
-        // TODO
-        let resArray = new Array<number>();
+    mulVec(other: Vector): Vector {
+        const vector = new Vector(0, 0, 0, 0,)
 
-        let i, k;
-        for (let row = 0; row < 4; row++) {
-            resArray[row] = 0;
-            for (k = 0; k < 4; k++)
-                resArray[row] += this.data[4 * row + k] * other.data[k];
+
+        for (let matrixRow = 0; matrixRow < 4; matrixRow++) {
+            let val = 0;
+            for (let matrixCol = 0; matrixCol < 4; matrixCol++) {
+                val += this.getVal(matrixRow, matrixCol) * other.data[matrixCol];
+            }
+            vector.data[matrixRow] = val;
         }
-        return new Vector(resArray[0], resArray[1], resArray[2], resArray[3]);
+
+        return vector
     }
 
     /**
