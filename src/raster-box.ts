@@ -14,6 +14,7 @@ export default class RasterBox {
      */
     indexBuffer: WebGLBuffer;
     // TODO private variable for color buffer
+    colorBuffer: WebGLBuffer;
     /**
      * The amount of indices
      */
@@ -64,10 +65,14 @@ export default class RasterBox {
             // bottom
             5, 4, 1, 1, 0, 5
         ];
+        let color = [
+            1,0,0,1
+        ]
         const vertexBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
         this.vertexBuffer = vertexBuffer;
+
         const indexBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
         gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl.STATIC_DRAW);
@@ -75,6 +80,10 @@ export default class RasterBox {
         this.elements = indices.length;
 
         // TODO create and fill a buffer for colours
+        const colorBufffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, colorBufffer);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(color), gl.STATIC_DRAW);
+        this.colorBuffer = colorBufffer;
     }
 
     /**
