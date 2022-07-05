@@ -99,7 +99,7 @@ export default class RayVisitor implements Visitor {
    */
   visitGroupNode(node: GroupNode) {
     // TODO traverse the graph and build the model matrix
-    let children = node.childNodes
+    let children = node.children
     let matrix = node.transform.getMatrix()
     let inverseMatrix= node.transform.getInverseMatrix()
     let identity = this.model[this.model.length - 1]

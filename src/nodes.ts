@@ -21,7 +21,7 @@ export class Node {
  */
 export class GroupNode extends Node {
   // TODO declare instance variables
-  childNodes: Array<Node>;
+  children: Array<Node>;
   transformer;
 
   /**
@@ -31,7 +31,7 @@ export class GroupNode extends Node {
   constructor(public transform : Transformation) {
     super();
     this.transformer = transform;
-    this.childNodes = new Array<Node>();
+    this.children = new Array<Node>();
   }
 
   /**
@@ -49,7 +49,7 @@ export class GroupNode extends Node {
    * @param childNode The child node to add
    */
   add(childNode: Node) {
-    this.childNodes.push(childNode)
+    this.children.push(childNode)
   }
 }
 
