@@ -98,11 +98,16 @@ export default class RasterBox {
             3, this.gl.FLOAT, false, 0, 0);
 
         // TODO bind colour buffer
+        //aus Scene Graph die Color und vertices kriegen und ich shader geben
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.colorBuffer)
+        const color = shader.getAttributeLocation("color")
+        this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(color), this.gl.STATIC_DRAW)
 
         this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
         this.gl.drawElements(this.gl.TRIANGLES, this.elements, this.gl.UNSIGNED_SHORT, 0);
 
         this.gl.disableVertexAttribArray(positionLocation);
         // TODO disable color vertex attrib array
+        //this.gl.disableVertexAttribArray(color)
     }
 }
