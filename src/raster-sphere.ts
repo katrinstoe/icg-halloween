@@ -40,7 +40,6 @@ export default class RasterSphere {
         let vertices = [];
         let indices = [];
         let normals = [];
-        let colorAsVertex = [color.r, color.g, color.b, color.a]
 
         let ringsize = 30;
         for (let ring = 0; ring < ringsize; ring++) {
@@ -101,7 +100,7 @@ export default class RasterSphere {
         // TODO create colorBuffer
         const colorBufffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, colorBufffer);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colorAsVertex), gl.STATIC_DRAW);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(color.data), gl.STATIC_DRAW);
         this.colorBuffer = colorBufffer;
     }
 
