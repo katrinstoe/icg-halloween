@@ -31,6 +31,8 @@ interface Renderable {
  */
 export class RasterVisitor implements Visitor {
   // TODO declare instance variables here
+  model: Array<Matrix>
+  inverse: Array<Matrix>
 
   /**
    * Creates a new RasterVisitor
@@ -45,6 +47,8 @@ export class RasterVisitor implements Visitor {
     private renderables: WeakMap<Node, Renderable>
   ) {
     // TODO setup
+    this.model = new Array<Matrix>(Matrix.identity())
+    this.inverse = new Array<Matrix>(Matrix.identity())
   }
 
   /**
@@ -60,6 +64,7 @@ export class RasterVisitor implements Visitor {
   ) {
     // clear
     this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
+
 
     if (camera) {
       this.setupCamera(camera);
@@ -106,7 +111,17 @@ export class RasterVisitor implements Visitor {
    * @param node The node to visit
    */
   visitGroupNode(node: GroupNode) {
-    // TODO
+    let children = node.getchildren()
+    let matrix = node.gettransformer().getMatrix()
+    let inverseMatrix = node.gettransformer().getInverseMatrix()
+    this.model.push(matrix)
+    this.inverse.push(inverseMatrix)
+
+    for (let child of children){
+      child.accept(this)
+    }
+    this.model.pop()
+    this.inverse.pop()
   }
 
   /**
@@ -118,7 +133,12 @@ export class RasterVisitor implements Visitor {
     shader.use();
     let toWorld = Matrix.identity();
     let fromWorld = Matrix.identity();
+
     // TODO Calculate the model matrix for the sphere
+    for (let i = 0; i < this.model.length; i++) {
+      toWorld = toWorld.mul(this.model[i]);
+      fromWorld = fromWorld.mul(this.inverse[i])
+    }
     shader.getUniformMatrix("M").set(toWorld);
 
     const V = shader.getUniformMatrix("V");
@@ -142,6 +162,9 @@ export class RasterVisitor implements Visitor {
     let shader = this.shader;
     let toWorld = Matrix.identity();
     // TODO Calculate the model matrix for the box
+    for (let i = 0; i < this.model.length; i++) {
+      toWorld = toWorld.mul(this.model[i]);
+    }
     shader.getUniformMatrix("M").set(toWorld);
     let V = shader.getUniformMatrix("V");
     if (V && this.lookat) {
@@ -165,6 +188,9 @@ export class RasterVisitor implements Visitor {
 
     let toWorld = Matrix.identity();
     // TODO calculate the model matrix for the box
+    for (let i = 0; i < this.model.length; i++) {
+      toWorld = toWorld.mul(this.model[i]);
+    }
     shader.getUniformMatrix("M").set(toWorld);
     let P = shader.getUniformMatrix("P");
     if (P && this.perspective) {

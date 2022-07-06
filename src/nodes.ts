@@ -34,6 +34,14 @@ export class GroupNode extends Node {
     this.children = new Array<Node>();
   }
 
+  gettransformer(){
+    return this.transformer
+  }
+
+  getchildren(){
+    return this.children
+  }
+
   /**
    * Accepts a visitor according to the visitor pattern
    * @param visitor The visitor
@@ -41,7 +49,6 @@ export class GroupNode extends Node {
   accept(visitor: Visitor) {
     // TODO
     visitor.visitGroupNode(this);
-
   }
 
   /**
