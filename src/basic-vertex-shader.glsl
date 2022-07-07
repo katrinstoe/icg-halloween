@@ -2,6 +2,7 @@ attribute vec3 a_position;
 // TODO
 //farbe aus js scenen graph übergeben, eher nich attribute als typ
 //wie tausche ich daten zwischen vertex und fragment shader aus
+
 attribute vec4 aVertexColor;
 varying vec4 vColor;
 

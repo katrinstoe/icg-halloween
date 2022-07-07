@@ -102,7 +102,7 @@ export default class RasterBox {
         const color = shader.getAttributeLocation("aVertexColor")
         this.gl.enableVertexAttribArray(color)
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.colorBuffer)
-        this.gl.vertexAttribIPointer(color, 4, this.gl.FLOAT, 0, 0)
+        this.gl.vertexAttribPointer(color, 4, this.gl.FLOAT, false, 0, 0)
         //this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(color), this.gl.STATIC_DRAW)
 
         this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
