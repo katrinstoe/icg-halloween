@@ -1,6 +1,6 @@
 precision mediump float;
-//der is für fragmente und farben
-//hier in gleichem wert übergeben
+//der shader is für fragmente und farben
+//hier color in gleichem wert übergeben
 // TODO
 varying vec4 vColor;
 

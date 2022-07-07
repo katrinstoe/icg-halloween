@@ -6,7 +6,7 @@ attribute vec3 a_position;
 attribute vec4 aVertexColor;
 varying vec4 vColor;
 
-//nur für transformationen
+// vertex shader ist nur für transformationen
 uniform mat4 M;
 
 
