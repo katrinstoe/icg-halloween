@@ -42,6 +42,8 @@ export default class RasterSphere {
         let normals = [];
 
         let ringsize = 30;
+
+
         for (let ring = 0; ring < ringsize; ring++) {
             for (let ring2 = 0; ring2 < ringsize; ring2++) {
                 let theta = ring * Math.PI * 2 / ringsize - 1;
@@ -100,6 +102,7 @@ export default class RasterSphere {
         // TODO create colorBuffer
         const colorBufffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, colorBufffer);
+        color.data = [.8, .4, .1, 1]
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(color.data), gl.STATIC_DRAW);
         this.colorBuffer = colorBufffer;
     }
@@ -114,12 +117,18 @@ export default class RasterSphere {
         this.gl.enableVertexAttribArray(positionLocation);
         this.gl.vertexAttribPointer(positionLocation, 3, this.gl.FLOAT, false, 0, 0);
         // TODO bind colour buffer
+        const color = shader.getAttributeLocation("aVertexColor")
+        this.gl.enableVertexAttribArray(color)
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.colorBuffer)
+        this.gl.vertexAttribPointer(color, 4, this.gl.FLOAT, false, 0, 0)
         // TODO bind normal buffer
         this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
         this.gl.drawElements(this.gl.TRIANGLES, this.elements, this.gl.UNSIGNED_SHORT, 0);
 
         this.gl.disableVertexAttribArray(positionLocation);
         // TODO disable color vertex attrib array
+        this.gl.disableVertexAttribArray(color)
         // TODO disable normal vertex attrib array
+
     }
 }
