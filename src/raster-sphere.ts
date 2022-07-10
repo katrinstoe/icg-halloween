@@ -66,6 +66,11 @@ export default class RasterSphere {
                 vertices.push(y);
                 vertices.push(z);
 
+                color.data.push(color.x)
+                color.data.push(color.y)
+                color.data.push(color.z)
+                color.data.push(color.w)
+
                 let normal = (new Vector(x, y, z, 1)).sub(center).normalize();
                 normals.push(normal.x);
                 normals.push(normal.y);
@@ -102,7 +107,8 @@ export default class RasterSphere {
         // TODO create colorBuffer
         const colorBufffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, colorBufffer);
-        color.data = [.8, .4, .1, 1]
+        // color.data = [.8, .4, .1, 1
+        console.log(color.data)
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(color.data), gl.STATIC_DRAW);
         this.colorBuffer = colorBufffer;
     }
