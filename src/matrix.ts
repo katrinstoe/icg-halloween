@@ -113,8 +113,23 @@ export default class Matrix {
      * @return The resulting lookat matrix
      */
     static lookat(eye: Vector, center: Vector, up: Vector): Matrix {
+        let f = (center.sub(eye)).div(center.sub(eye).length).normalize()
+        let s = f.cross(up).normalize()
+        let u = s.cross(f).normalize()
         // TODO
-        return null
+        let lookatLeft = new Matrix([
+            s.x, s.y, s.z, 0,
+            u.x, u.y, u.z, 0,
+            -f.x, -f.y, -f.z, 0,
+            0, 0, 0, 1
+        ])
+        let lookAtRight = new Matrix([
+            1, 0, 0, -eye.x,
+            0, 1, 0, -eye.y,
+            0, 0, 1, -eye.z,
+            0, 0, 0, 1
+        ])
+        return lookatLeft.mul(lookAtRight)
     }
 
     /**
@@ -207,6 +222,14 @@ export default class Matrix {
         :
         Matrix {
         // TODO
+        var row, col;
+        var N = 4;
+        let valueToSet;
+        for (row = 0; row < N; row++)
+            for (col = 0; col < N; col++)
+                // this.data[row][col] = this.data[col][row];
+                valueToSet = this.getVal(col, row)
+                this.setVal(row, col, valueToSet)
         return null
     }
 

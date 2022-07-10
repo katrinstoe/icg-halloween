@@ -2,7 +2,7 @@ precision mediump float;
 
 // Receive color and position values
 // TODO
-
+varying vec4 vColor;
 varying vec3 v_normal;
 
 const vec3 lightPos = vec3(1.0, 1.0, 1.0);
@@ -12,7 +12,8 @@ const float kD = 0.6;
 const float kS = 0.7;
 
 void main(void) {
-  gl_FragColor = vec4(0.0, 0.0, 0.5, 1.0);
+  //gl_FragColor = vec4(0.0, 0.0, 0.5, 1.0);
   // Phong lighting calculation
   // TODO
+  gl_FragColor = vColor;
 }

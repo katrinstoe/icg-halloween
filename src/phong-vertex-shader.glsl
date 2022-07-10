@@ -6,6 +6,8 @@ attribute vec3 a_normal;
 // Pass color as attribute and forward it
 // to the fragment shader
 // TODO
+attribute vec4 aVertexColor;
+varying vec4 vColor;
 
 uniform mat4 M;
 uniform mat4 V;
@@ -22,6 +24,6 @@ void main() {
   
   // Pass the color and transformed vertex position through
   // TODO
-  
+  vColor = aVertexColor;
   v_normal = normalize((V * N * vec4(a_normal, 0)).xyz);
 }
