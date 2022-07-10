@@ -144,7 +144,7 @@ export default class Matrix {
      */
     static frustum(left: number, right: number, bottom: number, top: number, near: number, far: number): Matrix {
         // TODO
-        return null
+        return this.identity()
     }
 
     /**
@@ -157,7 +157,7 @@ export default class Matrix {
      */
     static perspective(fovy: number, aspect: number, near: number, far: number): Matrix {
         // TODO
-        return null
+        return this.identity()
     }
 
     /**
