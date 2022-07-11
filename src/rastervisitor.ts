@@ -150,7 +150,13 @@ export class RasterVisitor implements Visitor {
       P.set(this.perspective);
     }
     // TODO set the normal matrix
-    // let normalMatrix = this.model.transpose
+    let modelMatrix = Matrix.identity();
+    for (let i = 1; i < this.model.length; i++) {
+      modelMatrix = this.inverse[i].mul(modelMatrix)
+    }
+    console.log(modelMatrix)
+    shader.getUniformMatrix("N").set(modelMatrix.transpose())
+
     // mat4 normalMatrix = transpose(inverse(modelView));
     this.renderables.get(node).render(shader);
   }

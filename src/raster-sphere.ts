@@ -107,8 +107,6 @@ export default class RasterSphere {
         // TODO create colorBuffer
         const colorBufffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, colorBufffer);
-        // color.data = [.8, .4, .1, 1
-        console.log(color.data)
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(color.data), gl.STATIC_DRAW);
         this.colorBuffer = colorBufffer;
     }
