@@ -16,3 +16,4 @@ void main() {
   //hier farbe weitergeben
   vColor = aVertexColor;
 }
+
