@@ -106,7 +106,7 @@ export default class RasterBox {
 
         // TODO bind colour buffer
         //aus Scene Graph die Color und vertices kriegen und ich shader geben
-        const color = shader.getAttributeLocation("aVertexColor")
+        const color = shader.getAttributeLocation("a_color")
         this.gl.enableVertexAttribArray(color)
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.colorBuffer)
         this.gl.vertexAttribPointer(color, 4, this.gl.FLOAT, false, 0, 0)
