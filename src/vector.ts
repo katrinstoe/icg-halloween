@@ -1,6 +1,8 @@
 /**
  * Class representing a vector in 4D space
  */
+import Matrix from "./matrix";
+
 export default class Vector {
   /**
    * The variable to hold the vector data
@@ -268,7 +270,8 @@ export default class Vector {
    */
   get length(): number {
     // TODO
-    return Math.sqrt(Math.pow(this.data[0], 2)+ Math.pow(this.data[1], 2)+ Math.pow(this.data[2], 2));
+    //return Math.sqrt(Math.pow(this.data[0], 2)+ Math.pow(this.data[1], 2)+ Math.pow(this.data[2], 2));
+    return Math.sqrt(this.dot(this))
   }
 
   multiply(other: Vector): Vector{
