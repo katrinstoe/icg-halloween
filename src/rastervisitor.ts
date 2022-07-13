@@ -161,7 +161,7 @@ export class RasterVisitor implements Visitor {
       N.set(normalMatrix)
     }
 
-    //this.renderables.get(node).render(shader);
+    this.renderables.get(node).render(shader);
   }
 
   /**
