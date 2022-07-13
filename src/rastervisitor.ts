@@ -114,7 +114,7 @@ export class RasterVisitor implements Visitor {
     let children = node.getchildren()
     let matrix = node.gettransformer().getMatrix()
     let inverseMatrix = node.gettransformer().getInverseMatrix()
-    this.model.push(matrix.mul(this.model[this.model.length-1]))
+    this.model.push(this.model[this.model.length-1].mul(matrix))
     this.inverse.push(inverseMatrix.mul(this.inverse[this.inverse.length-1]))
 
     for (let child of children){

@@ -227,12 +227,13 @@ export default class Matrix {
         var row, col;
         var N = 4;
         let valueToSet;
+        let newMatrix = Matrix.identity()
         for (row = 0; row < N; row++)
             for (col = 0; col < N; col++)
                 // this.data[row][col] = this.data[col][row];
                 valueToSet = this.getVal(col, row)
-                this.setVal(row, col, valueToSet)
-        return null
+                newMatrix.setVal(row, col, valueToSet)
+        return newMatrix;
     }
 
     /**
