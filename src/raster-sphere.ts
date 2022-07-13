@@ -124,10 +124,14 @@ export default class RasterSphere {
         const color = shader.getAttributeLocation("aVertexColor")
         this.gl.enableVertexAttribArray(color)
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.colorBuffer)
-        this.gl.vertexAttribPointer(color, 4, this.gl.FLOAT, false, 0, 0)
+        this.gl.vertexAttribPointer(color, 3, this.gl.FLOAT, false, 0, 0)
         // TODO bind normal buffer
+        const aNormal = shader.getAttributeLocation("a_normal")
+        this.gl.enableVertexAttribArray(aNormal)
         this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
+        this.gl.vertexAttribPointer(aNormal, 3, this.gl.FLOAT, false, 0, 0)
         this.gl.drawElements(this.gl.TRIANGLES, this.elements, this.gl.UNSIGNED_SHORT, 0);
+
 
         this.gl.disableVertexAttribArray(positionLocation);
         // TODO disable color vertex attrib array

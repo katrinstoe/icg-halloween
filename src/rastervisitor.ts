@@ -114,8 +114,8 @@ export class RasterVisitor implements Visitor {
     let children = node.getchildren()
     let matrix = node.gettransformer().getMatrix()
     let inverseMatrix = node.gettransformer().getInverseMatrix()
-    this.model.push(matrix)
-    this.inverse.push(inverseMatrix)
+    this.model.push(matrix.mul(this.model[this.model.length-1]))
+    this.inverse.push(inverseMatrix.mul(this.inverse[this.inverse.length-1]))
 
     for (let child of children){
       child.accept(this)
@@ -135,10 +135,13 @@ export class RasterVisitor implements Visitor {
     let fromWorld = Matrix.identity();
 
     // TODO Calculate the model matrix for the sphere
-    for (let i = 0; i < this.model.length; i++) {
+    /*for (let i = 0; i < this.model.length; i++) {
       toWorld = toWorld.mul(this.model[i]);
       fromWorld = fromWorld.mul(this.inverse[i])
-    }
+    }*/
+    toWorld = this.model[this.model.length-1];
+    fromWorld = this.inverse[this.inverse.length-1]
+
     shader.getUniformMatrix("M").set(toWorld);
 
     const V = shader.getUniformMatrix("V");
