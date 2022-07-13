@@ -2,7 +2,7 @@ precision mediump float;
 
 attribute vec3 a_position;
 attribute vec3 a_normal;
-attribute vec3 aVertexColor;
+attribute vec3 a_color;
 
 
 // Pass color as attribute and forward it
@@ -27,7 +27,7 @@ void main() {
   
   // Pass the color and transformed vertex position through
   // TODO
-  vColor = aVertexColor;
+  vColor = a_color;
   v_normal = normalize((V * N * vec4(a_normal, 0)).xyz);
   vPosition = vec3(V * M * vec4(a_position, 1.0));
 }

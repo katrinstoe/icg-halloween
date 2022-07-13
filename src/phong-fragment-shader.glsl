@@ -23,7 +23,7 @@ void main(void) {
 
   vec3 l = normalize(lightPos - vPosition);
   vec3 v = normalize(-vPosition);
-  vec3 r= normalize(reflect(l, v_normal));
+  vec3 r= normalize(reflect(-l, v_normal));
   vec3 n = normalize(v_normal);
 
   vec3 diffuse = vColor * max(0.0, dot(n, l))*kD;
