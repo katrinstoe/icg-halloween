@@ -22,13 +22,13 @@ void main(void) {
   vec3 ambient = kA*vColor;
 
   vec3 l = normalize(lightPos - vPosition);
-  vec3 v = normalize(vec3(0.0, 0.0, 0.0) - vPosition);
-  vec3 r= normalize(reflect(-l, v_normal));
+  vec3 v = normalize(-vPosition);
+  vec3 r= normalize(reflect(l, v_normal));
   vec3 n = normalize(v_normal);
 
   vec3 diffuse = vColor * max(0.0, dot(n, l))*kD;
   vec3 specular = vColor * pow(max(0.0, dot(r, v)), shininess)* kS;
-  vec3 phong = ambient + diffuse + specular;
+  vec3 phong = diffuse+ specular+ ambient;
 
   gl_FragColor = vec4(phong, 1.0);
 }

@@ -40,6 +40,7 @@ export default class RasterSphere {
         let vertices = [];
         let indices = [];
         let normals = [];
+        let colors = [];
 
         let ringsize = 30;
 
@@ -66,10 +67,13 @@ export default class RasterSphere {
                 vertices.push(y);
                 vertices.push(z);
 
-                color.data.push(color.x)
+                /*color.data.push(color.x)
                 color.data.push(color.y)
                 color.data.push(color.z)
-                color.data.push(color.w)
+                color.data.push(color.w)*/
+                colors.push(color.x);
+                colors.push(color.y);
+                colors.push(color.z);
 
                 let normal = (new Vector(x, y, z, 1)).sub(center).normalize();
                 normals.push(normal.x);
@@ -105,9 +109,9 @@ export default class RasterSphere {
         this.elements = indices.length;
 
         // TODO create colorBuffer
-        const colorBufffer = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, colorBufffer);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(color.data), gl.STATIC_DRAW);
+        const colorBufffer = this.gl.createBuffer();
+        gl.bindBuffer(this.gl.ARRAY_BUFFER, colorBufffer);
+        gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(colors), this.gl.STATIC_DRAW);
         this.colorBuffer = colorBufffer;
     }
 
@@ -121,14 +125,14 @@ export default class RasterSphere {
         this.gl.enableVertexAttribArray(positionLocation);
         this.gl.vertexAttribPointer(positionLocation, 3, this.gl.FLOAT, false, 0, 0);
         // TODO bind colour buffer
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.colorBuffer)
         const color = shader.getAttributeLocation("aVertexColor")
         this.gl.enableVertexAttribArray(color)
-        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.colorBuffer)
-        this.gl.vertexAttribPointer(color, 4, this.gl.FLOAT, false, 0, 0)
+        this.gl.vertexAttribPointer(color, 3, this.gl.FLOAT, false, 0, 0)
         // TODO bind normal buffer
+        this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, this.normalBuffer);
         const aNormal = shader.getAttributeLocation("a_normal")
         this.gl.enableVertexAttribArray(aNormal)
-        this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
         this.gl.vertexAttribPointer(aNormal, 3, this.gl.FLOAT, false, 0, 0)
         this.gl.drawElements(this.gl.TRIANGLES, this.elements, this.gl.UNSIGNED_SHORT, 0);
 
@@ -137,6 +141,7 @@ export default class RasterSphere {
         // TODO disable color vertex attrib array
         this.gl.disableVertexAttribArray(color)
         // TODO disable normal vertex attrib array
+        this.gl.disableVertexAttribArray(aNormal)
 
     }
 }
