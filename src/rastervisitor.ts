@@ -149,16 +149,19 @@ export class RasterVisitor implements Visitor {
     if (P && this.perspective) {
       P.set(this.perspective);
     }
-    // TODO set the normal matrix
-    let modelMatrix = Matrix.identity();
-    for (let i = 1; i < this.model.length; i++) {
-      modelMatrix = this.inverse[i].mul(modelMatrix)
-    }
-    console.log(modelMatrix)
-    shader.getUniformMatrix("N").set(modelMatrix.transpose())
 
-    // mat4 normalMatrix = transpose(inverse(modelView));
-    this.renderables.get(node).render(shader);
+    // TODO set the normal matrix
+    const N = shader.getUniformMatrix("N")
+    let normalMatrix = fromWorld.transpose()
+
+    if(N){
+      normalMatrix.setVal(3,0,0);
+      normalMatrix.setVal(3,1,0);
+      normalMatrix.setVal(3,2,0);
+      N.set(normalMatrix)
+    }
+
+    //this.renderables.get(node).render(shader);
   }
 
   /**
@@ -204,7 +207,7 @@ export class RasterVisitor implements Visitor {
     if (P && this.perspective) {
       P.set(this.perspective);
     }
-    shader.getUniformMatrix("V").set(this.lookat);
+    //shader.getUniformMatrix("V").set(this.lookat);
 
     this.renderables.get(node).render(shader);
   }

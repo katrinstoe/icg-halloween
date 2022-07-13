@@ -13,6 +13,7 @@ export default class RasterBox {
      * The indices describing which vertices form a triangle
      */
     indexBuffer: WebGLBuffer;
+
     // TODO private variable for color buffer
     colorBuffer: WebGLBuffer;
     /**
@@ -66,7 +67,7 @@ export default class RasterBox {
             5, 4, 1, 1, 0, 5
         ];
         let color = [
-            1,0,0,1,
+            1, 0, 0, 1,
             1, 1, 0, 1,
             0.5, 0, 0.5, 1,
             0.5, 0, 0, 1,
