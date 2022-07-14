@@ -35,7 +35,7 @@ export class GroupNode extends Node {
   }
 
   gettransformer(){
-    return this.transformer
+    return this.transform
   }
 
   getchildren(){
