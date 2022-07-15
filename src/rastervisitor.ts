@@ -199,8 +199,8 @@ export class RasterVisitor implements Visitor {
     // TODO calculate the model matrix for the box
     toWorld = this.model[this.model.length-1];
 
-    shader.getUniformMatrix("V").set(this.lookat);
     shader.getUniformMatrix("M").set(toWorld);
+    shader.getUniformMatrix("V").set(this.lookat);
     let P = shader.getUniformMatrix("P");
     if (P && this.perspective) {
       P.set(this.perspective);

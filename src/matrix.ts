@@ -64,23 +64,23 @@ export default class Matrix {
      * @return The resulting rotation matrix
      */
     static rotation(axis: Vector, angle: number): Matrix {
-        if (axis.x > 0){
+        if (axis.x > 0) { // about x axis
             return new Matrix([
-                1, 0,0,0,
-                0, Math.cos(angle), -Math.sin(angle),0,
+                1, 0, 0, 0,
+                0, Math.cos(angle), -Math.sin(angle), 0,
                 0, Math.sin(angle), Math.cos(angle), 0,
                 0, 0, 0, 1
-            ])
+            ]);
         }
-        if (axis.y > 0){
+        if (axis.y > 0) { // about y axis
             return new Matrix([
                 Math.cos(angle), 0, Math.sin(angle), 0,
-                0, 1, 0, 0
+                0, 1, 0, 0,
                 -Math.sin(angle), 0, Math.cos(angle), 0,
                 0, 0, 0, 1
-            ])
+            ]);
         }
-        if (axis.z > 0) {
+        if (axis.z > 0) { // about z axis
             return new Matrix([
                 Math.cos(angle), -Math.sin(angle), 0, 0,
                 Math.sin(angle), Math.cos(angle), 0, 0,
@@ -88,8 +88,6 @@ export default class Matrix {
                 0, 0, 0, 1
             ]);
         }
-
-        //    TODO: JAcob: man kann nur um eine Achse rotieren, das ist vllt ein problem
     }
 
     /**
