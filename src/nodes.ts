@@ -135,6 +135,6 @@ export class TextureBoxNode extends Node {
    */
   accept(visitor: Visitor) {
     // TODO
-
+    visitor.visitTextureBoxNode(this)
   }
 }

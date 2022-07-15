@@ -224,15 +224,11 @@ export default class Matrix {
         :
         Matrix {
         // TODO
-        var row, col;
-        var N = 4;
-        let valueToSet;
         let newMatrix = Matrix.identity()
-        for (row = 0; row < N; row++)
-            for (col = 0; col < N; col++)
-                // this.data[row][col] = this.data[col][row];
-                valueToSet = this.getVal(col, row)
-                newMatrix.setVal(row, col, valueToSet)
+        for (let row = 0; row < 4; row++)
+            for (let col = 0; col < 4; col++) {
+                newMatrix.setVal(row, col, this.getVal(col, row))
+            }
         return newMatrix;
     }
 
