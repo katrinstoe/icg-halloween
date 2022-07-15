@@ -145,7 +145,17 @@ export default class Matrix {
      */
     static frustum(left: number, right: number, bottom: number, top: number, near: number, far: number): Matrix {
         // TODO
-        return this.identity()
+        let a = (right+left)/(right-left)
+        let b = (top+bottom)/(top-bottom)
+        let c = -(far+near)/(far-near)
+        let d = -(2*far*near)/(far-near)
+        let frustum = new Matrix([
+            ((2*near)/(right-left)), 0, a, 0,
+            0, ((2*near)/(top-bottom)), b, 0,
+            0, 0, c, d,
+            0, 0, -1, 0
+        ])
+        return frustum
     }
 
     /**
@@ -158,7 +168,8 @@ export default class Matrix {
      */
     static perspective(fovy: number, aspect: number, near: number, far: number): Matrix {
         // TODO
-        return this.identity()
+        //return this.frustum(, near, far)
+        return Matrix.identity()
     }
 
     /**
