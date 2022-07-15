@@ -7,5 +7,6 @@ void main(void) {
   //gl_FragColor = vec4(0.0, 0.0, 0.5, 1.0);
   // Read fragment color from texture
   // TODO
-  gl_FragColor = texture2D(sampler, vec2(v_texCoord.s, v_texCoord.t));;
+  gl_FragColor = texture2D(sampler, v_texCoord.st);
+  gl_FragColor.a = 1.0;
 }
