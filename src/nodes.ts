@@ -22,7 +22,6 @@ export class Node {
 export class GroupNode extends Node {
   // TODO declare instance variables
   children: Array<Node>;
-  transformer;
 
   /**
    * Constructor
@@ -30,7 +29,6 @@ export class GroupNode extends Node {
    */
   constructor(public transform : Transformation) {
     super();
-    this.transformer = transform;
     this.children = new Array<Node>();
   }
 

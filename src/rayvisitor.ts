@@ -184,5 +184,5 @@ export default class RayVisitor implements Visitor {
    * Visits a textured box node
    * @param node The node to visit
    */
-  visitTextureBoxNode(node: TextureBoxNode) { }
+  visitTextureBoxNode(node: TextureBoxNode) {}
 }

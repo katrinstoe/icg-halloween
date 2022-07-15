@@ -112,8 +112,8 @@ export class RasterVisitor implements Visitor {
    */
   visitGroupNode(node: GroupNode) {
     let children = node.getchildren()
-    let matrix = node.gettransformer().getMatrix()
-    let inverseMatrix = node.gettransformer().getInverseMatrix()
+    let matrix = node.transform.getMatrix()
+    let inverseMatrix = node.transform.getInverseMatrix()
     this.model.push(this.model[this.model.length-1].mul(matrix))
     this.inverse.push(inverseMatrix.mul(this.inverse[this.inverse.length-1]))
 
@@ -135,10 +135,6 @@ export class RasterVisitor implements Visitor {
     let fromWorld = Matrix.identity();
 
     // TODO Calculate the model matrix for the sphere
-    /*for (let i = 0; i < this.model.length; i++) {
-      toWorld = toWorld.mul(this.model[i]);
-      fromWorld = fromWorld.mul(this.inverse[i])
-    }*/
     toWorld = this.model[this.model.length-1];
     fromWorld = this.inverse[this.inverse.length-1]
 
@@ -203,13 +199,12 @@ export class RasterVisitor implements Visitor {
     // TODO calculate the model matrix for the box
     toWorld = this.model[this.model.length-1];
 
+    shader.getUniformMatrix("V").set(this.lookat);
     shader.getUniformMatrix("M").set(toWorld);
     let P = shader.getUniformMatrix("P");
     if (P && this.perspective) {
       P.set(this.perspective);
     }
-    //shader.getUniformMatrix("V").set(this.lookat);
-
     this.renderables.get(node).render(shader);
   }
 }
