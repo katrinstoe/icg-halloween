@@ -1,6 +1,7 @@
 attribute vec3 a_position;
 // TODO
 attribute vec3 a_color;
+
 varying vec3 vColor;
 
 uniform mat4 M;
