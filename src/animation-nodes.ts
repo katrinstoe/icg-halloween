@@ -59,13 +59,29 @@ export class RotationNode extends AnimationNode {
    * @param deltaT The time difference, the animation is advanced by
    */
   simulate(deltaT: number) {
-    // change the matrix of the attached
-    // group node to reflect a rotation
-    // TODO
+
+    let angleTime = deltaT*this.angle;
+
+    var c = Math.cos(angleTime);
+    var s = Math.sin(angleTime);
+
+    this.groupNode.transform.getMatrix().setVal(0,0, c*this.groupNode.transform.getMatrix().getVal(0,0)-s*this.groupNode.transform.getMatrix().getVal(0,1));
+    this.groupNode.transform.getMatrix().setVal(1,0, c*this.groupNode.transform.getMatrix().getVal(1,0)-s*this.groupNode.transform.getMatrix().getVal(1,1));
+    this.groupNode.transform.getMatrix().setVal(2,0, c*this.groupNode.transform.getMatrix().getVal(2,0)-s*this.groupNode.transform.getMatrix().getVal(2,1));
+    this.groupNode.transform.getMatrix().setVal(0,1, c*this.groupNode.transform.getMatrix().getVal(0,1)-s*this.groupNode.transform.getMatrix().getVal(0,0));
+    this.groupNode.transform.getMatrix().setVal(1,1, c*this.groupNode.transform.getMatrix().getVal(1,1)-s*this.groupNode.transform.getMatrix().getVal(1,0));
+    this.groupNode.transform.getMatrix().setVal(2,1, c*this.groupNode.transform.getMatrix().getVal(2,1)-s*this.groupNode.transform.getMatrix().getVal(2,0));
+
+    /*if (this.active) {
+      for (let row = 0; row < 3; row++) {
+        for (let col = 0; col < 3; col++) {
+          this.groupNode.transform.getMatrix().setVal(row, col, deltaT*this.groupNode.transform.getMatrix().getVal(row,col))
+        }
+      }
+    }*/
    // this.groupNode.transform.getMatrix().getVal()
 
   }
-
 }
 
 /**

@@ -4,7 +4,6 @@ attribute vec3 a_position;
 attribute vec3 a_normal;
 attribute vec3 a_color;
 
-
 // Pass color as attribute and forward it
 // to the fragment shader
 // TODO
@@ -12,11 +11,9 @@ varying vec3 vColor;
 varying vec3 vPosition;
 varying vec3 v_normal;
 
-
 uniform mat4 M;
 uniform mat4 V;
 uniform mat4 N; // normal matrix
-
 
 // Pass the vertex position in view space
 // to the fragment shader
