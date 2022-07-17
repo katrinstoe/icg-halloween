@@ -13,6 +13,8 @@ uniform mat4 P;
 uniform mat4 N; // normal matrix
 
 varying vec3 v_normal;
+varying vec3 vColor;
+varying vec3 vPosition;
 
 // Pass the vertex position in view space
 // to the fragment shader
