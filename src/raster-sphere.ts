@@ -131,7 +131,6 @@ export default class RasterSphere {
         this.gl.vertexAttribPointer(color, 3, this.gl.FLOAT, false, 0, 0)
         // TODO bind normal buffer
         const aNormal = shader.getAttributeLocation("a_normal")
-
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.normalBuffer);
         this.gl.enableVertexAttribArray(aNormal)
         this.gl.vertexAttribPointer(aNormal, 3, this.gl.FLOAT, false, 0, 0)

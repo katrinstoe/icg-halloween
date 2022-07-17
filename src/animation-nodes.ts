@@ -62,6 +62,8 @@ export class RotationNode extends AnimationNode {
     // change the matrix of the attached
     // group node to reflect a rotation
     // TODO
+   // this.groupNode.transform.getMatrix().getVal()
+
   }
 
 }

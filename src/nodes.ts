@@ -32,10 +32,6 @@ export class GroupNode extends Node {
     this.children = new Array<Node>();
   }
 
-  gettransformer(){
-    return this.transform
-  }
-
   getchildren(){
     return this.children
   }

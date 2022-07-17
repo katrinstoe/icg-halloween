@@ -40,8 +40,13 @@ export default class Quaternion {
     }
 
     toMatrix(): Matrix {
-        let mat = Matrix.identity();
+        //let mat = Matrix.identity();
         // TODO
+        let mat = new Matrix([
+            (1-2*(Math.pow(this.data.y, 2) + Math.pow(this.data.z, 2))), 2*(this.data.x * this.data.y - this.data.w * this.data.z), 2*(this.data.x * this.data.z * this.data.w* this.data.y), 0,
+            2*(this.data.x * this.data.y + this.data.w * this.data.z), 1-2*(Math.pow(this.data.x, 2)+Math.pow(this.data.z, 2)), 2*(this.data.y*this.data.z - this.data.w* this.data.x), 0,
+            2*(this.data.x * this.data.z - this.data.w*this.data.y), 2*(this.data.y*this.data.z + this.data.w * this.data.x), 1-2*(Math.pow(this.data.x, 2)+ Math.pow(this.data.y, 2)), 0,
+            0, 0, 0, 1])
         return mat;
     }
 }
