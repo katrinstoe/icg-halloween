@@ -9,4 +9,5 @@ void main(void) {
   // TODO
   //übergebene Farbe hinsetzen statt farbe
   gl_FragColor = vec4(vColor, 1.0);
+
 }
