@@ -18,10 +18,14 @@ export default class Quaternion {
     get conjugate(): Quaternion {
         let q = new Quaternion(1, 0, 0, 0);
         // TODO
-        q.data.x = -1*q.data.x;
+        /*q.data.x = -1*q.data.x;
         q.data.y = -1*q.data.y;
         q.data.z = -1*q.data.z;
-        q.data.w = -1*q.data.w;
+        q.data.w = -1*q.data.w;*/
+        q.data.y = -q.data.y;
+        q.data.z = -q.data.z;
+        q.data.w = -q.data.w;
+
         return q;
     }
 
