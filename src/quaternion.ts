@@ -25,11 +25,11 @@ export default class Quaternion {
     get conjugate(): Quaternion {
         let q = new Quaternion(1, 0, 0, 0);
         // TODO
-        q.data.x = -q.data.x;
-        q.data.y = -q.data.y;
-        q.data.z = -q.data.z;
+        q.data.x = -this.data.x;
+        q.data.y = -this.data.y;
+        q.data.z = -this.data.z;
 
-        return q;
+        return new Quaternion(q.data.x, q.data.y, q.data.z, q.data.w);
     }
 
     get inverse(): Quaternion {
@@ -45,7 +45,7 @@ export default class Quaternion {
         // TODO
         let cos = Math.cos(this.data.dot(other.data))
         let s = this.data.mul(Math.sin(cos*(1-t))/(Math.sin(cos))).add(other.data.mul((Math.sin(cos*t))/Math.sin(cos)))
-        //slerpq.data = s
+        slerpq.data = s
         return new Quaternion(s.x, s.y, s.z, s.w);
     }
 
