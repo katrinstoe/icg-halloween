@@ -43,8 +43,8 @@ export default class Quaternion {
     slerp(other: Quaternion, t: number): Quaternion {
         let slerpq = other;
         // TODO
-        let cos = Math.cos(this.data.dot(other.data))
-        let s = this.data.mul(Math.sin(cos*(1-t))/(Math.sin(cos))).add(other.data.mul((Math.sin(cos*t))/Math.sin(cos)))
+        let theta = Math.acos(this.data.dot(other.data))
+        let s = this.data.mul(Math.sin(theta*(1-t))/(Math.sin(theta))).add(other.data.mul((Math.sin(theta*t))/Math.sin(theta)))
         //slerpq.data = s
         return new Quaternion(s.x, s.y, s.z, s.w);
     }
