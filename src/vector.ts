@@ -202,7 +202,7 @@ export default class Vector {
    */
   div(other: number): Vector {
     // TODO
-    return new Vector(this.data[0]/other, this.data[1]/other, this.data[2]/other, 0)
+    return new Vector(this.data[0]/other, this.data[1]/other, this.data[2]/other, this.data[3]/other)
   }
 
   /**
