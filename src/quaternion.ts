@@ -18,9 +18,9 @@ export default class Quaternion {
     get conjugate(): Quaternion {
         let q = new Quaternion(1, 0, 0, 0);
         // TODO
+        q.data.x = -q.data.x;
         q.data.y = -q.data.y;
         q.data.z = -q.data.z;
-        q.data.w = -q.data.w;
 
         return q;
     }
@@ -36,10 +36,10 @@ export default class Quaternion {
     slerp(other: Quaternion, t: number): Quaternion {
         let slerpq = other;
         // TODO
-        let cos = this.data.dot(other.data)
+        let cos = Math.cos(this.data.dot(other.data))
         let s = this.data.mul(Math.sin(cos*(1-t))/(Math.sin(cos))).add(other.data.mul((Math.sin(cos*t))/Math.sin(cos)))
-        slerpq.data = s
-        return slerpq;
+        //slerpq.data = s
+        return new Quaternion(s.x, s.y, s.z, s.w);
     }
 
     toMatrix(): Matrix {
@@ -53,7 +53,4 @@ export default class Quaternion {
         return mat;
     }
 
-    norm(): number{
-        return Math.sqrt(Math.pow(this.data.x, 2) + Math.pow(this.data.y, 2)+Math.pow(this.data.z, 2)+Math.pow(this.data.w, 2));
-    }
 }
