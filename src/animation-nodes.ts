@@ -63,7 +63,7 @@ export class RotationNode extends AnimationNode {
 
     if(this.active){
         this.angle += 0.001 * deltaT;
-        this.groupNode.transform.getMatrix().mul(Matrix.rotation(this.axis, this.angle));
+        this.groupNode.transform = new Rotation(this.axis, this.angle);
     }
 
     /*let angleTime = deltaT*this.angle;
