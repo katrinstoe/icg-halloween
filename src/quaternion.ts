@@ -12,6 +12,12 @@ export default class Quaternion {
     static fromAxisAngle(axis: Vector, angle: number) {
         let q = new Quaternion(1, 0, 0, 0);
         // TODO
+        let a = axis.normalize()
+        let s = Math.sin(angle/2)
+        q.data.x = a.x * s;
+        q.data.y = a.y * s;
+        q.data.z = a.z * s;
+        q.data.w = Math.cos(angle/2);
         return q;
     }
 
