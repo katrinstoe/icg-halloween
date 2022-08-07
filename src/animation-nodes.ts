@@ -1,6 +1,6 @@
 import Vector from './vector';
 import { GroupNode } from './nodes';
-import { Rotation, SQT } from './transformation';
+import {Rotation, Scaling, SQT} from './transformation';
 import Quaternion from './quaternion';
 import Matrix from "./matrix";
 

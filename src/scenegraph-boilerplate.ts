@@ -1,10 +1,7 @@
 import 'bootstrap';
 import 'bootstrap/scss/bootstrap.scss';
 import Vector from './vector';
-import {
-    GroupNode,
-    SphereNode
-} from './nodes';
+import {GroupNode, SphereNode} from './nodes';
 import RayVisitor from './rayvisitor';
 import { Rotation, Scaling, Translation } from './transformation';
 
@@ -16,14 +13,19 @@ window.addEventListener('load', () => {
     const gnRotation = new Rotation(new Vector(1, 0, 0, 0), 0)
     const gn = new GroupNode(gnRotation);
     sg.add(gn);
+
     const gn1 = new GroupNode(new Translation(new Vector(1.2, .5, 0, 0)));
     gn.add(gn1);
     gn1.add(new SphereNode(new Vector(.4, 0, 0, 1)));
+
     const gn2 = new GroupNode(new Translation(new Vector(-0.8, 1, 1, 0)));
     gn.add(gn2);
+
     const gn3 = new GroupNode(new Scaling(new Vector(0.4, 0.4, 0.4, 0)));
     gn2.add(gn3);
+
     gn3.add(new SphereNode(new Vector(0, 0, .3, 1)));
+
     const lightPositions = [
         new Vector(1, 1, 1, 1)
     ];
