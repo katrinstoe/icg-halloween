@@ -7,29 +7,89 @@
     <script type="text/javascript" src="phong.bundle.js"></script>
 
 </head>
-<body>
-<nav class="navbar navbar-light bg-light">
-    <div class="container">
-        <a class="navbar-brand" href="/index.html">
-            <img src="geist.png" width="30" height="30" class="d-inline-block align-top" alt="">
-            ICG
-        </a>
+<body class="d-flex flex-column min-vh-100">
+<nav class="navbar navbar-light bg-light px-2 mx-2">
+    <a class="navbar-brand" href="/index.html">
+        <img src="geist.png" width="30" height="30" class="d-inline-block align-top" alt="">
+        ICG
+    </a>
+
+    <div class="btn-group" role="group">
+        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+            <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
+            <label class="btn btn-outline-dark" for="btnradio1">Raytracer</label>
+
+            <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+            <label class="btn btn-outline-dark" for="btnradio2">Rasterizer</label>
+        </div>
+        <div class="dropdown mx-2">
+            <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton2"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                Zeichenfläche wählen
+            </button>
+            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+                <li><a class="dropdown-item active" href="#">Zeichenfläche 1</a></li>
+                <li><a class="dropdown-item" href="#">Zeichenfläche 2</a></li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="#">Neue Zeichenfläche</a></li>
+
+            </ul>
+        </div>
     </div>
 </nav>
+<!--TODO: rechts davon checkboxes für Rasterizer und Rasterisierer-->
 <br>
-<div class="container col-md-8 mx-auto">
-    <figure class="figure d-flex justify-content-center">
-        <canvas id="raytracer" class="figure-img mx-auto d-block rounded" width="500" height="500"></canvas>
-    </figure>
-    <figcaption class="figure-caption text-center">
-        This is a cute scenegraph <3 <3
-        <button id="startAnimationBtn" class="btn btn-dark">Start</button>
-        <button id="stopAnimationBtn" class="btn btn-dark">Stop</button>
-    </figcaption>
+<!--kinda tacky but it works-->
+<div class="container col-md-4">
+    <div class="bg-light d-flex align-items-center justify-items-center">
+        <div class="me-auto "><h5 class="text-center">This is a cute scenegraph <3</h5></div>
+        <div class="btn-group">
+            <button class="btn btn-minimize d-flex justify-content-center align-items-center" type="button">
+                <img class="text-center" src="/Icons/minimize.svg" alt="min" height="10px" width="20px">
+            </button>
+            <button class="btn btn-close" type="button" aria-label="close"></button>
+        </div>
+    </div>
+    <!--    <div class="bg-light d-flex justify-content-end">-->
+    <!--        <button class="btn btn-minimize d-flex justify-content-center align-items-center" type="button">-->
+    <!--            <img class="text-center" src="/Icons/minimize.svg" alt="min" height="10px" width="20px">-->
+    <!--        </button>-->
+    <!--        <button class="btn btn-close" type="button" aria-label="close"></button>-->
+    <!--    </div>-->
+    <div class="zeichenflaeche d-flex justify-content-center">
+        <div class="figure justify-content-center align-items-center">
+            <figure class="figure d-flex justify-content-center">
+                <canvas id="raytracer" class="figure-img mx-auto d-block rounded" width="500" height="500"></canvas>
+            </figure>
+            <figcaption class="figure-caption text-center">
+                <button id="startAnimationBtn" class="btn btn-dark">Start</button>
+                <button id="stopAnimationBtn" class="btn btn-dark">Stop</button>
+                <button id="addTexture" class="btn btn-dark">Texture</button>
+            </figcaption>
+        </div>
+    </div>
 </div>
-<div class="container col-md-8 mx-auto">
-    <button id="rayTracerBtn d-flex justify-content-center" onClick="reply_click(this.id)">Ray Tracer</button>
-    <button id="rasterisierBtn d-flex justify-content-center" onClick="reply_click(this.id)">Rasterisierer</button>
-</div>
+
+<footer class="mt-auto">
+    <div class="navbar navbar-fixed-bottom justify-content-center">
+        <div class="btn-group outline-light" role="group" aria-label="Basic checkbox toggle button group">
+            <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off">
+            <label class="btn btn-outline-light" for="btncheck1"><img src="/Icons/Flaeche1.svg" alt="note1"
+                                                                      height="40px" width="40px"></label>
+            <!--            https://fonts.google.com/icons?icon.query=note+add&icon.style=Outlined + Katrin in Illustrator geändert-->
+            <input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off">
+            <label class="btn btn-outline-light" for="btncheck2"><img src="/Icons/Flaeche2.svg" alt="note2"
+                                                                      height="40px" width="40px"></label>
+            <!--            https://fonts.google.com/icons?icon.query=note+add&icon.style=Outlined + Katrin in Illustrator geändert-->
+            <input type="checkbox" class="btn-check" id="btncheck3" autocomplete="off">
+            <label class="btn btn-outline-light" for="btncheck3"><img
+                    src="/Icons/noteAdd.svg" alt="addIcon" height="40px" width="40px"></label>
+            <!--            https://fonts.google.com/icons?icon.query=note+add&icon.style=Outlined-->
+        </div>
+    </div>
+    </div>
+</footer>
 </body>
 </html>
