@@ -5,40 +5,20 @@ import Sphere from './sphere';
 import Ray from './ray';
 import Intersection from './intersection';
 import phong from './phong';
-import {GroupNode, SphereNode} from "./nodes";
-import { Rotation, Scaling, Translation } from './transformation';
-import RayVisitor from './rayvisitor';
 
 window.addEventListener('load', () => {
     const canvas = document.getElementById("raytracer") as HTMLCanvasElement;
     const ctx = canvas.getContext("2d");
-
-    //create
-    const sg = new GroupNode(new Translation(new Vector(0, 0, -5, 0)));
-    const gnRotation = new Rotation(new Vector(1, 0, 0, 0), 0)
-    const gn = new GroupNode(gnRotation);
-    sg.add(gn);
-
-    const gn1 = new GroupNode(new Translation(new Vector(1.2, .5, 0, 0)));
-    gn.add(gn1);
-    gn1.add(new SphereNode(new Vector(0.5, 0.1, 1, 1)));
-
-    const gn2 = new GroupNode(new Translation(new Vector(-0.8, 1, 1, 0)));
-    gn.add(gn2);
-    gn2.add(new SphereNode(new Vector(0.2, 0.1, 0.9, 1)));
-
-    const gn3 = new GroupNode(new Translation(new Vector(-1, -1, 1, 0)));
-    gn.add(gn3);
-
-    const gn31 = new GroupNode(new Scaling(new Vector(0.4, 0.4, 0.4, 0)));
-    gn3.add(gn31);
-
-    gn3.add(new SphereNode(new Vector(0.9, 0.1, 0.3, 1)));
-
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const data = imageData.data;
+    const objects = [
+        new Sphere(new Vector(.5, -.2, -2, 1), 0.4, new Vector(.3, 0, 0, 1)),
+        new Sphere(new Vector(-.5, -.2, -1.7, 1), 0.2, new Vector(0, 0, .3, 1))
+    ];
     const lightPositions = [
         new Vector(1, 1, -1, 1)
     ];
-
+    let shininess = 10;
     const camera = {
         origin: new Vector(0, 0, 0, 1),
         width: canvas.width,
@@ -46,46 +26,7 @@ window.addEventListener('load', () => {
         alpha: Math.PI / 3
     }
 
-    const visitor = new RayVisitor(ctx, canvas.width, canvas.height);
-
-    let animationHandle: number;
-
-    let lastTimestamp = 0;
-    let animationTime = 0;
-    let animationHasStarted = true;
-    function animate(timestamp: number) {
-        let deltaT = timestamp - lastTimestamp;
-        if (animationHasStarted) {
-            deltaT = 0;
-            animationHasStarted = false;
-        }
-        animationTime += deltaT;
-        lastTimestamp = timestamp;
-        gnRotation.angle = animationTime / 2000;
-
-        visitor.render(sg, camera, lightPositions);
-        // animationHandle = window.requestAnimationFrame(animate);
-    }
-
-    function startAnimation() {
-        if (animationHandle) {
-            window.cancelAnimationFrame(animationHandle);
-        }
-        animationHasStarted = true;
-        function animation(t: number) {
-            animate(t);
-            animationHandle = window.requestAnimationFrame(animation);
-        }
-        animationHandle = window.requestAnimationFrame(animation);
-    }
-    animate(0);
-
-    document.getElementById("startAnimationBtn").addEventListener(
-        "click", startAnimation);
-    document.getElementById("stopAnimationBtn").addEventListener(
-        "click", () => cancelAnimationFrame(animationHandle));
-
-    /*function setPixel(x: number, y: number, color: Vector) {
+    function setPixel(x: number, y: number, color: Vector) {
         data[4 * (canvas.width * y + x) + 0] = Math.min(255, color.r * 255);
         data[4 * (canvas.width * y + x) + 1] = Math.min(255, color.g * 255);
         data[4 * (canvas.width * y + x) + 2] = Math.min(255, color.b * 255);
@@ -130,5 +71,5 @@ window.addEventListener('load', () => {
     }
     shininess = Number(shininessElement.value);
 
-    window.requestAnimationFrame(animate);*/
+    window.requestAnimationFrame(animate);
 });
