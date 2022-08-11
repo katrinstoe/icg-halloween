@@ -37,19 +37,17 @@ window.addEventListener('load', () => {
     gnS.add(new SphereNode(new Vector(1, 0.9, 0.1, 1)));
 
 
-    const gnE = new GroupNode(new Scaling(new Vector(0.35,0.35,0.35,0.35)))
-    const gnEt = new GroupNode(new Translation(new Vector(3.5,0,0,0)));
+    const gnE = new GroupNode(new Scaling(new Vector(0.35,0.35,0.35,0.35)));
+    const gnEt = new GroupNode(new Translation(new Vector(5,0,0,0)));
     gnE.add(gnEt)
     gnEt.add(new SphereNode(new Vector(0.05, 0.35, 0.2, 1)));
     gnS.add(gnE);
 
-    const gnM = new GroupNode(new Scaling(new Vector(0.8, 0.8, 0.8, 0.8)));
+    const gnM = new GroupNode(new Scaling(new Vector(0.3, 0.3, 0.3, 0.3)));
     const gnMt = new GroupNode(new Translation(new Vector(6,0,0,0)));
     gnM.add(gnMt);
-    gnM.add(new SphereNode(new Vector(0.2, 0.15, 0.2, 1)));
-    gnE.add(gnM);
-
-
+    gnMt.add(new SphereNode(new Vector(0.2, 0.15, 0.2, 1)));
+    gnEt.add(gnM);
 
 
     const lightPositions = [
