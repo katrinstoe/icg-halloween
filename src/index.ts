@@ -32,22 +32,24 @@ window.addEventListener('load', () => {
     const gn = new GroupNode(gnRotation);
     sg.add(gn);
 
-    const gnS = new GroupNode(new Translation(new Vector(0, 0, 0, 0)));
+    const gnS = new GroupNode(new Translation(new Vector(1, 0.5, 0, 0)));
     gn.add(gnS);
     gnS.add(new SphereNode(new Vector(1, 0.9, 0.1, 1)));
 
-
-    const gnE = new GroupNode(new Scaling(new Vector(0.35,0.35,0.35,0.35)));
-    const gnEt = new GroupNode(new Translation(new Vector(5,0,0,0)));
-    gnE.add(gnEt)
-    gnEt.add(new SphereNode(new Vector(0.05, 0.35, 0.2, 1)));
+    const gnE = new GroupNode(new Translation(new Vector(5,-0.8,0,0)));
     gnS.add(gnE);
 
-    const gnM = new GroupNode(new Scaling(new Vector(0.3, 0.3, 0.3, 0.3)));
+    const gnEs = new GroupNode(new Scaling(new Vector(0.35,0.35,0.35,0.35)));
+    gnE.add(gnEs)
+
+    gnEs.add(new SphereNode(new Vector(0.05, 0.35, 0.2, 1)));
+
+
+    /*const gnM = new GroupNode(new Scaling(new Vector(0.3, 0.3, 0.3, 0.3)));
     const gnMt = new GroupNode(new Translation(new Vector(6,0,0,0)));
     gnM.add(gnMt);
     gnMt.add(new SphereNode(new Vector(0.2, 0.15, 0.2, 1)));
-    gnEt.add(gnM);
+    gnEt.add(gnM);*/
 
 
     const lightPositions = [
