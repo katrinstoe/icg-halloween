@@ -19,18 +19,30 @@ window.addEventListener('load', () => {
     const canvas = document.getElementById("rasteriser") as HTMLCanvasElement;
     const gl = canvas.getContext("webgl2");
 
-    const faktorTaskBar = canvas.height/2000
-    console.log(faktorTaskBar)
+
     // construct scene graph
     const sg = new GroupNode(new Translation(new Vector(0, 0, 0, 0)));
-    const gn1 = new GroupNode(new Translation(new Vector(0, -0.9, 0, 0)));
-    sg.add(gn1);
-    const gn2 = new GroupNode(new Rotation(new Vector(1,1,1,0), 45));
-    gn1.add(gn2);
-    const gn3 = new GroupNode(new Scaling(new Vector(3,0.1,0.1,0)))
-    gn2.add(gn3)
-    const cube = new AABoxNode(new Vector(0, 0, 0, 0));
-    gn3.add(cube);
+
+
+    //Taskbar
+    const TaskBarTr = new GroupNode(new Translation(new Vector(0, -0.93, 0, 0)));
+    sg.add(TaskBarTr);
+    const TaskBarRo = new GroupNode(new Rotation(new Vector(1,1,1,0), 45));
+    TaskBarTr.add(TaskBarRo);
+    const TaskBarSc = new GroupNode(new Scaling(new Vector(3,0.1,0.1,0)))
+    TaskBarRo.add(TaskBarSc)
+    const TaskBarBox = new AABoxNode(new Vector(0, 0, 0, 0));
+    TaskBarSc.add(TaskBarBox);
+
+    //Icons
+    const TaskBarIconSc = new GroupNode(new Scaling(new Vector(0.065,0.065,0.065,0.065)));
+    const TaskBarIconTr = new GroupNode(new Translation(new Vector(0.8,0,0.03, 0)));
+
+    //Icon Rosa Kreis
+    const TaskBarIconSphere = new SphereNode(new Vector(1,0.7,0.7,1));
+    TaskBarIconSc.add(TaskBarIconSphere);
+    TaskBarIconTr.add(TaskBarIconSc);
+    TaskBarTr.add(TaskBarIconTr);
 
 
     // setup for rendering
