@@ -19,25 +19,27 @@ window.addEventListener('load', () => {
     const canvas = document.getElementById("rasteriser") as HTMLCanvasElement;
     const gl = canvas.getContext("webgl2");
 
+    const faktorTaskBar = canvas.height/2000
+    console.log(faktorTaskBar)
     // construct scene graph
     const sg = new GroupNode(new Translation(new Vector(0, 0, 0, 0)));
-    const gnRotation = new Rotation(new Vector(-1, 1, 0, 0), 0)
-    const gn = new GroupNode(gnRotation);
-    sg.add(gn);
-    // const gn = new GroupNode(new Translation(new Vector(1, 1, 1, 0)));
-    // sg.add(gn);
-    // let gn2 = new GroupNode(new Translation(new Vector(0, 0, 0, 0)));
-    // sg.add(gn2);
+    const gn1 = new GroupNode(new Translation(new Vector(0, -0.9, 0, 0)));
+    sg.add(gn1);
+    const gn2 = new GroupNode(new Rotation(new Vector(1,1,1,0), 45));
+    gn1.add(gn2);
+    const gn3 = new GroupNode(new Scaling(new Vector(3,0.1,0.1,0)))
+    gn2.add(gn3)
     const cube = new AABoxNode(new Vector(0, 0, 0, 0));
-    gn.add(cube);
+    gn3.add(cube);
+
 
     // setup for rendering
     const setupVisitor = new RasterSetupVisitor(gl);
     setupVisitor.setup(sg);
 
     const camera = {
-        eye: new Vector(-.5, .5, -1, 1),
-        center: new Vector(0, 0, 0, 1),
+        eye: new Vector(0, 0, -1, 1),
+        center: new Vector(0, 0, 0 ,1),
         up: new Vector(0, 1, 0, 0),
         fovy: 60,
         aspect: canvas.width / canvas.height,
@@ -50,19 +52,6 @@ window.addEventListener('load', () => {
     );
     const visitor = new RasterVisitor(gl, shader, null, setupVisitor.objects);
 
-    // function animate(timestamp: number) {
-    //     camera.eye = new Vector(
-    //         Math.cos(timestamp / 1000),
-    //         0,
-    //         Math.sin(timestamp / 1000),
-    //         1
-    //     );
-    //     visitor.render(sg, camera, []);
-    //     window.requestAnimationFrame(animate);
-    // }
-    //
     shader.load();
     visitor.render(sg, camera, []);
-
-    // window.requestAnimationFrame(animate);
 });
