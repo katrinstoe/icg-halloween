@@ -16,6 +16,7 @@ export default class AABox {
    */
   indices: Array<number>;
 
+
   /**
    * Creates an axis aligned box
    * @param minPoint The minimum Point
@@ -49,6 +50,8 @@ export default class AABox {
       5, 4, 7, 6,
       0, 4, 5, 1
     ];
+    this.color = color;
+
   }
 
   /**

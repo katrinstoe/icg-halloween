@@ -38,7 +38,7 @@ window.addEventListener('load', () => {
     //Icons
     const TaskBarIconSc = new GroupNode(new Scaling(new Vector(0.05,0.05,0.05,0.05)));
     const TaskBarIconTr = new GroupNode(new Translation(new Vector(0.8,0,0.03, 0)));
-    const TaskBarIconTrBox = new GroupNode(new Translation(new Vector(0.9,0,0.03, 0)));
+    const TaskBarIconTrBox = new GroupNode(new Translation(new Vector(0.6,0,0, 0)));
     const TaskBarIconScBox = new GroupNode(new Scaling(new Vector(0.05,0.05,0.05,0.05)));
     //Icon Rosa Kreis
     const TaskBarIconSphere = new SphereNode(new Vector(1,0.7,0.7,1));
@@ -50,9 +50,9 @@ window.addEventListener('load', () => {
 
     const TaskBarIconBox = new AABoxNode(new Vector(0, 0, 0, 0));
     TaskBarIconScBox.add(TaskBarIconBox);
-    // TaskBarIconTrBox.add(TaskBarIconSc)
+    TaskBarIconTrBox.add(TaskBarIconScBox)
     // TaskBarTr.add(TaskBarIconTrBox)
-    TaskBarTr.add(TaskBarIconScBox)
+    TaskBarTr.add(TaskBarIconTrBox)
 
     const cube = new TextureBoxNode('geist.png');
 
