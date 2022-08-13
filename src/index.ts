@@ -63,7 +63,7 @@ window.addEventListener('load', () => {
     const headerBarIconTrBox2 = new GroupNode(new Translation(new Vector(-0.9,0,0, 0)));
     const headerBarIconScBox2 = new GroupNode(new Scaling(new Vector(0.05,0.05,0.05,0.05)));
 
-    const cube = new TextureBoxNode('hci-logo.png');
+    const cube = new TextureBoxNode('geist.png');
     sg.add(cube);
 
     //Header Icons (Vierecke, später Textur drauf)
@@ -103,7 +103,14 @@ window.addEventListener('load', () => {
     );
     const visitor = new RasterVisitor(gl, phongShader, textureShader, setupVisitor.objects);
 
-    phongShader.load();
-    textureShader.load();
-    visitor.render(sg, camera, []);
+    function animate(timestamp: number) {
+        visitor.render(sg, camera, []);
+        window.requestAnimationFrame(animate);
+    }
+
+    Promise.all(
+        [phongShader.load(), textureShader.load()]
+    ).then(x =>
+        window.requestAnimationFrame(animate)
+    );
 });
