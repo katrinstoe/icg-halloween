@@ -11,9 +11,13 @@ import {
     RasterSetupVisitor
 } from './rastervisitor';
 import Shader from './shader';
+import phongVertexShader from './phong-vertex-shader.glsl';
+import phongFragmentShader from './phong-fragment-shader.glsl';
 import perspectiveVertexShader from './perspective-vertex-shader.glsl';
 import fragmentShader from './basic-fragment-shader.glsl'
 import {Rotation, Scaling, Translation} from './transformation';
+import textureVertexShader from "./texture-vertex-shader.glsl";
+import textureFragmentShader from "./texture-fragment-shader.glsl";
 
 window.addEventListener('load', () => {
     const canvas = document.getElementById("rasteriser") as HTMLCanvasElement;
@@ -24,7 +28,7 @@ window.addEventListener('load', () => {
     const sg = new GroupNode(new Translation(new Vector(0, 0, 0, 0)));
 
     //Taskbar
-    const TaskBarTr = new GroupNode(new Translation(new Vector(0, -0.93, 0, 0)));
+    const TaskBarTr = new GroupNode(new Translation(new Vector(0, -0.95, 0, 0)));
     const TaskBarSc = new GroupNode(new Scaling(new Vector(3,0.1,0.1,0)))
     const TaskBarBox = new AABoxNode(new Vector(0, 0, 0, 0));
     TaskBarSc.add(TaskBarBox)
@@ -67,12 +71,17 @@ window.addEventListener('load', () => {
         near: 0.1,
         far: 100
     };
-    const shader = new Shader(gl,
-        perspectiveVertexShader,
-        fragmentShader
+    const phongShader = new Shader(gl,
+        phongVertexShader,
+        phongFragmentShader
     );
-    const visitor = new RasterVisitor(gl, shader, null, setupVisitor.objects);
+    const textureShader = new Shader(gl,
+        textureVertexShader,
+        textureFragmentShader
+    );
+    const visitor = new RasterVisitor(gl, phongShader, textureShader, setupVisitor.objects);
 
-    shader.load();
+    phongShader.load();
+    textureShader.load();
     visitor.render(sg, camera, []);
 });
