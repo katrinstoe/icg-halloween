@@ -4,13 +4,16 @@ import Vector from './vector';
 import {
     GroupNode,
     SphereNode,
-    AABoxNode, TextureBoxNode
+    AABoxNode,
+    TextureBoxNode
 } from './nodes';
 import {
     RasterVisitor,
     RasterSetupVisitor
 } from './rastervisitor';
 import Shader from './shader';
+import phongVertexShader from './phong-vertex-shader.glsl';
+import phongFragmentShader from './phong-fragment-shader.glsl';
 import perspectiveVertexShader from './perspective-vertex-shader.glsl';
 import fragmentShader from './basic-fragment-shader.glsl'
 import {Rotation, Scaling, Translation} from './transformation';
@@ -43,9 +46,10 @@ window.addEventListener('load', () => {
     TaskBarIconTr.add(TaskBarIconSc);
     TaskBarTr.add(TaskBarIconTr);
 
-    //const cube = new TextureBoxNode('hci-logo.png');
-    //TaskBarTr.add(cube);
+    const cube = new TextureBoxNode('hci-logo.png');
+    TaskBarTr.add(cube);
 
+    //TaskBarSc.add(cube);
 
     // setup for rendering
     const setupVisitor = new RasterSetupVisitor(gl);
@@ -60,17 +64,17 @@ window.addEventListener('load', () => {
         near: 0.1,
         far: 100
     };
-    const shader = new Shader(gl,
-        perspectiveVertexShader,
-        fragmentShader
+    const phongShader = new Shader(gl,
+        phongVertexShader,
+        phongFragmentShader
     );
     const textureShader = new Shader(gl,
         textureVertexShader,
         textureFragmentShader
     );
-    const visitor = new RasterVisitor(gl, shader, textureShader, setupVisitor.objects);
+    const visitor = new RasterVisitor(gl, phongShader, textureShader, setupVisitor.objects);
 
-    shader.load();
+    phongShader.load();
     textureShader.load();
     visitor.render(sg, camera, []);
 });
