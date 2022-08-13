@@ -34,8 +34,7 @@ window.addEventListener('load', () => {
     TaskBarSc.add(TaskBarBox)
     TaskBarTr.add(TaskBarSc);
     sg.add(TaskBarTr)
-
-    //Icons
+    //Icons Transformations
     const TaskBarIconSc = new GroupNode(new Scaling(new Vector(0.05,0.05,0.05,0.05)));
     const TaskBarIconTr = new GroupNode(new Translation(new Vector(0.8,0,0.03, 0)));
     const TaskBarIconTrBox = new GroupNode(new Translation(new Vector(0.6,0,0, 0)));
@@ -45,14 +44,37 @@ window.addEventListener('load', () => {
     TaskBarIconSc.add(TaskBarIconSphere);
     TaskBarIconTr.add(TaskBarIconSc);
     TaskBarTr.add(TaskBarIconTr);
-
-    //Icon Rosa Viereck
-
+    //Icon Viereck
     const TaskBarIconBox = new AABoxNode(new Vector(0, 0, 0, 0));
     TaskBarIconScBox.add(TaskBarIconBox);
     TaskBarIconTrBox.add(TaskBarIconScBox)
-    // TaskBarTr.add(TaskBarIconTrBox)
     TaskBarTr.add(TaskBarIconTrBox)
+
+    //Header
+    const headerBarTr = new GroupNode(new Translation(new Vector(0, 1.9, 0, 0)));
+    const headerBarSc = new GroupNode(new Scaling(new Vector(3,0.1,0.1,0)))
+    const headerBarBox = new AABoxNode(new Vector(0, 0, 0, 0));
+    headerBarSc.add(headerBarBox)
+    headerBarTr.add(headerBarSc)
+    TaskBarTr.add(headerBarTr)
+    //Header Icon Transformations
+    const headerBarIconScBox = new GroupNode(new Scaling(new Vector(0.05,0.05,0.05,0.05)));
+    const headerBarIconTrBox = new GroupNode(new Translation(new Vector(-0.8,0,0, 0)));
+    const headerBarIconTrBox2 = new GroupNode(new Translation(new Vector(-0.9,0,0, 0)));
+    const headerBarIconScBox2 = new GroupNode(new Scaling(new Vector(0.05,0.05,0.05,0.05)));
+
+
+    //Header Icons (Vierecke, später Textur drauf)
+    const headerBarIconBox = new AABoxNode(new Vector(0, 0, 0, 0));
+    headerBarIconScBox.add(headerBarIconBox);
+    headerBarIconTrBox.add(headerBarIconScBox)
+    // headerBarTr.add(headerBarIconTrBox)
+    headerBarTr.add(headerBarIconTrBox)
+
+    const headerBarIconBox2 = new AABoxNode(new Vector(0, 0, 0, 0));
+    headerBarIconScBox2.add(headerBarIconBox2);
+    headerBarIconTrBox2.add(headerBarIconScBox2)
+    headerBarTr.add(headerBarIconTrBox2)
 
     const cube = new TextureBoxNode('geist.png');
 
