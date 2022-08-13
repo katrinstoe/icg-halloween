@@ -63,6 +63,8 @@ window.addEventListener('load', () => {
     const headerBarIconTrBox2 = new GroupNode(new Translation(new Vector(-0.9,0,0, 0)));
     const headerBarIconScBox2 = new GroupNode(new Scaling(new Vector(0.05,0.05,0.05,0.05)));
 
+    const cube = new TextureBoxNode('hci-logo.png');
+    sg.add(cube);
 
     //Header Icons (Vierecke, später Textur drauf)
     const headerBarIconBox = new AABoxNode(new Vector(0, 0, 0, 0));
@@ -75,8 +77,6 @@ window.addEventListener('load', () => {
     headerBarIconScBox2.add(headerBarIconBox2);
     headerBarIconTrBox2.add(headerBarIconScBox2)
     headerBarTr.add(headerBarIconTrBox2)
-
-    const cube = new TextureBoxNode('geist.png');
 
 
 
