@@ -4,7 +4,7 @@ import Vector from './vector';
 import {
     GroupNode,
     SphereNode,
-    AABoxNode
+    AABoxNode, TextureBoxNode
 } from './nodes';
 import {
     RasterVisitor,
@@ -23,19 +23,16 @@ window.addEventListener('load', () => {
     // construct scene graph
     const sg = new GroupNode(new Translation(new Vector(0, 0, 0, 0)));
 
-
     //Taskbar
     const TaskBarTr = new GroupNode(new Translation(new Vector(0, -0.93, 0, 0)));
-    sg.add(TaskBarTr);
-    const TaskBarRo = new GroupNode(new Rotation(new Vector(1,1,1,0), 45));
-    TaskBarTr.add(TaskBarRo);
     const TaskBarSc = new GroupNode(new Scaling(new Vector(3,0.1,0.1,0)))
-    TaskBarRo.add(TaskBarSc)
     const TaskBarBox = new AABoxNode(new Vector(0, 0, 0, 0));
-    TaskBarSc.add(TaskBarBox);
+    TaskBarSc.add(TaskBarBox)
+    TaskBarTr.add(TaskBarSc);
+    sg.add(TaskBarTr)
 
     //Icons
-    const TaskBarIconSc = new GroupNode(new Scaling(new Vector(0.065,0.065,0.065,0.065)));
+    const TaskBarIconSc = new GroupNode(new Scaling(new Vector(0.05,0.05,0.05,0.05)));
     const TaskBarIconTr = new GroupNode(new Translation(new Vector(0.8,0,0.03, 0)));
 
     //Icon Rosa Kreis
@@ -43,6 +40,9 @@ window.addEventListener('load', () => {
     TaskBarIconSc.add(TaskBarIconSphere);
     TaskBarIconTr.add(TaskBarIconSc);
     TaskBarTr.add(TaskBarIconTr);
+
+    const cube = new TextureBoxNode('geist.png');
+
 
 
     // setup for rendering
