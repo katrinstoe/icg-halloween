@@ -130,4 +130,12 @@ window.addEventListener('load', () => {
     ).then(x =>
         window.requestAnimationFrame(animate)
     );
+
+    window.addEventListener('keydown', function (event) {
+        switch (event.key) {
+            case "ArrowUp":
+                animationNodes[0].toggleActive();
+                break;
+        }
+    });
 });
