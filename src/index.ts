@@ -19,6 +19,13 @@ import {Rotation, Scaling, Translation} from './transformation';
 import textureVertexShader from "./texture-vertex-shader.glsl";
 import textureFragmentShader from "./texture-fragment-shader.glsl";
 import {RotationNode} from "./animation-nodes";
+import Ray from "./ray";
+import Intersection from "./intersection";
+import Sphere from "./sphere";
+import AABox from "./aabox";
+
+const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1));
+const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.5, 0.5, 1), new Vector(0, 0, 0, 1));
 
 window.addEventListener('load', () => {
     const canvas = document.getElementById("rasteriser") as HTMLCanvasElement;
@@ -97,14 +104,17 @@ window.addEventListener('load', () => {
         near: 0.1,
         far: 100
     };
+
     const phongShader = new Shader(gl,
         phongVertexShader,
         phongFragmentShader
     );
+
     const textureShader = new Shader(gl,
         textureVertexShader,
         textureFragmentShader
     );
+
     const visitor = new RasterVisitor(gl, phongShader, textureShader, setupVisitor.objects);
 
     let animationNodes = [
@@ -138,4 +148,21 @@ window.addEventListener('load', () => {
                 break;
         }
     });
+
+    function getMousePos(canvas: HTMLCanvasElement, evt: MouseEvent) {
+        let rect = canvas.getBoundingClientRect();
+        return {
+            x: evt.clientX - rect.left,
+            y: evt.clientY - rect.top
+        };
+    }
+
+    canvas.addEventListener('mousemove', function(evt) {
+        let mousePos = getMousePos(canvas, evt);
+        let rayFromMouse = new Ray(new Vector(mousePos.x/canvas.width, mousePos.y/canvas.height,0,0), new Vector(0,0,-1,1));
+        let closestIntersection = Infinity;
+        if(UNIT_SPHERE.intersect(rayFromMouse)){
+            console.log("Intersection Detected")
+        }
+    }, false);
 });

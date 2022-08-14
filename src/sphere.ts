@@ -38,7 +38,7 @@ export default class Sphere {
     let shorterT;
 
     let c = Math.pow(x0.dot(d), 2)-x0Squared + (Math.pow(this.radius, 2))
-    // let c = Math.pow(x0.dot(d), 2)-x0Squared.length + (Math.pow(this.radius, 2))
+
     let amountOfIntersections;
     if (c < 0){
       amountOfIntersections = 0;
@@ -52,16 +52,11 @@ export default class Sphere {
         shorterT = t;
       } else shorterT = t2;
     }
-//ray equation
-    //let raySphereIntersection = Math.pow(t, 2) + 2*shorterT*(ray.origin.dot(ray.d))+(x0Squared-Math.pow(this.radius, 2));
-    // let intersectionPoint = x0.add(d.mul(shorterT))
 
     let intersectionPoint = ray.origin.add(d.mul(shorterT))
     intersectionPoint.w = 1;
     let normal = intersectionPoint.sub(this.center).normalize()
     return new Intersection(shorterT, intersectionPoint, normal)
-
-
   }
 
 }
