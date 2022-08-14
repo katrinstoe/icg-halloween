@@ -18,6 +18,7 @@ import fragmentShader from './basic-fragment-shader.glsl'
 import {Rotation, Scaling, Translation} from './transformation';
 import textureVertexShader from "./texture-vertex-shader.glsl";
 import textureFragmentShader from "./texture-fragment-shader.glsl";
+import {RotationNode} from "./animation-nodes";
 
 window.addEventListener('load', () => {
     const canvas = document.getElementById("rasteriser") as HTMLCanvasElement;
@@ -25,7 +26,7 @@ window.addEventListener('load', () => {
 
 
     // construct scene graph
-    const sg = new GroupNode(new Translation(new Vector(0, 0, 0, 0)));
+    const sg = new GroupNode(new Rotation(new Vector(0, 0, 1, 0),0));
     //Texturen
     const textureGeist = new TextureBoxNode('geist.png');
     const textureHCILogo = new TextureBoxNode('hci-logo.png');
@@ -73,6 +74,14 @@ window.addEventListener('load', () => {
     headerBarIconBox2Sc.add(headerBarIconBox2);
     headerBarIconBox2Tr.add(headerBarIconBox2Sc)
     headerBarTr.add(headerBarIconBox2Tr)
+    //TryOut
+    const cube = new AABoxNode(new Vector(0,0,0,0));
+    const cubeSc = new GroupNode(new Scaling(new Vector(1,1,1,1)));
+    const cubeRt = new GroupNode(new Rotation(new Vector(0,1,0,0), 1));
+    cubeSc.add(cube);
+    cubeSc.add(textureGeist)
+    cubeRt.add(cubeSc);
+    sg.add(cubeRt);
 
 
     // setup for rendering
@@ -98,11 +107,24 @@ window.addEventListener('load', () => {
     );
     const visitor = new RasterVisitor(gl, phongShader, textureShader, setupVisitor.objects);
 
-    function animate(timestamp: number) {
-        visitor.render(sg, camera, []);
-        window.requestAnimationFrame(animate);
+    let animationNodes = [
+        new RotationNode(cubeRt, new Vector(0,0,1,0)),
+    ]
+
+    function simulate(deltaT: number) {
+        for (let animationNode of animationNodes) {
+            animationNode.simulate(deltaT);
+        }
     }
 
+    let lastTimestamp = performance.now();
+
+    function animate(timestamp: number) {
+        simulate(timestamp - lastTimestamp);
+        visitor.render(sg, camera, []);
+        lastTimestamp = timestamp;
+        window.requestAnimationFrame(animate);
+    }
     Promise.all(
         [phongShader.load(), textureShader.load()]
     ).then(x =>
