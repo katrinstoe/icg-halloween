@@ -18,7 +18,7 @@ import fragmentShader from './basic-fragment-shader.glsl'
 import {Rotation, Scaling, Translation} from './transformation';
 import textureVertexShader from "./texture-vertex-shader.glsl";
 import textureFragmentShader from "./texture-fragment-shader.glsl";
-import {RotationNode} from "./animation-nodes";
+import {MoverNode, RotationNode, ScalerNode} from "./animation-nodes";
 
 window.addEventListener('load', () => {
     const canvas = document.getElementById("rasteriser") as HTMLCanvasElement;

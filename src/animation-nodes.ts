@@ -1,6 +1,6 @@
 import Vector from './vector';
 import { GroupNode } from './nodes';
-import {Rotation, Scaling, SQT} from './transformation';
+import {Rotation, Scaling, SQT, Translation} from './transformation';
 import Quaternion from './quaternion';
 import Matrix from "./matrix";
 
@@ -107,3 +107,102 @@ export class SlerpNode extends AnimationNode {
   }
 
 }
+
+/**
+ * Class representing a Scaler Animation
+ * @extends AnimationNode
+ */
+export class ScalerNode extends AnimationNode {
+  /**
+   * The vector to scale along
+   */
+  vector: Vector;
+
+  /**
+   * Creates a new ScalerNode
+   * @param groupNode The group node to attach to
+   * @param vector The vector to scale along
+   */
+  constructor(groupNode: GroupNode, vector: Vector) {
+    super(groupNode);
+    this.vector = vector
+  }
+
+  /**
+   * Advances the animation by deltaT
+   * @param deltaT The time difference, the animation is advanced by
+   */
+  simulate(deltaT: number) {
+
+    if(this.active){
+      this.vector.x += 0.001 * deltaT
+      this.vector.y += 0.001 * deltaT
+      this.vector.z += 0.001 * deltaT
+      this.groupNode.transform = new Scaling(this.vector);
+    }
+  }
+}
+
+/**
+ * Class representing a Mover Animation
+ * @extends AnimationNode
+ */
+export class MoverNode extends AnimationNode {
+  /**
+   * The vector to move along
+   */
+  vector: Vector;
+
+  /**
+   * Creates a new MoverNode
+   * @param groupNode The group node to attach to
+   * @param vector The vector to move along
+   */
+  constructor(groupNode: GroupNode, vector: Vector) {
+    super(groupNode);
+    this.vector = vector;
+  }
+
+  /**
+   * Advances the animation by deltaT
+   * @param deltaT The time difference, the animation is advanced by
+   */
+  simulate(deltaT: number) {
+
+    if(this.active){
+      this.vector.x += 0.001 * deltaT;
+      this.vector.y += 0.001 * deltaT;
+      this.vector.z += 0.001 * deltaT;
+      this.groupNode.transform = new Translation(this.vector);
+    }
+  }
+}
+
+/**
+ * Class representing a Driver Animation
+ * @extends AnimationNode
+ */
+export class DriverNode extends AnimationNode {
+  /**
+   * The vector to rotate around
+   */
+  input: Vector;
+
+  /**
+   * Creates a new DriverNode
+   * @param groupNode The group node to attach to
+   */
+  constructor(groupNode: GroupNode) {
+    super(groupNode);
+  }
+
+  /**
+   * Advances the animation by deltaT
+   * @param deltaT The time difference, the animation is advanced by
+   */
+  simulate(deltaT: number) {
+
+    if (this.active) {
+      //this.groupNode.transform = new Translation(direction);
+    }
+  }}
