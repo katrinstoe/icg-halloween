@@ -49,7 +49,6 @@ window.addEventListener('load', () => {
     TaskBarIconScBox.add(TaskBarIconBox);
     TaskBarIconTrBox.add(TaskBarIconScBox)
     TaskBarTr.add(TaskBarIconTrBox)
-
     //Header
     const headerBarTr = new GroupNode(new Translation(new Vector(0, 1.9, 0, 0)));
     const headerBarSc = new GroupNode(new Scaling(new Vector(3,0.1,0.1,0)))
@@ -63,8 +62,10 @@ window.addEventListener('load', () => {
     const headerBarIconTrBox2 = new GroupNode(new Translation(new Vector(-0.9,0,0, 0)));
     const headerBarIconScBox2 = new GroupNode(new Scaling(new Vector(0.05,0.05,0.05,0.05)));
 
-    const cube = new TextureBoxNode('geist.png');
-    sg.add(cube);
+    const textureGeist = new TextureBoxNode('geist.png');
+    const textureHCILogo = new TextureBoxNode('hci-logo.png');
+    sg.add(textureGeist);
+    headerBarSc.add(textureHCILogo)
 
     //Header Icons (Vierecke, später Textur drauf)
     const headerBarIconBox = new AABoxNode(new Vector(0, 0, 0, 0));
@@ -77,7 +78,6 @@ window.addEventListener('load', () => {
     headerBarIconScBox2.add(headerBarIconBox2);
     headerBarIconTrBox2.add(headerBarIconScBox2)
     headerBarTr.add(headerBarIconTrBox2)
-
 
 
     // setup for rendering
