@@ -26,7 +26,9 @@ window.addEventListener('load', () => {
 
     // construct scene graph
     const sg = new GroupNode(new Translation(new Vector(0, 0, 0, 0)));
-
+    //Texturen
+    const textureGeist = new TextureBoxNode('geist.png');
+    const textureHCILogo = new TextureBoxNode('hci-logo.png');
     //Taskbar
     const TaskBarTr = new GroupNode(new Translation(new Vector(0, -0.95, 0, 0)));
     const TaskBarSc = new GroupNode(new Scaling(new Vector(3,0.1,0.1,0)))
@@ -47,6 +49,7 @@ window.addEventListener('load', () => {
     //Icon Viereck
     const TaskBarIconBox = new AABoxNode(new Vector(0, 0, 0, 0));
     TaskBarIconScBox.add(TaskBarIconBox);
+    TaskBarIconScBox.add(textureGeist)
     TaskBarIconTrBox.add(TaskBarIconScBox)
     TaskBarTr.add(TaskBarIconTrBox)
     //Header
@@ -57,27 +60,19 @@ window.addEventListener('load', () => {
     headerBarTr.add(headerBarSc)
     TaskBarTr.add(headerBarTr)
     //Header Icon Transformations
-    const headerBarIconScBox = new GroupNode(new Scaling(new Vector(0.05,0.05,0.05,0.05)));
-    const headerBarIconTrBox = new GroupNode(new Translation(new Vector(-0.8,0,0, 0)));
-    const headerBarIconTrBox2 = new GroupNode(new Translation(new Vector(-0.9,0,0, 0)));
-    const headerBarIconScBox2 = new GroupNode(new Scaling(new Vector(0.05,0.05,0.05,0.05)));
-
-    const textureGeist = new TextureBoxNode('geist.png');
-    const textureHCILogo = new TextureBoxNode('hci-logo.png');
-    sg.add(textureGeist);
-    headerBarSc.add(textureHCILogo)
-
+    const headerBarIconBoxSc = new GroupNode(new Scaling(new Vector(0.05,0.05,0.05,0.05)));
+    const headerBarIconBoxTr = new GroupNode(new Translation(new Vector(-0.8,0,0, 0)));
+    const headerBarIconBox2Tr = new GroupNode(new Translation(new Vector(-0.9,0,0, 0)));
+    const headerBarIconBox2Sc = new GroupNode(new Scaling(new Vector(0.05,0.05,0.05,0.05)));
     //Header Icons (Vierecke, später Textur drauf)
     const headerBarIconBox = new AABoxNode(new Vector(0, 0, 0, 0));
-    headerBarIconScBox.add(headerBarIconBox);
-    headerBarIconTrBox.add(headerBarIconScBox)
-    // headerBarTr.add(headerBarIconTrBox)
-    headerBarTr.add(headerBarIconTrBox)
-
+    headerBarIconBoxSc.add(headerBarIconBox);
+    headerBarIconBoxTr.add(headerBarIconBoxSc)
+    headerBarTr.add(headerBarIconBoxTr)
     const headerBarIconBox2 = new AABoxNode(new Vector(0, 0, 0, 0));
-    headerBarIconScBox2.add(headerBarIconBox2);
-    headerBarIconTrBox2.add(headerBarIconScBox2)
-    headerBarTr.add(headerBarIconTrBox2)
+    headerBarIconBox2Sc.add(headerBarIconBox2);
+    headerBarIconBox2Tr.add(headerBarIconBox2Sc)
+    headerBarTr.add(headerBarIconBox2Tr)
 
 
     // setup for rendering
