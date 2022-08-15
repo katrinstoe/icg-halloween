@@ -26,11 +26,13 @@ import AABox from "./aabox";
 
 const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1));
 const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.5, 0.5, 1), new Vector(0, 0, 0, 1));
+var copyVideo = false;
 
 window.addEventListener('load', () => {
     const canvas = document.getElementById("rasteriser") as HTMLCanvasElement;
     const gl = canvas.getContext("webgl2");
-
+    const videoElement = document.getElementById("video");
+    const video = setupVideo('video.ogv');
 
     // construct scene graph
     const sg = new GroupNode(new Rotation(new Vector(0, 0, 1, 0),0));
@@ -89,6 +91,7 @@ window.addEventListener('load', () => {
     cubeSc.add(textureGeist)
     cubeRt.add(cubeSc);
     sg.add(cubeRt);
+
 
 
     // setup for rendering
@@ -166,3 +169,35 @@ window.addEventListener('load', () => {
         }
     }, false);
 });
+
+
+function setupVideo(url: string) {
+    const video = document.createElement('video');
+
+    var playing = false;
+    var timeupdate = false;
+
+    video.autoplay = true;
+    video.muted = true;
+    video.loop = true;
+
+    video.addEventListener('playing', function() {
+        playing = true;
+        checkReady();
+    }, true);
+
+    video.addEventListener('timeupdate', function() {
+        timeupdate = true;
+        checkReady();
+    }, true);
+
+    video.src = url;
+    video.play();
+
+    function checkReady() {
+        if (playing && timeupdate) {
+            copyVideo = true;
+        }
+    }
+    return video;
+}
