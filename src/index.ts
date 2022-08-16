@@ -23,6 +23,8 @@ import Ray from "./ray";
 import Intersection from "./intersection";
 import Sphere from "./sphere";
 import AABox from "./aabox";
+import RayVisitor from "./rayvisitor";
+import phong from "./phong";
 
 const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1));
 const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.5, 0.5, 1), new Vector(0, 0, 0, 1));
@@ -120,7 +122,7 @@ window.addEventListener('load', () => {
     const sphereSc = new GroupNode(new Scaling(new Vector(0.4,0.4,0.4,1)));
     const sphereTr = new GroupNode(new Translation(new Vector(0.5,0,0,0)));
     sphereSc.add(sphere);
-    // sphereSc.add(textureHCILogo)
+    sphereSc.add(textureHCILogo)
     sphereTr.add(sphereSc);
     sg.add(sphereTr);
 
@@ -174,6 +176,7 @@ window.addEventListener('load', () => {
         window.requestAnimationFrame(animate)
     );
 
+
     window.addEventListener('keydown', function (event) {
         switch (event.key) {
             case "ArrowUp":
@@ -203,10 +206,92 @@ window.addEventListener('load', () => {
         let mx = event.clientX - canvas.getBoundingClientRect().left;
     }
 
+//Rasterizer und RayTracer Wechseln
+    const btn1 = document.getElementById('btnradio1');
+    const btn2 = document.getElementById('btnradio2');
 
-    canvas.addEventListener('click', ()=>{
+    btn2.addEventListener("click", function() {
+        console.log("RayTracer")
 
-        alert("angeklickt");
+        const canvas2 = document.getElementById("rayTracer") as HTMLCanvasElement;
+        const ctx = canvas2.getContext("2d");
+        const lightPositions = [
+            new Vector(1, 1, -1, 1)
+        ];
+        const gnRotation = new Rotation(new Vector(1, 0, 0, 0), 0)
+        const gn = new GroupNode(gnRotation);
+        sg.add(gn);
+
+        const camera = {
+            origin: new Vector(0, 0, 0, 1),
+            width: canvas2.width,
+            height: canvas2.height,
+            alpha: Math.PI / 3
+        }
+
+        const visitor = new RayVisitor(ctx, canvas.width, canvas.height);
+
+        let animationHandle: number;
+
+        let lastTimestamp = 0;
+        let animationTime = 0;
+        let animationHasStarted = true;
+        function animate(timestamp: number) {
+            let deltaT = timestamp - lastTimestamp;
+            if (animationHasStarted) {
+                deltaT = 0;
+                animationHasStarted = false;
+            }
+            animationTime += deltaT;
+            lastTimestamp = timestamp;
+            gnRotation.angle = animationTime / 2000;
+
+            visitor.render(sg, camera, lightPositions);
+            // animationHandle = window.requestAnimationFrame(animate);
+        }
+
+        function startAnimation() {
+            if (animationHandle) {
+                window.cancelAnimationFrame(animationHandle);
+            }
+            animationHasStarted = true;
+            function animation(t: number) {
+                animate(t);
+                animationHandle = window.requestAnimationFrame(animation);
+            }
+            animationHandle = window.requestAnimationFrame(animation);
+        }
+        animate(0);
+
+        document.getElementById("startAnimationBtn").addEventListener(
+            "click", startAnimation);
+        document.getElementById("stopAnimationBtn").addEventListener(
+            "click", () => cancelAnimationFrame(animationHandle));
+
+
+
+    });
+
+    btn1.addEventListener('click', function (){
+        location.reload()
     })
-
 });
+
+
+// let animationHandle: number;
+//
+// let lastTimestamp = 0;
+// let animationTime = 0;
+// let animationHasStarted = true;
+// function animateRayTracer(timestamp: number){
+//     let deltaT = timestamp - lastTimestamp;
+//     if (animationHasStarted) {
+//         deltaT = 0;
+//         animationHasStarted = false;
+//     }
+//     animationTime += deltaT;
+//     lastTimestamp = timestamp;
+//     gnRotation.angle = animationTime / 2000;
+//
+//     visitor.render(sg, camera, lightPositions);
+// }
