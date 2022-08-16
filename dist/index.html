@@ -58,12 +58,10 @@
     <div class="zeichenflaeche d-flex justify-content-center">
         <div class="figure justify-content-center align-items-center">
             <figure class="figure d-flex justify-content-center">
-                <canvas id="rasteriser" class="canvas mx-auto d-block rounded" width="800" height="800"></canvas>
+                <canvas id="rasteriser" class="canvas mx-auto d-block rounded" style="position: absolute; left: 900px; z-index: 1; top: 50px;" width="800" height="800"></canvas>
+                <canvas id="rayTracer" class="canvas mx-auto d-block rounded" style="position: absolute; left: 900px; z-index: 1; top: 50px;" width="800" height="800"></canvas>
             </figure>
-            <figure class="figure d-flex justify-content-center">
-                <canvas id="rayTracer" class="canvas mx-auto d-block rounded" width="800" height="800"></canvas>
-            </figure>
-            <figcaption class="figure-caption text-center">
+            <figcaption class="figure-caption text-center" style="position: absolute; left: 1200px; top: 900px;">
                 <button id="startAnimationBtn" class="btn btn-dark">Start</button>
                 <button id="stopAnimationBtn" class="btn btn-dark">Stop</button>
                 <button id="addTexture" class="btn btn-dark">Texture</button>
