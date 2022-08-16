@@ -1,6 +1,7 @@
 import Vector from './vector';
 import Intersection from './intersection';
 import Ray from './ray';
+import Matrix from "./matrix";
 
 /**
  * A class representing a sphere

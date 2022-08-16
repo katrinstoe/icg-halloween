@@ -4,7 +4,7 @@ import Vector from './vector';
 import {
     GroupNode,
     SphereNode,
-    AABoxNode, TextureBoxNode
+    AABoxNode, TextureBoxNode, PyramidNode
 } from './nodes';
 import {
     RasterVisitor,
@@ -83,6 +83,10 @@ window.addEventListener('load', () => {
     cubeRt.add(cubeSc);
     sg.add(cubeRt);
 
+    const pyramid = new PyramidNode(new Vector(1, 0.3, 0.3, 1))
+    const pyramidSc = new GroupNode(new Scaling(new Vector(1,1,1,1)));
+    pyramidSc.add(pyramid)
+    sg.add(pyramidSc)
 
     // setup for rendering
     const setupVisitor = new RasterSetupVisitor(gl);
@@ -108,7 +112,7 @@ window.addEventListener('load', () => {
     const visitor = new RasterVisitor(gl, phongShader, textureShader, setupVisitor.objects);
 
     let animationNodes = [
-        new RotationNode(cubeRt, new Vector(0,0,1,0)),
+        new RotationNode(pyramidSc, new Vector(0,1,0,0)),
     ]
 
     function simulate(deltaT: number) {

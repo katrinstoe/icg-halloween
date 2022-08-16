@@ -14,6 +14,8 @@ import Shader from './shader';
 import vertexShader from './basic-vertex-shader.glsl';
 import fragmentShader from './basic-fragment-shader.glsl';
 import { Scaling, Translation } from './transformation';
+import RasterPyramid from "./raster-pyramid";
+import Pyramid from "./pyramid";
 
 window.addEventListener('load', () => {
     const canvas = document.getElementById("rasteriser") as HTMLCanvasElement;
@@ -29,10 +31,7 @@ window.addEventListener('load', () => {
     gn3.add(sphere1);
     const gn2 = new GroupNode(new Translation(new Vector(-.2, -0.2, 0, 0)));
     sg.add(gn2);
-    const cube = new AABoxNode(
-        new Vector(1, 0, 0, 1)
-    );
-    gn2.add(cube);
+
 
     // setup for rendering
     const setupVisitor = new RasterSetupVisitor(gl);

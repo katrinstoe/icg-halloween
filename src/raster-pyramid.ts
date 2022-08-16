@@ -1,0 +1,110 @@
+import Vector from './vector';
+import Shader from './shader';
+
+/**
+ * A class creating buffers for a pyramid to render it with WebGL
+ */
+export default class RasterPyramid {
+    /**
+     * The buffer containing the box's vertices
+     */
+    vertexBuffer: WebGLBuffer;
+    /**
+     * The indices describing which vertices form a triangle
+     */
+    indexBuffer: WebGLBuffer;
+
+    // TODO private variable for color buffer
+    colorBuffer: WebGLBuffer;
+    /**
+     * The amount of indices
+     */
+    elements: number;
+
+    /**
+     * Creates all WebGL buffers for the box
+     *  looking in negative z axis direction
+     * @param gl The canvas' context
+     * @param leftPoint
+     * @param rightPoint
+     * @param backPoint
+     * @param topPoint
+     */
+    constructor(
+        private gl: WebGL2RenderingContext,
+        leftPoint: Vector,
+        rightPoint: Vector,
+        backPoint: Vector,
+        topPoint: Vector) {
+        this.gl = gl;
+        const l = leftPoint;
+        const r = rightPoint;
+        const b = backPoint;
+        const t = topPoint;
+        let vertices = [
+            l.x, l.y, l.z,
+            r.x, r.y, r.z,
+            b.x, b.y, b.z,
+            t.x, t.y, t.z
+        ];
+        let indices = [
+            // front
+            0, 1, 3,
+            // right
+            1, 2, 3,
+            // left
+            2, 0, 3,
+            // bottom
+            0, 1, 2,
+        ];
+        let color = [
+            1, 0, 0, 1,
+            1, 1, 0, 1,
+            0.5, 0, 0.5, 1,
+            0.5, 0, 0, 1,
+        ]
+        const vertexBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+        this.vertexBuffer = vertexBuffer;
+
+        const indexBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
+        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl.STATIC_DRAW);
+        this.indexBuffer = indexBuffer;
+        this.elements = indices.length;
+
+        // TODO create and fill a buffer for colours
+        const colorBufffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, colorBufffer);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(color), gl.STATIC_DRAW);
+        this.colorBuffer = colorBufffer;
+    }
+
+    /**
+     * Renders the box
+     * @param shader The shader used to render
+     */
+    render(shader: Shader) {
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.vertexBuffer);
+        const positionLocation = shader.getAttributeLocation("a_position");
+        this.gl.enableVertexAttribArray(positionLocation);
+        this.gl.vertexAttribPointer(positionLocation,
+            3, this.gl.FLOAT, false, 0, 0);
+
+        // TODO bind colour buffer
+        //aus Scene Graph die Color und vertices kriegen und ich shader geben
+        const color = shader.getAttributeLocation("a_color")
+        this.gl.enableVertexAttribArray(color)
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.colorBuffer)
+        this.gl.vertexAttribPointer(color, 4, this.gl.FLOAT, false, 0, 0)
+        //this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(color), this.gl.STATIC_DRAW)
+
+        this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
+        this.gl.drawElements(this.gl.TRIANGLES, this.elements, this.gl.UNSIGNED_SHORT, 0);
+
+        this.gl.disableVertexAttribArray(positionLocation);
+        // TODO disable color vertex attrib array
+        this.gl.disableVertexAttribArray(color)
+    }
+}
