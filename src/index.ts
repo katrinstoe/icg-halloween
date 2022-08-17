@@ -39,6 +39,8 @@ window.addEventListener('load', function loadPage() {
     const textureHCILogo = new TextureBoxNode('hci-logo.png');
     const textureMinimize = new TextureBoxNode('Icons/minusIcon.jpg');
     const textureClose = new TextureBoxNode('Icons/close.png');
+    const textureGeistText = new TextureBoxNode('Icons/geistText.png');
+    const textureKugelText = new TextureBoxNode('Icons/kugelText.png');
     //Taskbar
     const TaskBarTr = new GroupNode(new Translation(new Vector(0, -0.95, 0, 0)));
     const TaskBarSc = new GroupNode(new Scaling(new Vector(3, 0.1, 0.1, 0)))
@@ -62,21 +64,38 @@ window.addEventListener('load', function loadPage() {
     TaskBarIconScBox.add(textureGeist)
     TaskBarIconTrBox.add(TaskBarIconScBox)
     TaskBarTr.add(TaskBarIconTrBox)
-    //Header
+    //Header Transformations
     const headerBarTr = new GroupNode(new Translation(new Vector(0.5, 1.9, 0, 0)));
     const headerBarTr2 = new GroupNode(new Translation(new Vector(-0.58, 1.9, 0, 0)));
 
     const headerBarSc = new GroupNode(new Scaling(new Vector(1, 0.1, 0.1, 0)))
     const headerBarSc2 = new GroupNode(new Scaling(new Vector(1, 0.1, 0.1, 0)))
-
+    //HeaderBoxen
     const headerBarBox = new AABoxNode(new Vector(0, 0, 0, 0));
     headerBarSc.add(headerBarBox)
     headerBarTr.add(headerBarSc)
     TaskBarTr.add(headerBarTr)
 
     headerBarSc2.add(headerBarBox)
+    // headerBarSc2.add(textureGeistText)
     headerBarTr2.add(headerBarSc2)
     TaskBarTr.add(headerBarTr2)
+    //HeaderBoxen für Namebeschriftung
+    const headerBarTextTr = new GroupNode(new Translation(new Vector(0.55, 1.9, 0, 0)));
+    const headerBarTextTr2 = new GroupNode(new Translation(new Vector(-0.5, 1.9, 0, 0)));
+
+    const headerBarTextSc = new GroupNode(new Scaling(new Vector(0.25, 0.09, 0.1, 0)))
+    const headerBarTextSc2 = new GroupNode(new Scaling(new Vector(0.25, 0.09, 0.1, 0)))
+    headerBarTextSc.add(headerBarBox)
+    headerBarTextSc.add(textureKugelText)
+    headerBarTextTr.add(headerBarTextSc)
+    TaskBarTr.add(headerBarTextTr)
+
+    headerBarTextSc2.add(headerBarBox)
+    headerBarTextSc2.add(textureGeistText)
+    headerBarTextTr2.add(headerBarTextSc2)
+    TaskBarTr.add(headerBarTextTr2)
+
     //HeaderBox1 Icon Transformations
     const headerBarIconBoxSc = new GroupNode(new Scaling(new Vector(0.05, 0.05, 0.05, 0.05)));
     const headerBarIconBoxTr = new GroupNode(new Translation(new Vector(-0.3, 0, 0, 0)));
@@ -135,7 +154,7 @@ window.addEventListener('load', function loadPage() {
     const btn1 = document.getElementById('btnradio1') as HTMLInputElement;
     const btn2 = document.getElementById('btnradio2') as HTMLInputElement;
 
-    let renderer = sessionStorage.getItem("renderer")
+    let renderer = localStorage.getItem("renderer")
     console.log(renderer)
     if (renderer=="rasterizer"){
         btn1.checked = true
@@ -244,16 +263,18 @@ window.addEventListener('load', function loadPage() {
         // canvas.hidden
         console.log("RayTracer")
         const ctx = canvas2.getContext("2d");
+        ctx.font = "48px serif";
+        ctx.fillText('RayTracer Seite', 0, 0);
 
         const gnRotation = new Rotation(new Vector(1, 0, 0, 0), 0)
         const gn = new GroupNode(gnRotation);
         sg.add(gn);
 
-        const gn1 = new GroupNode(new Translation(new Vector(0.5, .5, 0, 0)));
+        const gn1 = new GroupNode(new Translation(new Vector(0, .5, 3, 0)));
         gn.add(gn1);
         gn1.add(new SphereNode(new Vector(.4, 0, 0, 1)));
 
-        const gn2 = new GroupNode(new Translation(new Vector(-0.5, 1, 1, 0)));
+        const gn2 = new GroupNode(new Translation(new Vector(-0.5, 0.2, 3.5, 0)));
         gn.add(gn2);
 
         const gn3 = new GroupNode(new Scaling(new Vector(0.4, 0.4, 0.4, 0)));
@@ -318,11 +339,11 @@ window.addEventListener('load', function loadPage() {
     window.addEventListener('click', function (){
         if (btn1.checked) {
             console.log("render")
-            sessionStorage.setItem("renderer", "rasterizer")
+            localStorage.setItem("renderer", "rasterizer")
             // rasterVisitor()
         } else if (btn2.checked) {
             console.log("ray")
-            sessionStorage.setItem("renderer", "rayTracer")
+            localStorage.setItem("renderer", "rayTracer")
             // rayVisitor()
         }
         location.reload()
