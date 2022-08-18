@@ -67,10 +67,6 @@ export default class RasterSphere {
                 vertices.push(y);
                 vertices.push(z);
 
-                /*color.data.push(color.x)
-                color.data.push(color.y)
-                color.data.push(color.z)
-                color.data.push(color.w)*/
                 colors.push(color.x);
                 colors.push(color.y);
                 colors.push(color.z);
