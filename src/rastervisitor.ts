@@ -7,9 +7,10 @@ import Visitor from './visitor';
 import {
   Node, GroupNode,
   SphereNode, AABoxNode,
-  TextureBoxNode
+  TextureBoxNode, PyramidNode
 } from './nodes';
 import Shader from './shader';
+import RasterPyramid from "./raster-pyramid";
 
 interface Camera {
   eye: Vector,
@@ -207,6 +208,45 @@ export class RasterVisitor implements Visitor {
     }
     this.renderables.get(node).render(shader);
   }
+
+  /**
+   * Visits a pyramid node
+   * @param node The node to visit
+   */
+  visitPyramidNode(node: PyramidNode) {
+    const shader = this.shader;
+    shader.use();
+    let toWorld = Matrix.identity();
+    let fromWorld = Matrix.identity();
+
+    // TODO Calculate the model matrix for the sphere
+    toWorld = this.model[this.model.length-1];
+    fromWorld = this.inverse[this.inverse.length-1]
+
+    shader.getUniformMatrix("M").set(toWorld);
+
+    const V = shader.getUniformMatrix("V");
+    if (V && this.lookat) {
+      V.set(this.lookat);
+    }
+    const P = shader.getUniformMatrix("P");
+    if (P && this.perspective) {
+      P.set(this.perspective);
+    }
+
+    // TODO set the normal matrix
+    const N = shader.getUniformMatrix("N")
+    let normalMatrix = fromWorld.transpose()
+
+    if(N){
+      normalMatrix.setVal(3,0,0);
+      normalMatrix.setVal(3,1,0);
+      normalMatrix.setVal(3,2,0);
+      N.set(normalMatrix)
+    }
+
+    this.renderables.get(node).render(shader);
+  }
 }
 
 /** 
@@ -296,6 +336,16 @@ export class RasterSetupVisitor {
         new Vector(0.5, 0.5, 0.5, 1),
         node.texture
       )
+    );
+  }
+  /**
+   * Visits a pyramid node
+   * @param node - The node to visit
+   */
+  visitPyramidNode(node: PyramidNode) {
+    this.objects.set(
+        node,
+        new RasterPyramid(this.gl, new Vector(0.1, 0.1, -0.1, 1), new Vector(0.8, 0.1, -0.1, 1), new Vector(0.5, 0.1, -0.5, 1), new Vector(0.5, 0.8, -0.2, 1))
     );
   }
 }

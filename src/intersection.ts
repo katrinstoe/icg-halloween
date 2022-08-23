@@ -1,4 +1,5 @@
 import Vector from './vector';
+import {Node} from "./nodes";
 
 /**
  * Class representing a ray-sphere intersection in 3D space
@@ -10,7 +11,7 @@ export default class Intersection {
    * @param _point The intersection point
    * @param _normal The normal in the intersection
    */
-  constructor(public _t: number, public _point: Vector, public _normal: Vector) {
+  constructor(public _t: number, public _point: Vector, public _normal: Vector, public node: Node) {
     if (_t) {
       this._t = _t;
     } else {
