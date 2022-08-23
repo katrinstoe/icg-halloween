@@ -12,6 +12,8 @@ import {
 } from './rastervisitor';
 import Shader from './shader';
 import phongVertexShader from './phong-vertex-shader.glsl';
+import phongVertexShaderPerspective from './phong-vertex-perspective-shader.glsl';
+
 import phongFragmentShader from './phong-fragment-shader.glsl';
 import perspectiveVertexShader from './perspective-vertex-shader.glsl';
 import fragmentShader from './basic-fragment-shader.glsl'
@@ -213,7 +215,7 @@ window.addEventListener('load', function loadPage() {
         };
 
         const phongShader = new Shader(gl,
-            perspectiveVertexShader,
+            phongVertexShaderPerspective,
             fragmentShader
         );
         const textureShader = new Shader(gl,
