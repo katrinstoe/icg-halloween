@@ -16,33 +16,29 @@ export default class Pyramid {
    */
   indices: Array<number>;
   /**
-   * Creates a new Pyramid with center and radius
-   * @param top The top corner of the Sphere
-   * @param minPoint The left corner of the Sphere
-   * @param maxPoint The right corner of the Pyramid
-   * @param color The colour of the Sphere
+   * Creates a new Pyramid
+   * @param top The top corner
+   * @param backPoint The back corner
+   * @param rightPoint The right corner
+   * @param leftPoint the left corner
+   * @param color The colour of the Pyramid
    */
-  constructor(public top: Vector, public minPoint: Vector, public maxPoint: Vector, public color: Vector) {
+  constructor(public top: Vector, public backPoint: Vector, public rightPoint: Vector, public leftPoint: Vector, public color: Vector) {
     /*
         2         2 = top
-       / \        3 = minPoint
-      /3--\---4   1 = maxPoint
-     /     \ /
+       / \        3 = backPoint
+      /  3\       1 = rightPoint
+     /     \      0 = leftPoint
     0-------1
      */
     this.vertices = [
-      new Vector(minPoint.x, minPoint.y, maxPoint.z, 1), //0
-      new Vector(maxPoint.x, maxPoint.y, maxPoint.z, 1), //1
-      new Vector(top.x, top.y, top.z, 1), //2
-      new Vector(minPoint.x, minPoint.y, minPoint.z, 1), //3
-      new Vector(maxPoint.x, minPoint.y, minPoint.z, 1), //4
+      leftPoint, rightPoint, top, backPoint
     ];
     this.indices = [
       0, 1, 2, //front
-      1, 4, 2, //right
-      3, 4, 2, //back
+      1, 3, 2, //right
       3, 0, 2, //left
-      0, 4, 5, 1 //bottom
+      0, 1, 3 //bottom
     ];
     this.color = color;
 

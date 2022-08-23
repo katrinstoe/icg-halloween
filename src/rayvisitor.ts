@@ -14,7 +14,7 @@ import Pyramid from "./pyramid";
 
 const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1));
 const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.5, 0.5, 1), new Vector(0, 0, 0, 1));
-const UNIT_PYRAMID = new Pyramid(new Vector(0.5, 0.5, 0.5, 1), new Vector(0.1, 0.1, 0.1, 1), new Vector(0.8, 0.1, 0.8, 1), new Vector(0, 0, 0, 1))
+const UNIT_PYRAMID = new Pyramid(new Vector(0.5, 0.5, 0.5, 1), new Vector(0.1, 0.1, 0.1, 1), new Vector(0.8, 0.1, 0.8, 1),new Vector(0.5, 0.1, 0.1, 1), new Vector(0, 0, 0, 1))
 
 /**
  * Class representing a Visitor that uses
