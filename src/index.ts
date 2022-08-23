@@ -13,18 +13,20 @@ import {
 import Shader from './shader';
 import phongVertexShader from './phong-vertex-shader.glsl';
 import phongFragmentShader from './phong-fragment-shader.glsl';
+import phongVertexShaderPerspective from './phong-vertex-perspective-shader.glsl';
+
 import perspectiveVertexShader from './perspective-vertex-shader.glsl';
 import fragmentShader from './basic-fragment-shader.glsl'
 import {Rotation, Scaling, Translation} from './transformation';
 import textureVertexShader from "./texture-vertex-shader.glsl";
 import textureFragmentShader from "./texture-fragment-shader.glsl";
-import {MoverNode, RotationNode, ScalerNode} from "./animation-nodes";
 import Ray from "./ray";
 import Intersection from "./intersection";
 import Sphere from "./sphere";
 import AABox from "./aabox";
 import RayVisitor from "./rayvisitor";
 import phong from "./phong";
+import {RotationNode} from "./animation-nodes";
 
 const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1));
 const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.5, 0.5, 1), new Vector(0, 0, 0, 1));
@@ -213,7 +215,7 @@ window.addEventListener('load', function loadPage() {
         };
 
         const phongShader = new Shader(gl,
-            perspectiveVertexShader,
+            phongVertexShaderPerspective,
             fragmentShader
         );
         const textureShader = new Shader(gl,
