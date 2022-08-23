@@ -23,16 +23,16 @@ export default class Ray {
   ): Ray {
     // TODO
     let origin = new Vector(0, 0, 0, 1)
-    let x_d = x-((camera.width-1)/2);
+    let x_d = x-((camera.widthx-1)/2);
     let y_d = ((camera.height-1)/2) - y;
-    let z_d = (-((camera.width/2)/Math.tan(camera.alpha/2)));
+    let z_d = (-((camera.widthx/2)/Math.tan(camera.alpha/2)));
     let d = new Vector(x_d, y_d, z_d, 0).normalize();
     return new Ray(origin, d);
   }
 
   static makeMouseRay(x: number, y: number, camera: { widthx: number, height: number, alpha: number }
   ): Ray {
-    let origin = new Vector(x-((camera.width-1)/2), ((camera.height-1)/2) - y, 0, 1)
+    let origin = new Vector(x-((camera.widthx-1)/2), ((camera.height-1)/2) - y, 0, 1)
     let d = new Vector(0, 0, -1, 0).normalize();
     return new Ray(origin, d);
   }
