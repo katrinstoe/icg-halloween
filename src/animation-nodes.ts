@@ -117,6 +117,7 @@ export class ScalerNode extends AnimationNode {
    * The vector to scale along
    */
   vector: Vector;
+  zoom: String;
 
   /**
    * Creates a new ScalerNode
@@ -126,6 +127,8 @@ export class ScalerNode extends AnimationNode {
   constructor(groupNode: GroupNode, vector: Vector) {
     super(groupNode);
     this.vector = vector
+    this.active = false;
+    this.zoom = "in";
   }
 
   /**
@@ -135,9 +138,16 @@ export class ScalerNode extends AnimationNode {
   simulate(deltaT: number) {
 
     if(this.active){
-      this.vector.x += 0.001 * deltaT
-      this.vector.y += 0.001 * deltaT
-      this.vector.z += 0.001 * deltaT
+      if(this.zoom == "in"){
+        this.vector.x += 0.001 * deltaT
+        this.vector.y += 0.001 * deltaT
+        this.vector.z += 0.001 * deltaT
+      }
+      if(this.zoom == "out"){
+        this.vector.x -= 0.001 * deltaT
+        this.vector.y -= 0.001 * deltaT
+        this.vector.z -= 0.001 * deltaT
+      }
       this.groupNode.transform = new Scaling(this.vector);
     }
   }
@@ -147,11 +157,12 @@ export class ScalerNode extends AnimationNode {
  * Class representing a Mover Animation
  * @extends AnimationNode
  */
-export class MoverNode extends AnimationNode {
+export class DriverNode extends AnimationNode {
   /**
    * The vector to move along
    */
   vector: Vector;
+  direction: String;
 
   /**
    * Creates a new MoverNode
@@ -161,6 +172,8 @@ export class MoverNode extends AnimationNode {
   constructor(groupNode: GroupNode, vector: Vector) {
     super(groupNode);
     this.vector = vector;
+    this.active = false;
+    this.direction = "up"
   }
 
   /**
@@ -170,39 +183,19 @@ export class MoverNode extends AnimationNode {
   simulate(deltaT: number) {
 
     if(this.active){
-      this.vector.x += 0.001 * deltaT;
-      this.vector.y += 0.001 * deltaT;
-      this.vector.z += 0.001 * deltaT;
+      if(this.direction == "up"){
+        this.vector.y += 0.001 * deltaT;
+      }
+      if(this.direction == "down"){
+        this.vector.y -= 0.001 * deltaT;
+      }
+      if(this.direction == "left"){
+        this.vector.x += 0.001 * deltaT;
+      }
+      if(this.direction == "right"){
+        this.vector.x -= 0.001 * deltaT;
+      }
       this.groupNode.transform = new Translation(this.vector);
     }
   }
 }
-
-/**
- * Class representing a Driver Animation
- * @extends AnimationNode
- */
-export class DriverNode extends AnimationNode {
-  /**
-   * The vector to rotate around
-   */
-  input: Vector;
-
-  /**
-   * Creates a new DriverNode
-   * @param groupNode The group node to attach to
-   */
-  constructor(groupNode: GroupNode) {
-    super(groupNode);
-  }
-
-  /**
-   * Advances the animation by deltaT
-   * @param deltaT The time difference, the animation is advanced by
-   */
-  simulate(deltaT: number) {
-
-    if (this.active) {
-      //this.groupNode.transform = new Translation(direction);
-    }
-  }}

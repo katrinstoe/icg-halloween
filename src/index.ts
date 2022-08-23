@@ -20,7 +20,7 @@ import fragmentShader from './basic-fragment-shader.glsl'
 import {Rotation, Scaling, Translation} from './transformation';
 import textureVertexShader from "./texture-vertex-shader.glsl";
 import textureFragmentShader from "./texture-fragment-shader.glsl";
-import {MoverNode, RotationNode, ScalerNode} from "./animation-nodes";
+import {DriverNode, RotationNode, ScalerNode} from "./animation-nodes";
 import Ray from "./ray";
 import Intersection from "./intersection";
 import Sphere from "./sphere";
@@ -162,10 +162,36 @@ window.addEventListener('load', function loadPage() {
 
     gn3.add(new SphereNode(new Vector(0, 0, .3, 1)));
 
+    //kleiner driver geist
+    const driverGhost = new TextureBoxNode("geist.png")
+    const driverGhostSc = new GroupNode(new Scaling(new Vector(0.1, 0.1, 0.1, 1)))
+    driverGhostSc.add(driverGhost);
+    const driverGhostTr = new GroupNode(new Translation(new Vector(-0.75, -0.85, 0, 0)))
+    driverGhostTr.add(driverGhostSc)
+    sg.add(driverGhostTr)
+
+    const ghostCastle = new TextureBoxNode("ghost_castle.jpg")
+    const ghostCastleSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.2, 1)))
+    const ghostCastleTr = new GroupNode(new Translation(new Vector(-0.9, -0.8, -0.1, 0)))
+    ghostCastleSc.add(ghostCastle)
+    ghostCastleTr.add(ghostCastleSc)
+    sg.add(ghostCastleTr)
+
+
     let animationNodes = [
         // new RotationNode(cubeRt, new Vector(0, 0, 1, 0)),
         new RotationNode(gn3, new Vector(0, 0, 1, 0)),
     ]
+
+    let driverNodes = [
+        //new RotationNode(cubeSc, new Vector(0,0,1,0)),
+        new DriverNode(driverGhostTr, new Vector(-0.75,-0.85,0,0))
+    ]
+
+    let scalerNodes = [
+        new ScalerNode(driverGhostSc, new Vector(0.1, 0.1, 0.1, 1))
+    ]
+
 
 //Rasterizer und RayTracer Wechseln
     const canvas = document.getElementById("rasteriser") as HTMLCanvasElement;
@@ -225,10 +251,17 @@ window.addEventListener('load', function loadPage() {
         const visitor = new RasterVisitor(gl, phongShader, textureShader, setupVisitor.objects);
 
         function simulate(deltaT: number) {
-            for (let animationNode of animationNodes) {
+            for (let animationNode of driverNodes) {
+                animationNode.simulate(deltaT);
+            }
+            for (let scalerNode of scalerNodes){
+                scalerNode.simulate(deltaT);
+            }
+            for (let animationNode of animationNodes){
                 animationNode.simulate(deltaT);
             }
         }
+
 
         let lastTimestamp = performance.now();
 
@@ -248,11 +281,60 @@ window.addEventListener('load', function loadPage() {
 
         window.addEventListener('keydown', function (event) {
             switch (event.key) {
+                case "ArrowLeft":
+                    driverNodes[0].direction = "left"
+                    driverNodes[0].active = true;
+                    break;
+                case "ArrowRight":
+                    driverNodes[0].direction ="right"
+                    driverNodes[0].active = true;
+                    break;
                 case "ArrowUp":
-                    animationNodes[0].toggleActive();
+                    driverNodes[0].direction = "up"
+                    driverNodes[0].active = true;
+                    break;
+                case "ArrowDown":
+                    driverNodes[0].direction = "down"
+                    driverNodes[0].active = true;
+                    break;
+                case "+":
+                    scalerNodes[0].zoom = "in"
+                    scalerNodes[0].active = true;
+                    break;
+                case "-":
+                    scalerNodes[0].zoom = "out"
+                    scalerNodes[0].active = true;
+                    break;
+                case "1":
+                    for(let animationNode of animationNodes){
+                        animationNode.toggleActive();
+                    }
                     break;
             }
         });
+        window.addEventListener('keyup', function (event) {
+            switch (event.key) {
+                case "ArrowLeft":
+                    driverNodes[0].active = false;
+                    break;
+                case "ArrowRight":
+                    driverNodes[0].active = false;
+                    break;
+                case "ArrowUp":
+                    driverNodes[0].active = false;
+                    break;
+                case "ArrowDown":
+                    driverNodes[0].active = false;
+                    break;
+                case "+":
+                    scalerNodes[0].active = false;
+                    break;
+                case "-":
+                    scalerNodes[0].active = false;
+                    break;
+            }
+        });
+
 
         function getMousePos(canvas: HTMLCanvasElement, evt: MouseEvent) {
             let rect = canvas.getBoundingClientRect();
