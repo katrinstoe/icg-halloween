@@ -138,7 +138,7 @@ window.addEventListener('load', function loadPage() {
     const sphereSc = new GroupNode(new Scaling(new Vector(0.4, 0.4, 0.4, 1)));
     const sphereTr = new GroupNode(new Translation(new Vector(0.5, 0, 0, 0)));
     sphereSc.add(sphere);
-    sphereSc.add(textureHCILogo)
+    // sphereSc.add(textureHCILogo)
     sphereTr.add(sphereSc);
     sg.add(sphereTr);
 
@@ -184,14 +184,14 @@ window.addEventListener('load', function loadPage() {
         const setupVisitor = new RasterSetupVisitor(gl);
         setupVisitor.setup(sg);
 
-        const camera = {
-            eye: new Vector(0, 0, -1, 1),
-            center: new Vector(0, 0, 0, 1),
-            up: new Vector(0, 1, 0, 0),
+        let camera = {
+            eye: new Vector(0, 0, 0, 1), // camera-position
+            center: new Vector(0, 0, -1, 1), //position camera is facing
+            up: new Vector(0, 1, 0, 0), // up vector of camera
             fovy: 60,
             aspect: canvas.width / canvas.height,
             near: 0.1,
-            far: 100
+            far: 100,
         };
 
         const phongShader = new Shader(gl,
@@ -266,21 +266,21 @@ window.addEventListener('load', function loadPage() {
         ctx.font = "48px serif";
         ctx.fillText('RayTracer Seite', 0, 0);
 
-        const gnRotation = new Rotation(new Vector(1, 0, 0, 0), 0)
-        const gn = new GroupNode(gnRotation);
-        sg.add(gn);
-
-        const gn1 = new GroupNode(new Translation(new Vector(0, .5, 3, 0)));
-        gn.add(gn1);
-        gn1.add(new SphereNode(new Vector(.4, 0, 0, 1)));
-
-        const gn2 = new GroupNode(new Translation(new Vector(-0.5, 0.2, 3.5, 0)));
-        gn.add(gn2);
-
-        const gn3 = new GroupNode(new Scaling(new Vector(0.4, 0.4, 0.4, 0)));
-        gn2.add(gn3);
-
-        gn3.add(new SphereNode(new Vector(0, 0, .3, 1)));
+        // const gnRotation = new Rotation(new Vector(1, 0, 0, 0), 0)
+        // const gn = new GroupNode(gnRotation);
+        // sg.add(gn);
+        //
+        // const gn1 = new GroupNode(new Translation(new Vector(0, .5, 3, 0)));
+        // gn.add(gn1);
+        // gn1.add(new SphereNode(new Vector(.4, 0, 0, 1)));
+        //
+        // const gn2 = new GroupNode(new Translation(new Vector(-0.5, 0.2, 3.5, 0)));
+        // gn.add(gn2);
+        //
+        // const gn3 = new GroupNode(new Scaling(new Vector(0.4, 0.4, 0.4, 0)));
+        // gn2.add(gn3);
+        //
+        // gn3.add(new SphereNode(new Vector(0, 0, .3, 1)));
 
         const lightPositions = [
             new Vector(1, 1, 1, 1)
@@ -289,8 +289,8 @@ window.addEventListener('load', function loadPage() {
             origin: new Vector(0, 0, 0, 1),
             width: canvas.width,
             height: canvas.height,
-            alpha: Math.PI / 3
-        }
+            alpha: Math.PI / 3,
+        };
 
         const visitor = new RayVisitor(ctx, canvas.width, canvas.height);
 
