@@ -11,7 +11,7 @@ export default class Intersection {
    * @param _point The intersection point
    * @param _normal The normal in the intersection
    */
-  constructor(public _t: number, public _point: Vector, public _normal: Vector, public node: Node) {
+  constructor(public _t: number, public _point: Vector, public _normal: Vector) {
     if (_t) {
       this._t = _t;
     } else {
