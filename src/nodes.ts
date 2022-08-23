@@ -133,6 +133,32 @@ export class TextureBoxNode extends Node {
   }
 }
 
+/**
+ * Class representing a Pyramid in the Scenegraph
+ * @extends Node
+ */
+export class PyramidNode extends Node {
+
+  /**
+   * Creates a new Pyramid.
+   * @param color The colour of the Sphere
+   */
+  constructor(
+      public color: Vector
+  ) {
+    super();
+  }
+
+  /**
+   * Accepts a visitor according to the visitor pattern
+   * @param visitor The visitor
+   */
+  accept(visitor: Visitor) {
+    // TODO
+    visitor.visitPyramidNode(this);
+  }
+}
+
 // export class CameraNode extends Node {
 //   /**
 //    * Creates an axis aligned box textured box
