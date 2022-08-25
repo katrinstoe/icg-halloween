@@ -27,6 +27,7 @@ import AABox from "./aabox";
 import RayVisitor from "./rayvisitor";
 import phong from "./phong";
 import {RotationNode} from "./animation-nodes";
+import mouseClickVisitor from "./mouse-click-visitor";
 
 const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1));
 const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.5, 0.5, 1), new Vector(0, 0, 0, 1));
@@ -198,11 +199,22 @@ window.addEventListener('load', function loadPage() {
         canvas2.style.display = "none"
         canvas.style.display = "block"
         const gl = canvas.getContext("webgl2");
+        const ctx = canvas2.getContext("2d");
 
 
         // setup for rendering
         const setupVisitor = new RasterSetupVisitor(gl);
         setupVisitor.setup(sg);
+
+        const lightPositions = [
+            new Vector(1, 1, 1, 1)
+        ];
+        const rayCamera = {
+            origin: new Vector(0, 0, 0, 1),
+            width: canvas.width,
+            height: canvas.height,
+            alpha: Math.PI / 3,
+        };
 
         let camera = {
             eye: new Vector(0, 0, 0, 1), // camera-position
@@ -262,18 +274,17 @@ window.addEventListener('load', function loadPage() {
             };
         }
 
-        canvas.addEventListener('mousemove', function (evt) {
+        window.addEventListener('click', function (evt) {
             let mousePos = getMousePos(canvas, evt);
-            let rayFromMouse = new Ray(new Vector(mousePos.x / canvas.width, mousePos.y / canvas.height, 0, 0), new Vector(0, 0, -1, 1));
-            let closestIntersection = Infinity;
-            if (UNIT_SPHERE.intersect(rayFromMouse)) {
-                console.log("Intersection Detected")
-            }
+            let mouseVisitor = new mouseClickVisitor(ctx, canvas.width, canvas.height, mousePos);
+            mouseVisitor.render(sg, rayCamera, lightPositions);
         }, false);
 
         function mouseClickedOn(event: { clientX: number; }) {
             let mx = event.clientX - canvas.getBoundingClientRect().left;
         }
+
+
 
     }
 
@@ -335,12 +346,12 @@ window.addEventListener('load', function loadPage() {
         animate(0);
 
         document.getElementById("startAnimationBtn").addEventListener(
-            "click", startAnimation);
+            "dblclick", startAnimation);
         document.getElementById("stopAnimationBtn").addEventListener(
-            "click", () => cancelAnimationFrame(animationHandle));
+            "dblclick", () => cancelAnimationFrame(animationHandle));
     }
 
-    window.addEventListener('click', function (){
+    window.addEventListener('dblclick', function (){
         if (btn1.checked) {
             console.log("render")
             localStorage.setItem("renderer", "rasterizer")
