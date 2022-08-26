@@ -58,7 +58,7 @@ window.addEventListener('load', function loadPage() {
 
     //Icons auf Taskbar
     // //Icon Rosa Kreis
-    const TaskBarIconSc = new GroupNode(new Scaling(new Vector(0.07, 0.07, 0.07, 0.07)));
+    const TaskBarIconSc = new GroupNode(new Scaling(new Vector(0.07, 0.07, 0,0)));
     const TaskBarIconTr = new GroupNode(new Translation(new Vector(-2.2, 0.01, 0, 0)));
 
     const TaskBarIconSphere = new SphereNode(new Vector(1, 0.7, 0.7, 1));
@@ -89,7 +89,7 @@ window.addEventListener('load', function loadPage() {
     const headerBarIconBoxTr = new GroupNode(new Translation(new Vector(1.15, -0.01, 0, 0)));
     const headerBarIconBoxTr2 = new GroupNode(new Translation(new Vector(0.95, -0.01, 0, 0)));
     const headerBarIconBoxSc2 = new GroupNode(new Scaling(new Vector(0.15, 0.15, 0, 0)));
-       //Header Icons (Vierecke, später Textur drauf)
+    //Header Icons (Vierecke, später Textur drauf)
     //erste Box
     const headerBarIconBox = new AABoxNode(new Vector(0, 0, 0, 0));
     headerBarIconBoxSc.add(headerBarIconBox);
