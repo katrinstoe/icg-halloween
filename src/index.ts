@@ -161,11 +161,15 @@ window.addEventListener('load', function loadPage() {
     const gn3 = new GroupNode(new Scaling(new Vector(0.4, 0.4, 0.4, 0)));
     gn2.add(gn3);
 
-    gn3.add(new SphereNode(new Vector(0, 0, .3, 1)));
+    const gn4 = new GroupNode(new Translation(new Vector(0,0,0,0)));
+    gn3.add(gn4)
+
+    gn4.add(new SphereNode(new Vector(0, 0, .3, 1)));
+
 
     let animationNodes = [
         // new RotationNode(cubeRt, new Vector(0, 0, 1, 0)),
-        new RotationNode(gn3, new Vector(0, 0, 1, 0)),
+        new RotationNode(gn4, new Vector(0, 0, 1, 0)),
     ]
 
 //Rasterizer und RayTracer Wechseln
@@ -278,6 +282,9 @@ window.addEventListener('load', function loadPage() {
             let mousePos = getMousePos(canvas, evt);
             let mouseVisitor = new mouseClickVisitor(ctx, canvas.width, canvas.height, mousePos);
             mouseVisitor.render(sg, rayCamera, lightPositions);
+            setupVisitor.setup(sg);
+            visitor.render(sg, camera, []);
+
         }, false);
 
         function mouseClickedOn(event: { clientX: number; }) {
@@ -363,7 +370,6 @@ window.addEventListener('load', function loadPage() {
         }
         location.reload()
     });
-
 });
 
 

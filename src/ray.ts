@@ -30,10 +30,11 @@ export default class Ray {
     return new Ray(origin, d);
   }
 
-  static makeMouseRay(x: number, y: number, camera: { width: number, height: number, alpha: number }
+  //orthographische Projektion
+  /*static makeMouseRay(x: number, y: number, camera: { width: number, height: number, alpha: number }
   ): Ray {
     let origin = new Vector(x-((camera.width-1)/2), ((camera.height-1)/2) - y, 0, 1)
     let d = new Vector(0, 0, -1, 0).normalize();
     return new Ray(origin, d);
-  }
+  }*/
 }

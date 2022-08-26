@@ -65,8 +65,7 @@ export default class mouseClickVisitor implements Visitor {
         // raytrace
         const width = this.imageData.width;
         const height = this.imageData.height;
-        this.ray = Ray.makeMouseRay(this.mousePos.x, this.mousePos.y, camera);
-        console.log(this.ray)
+        this.ray = Ray.makeRay(this.mousePos.x, this.mousePos.y, camera);
         // TODO initialize the matrix stack
         this.model = new Array<Matrix>(Matrix.identity())
         this.inverse = new Array<Matrix>(Matrix.identity())
@@ -123,6 +122,7 @@ export default class mouseClickVisitor implements Visitor {
                 this.intersectionColor = node.color;
                 // this.intersection.node = node;
             }
+            node.color = new Vector(Math.floor((Math.random() * 10) + 1)/10,Math.floor((Math.random() * 10) + 1)/10,Math.floor((Math.random() * 10) + 1)/10,1)
         }
     }
     /**
