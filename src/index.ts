@@ -145,12 +145,14 @@ window.addEventListener('load', function loadPage() {
     const cubeRt = new GroupNode(new Rotation(new Vector(0, 1, 0, 0), 1));
 
     cubeSc.add(cube);
+    //TODO: Texture anzeigen geht nicht?
     cubeSc.add(textureGeist)
     cubeRt.add(cubeSc);
     cubeTr.add(cubeRt);
     sg.add(cubeTr);
 
     //Zeichenflaeche2
+    //TODO: rausfinden wieso in raytracer sobald die sphere drin is der hintergrund schwarz wird
     const sphere = new SphereNode(new Vector(1, 0.7, 0.7, 1))
     const sphereSc = new GroupNode(new Scaling(new Vector(1.2, 1.2, 1.2, 1.2)));
     const sphereTr = new GroupNode(new Translation(new Vector(-1, 0.7, 0, 0)));
