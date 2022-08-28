@@ -143,12 +143,17 @@ window.addEventListener('load', function loadPage() {
     const cubeSc = new GroupNode(new Scaling(new Vector(2.2, 2.2, 0, 0)));
     const cubeTr = new GroupNode(new Translation(new Vector(2.1, 0.8, 0, 0)));
     const cubeRt = new GroupNode(new Rotation(new Vector(0, 1, 0, 0), 1));
+    const gn3 = new GroupNode(new Translation(new Vector(0, 0, 0, 0)));
+    const cubeTexture = new TextureBoxNode('hci-logo.png');
+
 
     cubeSc.add(cube);
     //TODO: Texture anzeigen geht nicht?
-    cubeSc.add(textureGeist)
+    // cubeSc.add(textureGeist)
     cubeRt.add(cubeSc);
     cubeTr.add(cubeRt);
+    cubeTr.add(gn3)
+    gn3.add(cubeTexture);
     sg.add(cubeTr);
 
     //Zeichenflaeche2
@@ -286,7 +291,7 @@ window.addEventListener('load', function loadPage() {
             };
         }
 
-        window.addEventListener('click', function (evt) {
+        window.addEventListener('dblclick', function (evt) {
             let mousePos = getMousePos(canvas, evt);
             let mouseVisitor = new mouseClickVisitor(ctx, canvas.width, canvas.height, mousePos);
             mouseVisitor.render(sg, rayCamera, lightPositions);
@@ -366,7 +371,7 @@ window.addEventListener('load', function loadPage() {
             "dblclick", () => cancelAnimationFrame(animationHandle));
     }
 
-    window.addEventListener('dblclick', function (){
+    window.addEventListener('click', function (){
         if (btn1.checked) {
             console.log("render")
             localStorage.setItem("renderer", "rasterizer")

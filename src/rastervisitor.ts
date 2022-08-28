@@ -137,7 +137,7 @@ export class RasterVisitor implements Visitor {
 
     // TODO Calculate the model matrix for the sphere
     toWorld = this.model[this.model.length-1];
-    fromWorld = this.inverse[this.inverse.length-1]
+    fromWorld = this.inverse[this.inverse.length-1];
     //macht dass toWorld auf die graphikkarte kommt
     //kamera wird in szenengraph gepackt is aber nicht an shader attached
     //verändert nur die Objekte daher extra matrix hier überall dranhängen die sicht auf matrizen verändert
