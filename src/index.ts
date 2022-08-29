@@ -52,7 +52,7 @@ window.addEventListener('load', function loadPage() {
 
     //Taskbar
     const TaskBTr = new GroupNode(new Translation(new Vector(0, -2.3, 0, 0)));
-    const TaskBSc = new GroupNode(new Scaling(new Vector(7, 0.2, 0.05, 0)))
+    const TaskBSc = new GroupNode(new Scaling(new Vector(7, 0.2, 0.0001, 0)))
     const TaskBBox = new AABoxNode(new Vector(0, 0, 0, 0));
     TaskBSc.add(TaskBBox)
     TaskBTr.add(TaskBSc);
@@ -69,8 +69,8 @@ window.addEventListener('load', function loadPage() {
     TaskBTr.add(TaskBIconTr);
 
     // //Icon Viereck
-    const TaskBIconBoxTr = new GroupNode(new Translation(new Vector(-2.0, 0.06, 0.1, 0)));
-    const TaskBIconBoxSc = new GroupNode(new Scaling(new Vector(0.15, 0.1, 0.1, 0)));
+    const TaskBIconBoxTr = new GroupNode(new Translation(new Vector(-1.95, 0.06, 0.1, 0)));
+    const TaskBIconBoxSc = new GroupNode(new Scaling(new Vector(0.15, 0.15, 0.000001, 0)));
 
     const TaskBIconBox = new AABoxNode(new Vector(0, 0, 0, 0));
     TaskBIconBoxSc.add(TaskBIconBox);
@@ -80,17 +80,17 @@ window.addEventListener('load', function loadPage() {
     //HeaderBoxen
     // Erster Header
     const headerBTr = new GroupNode(new Translation(new Vector(-1.1, 5.6, 0, 0)));
-    const headerBSc = new GroupNode(new Scaling(new Vector(2.6, 0.2, 0.1, 0)))
+    const headerBSc = new GroupNode(new Scaling(new Vector(2.6, 0.2, 0.0001, 0)))
 
     const headerBBox = new AABoxNode(new Vector(0, 0, 0, 0));
     headerBSc.add(headerBBox)
     headerBTr.add(headerBSc)
     TaskBTr.add(headerBTr)
     //Icons für ersten Header
-    const headerBIconBoxSc = new GroupNode(new Scaling(new Vector(0.15, 0.15, 0.1, 0)));
+    const headerBIconBoxSc = new GroupNode(new Scaling(new Vector(0.15, 0.15, 0.0001, 0)));
     const headerBIconBoxTr = new GroupNode(new Translation(new Vector(1.15, -0.01, 0, 0)));
     const headerBIconBoxTr2 = new GroupNode(new Translation(new Vector(0.95, -0.01, 0, 0)));
-    const headerBIconBoxSc2 = new GroupNode(new Scaling(new Vector(0.15, 0.15, 0.1, 0)));
+    const headerBIconBoxSc2 = new GroupNode(new Scaling(new Vector(0.15, 0.15, 0.0001, 0)));
     //Header Icons (Vierecke, später Textur drauf)
     //erste Box
     const headerBIconBox = new AABoxNode(new Vector(0, 0, 0, 0));
@@ -106,7 +106,7 @@ window.addEventListener('load', function loadPage() {
     headerBTr.add(headerBIconBoxTr2)
     //Zweiter Header
     const headerBTr2 = new GroupNode(new Translation(new Vector(2.1, 5.6, 0, 0)));
-    const headerBSc2 = new GroupNode(new Scaling(new Vector(2.6, 0.2, 0.1, 0)))
+    const headerBSc2 = new GroupNode(new Scaling(new Vector(2.6, 0.2, 0.0001, 0)))
 
     headerBSc2.add(headerBBox)
     // headerBarSc2.add(textureGeistText)
@@ -124,7 +124,7 @@ window.addEventListener('load', function loadPage() {
     //HeaderBoxen für Namebeschriftung
     //Header1: Beschriftung
     const headerBTextTr = new GroupNode(new Translation(new Vector(0, 0, 0, 0)));
-    const headerBTextSc = new GroupNode(new Scaling(new Vector(1.5, 0.18, 0.1, 0)))
+    const headerBTextSc = new GroupNode(new Scaling(new Vector(1.5, 0.18, 0.0001, 0)))
 
     headerBTextSc.add(headerBBox)
     // headerBarTextSc.add(textureKugelText)
@@ -132,7 +132,7 @@ window.addEventListener('load', function loadPage() {
     headerBTr.add(headerBTextTr)
     //Header 2: Beschriftung
     const headerBTextTr2 = new GroupNode(new Translation(new Vector(0, 0, 0, 0)));
-    const headerBTextSc2 = new GroupNode(new Scaling(new Vector(1.5, 0.18, 0.1, 0)))
+    const headerBTextSc2 = new GroupNode(new Scaling(new Vector(1.5, 0.18, 0.0001, 0)))
 
     headerBTextSc2.add(headerBBox)
     // headerBarTextSc2.add(textureGeistText)
@@ -370,7 +370,19 @@ window.addEventListener('load', function loadPage() {
             "dblclick", () => cancelAnimationFrame(animationHandle));
     }
 
-    window.addEventListener('click', function (){
+    btn1.addEventListener('click', function (){
+        if (btn1.checked) {
+            console.log("render")
+            localStorage.setItem("renderer", "rasterizer")
+            // rasterVisitor()
+        } else if (btn2.checked) {
+            console.log("ray")
+            localStorage.setItem("renderer", "rayTracer")
+            // rayVisitor()
+        }
+        location.reload()
+    });
+    btn2.addEventListener('click', function (){
         if (btn1.checked) {
             console.log("render")
             localStorage.setItem("renderer", "rasterizer")
