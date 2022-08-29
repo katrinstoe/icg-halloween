@@ -141,19 +141,16 @@ window.addEventListener('load', function loadPage() {
     //Zeichenflaeche 1
     const cube = new AABoxNode(new Vector(0, 0, 0, 0));
     const cubeSc = new GroupNode(new Scaling(new Vector(2.2, 2.2, 0, 0)));
-    const cubeTr = new GroupNode(new Translation(new Vector(2.1, 0.8, 0, 0)));
+    const cubeTr = new GroupNode(new Translation(new Vector(2.1, 0.8, -1, 0)));
     const cubeRt = new GroupNode(new Rotation(new Vector(0, 1, 0, 0), 1));
     const gn3 = new GroupNode(new Translation(new Vector(0, 0, 0, 0)));
     const cubeTexture = new TextureBoxNode('hci-logo.png');
 
-
     cubeSc.add(cube);
     //TODO: Texture anzeigen geht nicht?
-    // cubeSc.add(textureGeist)
+    cubeSc.add(cubeTexture)
     cubeRt.add(cubeSc);
     cubeTr.add(cubeRt);
-    cubeTr.add(gn3)
-    gn3.add(cubeTexture);
     sg.add(cubeTr);
 
     //Zeichenflaeche2
@@ -246,6 +243,7 @@ window.addEventListener('load', function loadPage() {
         const phongShader = new Shader(gl,
             phongVertexShaderPerspective,
             fragmentShader
+            // phongFragmentShader
         );
         const textureShader = new Shader(gl,
             textureVertexShader,
@@ -371,18 +369,59 @@ window.addEventListener('load', function loadPage() {
             "dblclick", () => cancelAnimationFrame(animationHandle));
     }
 
-    window.addEventListener('click', function (){
+
+    // window.addEventListener('click', function (){
+    //     if (btn1.checked) {
+    //         console.log("render")
+    //         localStorage.setItem("renderer", "rasterizer")
+    //         // rasterVisitor()
+    //         location.reload()
+    //     } else if (btn2.checked) {
+    //         console.log("ray")
+    //         localStorage.setItem("renderer", "rayTracer")
+    //         // rayVisitor()
+    //         location.reload()
+    //     }
+    // });
+    btn1.addEventListener('click', function (){
         if (btn1.checked) {
             console.log("render")
             localStorage.setItem("renderer", "rasterizer")
             // rasterVisitor()
+            location.reload()
         } else if (btn2.checked) {
             console.log("ray")
             localStorage.setItem("renderer", "rayTracer")
             // rayVisitor()
+            location.reload()
         }
-        location.reload()
     });
+    btn2.addEventListener('click', function (){
+        if (btn1.checked) {
+            console.log("render")
+            localStorage.setItem("renderer", "rasterizer")
+            // rasterVisitor()
+            location.reload()
+        } else if (btn2.checked) {
+            console.log("ray")
+            localStorage.setItem("renderer", "rayTracer")
+            // rayVisitor()
+            location.reload()
+        }
+    })
+    // function renderDecider():void{
+    //     if (btn1.checked) {
+    //         console.log("render")
+    //         localStorage.setItem("renderer", "rasterizer")
+    //         // rasterVisitor()
+    //         location.reload()
+    //     } else if (btn2.checked) {
+    //         console.log("ray")
+    //         localStorage.setItem("renderer", "rayTracer")
+    //         // rayVisitor()
+    //         location.reload()
+    //     }
+    // }
 });
 
 
