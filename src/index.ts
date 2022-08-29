@@ -61,7 +61,7 @@ window.addEventListener('load', function loadPage() {
     const TaskBarIconSc = new GroupNode(new Scaling(new Vector(0.07, 0.07, 0,0)));
     const TaskBarIconTr = new GroupNode(new Translation(new Vector(-2.2, 0.01, 0, 0)));
 
-    const TaskBarIconSphere = new SphereNode(new Vector(1, 0.7, 0.7, 1));
+    const TaskBarIconSphere = new SphereNode(new Vector(0, 0.6, 0.6, 1));
     TaskBarIconSc.add(TaskBarIconSphere);
     TaskBarIconTr.add(TaskBarIconSc);
     TaskBarTr.add(TaskBarIconTr);
@@ -291,7 +291,7 @@ window.addEventListener('load', function loadPage() {
             };
         }
 
-        window.addEventListener('dblclick', function (evt) {
+        window.addEventListener('click', function (evt) {
             let mousePos = getMousePos(canvas, evt);
             let mouseVisitor = new mouseClickVisitor(ctx, canvas.width, canvas.height, mousePos);
             mouseVisitor.render(sg, rayCamera, lightPositions);
@@ -371,7 +371,7 @@ window.addEventListener('load', function loadPage() {
             "dblclick", () => cancelAnimationFrame(animationHandle));
     }
 
-    window.addEventListener('click', function (){
+    window.addEventListener('dblclick', function (){
         if (btn1.checked) {
             console.log("render")
             localStorage.setItem("renderer", "rasterizer")

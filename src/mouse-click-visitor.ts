@@ -104,7 +104,6 @@ export default class mouseClickVisitor implements Visitor {
             toWorld = toWorld.mul(this.model[i]);
             fromWorld = this.inverse[i].mul(fromWorld);
         }
-        console.log(node.color)
         const ray = new Ray(fromWorld.mulVec(this.ray.origin), fromWorld.mulVec(this.ray.direction).normalize());
         let intersection = UNIT_SPHERE.intersect(ray);
         if (intersection) {
@@ -115,12 +114,10 @@ export default class mouseClickVisitor implements Visitor {
                 (intersectionPointWorld.x - this.ray.origin.x) / this.ray.direction.x,
                 intersectionPointWorld,
                 intersectionNormalWorld,
-                // node
             );
             if (this.intersection === null || intersection.closerThan(this.intersection)) {
                 this.intersection = intersection;
                 this.intersectionColor = node.color;
-                // this.intersection.node = node;
             }
             node.color = new Vector(Math.floor((Math.random() * 10) + 1)/10,Math.floor((Math.random() * 10) + 1)/10,Math.floor((Math.random() * 10) + 1)/10,1)
         }
@@ -146,12 +143,10 @@ export default class mouseClickVisitor implements Visitor {
                 (intersectionPointWorld.x - this.ray.origin.x) / this.ray.direction.x,
                 intersectionPointWorld,
                 intersectionNormalWorld,
-                // node
             );
             if (this.intersection === null || intersection.closerThan(this.intersection)) {
                 this.intersection = intersection;
                 this.intersectionColor = node.color;
-                // this.intersection.node = node;
             }
         }
     }
