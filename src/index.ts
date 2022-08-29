@@ -59,23 +59,23 @@ window.addEventListener('load', function loadPage() {
     sg.add(TaskBTr)
 
     //Icons auf Taskbar
-    // //Icon Rosa Kreis
-    const TaskBIconSc = new GroupNode(new Scaling(new Vector(0.07, 0.07, 0.07,0)));
-    const TaskBIconTr = new GroupNode(new Translation(new Vector(-2.2, 0.01, 0, 0)));
+    // //Icon Kreis
+    const TaskBIconSc = new GroupNode(new Scaling(new Vector(0.08, 0.08, 0.08,0)));
+    const TaskBIconTr = new GroupNode(new Translation(new Vector(-2.2, -2.29, 0, 0)));
 
     const TaskBIconSphere = new SphereNode(new Vector(0, 0.6, 0.6, 1));
     TaskBIconSc.add(TaskBIconSphere);
     TaskBIconTr.add(TaskBIconSc);
-    TaskBTr.add(TaskBIconTr);
+    sg.add(TaskBIconTr);
 
     // //Icon Viereck
-    const TaskBIconBoxTr = new GroupNode(new Translation(new Vector(-1.95, 0.06, 0.1, 0)));
+    const TaskBIconBoxTr = new GroupNode(new Translation(new Vector(-1.95, -2.23, 0.1, 0)));
     const TaskBIconBoxSc = new GroupNode(new Scaling(new Vector(0.15, 0.15, 0.000001, 0)));
 
     const TaskBIconBox = new AABoxNode(new Vector(0, 0, 0, 0));
     TaskBIconBoxSc.add(TaskBIconBox);
     TaskBIconBoxTr.add(TaskBIconBoxSc)
-    TaskBTr.add(TaskBIconBoxTr)
+    sg.add(TaskBIconBoxTr)
 
     //HeaderBoxen
     // Erster Header
@@ -135,7 +135,7 @@ window.addEventListener('load', function loadPage() {
     const headerBTextSc2 = new GroupNode(new Scaling(new Vector(1.5, 0.18, 0.0001, 0)))
 
     headerBTextSc2.add(headerBBox)
-    // headerBarTextSc2.add(textureGeistText)
+    // headerBTextSc2.add(textureGeistText)
     headerBTextTr2.add(headerBTextSc2)
     headerBTr2.add(headerBTextTr2)
 
@@ -244,7 +244,8 @@ window.addEventListener('load', function loadPage() {
 
         const phongShader = new Shader(gl,
             phongVertexShaderPerspective,
-            fragmentShader
+            // fragmentShader
+            phongFragmentShader
         );
         const textureShader = new Shader(gl,
             textureVertexShader,
