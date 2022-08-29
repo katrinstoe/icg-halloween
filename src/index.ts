@@ -58,8 +58,8 @@ window.addEventListener('load', function loadPage() {
 
     //Icons auf Taskbar
     // //Icon Rosa Kreis
-    const TaskBarIconSc = new GroupNode(new Scaling(new Vector(0.07, 0.07, 0,0)));
-    const TaskBarIconTr = new GroupNode(new Translation(new Vector(-2.2, 0.01, 0, 0)));
+    const TaskBarIconSc = new GroupNode(new Scaling(new Vector(0.07, 0.07, 0.07,0)));
+    const TaskBarIconTr = new GroupNode(new Translation(new Vector(-2.2, 0.01, 0.01, 0)));
 
     const TaskBarIconSphere = new SphereNode(new Vector(0, 0.6, 0.6, 1));
     TaskBarIconSc.add(TaskBarIconSphere);
