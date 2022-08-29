@@ -33,90 +33,90 @@ const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1)
 const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.5, 0.5, 1), new Vector(0, 0, 0, 1));
 
 window.addEventListener('load', function loadPage() {
+
     // //Texturen
     const textureGeist = new TextureBoxNode('geist.png');
     const textureHCILogo = new TextureBoxNode('hci-logo.png');
     const textureMinimize = new TextureBoxNode('Icons/minusIcon.jpg');
     const textureClose = new TextureBoxNode('Icons/close.png');
-    // const textureGeistText = new TextureBoxNode('Icons/geistText.png');
-    // const textureKugelText = new TextureBoxNode('Icons/kugelText.png');
 
     const sg = new GroupNode(new Translation(new Vector(-0.5, -0.5, -5, 0)));
-    //Kugeln die ich nich verstehe
+
+    //Rotation an root
     const gnRotation = new Rotation(new Vector(1, 0, 0, 0), 0)
-    const gn = new GroupNode(gnRotation); //rotation an root
+    const gn = new GroupNode(gnRotation);
     sg.add(gn);
 
 
     //Taskbar
-    const TaskBarTr = new GroupNode(new Translation(new Vector(0, -2.3, 0, 0)));
-    const TaskBarSc = new GroupNode(new Scaling(new Vector(7, 0.2, 0, 0)))
-    const TaskBarBox = new AABoxNode(new Vector(0, 0, 0, 0));
-    TaskBarSc.add(TaskBarBox)
-    TaskBarTr.add(TaskBarSc);
-    sg.add(TaskBarTr)
+    const TBTr = new GroupNode(new Translation(new Vector(0, -2.3, 0, 0)));
+    const TBSc = new GroupNode(new Scaling(new Vector(7, 0.2, 0, 0)))
+    const TBBox = new AABoxNode(new Vector(0, 0, 0, 0));
+    TBSc.add(TBBox)
+    TBTr.add(TBSc);
+    sg.add(TBTr)
 
     //Icons auf Taskbar
-    // //Icon Rosa Kreis
-    const TaskBarIconSc = new GroupNode(new Scaling(new Vector(0.07, 0.07, 0.07,0)));
-    const TaskBarIconTr = new GroupNode(new Translation(new Vector(-2.2, 0.01, 0.01, 0)));
+    //Icon blauer Kreis
+    const TBIconSc = new GroupNode(new Scaling(new Vector(0.07, 0.07, 0.07,0)));
+    const TBIconTr = new GroupNode(new Translation(new Vector(-2.2, 0.01, 0, 0)));
 
-    const TaskBarIconSphere = new SphereNode(new Vector(0, 0.6, 0.6, 1));
-    TaskBarIconSc.add(TaskBarIconSphere);
-    TaskBarIconTr.add(TaskBarIconSc);
-    TaskBarTr.add(TaskBarIconTr);
+    const TBIconSphere = new SphereNode(new Vector(0, 0.6, 0.6, 1));
+    TBIconSc.add(TBIconSphere);
+    TBIconTr.add(TBIconSc);
+    TBTr.add(TBIconTr);
 
-    // //Icon Viereck
-    const TaskBarIconTrBox = new GroupNode(new Translation(new Vector(-2.0, 0, 0, 0)));
-    const TaskBarIconScBox = new GroupNode(new Scaling(new Vector(0.15, 0.15, 0, 0)));
+    //Icon Viereck
+    const TBIconBoxTr = new GroupNode(new Translation(new Vector(-2.0, 0, 0, 0)));
+    const TBIconBoxSc = new GroupNode(new Scaling(new Vector(0.15, 0.15, 0, 0)));
 
-    const TaskBarIconBox = new AABoxNode(new Vector(0, 0, 0, 0));
-    TaskBarIconScBox.add(TaskBarIconBox);
-    TaskBarIconTrBox.add(TaskBarIconScBox)
-    TaskBarTr.add(TaskBarIconTrBox)
+    const TBIconBox = new AABoxNode(new Vector(0, 0, 0, 0));
+    TBIconBoxSc.add(TBIconBox);
+    TBIconBoxTr.add(TBIconBoxSc)
+    TBTr.add(TBIconBoxTr)
 
     //HeaderBoxen
     // Erster Header
-    const headerBarTr = new GroupNode(new Translation(new Vector(-1.1, 5.6, 0, 0)));
-    const headerBarSc = new GroupNode(new Scaling(new Vector(2.6, 0.2, 0, 0)))
+    const HBTr = new GroupNode(new Translation(new Vector(-1.1, 5.6, 0, 0)));
+    const HBSc = new GroupNode(new Scaling(new Vector(2.6, 0.2, 0, 0)))
 
-    const headerBarBox = new AABoxNode(new Vector(0, 0, 0, 0));
-    headerBarSc.add(headerBarBox)
-    headerBarTr.add(headerBarSc)
-    TaskBarTr.add(headerBarTr)
+    const HBBox = new AABoxNode(new Vector(0, 0, 0, 0));
+    HBSc.add(HBBox)
+    HBTr.add(HBSc)
+    TBTr.add(HBTr)
     //Icons für ersten Header
-    const headerBarIconBoxSc = new GroupNode(new Scaling(new Vector(0.15, 0.15, 0, 0)));
-    const headerBarIconBoxTr = new GroupNode(new Translation(new Vector(1.15, -0.01, 0, 0)));
-    const headerBarIconBoxTr2 = new GroupNode(new Translation(new Vector(0.95, -0.01, 0, 0)));
-    const headerBarIconBoxSc2 = new GroupNode(new Scaling(new Vector(0.15, 0.15, 0, 0)));
+    const HBIconBoxSc = new GroupNode(new Scaling(new Vector(0.15, 0.15, 0, 0)));
+    const HBIconBoxTr = new GroupNode(new Translation(new Vector(1.15, -0.01, 0, 0)));
+    const HBIconBoxTr2 = new GroupNode(new Translation(new Vector(0.95, -0.01, 0, 0)));
+    const HBIconBoxSc2 = new GroupNode(new Scaling(new Vector(0.15, 0.15, 0, 0)));
     //Header Icons (Vierecke, später Textur drauf)
     //erste Box
-    const headerBarIconBox = new AABoxNode(new Vector(0, 0, 0, 0));
-    headerBarIconBoxSc.add(headerBarIconBox);
-    headerBarIconBoxSc.add(textureMinimize);
-    headerBarIconBoxTr.add(headerBarIconBoxSc)
-    headerBarTr.add(headerBarIconBoxTr)
+    const HBIconBox = new AABoxNode(new Vector(0, 0, 0, 0));
+    HBIconBoxSc.add(HBIconBox);
+    HBIconBoxSc.add(textureMinimize);
+    HBIconBoxTr.add(HBIconBoxSc)
+    HBTr.add(HBIconBoxTr)
     //zweite Box
     const headerBarIconBox2 = new AABoxNode(new Vector(0, 0, 0, 0));
-    headerBarIconBoxSc2.add(headerBarIconBox2);
-    headerBarIconBoxSc2.add(textureClose);
-    headerBarIconBoxTr2.add(headerBarIconBoxSc2)
-    headerBarTr.add(headerBarIconBoxTr2)
+    HBIconBoxSc2.add(headerBarIconBox2);
+    HBIconBoxSc2.add(textureClose);
+    HBIconBoxTr2.add(HBIconBoxSc2)
+    HBTr.add(HBIconBoxTr2)
     //Zweiter Header
     const headerBarTr2 = new GroupNode(new Translation(new Vector(2.1, 5.6, 0, 0)));
     const headerBarSc2 = new GroupNode(new Scaling(new Vector(2.6, 0.2, 0, 0)))
 
-    headerBarSc2.add(headerBarBox)
+    headerBarSc2.add(HBBox)
     // headerBarSc2.add(textureGeistText)
     headerBarTr2.add(headerBarSc2)
-    TaskBarTr.add(headerBarTr2)
+    TBTr.add(headerBarTr2)
     //HeaderBox2 Icons
     const headerBarIconBox2Tr = new GroupNode(new Translation(new Vector(1.15, 0, 0, 0)));
     const headerBarIconBox2Tr2 = new GroupNode(new Translation(new Vector(0.95, 0, 0, 0)));
 
-    headerBarIconBox2Tr.add(headerBarIconBoxSc)
+    headerBarIconBox2Tr.add(HBIconBoxSc)
     headerBarTr2.add(headerBarIconBox2Tr)
-    headerBarIconBox2Tr2.add(headerBarIconBoxSc2)
+    headerBarIconBox2Tr2.add(HBIconBoxSc2)
     headerBarTr2.add(headerBarIconBox2Tr2)
 
     //HeaderBoxen für Namebeschriftung
@@ -124,15 +124,15 @@ window.addEventListener('load', function loadPage() {
     const headerBarTextTr = new GroupNode(new Translation(new Vector(0, 0, 0, 0)));
     const headerBarTextSc = new GroupNode(new Scaling(new Vector(1.5, 0.18, 0, 0)))
 
-    headerBarTextSc.add(headerBarBox)
+    headerBarTextSc.add(HBBox)
     // headerBarTextSc.add(textureKugelText)
     headerBarTextTr.add(headerBarTextSc)
-    headerBarTr.add(headerBarTextTr)
+    HBTr.add(headerBarTextTr)
     //Header 2: Beschriftung
     const headerBarTextTr2 = new GroupNode(new Translation(new Vector(0, 0, 0, 0)));
     const headerBarTextSc2 = new GroupNode(new Scaling(new Vector(1.5, 0.18, 0, 0)))
 
-    headerBarTextSc2.add(headerBarBox)
+    headerBarTextSc2.add(HBBox)
     // headerBarTextSc2.add(textureGeistText)
     headerBarTextTr2.add(headerBarTextSc2)
     headerBarTr2.add(headerBarTextTr2)
