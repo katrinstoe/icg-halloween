@@ -60,7 +60,6 @@ window.addEventListener('load', function loadPage() {
     //Icon blauer Kreis
     const TBIconSc = new GroupNode(new Scaling(new Vector(0.07, 0.07, 0.07,0)));
     const TBIconTr = new GroupNode(new Translation(new Vector(-2.2, 0.01, 0, 0)));
-
     const TBIconSphere = new SphereNode(new Vector(0, 0.6, 0.6, 1));
     TBIconSc.add(TBIconSphere);
     TBIconTr.add(TBIconSc);
