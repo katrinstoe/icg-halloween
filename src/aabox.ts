@@ -60,8 +60,56 @@ export default class AABox {
    * @return The intersection if there is one, null if there is none
    */
   intersect(ray: Ray): Intersection | null {
-    // TODO
-    return null
+
+    let min = this.vertices[4]
+    let max = this.vertices[2]
+
+    let tmin = (min.x - ray.origin.x) / ray.direction.x;
+    let tmax = (max.x - ray.origin.x) / ray.direction.x;
+
+    if (tmin > tmax){
+      /*temp = tmin;
+      tmin = tmax;
+      tmax = temp;*/
+      //swap tmax and tmin
+      tmax = tmin+(tmin=tmax)-tmax;
+    }
+
+    let tymin = (min.y - ray.origin.y) / ray.direction.y;
+    let tymax = (max.y - ray.origin.y) / ray.direction.y;
+
+    if (tymin > tymax || tymin > tmax){
+      return null
+    }
+
+    if (tymin > tmin)
+      tmin = tymin;
+
+    if (tymax < tmax)
+      tmax = tymax;
+
+    let tzmin = (min.z - ray.origin.z) / ray.direction.z;
+    let tzmax = (max.z -  ray.origin.z) / ray.direction.z;
+
+    if (tzmin > tzmax){
+      tzmax = tzmin+(tzmin=tzmax)-tzmax;
+    }
+
+    if ((tmin > tzmax) || (tzmin > tmax)){
+      return null;
+    }
+
+    if (tzmin > tmin)
+      tmin = tzmin;
+
+    if (tzmax < tmax)
+      tmax = tzmax;
+
+    let d = new Vector(...ray.direction.data).normalize();
+    let intersectionPoint = ray.origin.add(d.mul(tmin))
+    intersectionPoint.w = 1;
+
+    return new Intersection(tmin, intersectionPoint, new Vector(0,0,0,1))
   }
 
 }

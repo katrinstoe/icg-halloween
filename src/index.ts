@@ -33,6 +33,7 @@ const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1)
 const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.5, 0.5, 1), new Vector(0, 0, 0, 1));
 
 window.addEventListener('load', function loadPage() {
+
     // //Texturen
     const textureGeist = new TextureBoxNode('geist.png');
     const textureHCILogo = new TextureBoxNode('hci-logo.png');
@@ -42,106 +43,107 @@ window.addEventListener('load', function loadPage() {
     // const textureKugelText = new TextureBoxNode('Icons/kugelText.png');
 
     const sg = new GroupNode(new Translation(new Vector(-0.5, -0.5, -5, 0)));
-    //Kugeln die ich nich verstehe
+
+    //Rotation an root
     const gnRotation = new Rotation(new Vector(1, 0, 0, 0), 0)
     const gn = new GroupNode(gnRotation); //rotation an root
     sg.add(gn);
 
 
     //Taskbar
-    const TaskBarTr = new GroupNode(new Translation(new Vector(0, -2.3, 0, 0)));
-    const TaskBarSc = new GroupNode(new Scaling(new Vector(7, 0.2, 0, 0)))
-    const TaskBarBox = new AABoxNode(new Vector(0, 0, 0, 0));
-    TaskBarSc.add(TaskBarBox)
-    TaskBarTr.add(TaskBarSc);
-    sg.add(TaskBarTr)
+    const TaskBTr = new GroupNode(new Translation(new Vector(0, -2.3, 0, 0)));
+    const TaskBSc = new GroupNode(new Scaling(new Vector(7, 0.2, 0.05, 0)))
+    const TaskBBox = new AABoxNode(new Vector(0, 0, 0, 0));
+    TaskBSc.add(TaskBBox)
+    TaskBTr.add(TaskBSc);
+    sg.add(TaskBTr)
 
     //Icons auf Taskbar
     // //Icon Rosa Kreis
-    const TaskBarIconSc = new GroupNode(new Scaling(new Vector(0.07, 0.07, 0,0)));
-    const TaskBarIconTr = new GroupNode(new Translation(new Vector(-2.2, 0.01, 0, 0)));
+    const TaskBIconSc = new GroupNode(new Scaling(new Vector(0.07, 0.07, 0.07,0)));
+    const TaskBIconTr = new GroupNode(new Translation(new Vector(-2.2, 0.01, 0, 0)));
 
-    const TaskBarIconSphere = new SphereNode(new Vector(1, 0.7, 0.7, 1));
-    TaskBarIconSc.add(TaskBarIconSphere);
-    TaskBarIconTr.add(TaskBarIconSc);
-    TaskBarTr.add(TaskBarIconTr);
+    const TaskBIconSphere = new SphereNode(new Vector(0, 0.6, 0.6, 1));
+    TaskBIconSc.add(TaskBIconSphere);
+    TaskBIconTr.add(TaskBIconSc);
+    TaskBTr.add(TaskBIconTr);
 
     // //Icon Viereck
-    const TaskBarIconTrBox = new GroupNode(new Translation(new Vector(-2.0, 0, 0, 0)));
-    const TaskBarIconScBox = new GroupNode(new Scaling(new Vector(0.15, 0.15, 0, 0)));
+    const TaskBIconBoxTr = new GroupNode(new Translation(new Vector(-2.0, 0.06, 0.1, 0)));
+    const TaskBIconBoxSc = new GroupNode(new Scaling(new Vector(0.15, 0.1, 0.1, 0)));
 
-    const TaskBarIconBox = new AABoxNode(new Vector(0, 0, 0, 0));
-    TaskBarIconScBox.add(TaskBarIconBox);
-    TaskBarIconTrBox.add(TaskBarIconScBox)
-    TaskBarTr.add(TaskBarIconTrBox)
+    const TaskBIconBox = new AABoxNode(new Vector(0, 0, 0, 0));
+    TaskBIconBoxSc.add(TaskBIconBox);
+    TaskBIconBoxTr.add(TaskBIconBoxSc)
+    TaskBTr.add(TaskBIconBoxTr)
 
     //HeaderBoxen
     // Erster Header
-    const headerBarTr = new GroupNode(new Translation(new Vector(-1.1, 5.6, 0, 0)));
-    const headerBarSc = new GroupNode(new Scaling(new Vector(2.6, 0.2, 0, 0)))
+    const headerBTr = new GroupNode(new Translation(new Vector(-1.1, 5.6, 0, 0)));
+    const headerBSc = new GroupNode(new Scaling(new Vector(2.6, 0.2, 0.1, 0)))
 
-    const headerBarBox = new AABoxNode(new Vector(0, 0, 0, 0));
-    headerBarSc.add(headerBarBox)
-    headerBarTr.add(headerBarSc)
-    TaskBarTr.add(headerBarTr)
+    const headerBBox = new AABoxNode(new Vector(0, 0, 0, 0));
+    headerBSc.add(headerBBox)
+    headerBTr.add(headerBSc)
+    TaskBTr.add(headerBTr)
     //Icons für ersten Header
-    const headerBarIconBoxSc = new GroupNode(new Scaling(new Vector(0.15, 0.15, 0, 0)));
-    const headerBarIconBoxTr = new GroupNode(new Translation(new Vector(1.15, -0.01, 0, 0)));
-    const headerBarIconBoxTr2 = new GroupNode(new Translation(new Vector(0.95, -0.01, 0, 0)));
-    const headerBarIconBoxSc2 = new GroupNode(new Scaling(new Vector(0.15, 0.15, 0, 0)));
+    const headerBIconBoxSc = new GroupNode(new Scaling(new Vector(0.15, 0.15, 0.1, 0)));
+    const headerBIconBoxTr = new GroupNode(new Translation(new Vector(1.15, -0.01, 0, 0)));
+    const headerBIconBoxTr2 = new GroupNode(new Translation(new Vector(0.95, -0.01, 0, 0)));
+    const headerBIconBoxSc2 = new GroupNode(new Scaling(new Vector(0.15, 0.15, 0.1, 0)));
     //Header Icons (Vierecke, später Textur drauf)
     //erste Box
-    const headerBarIconBox = new AABoxNode(new Vector(0, 0, 0, 0));
-    headerBarIconBoxSc.add(headerBarIconBox);
-    headerBarIconBoxSc.add(textureMinimize);
-    headerBarIconBoxTr.add(headerBarIconBoxSc)
-    headerBarTr.add(headerBarIconBoxTr)
+    const headerBIconBox = new AABoxNode(new Vector(0, 0, 0, 0));
+    headerBIconBoxSc.add(headerBIconBox);
+    headerBIconBoxSc.add(textureMinimize);
+    headerBIconBoxTr.add(headerBIconBoxSc)
+    headerBTr.add(headerBIconBoxTr)
     //zweite Box
-    const headerBarIconBox2 = new AABoxNode(new Vector(0, 0, 0, 0));
-    headerBarIconBoxSc2.add(headerBarIconBox2);
-    headerBarIconBoxSc2.add(textureClose);
-    headerBarIconBoxTr2.add(headerBarIconBoxSc2)
-    headerBarTr.add(headerBarIconBoxTr2)
+    const headerBIconBox2 = new AABoxNode(new Vector(0, 0, 0, 0));
+    headerBIconBoxSc2.add(headerBIconBox2);
+    headerBIconBoxSc2.add(textureClose);
+    headerBIconBoxTr2.add(headerBIconBoxSc2)
+    headerBTr.add(headerBIconBoxTr2)
     //Zweiter Header
-    const headerBarTr2 = new GroupNode(new Translation(new Vector(2.1, 5.6, 0, 0)));
-    const headerBarSc2 = new GroupNode(new Scaling(new Vector(2.6, 0.2, 0, 0)))
+    const headerBTr2 = new GroupNode(new Translation(new Vector(2.1, 5.6, 0, 0)));
+    const headerBSc2 = new GroupNode(new Scaling(new Vector(2.6, 0.2, 0.1, 0)))
 
-    headerBarSc2.add(headerBarBox)
+    headerBSc2.add(headerBBox)
     // headerBarSc2.add(textureGeistText)
-    headerBarTr2.add(headerBarSc2)
-    TaskBarTr.add(headerBarTr2)
+    headerBTr2.add(headerBSc2)
+    TaskBTr.add(headerBTr2)
     //HeaderBox2 Icons
-    const headerBarIconBox2Tr = new GroupNode(new Translation(new Vector(1.15, 0, 0, 0)));
-    const headerBarIconBox2Tr2 = new GroupNode(new Translation(new Vector(0.95, 0, 0, 0)));
+    const headerBIconBox2Tr = new GroupNode(new Translation(new Vector(1.15, 0, 0, 0)));
+    const headerBIconBox2Tr2 = new GroupNode(new Translation(new Vector(0.95, 0, 0, 0)));
 
-    headerBarIconBox2Tr.add(headerBarIconBoxSc)
-    headerBarTr2.add(headerBarIconBox2Tr)
-    headerBarIconBox2Tr2.add(headerBarIconBoxSc2)
-    headerBarTr2.add(headerBarIconBox2Tr2)
+    headerBIconBox2Tr.add(headerBIconBoxSc)
+    headerBTr2.add(headerBIconBox2Tr)
+    headerBIconBox2Tr2.add(headerBIconBoxSc2)
+    headerBTr2.add(headerBIconBox2Tr2)
 
     //HeaderBoxen für Namebeschriftung
     //Header1: Beschriftung
-    const headerBarTextTr = new GroupNode(new Translation(new Vector(0, 0, 0, 0)));
-    const headerBarTextSc = new GroupNode(new Scaling(new Vector(1.5, 0.18, 0, 0)))
+    const headerBTextTr = new GroupNode(new Translation(new Vector(0, 0, 0, 0)));
+    const headerBTextSc = new GroupNode(new Scaling(new Vector(1.5, 0.18, 0.1, 0)))
 
-    headerBarTextSc.add(headerBarBox)
+    headerBTextSc.add(headerBBox)
     // headerBarTextSc.add(textureKugelText)
-    headerBarTextTr.add(headerBarTextSc)
-    headerBarTr.add(headerBarTextTr)
+    headerBTextTr.add(headerBTextSc)
+    headerBTr.add(headerBTextTr)
     //Header 2: Beschriftung
-    const headerBarTextTr2 = new GroupNode(new Translation(new Vector(0, 0, 0, 0)));
-    const headerBarTextSc2 = new GroupNode(new Scaling(new Vector(1.5, 0.18, 0, 0)))
+    const headerBTextTr2 = new GroupNode(new Translation(new Vector(0, 0, 0, 0)));
+    const headerBTextSc2 = new GroupNode(new Scaling(new Vector(1.5, 0.18, 0.1, 0)))
 
-    headerBarTextSc2.add(headerBarBox)
+    headerBTextSc2.add(headerBBox)
     // headerBarTextSc2.add(textureGeistText)
-    headerBarTextTr2.add(headerBarTextSc2)
-    headerBarTr2.add(headerBarTextTr2)
+    headerBTextTr2.add(headerBTextSc2)
+    headerBTr2.add(headerBTextTr2)
 
 
     //Zeichenflaeche 1
     const cube = new AABoxNode(new Vector(0, 0, 0, 0));
-    const cubeSc = new GroupNode(new Scaling(new Vector(2.2, 2.2, 0, 0)));
-    const cubeTr = new GroupNode(new Translation(new Vector(2.1, 0.8, -1, 0)));
+    const cubeSc = new GroupNode(new Scaling(new Vector(2.2, 2.2, 0.1, 0)));
+    const cubeTr = new GroupNode(new Translation(new Vector(2.1, 0.8, 0, 0)));
     const cubeRt = new GroupNode(new Rotation(new Vector(0, 1, 0, 0), 1));
     const gn3 = new GroupNode(new Translation(new Vector(0, 0, 0, 0)));
     const cubeTexture = new TextureBoxNode('hci-logo.png');
@@ -243,7 +245,6 @@ window.addEventListener('load', function loadPage() {
         const phongShader = new Shader(gl,
             phongVertexShaderPerspective,
             fragmentShader
-            // phongFragmentShader
         );
         const textureShader = new Shader(gl,
             textureVertexShader,
@@ -369,59 +370,18 @@ window.addEventListener('load', function loadPage() {
             "dblclick", () => cancelAnimationFrame(animationHandle));
     }
 
-
-    // window.addEventListener('click', function (){
-    //     if (btn1.checked) {
-    //         console.log("render")
-    //         localStorage.setItem("renderer", "rasterizer")
-    //         // rasterVisitor()
-    //         location.reload()
-    //     } else if (btn2.checked) {
-    //         console.log("ray")
-    //         localStorage.setItem("renderer", "rayTracer")
-    //         // rayVisitor()
-    //         location.reload()
-    //     }
-    // });
-    btn1.addEventListener('click', function (){
+    window.addEventListener('click', function (){
         if (btn1.checked) {
             console.log("render")
             localStorage.setItem("renderer", "rasterizer")
             // rasterVisitor()
-            location.reload()
         } else if (btn2.checked) {
             console.log("ray")
             localStorage.setItem("renderer", "rayTracer")
             // rayVisitor()
-            location.reload()
         }
+        location.reload()
     });
-    btn2.addEventListener('click', function (){
-        if (btn1.checked) {
-            console.log("render")
-            localStorage.setItem("renderer", "rasterizer")
-            // rasterVisitor()
-            location.reload()
-        } else if (btn2.checked) {
-            console.log("ray")
-            localStorage.setItem("renderer", "rayTracer")
-            // rayVisitor()
-            location.reload()
-        }
-    })
-    // function renderDecider():void{
-    //     if (btn1.checked) {
-    //         console.log("render")
-    //         localStorage.setItem("renderer", "rasterizer")
-    //         // rasterVisitor()
-    //         location.reload()
-    //     } else if (btn2.checked) {
-    //         console.log("ray")
-    //         localStorage.setItem("renderer", "rayTracer")
-    //         // rayVisitor()
-    //         location.reload()
-    //     }
-    // }
 });
 
 
