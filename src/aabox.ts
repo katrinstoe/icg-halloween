@@ -67,11 +67,19 @@ export default class AABox {
     let tmin = (min.x - ray.origin.x) / ray.direction.x;
     let tmax = (max.x - ray.origin.x) / ray.direction.x;
 
+    if (tmin > tmax){
+      /*temp = tmin;
+      tmin = tmax;
+      tmax = temp;*/
+      //swap tmax and tmin
+      tmax = tmin+(tmin=tmax)-tmax;
+    }
+
     let tymin = (min.y - ray.origin.y) / ray.direction.y;
     let tymax = (max.y - ray.origin.y) / ray.direction.y;
 
-    if ((tmin > tymax) || (tymin > tmax)){
-      return null;
+    if (tymin > tymax || tymin > tmax){
+      return null
     }
 
     if (tymin > tmin)
@@ -82,6 +90,10 @@ export default class AABox {
 
     let tzmin = (min.z - ray.origin.z) / ray.direction.z;
     let tzmax = (max.z -  ray.origin.z) / ray.direction.z;
+
+    if (tzmin > tzmax){
+      tzmax = tzmin+(tzmin=tzmax)-tzmax;
+    }
 
     if ((tmin > tzmax) || (tzmin > tmax)){
       return null;
@@ -98,39 +110,6 @@ export default class AABox {
     intersectionPoint.w = 1;
 
     return new Intersection(tmin, intersectionPoint, new Vector(0,0,0,1))
-
-    /*let x0 = ray.origin.sub(this.center);
-
-    let x0Squared = x0.dot(x0)
-    let direction = ray.direction;
-    let d = new Vector(...ray.direction.data).normalize();
-    let t = - x0.dot(d) + Math.sqrt((Math.pow(x0.dot(d), 2))- x0Squared + Math.pow(this.radius, 2));
-    let t2 = - x0.dot(d) - Math.sqrt((Math.pow(x0.dot(d), 2))- x0Squared + Math.pow(this.radius, 2));
-
-
-    let shorterT;
-
-    let c = Math.pow(x0.dot(d), 2)-x0Squared + (Math.pow(this.radius, 2))
-
-    let amountOfIntersections;
-    if (c < 0){
-      amountOfIntersections = 0;
-      return null;
-    } else if (c == 0){
-      amountOfIntersections = 1;
-      shorterT = t;
-    } else {
-      amountOfIntersections = 2;
-      if (t < t2){
-        shorterT = t;
-      } else shorterT = t2;
-    }
-
-    let intersectionPoint = ray.origin.add(d.mul(shorterT))
-    intersectionPoint.w = 1;
-    let normal = intersectionPoint.sub(this.center).normalize()
-    return new Intersection(shorterT, intersectionPoint, normal)*/
-    return null
   }
 
 }

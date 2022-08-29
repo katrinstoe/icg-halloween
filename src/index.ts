@@ -50,7 +50,7 @@ window.addEventListener('load', function loadPage() {
 
     //Taskbar
     const TBTr = new GroupNode(new Translation(new Vector(0, -2.3, 0, 0)));
-    const TBSc = new GroupNode(new Scaling(new Vector(7, 0.2, 0, 0)))
+    const TBSc = new GroupNode(new Scaling(new Vector(7, 0.2, 0.05, 0)))
     const TBBox = new AABoxNode(new Vector(0, 0, 0, 0));
     TBSc.add(TBBox)
     TBTr.add(TBSc);
@@ -66,8 +66,9 @@ window.addEventListener('load', function loadPage() {
     TBTr.add(TBIconTr);
 
     //Icon Viereck
-    const TBIconBoxTr = new GroupNode(new Translation(new Vector(-2.0, 0, 0, 0)));
-    const TBIconBoxSc = new GroupNode(new Scaling(new Vector(0.15, 0.15, 0, 0)));
+    //const TBIconBoxTr = new GroupNode(new Translation(new Vector(-2.0, 0, -0.1, 0)));
+    const TBIconBoxTr = new GroupNode(new Translation(new Vector(-1.8, 0.06, 0.1, 0)));
+    const TBIconBoxSc = new GroupNode(new Scaling(new Vector(0.15, 0.1, 0.1, 0)));
 
     const TBIconBox = new AABoxNode(new Vector(0, 0, 0, 0));
     TBIconBoxSc.add(TBIconBox);
@@ -77,17 +78,17 @@ window.addEventListener('load', function loadPage() {
     //HeaderBoxen
     // Erster Header
     const HBTr = new GroupNode(new Translation(new Vector(-1.1, 5.6, 0, 0)));
-    const HBSc = new GroupNode(new Scaling(new Vector(2.6, 0.2, 0, 0)))
+    const HBSc = new GroupNode(new Scaling(new Vector(2.6, 0.2, 0.1, 0)))
 
     const HBBox = new AABoxNode(new Vector(0, 0, 0, 0));
     HBSc.add(HBBox)
     HBTr.add(HBSc)
     TBTr.add(HBTr)
     //Icons für ersten Header
-    const HBIconBoxSc = new GroupNode(new Scaling(new Vector(0.15, 0.15, 0, 0)));
+    const HBIconBoxSc = new GroupNode(new Scaling(new Vector(0.15, 0.15, 0.1, 0)));
     const HBIconBoxTr = new GroupNode(new Translation(new Vector(1.15, -0.01, 0, 0)));
     const HBIconBoxTr2 = new GroupNode(new Translation(new Vector(0.95, -0.01, 0, 0)));
-    const HBIconBoxSc2 = new GroupNode(new Scaling(new Vector(0.15, 0.15, 0, 0)));
+    const HBIconBoxSc2 = new GroupNode(new Scaling(new Vector(0.15, 0.15, 0.1, 0)));
     //Header Icons (Vierecke, später Textur drauf)
     //erste Box
     const HBIconBox = new AABoxNode(new Vector(0, 0, 0, 0));
@@ -103,7 +104,7 @@ window.addEventListener('load', function loadPage() {
     HBTr.add(HBIconBoxTr2)
     //Zweiter Header
     const headerBarTr2 = new GroupNode(new Translation(new Vector(2.1, 5.6, 0, 0)));
-    const headerBarSc2 = new GroupNode(new Scaling(new Vector(2.6, 0.2, 0, 0)))
+    const headerBarSc2 = new GroupNode(new Scaling(new Vector(2.6, 0.2, 0.1, 0)))
 
     headerBarSc2.add(HBBox)
     // headerBarSc2.add(textureGeistText)
@@ -121,7 +122,7 @@ window.addEventListener('load', function loadPage() {
     //HeaderBoxen für Namebeschriftung
     //Header1: Beschriftung
     const headerBarTextTr = new GroupNode(new Translation(new Vector(0, 0, 0, 0)));
-    const headerBarTextSc = new GroupNode(new Scaling(new Vector(1.5, 0.18, 0, 0)))
+    const headerBarTextSc = new GroupNode(new Scaling(new Vector(1.5, 0.18, 0.1, 0)))
 
     headerBarTextSc.add(HBBox)
     // headerBarTextSc.add(textureKugelText)
@@ -129,7 +130,7 @@ window.addEventListener('load', function loadPage() {
     HBTr.add(headerBarTextTr)
     //Header 2: Beschriftung
     const headerBarTextTr2 = new GroupNode(new Translation(new Vector(0, 0, 0, 0)));
-    const headerBarTextSc2 = new GroupNode(new Scaling(new Vector(1.5, 0.18, 0, 0)))
+    const headerBarTextSc2 = new GroupNode(new Scaling(new Vector(1.5, 0.18, 0.1, 0)))
 
     headerBarTextSc2.add(HBBox)
     // headerBarTextSc2.add(textureGeistText)
@@ -139,7 +140,7 @@ window.addEventListener('load', function loadPage() {
 
     //Zeichenflaeche 1
     const cube = new AABoxNode(new Vector(0, 0, 0, 0));
-    const cubeSc = new GroupNode(new Scaling(new Vector(2.2, 2.2, 0, 0)));
+    const cubeSc = new GroupNode(new Scaling(new Vector(2.2, 2.2, 0.1, 0)));
     const cubeTr = new GroupNode(new Translation(new Vector(2.1, 0.8, 0, 0)));
     const cubeRt = new GroupNode(new Rotation(new Vector(0, 1, 0, 0), 1));
     const gn3 = new GroupNode(new Translation(new Vector(0, 0, 0, 0)));
