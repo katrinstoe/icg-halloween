@@ -57,7 +57,7 @@ window.addEventListener('load', function loadPage() {
     const TaskBIconSc = new GroupNode(new Scaling(new Vector(0.025, 0.025, 0.025,0)));
     const TaskBIconTr = new GroupNode(new Translation(new Vector(-0.1, -0.54, -1, 0)));
 
-    const TaskBIconSphere = new SphereNode(new Vector(0, 0.6, 0.6, 1));
+    const TaskBIconSphere = new SphereNode(new Vector(1, 0.7, 0.7, 1));
     TaskBIconSc.add(TaskBIconSphere);
     TaskBIconTr.add(TaskBIconSc);
     sg.add(TaskBIconTr);
