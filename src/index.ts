@@ -39,8 +39,8 @@ window.addEventListener('load', function loadPage() {
     const textureHCILogo = new TextureBoxNode('hci-logo.png');
     const textureMinimize = new TextureBoxNode('Icons/minusIcon.jpg');
     const textureClose = new TextureBoxNode('Icons/close.png');
-    // const textureGeistText = new TextureBoxNode('Icons/geistText.png');
-    // const textureKugelText = new TextureBoxNode('Icons/kugelText.png');
+    const textureGeistText = new TextureBoxNode('Icons/geistText.png');
+    const textureKugelText = new TextureBoxNode('Icons/kugelText.png');
     const sg = new GroupNode(new Rotation(new Vector(0, 0, 1, 0), 0));
     const gnTr = new GroupNode(new Translation(new Vector(-0.75, -0.75, -3, 0)));
     sg.add(gnTr);
@@ -115,21 +115,21 @@ window.addEventListener('load', function loadPage() {
 
     //HeaderBoxen für Namebeschriftung
     //Header1: Beschriftung
-    const headerBTextTr = new GroupNode(new Translation(new Vector(-0.35, 0.394, 0, 0)));
-    const headerBTextSc = new GroupNode(new Scaling(new Vector(0.4, 0.07, 0.0001, 0)))
+    const headerBTextTr = new GroupNode(new Translation(new Vector(-0.3, 0.394, 0, 0)));
+    const headerBTextSc = new GroupNode(new Scaling(new Vector(0.16, 0.09, 0.0001, 0)))
 
     // headerBTextSc.add(headerBBox)
-    // headerBarTextSc.add(textureKugelText)
-    headerBTextSc.add(textureMinimize)
+    headerBTextSc.add(textureKugelText)
+    // headerBTextSc.add(textureMinimize)
     headerBTextTr.add(headerBTextSc)
     headerBTr.add(headerBTextTr)
     //Header 2: Beschriftung
-    const headerBTextTr2 = new GroupNode(new Translation(new Vector(0.1, 0.394, 0, 0)));
-    const headerBTextSc2 = new GroupNode(new Scaling(new Vector(0.4, 0.07, 0.0001, 0)))
+    const headerBTextTr2 = new GroupNode(new Translation(new Vector(0.15, 0.394, 0, 0)));
+    const headerBTextSc2 = new GroupNode(new Scaling(new Vector(0.16, 0.09, 0.0001, 0)))
 
     // headerBTextSc2.add(headerBBox)
-    // headerBTextSc2.add(textureGeistText)
-    headerBTextSc2.add(textureMinimize)
+    headerBTextSc2.add(textureGeistText)
+    // headerBTextSc2.add(textureMinimize)
     headerBTextTr2.add(headerBTextSc2)
     headerBTr2.add(headerBTextTr2)
 
