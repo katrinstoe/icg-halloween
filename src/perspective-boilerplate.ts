@@ -29,9 +29,11 @@ window.addEventListener('load', () => {
     sg.add(gn2);
     const cube = new AABoxNode(new Vector(1, 0, 0, 1));
     gn2.add(cube);
-
+    const lightPositions = [
+        new Vector(1, 1, 1, 1)
+    ];
     // setup for rendering
-    const setupVisitor = new RasterSetupVisitor(gl);
+    const setupVisitor = new RasterSetupVisitor(gl, lightPositions);
     setupVisitor.setup(sg);
 
     const camera = {

@@ -196,14 +196,14 @@ window.addEventListener('load', function loadPage() {
         const gl = canvas.getContext("webgl2");
         const ctx = canvas2.getContext("2d");
 
-
-        // setup for rendering
-        const setupVisitor = new RasterSetupVisitor(gl);
-        setupVisitor.setup(sg);
-
         const lightPositions = [
             new Vector(1, 1, 1, 1)
         ];
+        // setup for rendering
+        const setupVisitor = new RasterSetupVisitor(gl, lightPositions);
+        setupVisitor.setup(sg);
+
+
         const rayCamera = {
             origin: new Vector(0, 0, 0, 1),
             width: canvas.width,
@@ -293,8 +293,9 @@ window.addEventListener('load', function loadPage() {
         // canvas.hidden
         console.log("RayTracer")
         const ctx = canvas2.getContext("2d");
-        ctx.font = "48px serif";
-        ctx.fillText('RayTracer Seite', 0, 0);
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const data = imageData.data;
+
 
         const lightPositions = [
             new Vector(1, 1, 1, 1)
@@ -305,6 +306,8 @@ window.addEventListener('load', function loadPage() {
             height: canvas.height,
             alpha: Math.PI / 3,
         };
+
+        let shininess = 10;
 
         const visitor = new RayVisitor(ctx, canvas.width, canvas.height);
 
@@ -334,11 +337,16 @@ window.addEventListener('load', function loadPage() {
             }
             animationHasStarted = true;
 
+            const shininessElement = document.getElementById("shininess") as HTMLInputElement;
             function animation(t: number) {
-                animate(t);
-                animationHandle = window.requestAnimationFrame(animation);
+                shininessElement.onchange = function () {
+                    shininess = Number(shininessElement.value);
+                    console.log("hallo")
+                    animate(t);
+                    animationHandle = window.requestAnimationFrame(animation);
+                }
             }
-
+            shininess = Number(shininessElement.value);
             animationHandle = window.requestAnimationFrame(animation);
         }
 
@@ -348,33 +356,35 @@ window.addEventListener('load', function loadPage() {
             "dblclick", startAnimation);
         document.getElementById("stopAnimationBtn").addEventListener(
             "dblclick", () => cancelAnimationFrame(animationHandle));
+
+
     }
 
-    btn1.addEventListener('click', function (){
-        if (btn1.checked) {
-            console.log("render")
-            localStorage.setItem("renderer", "rasterizer")
-            // rasterVisitor()
-        } else if (btn2.checked) {
-            console.log("ray")
-            localStorage.setItem("renderer", "rayTracer")
-            // rayVisitor()
-        }
-        location.reload()
+        btn1.addEventListener('click', function () {
+            if (btn1.checked) {
+                console.log("render")
+                localStorage.setItem("renderer", "rasterizer")
+                // rasterVisitor()
+            } else if (btn2.checked) {
+                console.log("ray")
+                localStorage.setItem("renderer", "rayTracer")
+                // rayVisitor()
+            }
+            location.reload()
+        });
+        btn2.addEventListener('click', function () {
+            if (btn1.checked) {
+                console.log("render")
+                localStorage.setItem("renderer", "rasterizer")
+                // rasterVisitor()
+            } else if (btn2.checked) {
+                console.log("ray")
+                localStorage.setItem("renderer", "rayTracer")
+                // rayVisitor()
+            }
+            location.reload()
+        });
     });
-    btn2.addEventListener('click', function (){
-        if (btn1.checked) {
-            console.log("render")
-            localStorage.setItem("renderer", "rasterizer")
-            // rasterVisitor()
-        } else if (btn2.checked) {
-            console.log("ray")
-            localStorage.setItem("renderer", "rayTracer")
-            // rayVisitor()
-        }
-        location.reload()
-    });
-});
 
 
 // let animationHandle: number;
@@ -394,115 +404,3 @@ window.addEventListener('load', function loadPage() {
 //
 //     visitor.render(sg, camera, lightPositions);
 // }
-
-
-// // construct scene graph
-// const sg = new GroupNode(new Rotation(new Vector(0, 0, 1, 0), 0));
-// // //Texturen
-// const textureGeist = new TextureBoxNode('geist.png');
-// const textureHCILogo = new TextureBoxNode('hci-logo.png');
-// const textureMinimize = new TextureBoxNode('Icons/minusIcon.jpg');
-// const textureClose = new TextureBoxNode('Icons/close.png');
-// const textureGeistText = new TextureBoxNode('Icons/geistText.png');
-// const textureKugelText = new TextureBoxNode('Icons/kugelText.png');
-// //Taskbar
-// const TaskBarTr = new GroupNode(new Translation(new Vector(0, -0.95, 0, 0)));
-// const TaskBarSc = new GroupNode(new Scaling(new Vector(3, 0.1, 0.1, 0)))
-// const TaskBarBox = new AABoxNode(new Vector(0, 0, 0, 0));
-// TaskBarSc.add(TaskBarBox)
-// TaskBarTr.add(TaskBarSc);
-// const TaskBarIconSc = new GroupNode(new Scaling(new Vector(0.05, 0.05, 0.05, 0.05)));
-// const TaskBarIconTr = new GroupNode(new Translation(new Vector(0.8, 0, 0.03, 0)));
-// const TaskBarIconTrBox = new GroupNode(new Translation(new Vector(0.6, 0, 0, 0)));
-// const TaskBarIconScBox = new GroupNode(new Scaling(new Vector(0.05, 0.05, 0.05, 0.05)));
-// // //Icon Rosa Kreis
-// const TaskBarIconSphere = new SphereNode(new Vector(1, 0.7, 0.7, 1));
-// TaskBarIconSc.add(TaskBarIconSphere);
-// TaskBarIconTr.add(TaskBarIconSc);
-// TaskBarTr.add(TaskBarIconTr);
-// // //Icon Viereck
-// const TaskBarIconBox = new AABoxNode(new Vector(0, 0, 0, 0));
-// TaskBarIconScBox.add(TaskBarIconBox);
-// TaskBarIconScBox.add(textureGeist)
-// TaskBarIconTrBox.add(TaskBarIconScBox)
-// TaskBarTr.add(TaskBarIconTrBox)
-// //Header Transformations
-// const headerBarTr = new GroupNode(new Translation(new Vector(0.5, 1.9, 0, 0)));
-// const headerBarTr2 = new GroupNode(new Translation(new Vector(-0.58, 1.9, 0, 0)));
-// //
-// const headerBarSc = new GroupNode(new Scaling(new Vector(1, 0.1, 0.1, 0)))
-// const headerBarSc2 = new GroupNode(new Scaling(new Vector(1, 0.1, 0.1, 0)))
-// // //HeaderBoxen
-// const headerBarBox = new AABoxNode(new Vector(0, 0, 0, 0));
-// headerBarSc.add(headerBarBox)
-// headerBarTr.add(headerBarSc)
-// TaskBarTr.add(headerBarTr)
-// //
-// headerBarSc2.add(headerBarBox)
-// // headerBarSc2.add(textureGeistText)
-// headerBarTr2.add(headerBarSc2)
-// TaskBarTr.add(headerBarTr2)
-// //HeaderBoxen für Namebeschriftung
-// const headerBarTextTr = new GroupNode(new Translation(new Vector(0.55, 1.9, 0, 0)));
-// const headerBarTextTr2 = new GroupNode(new Translation(new Vector(-0.5, 1.9, 0, 0)));
-// //
-// const headerBarTextSc = new GroupNode(new Scaling(new Vector(0.25, 0.09, 0.1, 0)))
-// const headerBarTextSc2 = new GroupNode(new Scaling(new Vector(0.25, 0.09, 0.1, 0)))
-// headerBarTextSc.add(headerBarBox)
-// headerBarTextSc.add(textureKugelText)
-// headerBarTextTr.add(headerBarTextSc)
-// TaskBarTr.add(headerBarTextTr)
-// //
-// headerBarTextSc2.add(headerBarBox)
-// headerBarTextSc2.add(textureGeistText)
-// headerBarTextTr2.add(headerBarTextSc2)
-// TaskBarTr.add(headerBarTextTr2)
-// //
-// // //HeaderBox1 Icon Transformations
-// const headerBarIconBoxSc = new GroupNode(new Scaling(new Vector(0.05, 0.05, 0.05, 0.05)));
-// const headerBarIconBoxTr = new GroupNode(new Translation(new Vector(-0.3, 0, 0, 0)));
-// const headerBarIconBoxTr2 = new GroupNode(new Translation(new Vector(-0.4, 0, 0, 0)));
-// const headerBarIconBoxSc2 = new GroupNode(new Scaling(new Vector(0.05, 0.05, 0.05, 0.05)));
-// //HeaderBox2 Icons
-// const headerBarIconBox2Tr = new GroupNode(new Translation(new Vector(-1.3, 0, 0, 0)));
-// const headerBarIconBox2Tr2 = new GroupNode(new Translation(new Vector(-1.4, 0, 0, 0)));
-// //
-// //Header Icons (Vierecke, später Textur drauf)
-// const headerBarIconBox = new AABoxNode(new Vector(0, 0, 0, 0));
-// headerBarIconBoxSc.add(headerBarIconBox);
-// headerBarIconBoxSc.add(textureMinimize);
-// headerBarIconBoxTr.add(headerBarIconBoxSc)
-// headerBarTr.add(headerBarIconBoxTr)
-// //
-// const headerBarIconBox2 = new AABoxNode(new Vector(0, 0, 0, 0));
-// headerBarIconBoxSc2.add(headerBarIconBox2);
-// headerBarIconBoxSc2.add(textureClose);
-// headerBarIconBoxTr2.add(headerBarIconBoxSc2)
-// headerBarTr.add(headerBarIconBoxTr2)
-// //
-// headerBarIconBox2Tr.add(headerBarIconBoxSc)
-// headerBarTr.add(headerBarIconBox2Tr)
-// headerBarIconBox2Tr2.add(headerBarIconBoxSc2)
-// headerBarTr.add(headerBarIconBox2Tr2)
-// //
-// // //Zeichenflaeche 1
-// const cube = new AABoxNode(new Vector(0, 0, 0, 0));
-// const cubeSc = new GroupNode(new Scaling(new Vector(1, 1, 1, 1)));
-// const cubeTr = new GroupNode(new Translation(new Vector(-0.5, 0, 0, 0)))
-// const cubeRt = new GroupNode(new Rotation(new Vector(0, 1, 0, 0), 1));
-// cubeSc.add(cube);
-// cubeSc.add(textureGeist)
-// cubeRt.add(cubeSc);
-// cubeTr.add(cubeRt)
-// sg.add(cubeTr);
-// // //Zeichenflaeche2
-// const sphere = new SphereNode(new Vector(1, 0.7, 0.7, 1))
-// // const sphereSc = new GroupNode(new Scaling(new Vector(0.4, 0.4, 0.4, 1)));
-// // const sphereTr = new GroupNode(new Translation(new Vector(0.5, 0, 0, 0)));
-// const sphereSc = new GroupNode(new Scaling(new Vector(0.4, 0.4, 0.4, 1)));
-// const sphereTr = new GroupNode(new Translation(new Vector(0.5, 0, -1, 0)));
-// sphereSc.add(sphere);
-// // sphereSc.add(textureHCILogo)
-// sphereTr.add(sphereSc);
-// sg.add(sphereTr);
-// //

@@ -262,13 +262,16 @@ export class RasterSetupVisitor {
    * The created render objects
    */
   public objects: WeakMap<Node, Renderable>
+  public lightpositions: Array<Vector>;
+
 
   /**
    * Creates a new RasterSetupVisitor
    * @param context The 3D context in which to create buffers
    */
-  constructor(private gl: WebGL2RenderingContext) {
+  constructor(private gl: WebGL2RenderingContext, lightPositions: Array<Vector>) {
     this.objects = new WeakMap();
+    this.lightpositions = lightPositions;
   }
 
   /**
@@ -307,7 +310,7 @@ export class RasterSetupVisitor {
   visitSphereNode(node: SphereNode) {
     this.objects.set(
       node,
-      new RasterSphere(this.gl, new Vector(0, 0, 0, 1), 1, node.color)
+      new RasterSphere(this.gl, this.lightpositions, new Vector(0, 0, 0, 1), 1, node.color)
     );
   }
 

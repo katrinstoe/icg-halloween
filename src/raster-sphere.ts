@@ -24,6 +24,8 @@ export default class RasterSphere {
      */
     elements: number;
 
+    lightPositionsBuffer: ArrayBuffer
+
     /**
      * Creates all WebGL buffers for the sphere
      * @param gl The canvas' context
@@ -33,14 +35,18 @@ export default class RasterSphere {
      */
     constructor(
         private gl: WebGL2RenderingContext,
+        lightPositions: Array<Vector>,
         center: Vector,
         radius: number,
         color: Vector
-    ) {
+
+
+) {
         let vertices = [];
         let indices = [];
         let normals = [];
         let colors = [];
+        let lightPositionsArray=[];
 
         let ringsize = 30;
 
@@ -75,6 +81,7 @@ export default class RasterSphere {
                 normals.push(normal.x);
                 normals.push(normal.y);
                 normals.push(normal.z);
+
             }
         }
 
@@ -88,6 +95,11 @@ export default class RasterSphere {
                 indices.push((ring + 1) * ringsize + ring2);
                 indices.push((ring + 1) * ringsize + ((ring2 + 1) % ringsize));
             }
+        }
+        for (let lightPosition of lightPositions) {
+            lightPositionsArray.push(lightPosition.x);
+            lightPositionsArray.push(lightPosition.y);
+            lightPositionsArray.push(lightPosition.z);
         }
 
         const vertexBuffer = this.gl.createBuffer();
@@ -109,6 +121,12 @@ export default class RasterSphere {
         gl.bindBuffer(this.gl.ARRAY_BUFFER, colorBuffer);
         gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(colors), this.gl.STATIC_DRAW);
         this.colorBuffer = colorBuffer;
+        //lightpositionBuffer
+        const lightPositionBuffer = this.gl.createBuffer();
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, lightPositionBuffer);
+        this.gl.bufferData(this.gl.ELEMENT_ARRAY_BUFFER, new Float32Array(lightPositionsArray), this.gl.STATIC_DRAW);
+        this.vertexBuffer = lightPositionBuffer;
+
     }
 
     /**
@@ -130,6 +148,11 @@ export default class RasterSphere {
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.normalBuffer);
         this.gl.enableVertexAttribArray(aNormal)
         this.gl.vertexAttribPointer(aNormal, 3, this.gl.FLOAT, false, 0, 0)
+        //LightPositions binden
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.lightPositionsBuffer);
+        const lightPosition = shader.getAttributeLocation("a_light_positions");
+        this.gl.enableVertexAttribArray(lightPosition);
+        this.gl.vertexAttribPointer(lightPosition, 3, this.gl.FLOAT, false, 0, 0);
 
         this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
 

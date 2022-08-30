@@ -45,8 +45,11 @@ window.addEventListener('load', () => {
     const cube = new TextureBoxNode('hci-logo.png');
     gn3.add(cube);
 
+    const lightPositions = [
+        new Vector(1, 1, 1, 1)
+    ];
     // setup for rendering
-    const setupVisitor = new RasterSetupVisitor(gl);
+    const setupVisitor = new RasterSetupVisitor(gl, lightPositions);
     setupVisitor.setup(sg);
 
     let camera = {
