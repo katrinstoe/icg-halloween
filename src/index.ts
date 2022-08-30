@@ -41,80 +41,72 @@ window.addEventListener('load', function loadPage() {
     const textureClose = new TextureBoxNode('Icons/close.png');
     // const textureGeistText = new TextureBoxNode('Icons/geistText.png');
     // const textureKugelText = new TextureBoxNode('Icons/kugelText.png');
-
-    const sg = new GroupNode(new Translation(new Vector(-0.5, -0.5, -5, 0)));
-
-    //Rotation an root
-    const gnRotation = new Rotation(new Vector(1, 0, 0, 0), 0)
-    const gn = new GroupNode(gnRotation); //rotation an root
-    sg.add(gn);
-
+    const sg = new GroupNode(new Rotation(new Vector(0, 0, 1, 0), 0));
+    const gnTr = new GroupNode(new Translation(new Vector(-0.75, -0.75, -3, 0)));
+    sg.add(gnTr);
 
     //Taskbar
-    const TaskBTr = new GroupNode(new Translation(new Vector(0, -2.3, 0, 0)));
-    const TaskBSc = new GroupNode(new Scaling(new Vector(7, 0.2, 0.0001, 0)))
+    const TaskBTr = new GroupNode(new Translation(new Vector(0, -.545, -1, 0)));
+    const TaskBSc = new GroupNode(new Scaling(new Vector(1.2, 0.07, 0.0001, 0)))
     const TaskBBox = new AABoxNode(new Vector(0, 0, 0, 0));
     TaskBSc.add(TaskBBox)
     TaskBTr.add(TaskBSc);
-    sg.add(TaskBTr)
-
+    sg.add(TaskBTr);
     //Icons auf Taskbar
     // //Icon Kreis
-    const TaskBIconSc = new GroupNode(new Scaling(new Vector(0.08, 0.08, 0.08,0)));
-    const TaskBIconTr = new GroupNode(new Translation(new Vector(-2.2, -2.29, 0, 0)));
+    const TaskBIconSc = new GroupNode(new Scaling(new Vector(0.025, 0.025, 0.025,0)));
+    const TaskBIconTr = new GroupNode(new Translation(new Vector(-0.1, -0.54, -1, 0)));
 
     const TaskBIconSphere = new SphereNode(new Vector(0, 0.6, 0.6, 1));
     TaskBIconSc.add(TaskBIconSphere);
     TaskBIconTr.add(TaskBIconSc);
     sg.add(TaskBIconTr);
-
     // //Icon Viereck
-    const TaskBIconBoxTr = new GroupNode(new Translation(new Vector(-1.95, -2.23, 0.1, 0)));
-    const TaskBIconBoxSc = new GroupNode(new Scaling(new Vector(0.15, 0.15, 0.000001, 0)));
+    const TaskBIconBoxTr = new GroupNode(new Translation(new Vector(0, -0.54, -1, 0)));
+    const TaskBIconBoxSc = new GroupNode(new Scaling(new Vector(0.045, 0.045, 0.0001, 0)));
 
     const TaskBIconBox = new AABoxNode(new Vector(0, 0, 0, 0));
     TaskBIconBoxSc.add(TaskBIconBox);
     TaskBIconBoxTr.add(TaskBIconBoxSc)
     sg.add(TaskBIconBoxTr)
-
     //HeaderBoxen
     // Erster Header
-    const headerBTr = new GroupNode(new Translation(new Vector(-1.1, 5.6, 0, 0)));
-    const headerBSc = new GroupNode(new Scaling(new Vector(2.6, 0.2, 0.0001, 0)))
+    const headerBTr = new GroupNode(new Translation(new Vector(-0.3, 1.08, 0, 0)));
+    const headerBSc = new GroupNode(new Scaling(new Vector(0.6, 0.07, 0.0001, 0)))
 
     const headerBBox = new AABoxNode(new Vector(0, 0, 0, 0));
     headerBSc.add(headerBBox)
     headerBTr.add(headerBSc)
     TaskBTr.add(headerBTr)
     //Icons für ersten Header
-    const headerBIconBoxSc = new GroupNode(new Scaling(new Vector(0.15, 0.15, 0.0001, 0)));
-    const headerBIconBoxTr = new GroupNode(new Translation(new Vector(1.15, -0.01, 0, 0)));
-    const headerBIconBoxTr2 = new GroupNode(new Translation(new Vector(0.95, -0.01, 0, 0)));
-    const headerBIconBoxSc2 = new GroupNode(new Scaling(new Vector(0.15, 0.15, 0.0001, 0)));
+    const headerBIconBoxSc = new GroupNode(new Scaling(new Vector(0.07, 0.07, 0.0001, 0)));
+    const headerBIconBoxTr = new GroupNode(new Translation(new Vector(0.15, 0.394, 0, 0)));
+    const headerBIconBoxTr2 = new GroupNode(new Translation(new Vector(0.25, 0.394, 0, 0)));
+    const headerBIconBoxSc2 = new GroupNode(new Scaling(new Vector(0.07, 0.07, 0.0001, 0)));
     //Header Icons (Vierecke, später Textur drauf)
     //erste Box
-    const headerBIconBox = new AABoxNode(new Vector(0, 0, 0, 0));
-    headerBIconBoxSc.add(headerBIconBox);
+    // const headerBIconBox = new AABoxNode(new Vector(0, 0, 0, 0));
+    // headerBIconBoxSc.add(headerBIconBox);
     headerBIconBoxSc.add(textureMinimize);
     headerBIconBoxTr.add(headerBIconBoxSc)
     headerBTr.add(headerBIconBoxTr)
-    //zweite Box
-    const headerBIconBox2 = new AABoxNode(new Vector(0, 0, 0, 0));
-    headerBIconBoxSc2.add(headerBIconBox2);
+    // //zweite Box
+    // const headerBIconBox2 = new AABoxNode(new Vector(0, 0, 0, 0));
+    // headerBIconBoxSc2.add(headerBIconBox2);
     headerBIconBoxSc2.add(textureClose);
     headerBIconBoxTr2.add(headerBIconBoxSc2)
     headerBTr.add(headerBIconBoxTr2)
     //Zweiter Header
-    const headerBTr2 = new GroupNode(new Translation(new Vector(2.1, 5.6, 0, 0)));
-    const headerBSc2 = new GroupNode(new Scaling(new Vector(2.6, 0.2, 0.0001, 0)))
+    const headerBTr2 = new GroupNode(new Translation(new Vector(0.3, 1.08, 0, 0)));
+    const headerBSc2 = new GroupNode(new Scaling(new Vector(0.55, 0.07, 0.0001, 0)))
 
     headerBSc2.add(headerBBox)
     // headerBarSc2.add(textureGeistText)
     headerBTr2.add(headerBSc2)
     TaskBTr.add(headerBTr2)
     //HeaderBox2 Icons
-    const headerBIconBox2Tr = new GroupNode(new Translation(new Vector(1.15, 0, 0, 0)));
-    const headerBIconBox2Tr2 = new GroupNode(new Translation(new Vector(0.95, 0, 0, 0)));
+    const headerBIconBox2Tr = new GroupNode(new Translation(new Vector(0.55, 0.394, 0, 0)));
+    const headerBIconBox2Tr2 = new GroupNode(new Translation(new Vector(0.65, 0.394, 0, 0)));
 
     headerBIconBox2Tr.add(headerBIconBoxSc)
     headerBTr2.add(headerBIconBox2Tr)
@@ -123,34 +115,35 @@ window.addEventListener('load', function loadPage() {
 
     //HeaderBoxen für Namebeschriftung
     //Header1: Beschriftung
-    const headerBTextTr = new GroupNode(new Translation(new Vector(0, 0, 0, 0)));
-    const headerBTextSc = new GroupNode(new Scaling(new Vector(1.5, 0.18, 0.0001, 0)))
+    const headerBTextTr = new GroupNode(new Translation(new Vector(-0.35, 0.394, 0, 0)));
+    const headerBTextSc = new GroupNode(new Scaling(new Vector(0.4, 0.07, 0.0001, 0)))
 
-    headerBTextSc.add(headerBBox)
+    // headerBTextSc.add(headerBBox)
     // headerBarTextSc.add(textureKugelText)
+    headerBTextSc.add(textureMinimize)
     headerBTextTr.add(headerBTextSc)
     headerBTr.add(headerBTextTr)
     //Header 2: Beschriftung
-    const headerBTextTr2 = new GroupNode(new Translation(new Vector(0, 0, 0, 0)));
-    const headerBTextSc2 = new GroupNode(new Scaling(new Vector(1.5, 0.18, 0.0001, 0)))
+    const headerBTextTr2 = new GroupNode(new Translation(new Vector(0.1, 0.394, 0, 0)));
+    const headerBTextSc2 = new GroupNode(new Scaling(new Vector(0.4, 0.07, 0.0001, 0)))
 
-    headerBTextSc2.add(headerBBox)
+    // headerBTextSc2.add(headerBBox)
     // headerBTextSc2.add(textureGeistText)
+    headerBTextSc2.add(textureMinimize)
     headerBTextTr2.add(headerBTextSc2)
     headerBTr2.add(headerBTextTr2)
 
-
     //Zeichenflaeche 1
-    const cube = new AABoxNode(new Vector(0, 0, 0, 0));
-    const cubeSc = new GroupNode(new Scaling(new Vector(2.2, 2.2, 0.1, 0)));
-    const cubeTr = new GroupNode(new Translation(new Vector(2.1, 0.8, 0, 0)));
+    // const cube = new AABoxNode(new Vector(0, 0, 0, 0));
+    const cubeSc = new GroupNode(new Scaling(new Vector(0.7, 0.7, 0.1, 0)));
+    const cubeTr = new GroupNode(new Translation(new Vector(0.5, 0, -1, 0)));
     const cubeRt = new GroupNode(new Rotation(new Vector(0, 1, 0, 0), 1));
     const gn3 = new GroupNode(new Translation(new Vector(0, 0, 0, 0)));
-    const cubeTexture = new TextureBoxNode('hci-logo.png');
+    // const cubeTexture = new TextureBoxNode('hci-logo.png');
 
-    cubeSc.add(cube);
+    // cubeSc.add(cube);
     //TODO: Texture anzeigen geht nicht?
-    cubeSc.add(cubeTexture)
+    cubeSc.add(textureGeist)
     cubeRt.add(cubeSc);
     cubeTr.add(cubeRt);
     sg.add(cubeTr);
@@ -158,30 +151,16 @@ window.addEventListener('load', function loadPage() {
     //Zeichenflaeche2
     //TODO: rausfinden wieso in raytracer sobald die sphere drin is der hintergrund schwarz wird
     const sphere = new SphereNode(new Vector(1, 0.7, 0.7, 1))
-    const sphereSc = new GroupNode(new Scaling(new Vector(1.2, 1.2, 1.2, 1.2)));
-    const sphereTr = new GroupNode(new Translation(new Vector(-1, 0.7, 0, 0)));
+    const sphereSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.2, 0)));
+    const sphereTr = new GroupNode(new Translation(new Vector(-0.3, 0, -1, 0)));
     sphereSc.add(sphere);
     // sphereSc.add(textureHCILogo)
     sphereTr.add(sphereSc);
     sg.add(sphereTr);
 
-    // const gn1 = new GroupNode(new Translation(new Vector(1.2, .5, 0, 0)));
-    // cubeTr.add(gn1); //Translation an rotation
-    // gn1.add(new SphereNode(new Vector(.4, 0, 0, 1))); //an translation dann spherenode
-    //
-    // const gn2 = new GroupNode(new Translation(new Vector(-0.8, 1, 1, 0)));
-    // sphereTr.add(gn2);//an rotation neue translation hängen
-    //
-    // const gn3 = new GroupNode(new Scaling(new Vector(0.4, 0.4, 0.4, 0)));
-    // gn2.add(gn3); //die neue translation anders scalen
-    // const gn4 = new GroupNode(new Translation(new Vector(0,0,0,0)));
-    // gn3.add(gn4) //neue groupnode an die wir ne neue sphere hängen
-    //
-    // gn4.add(new SphereNode(new Vector(0, 0, .3, 1)));
-
     let animationNodes = [
         new RotationNode(cubeRt, new Vector(0, 0, 1, 0)),
-        // new RotationNode(gn4, new Vector(0, 0, 1, 0)),
+        // new RotationNode(gn3, new Vector(0, 0, 1, 0)),
     ]
 
 //Rasterizer und RayTracer Wechseln
