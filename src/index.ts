@@ -158,12 +158,25 @@ window.addEventListener('load', function loadPage() {
     sphereTr.add(sphereSc);
     sg.add(sphereTr);
 
+    //Sonne
+    const sonne = new SphereNode(new Vector(0.8,0.8,0.4,1))
+    const sonneSc = new GroupNode(new Scaling(new Vector(0.01,0.01,0.01,0.01)))
+    const sonneTr = new GroupNode(new Translation(new Vector(-0.1,0,-0.3,0)))
+    sonneSc.add(sonne);
+    sonneTr.add(sonneSc);
+    sg.add(sonneTr)
+
+    const lightPositions = [
+        //new Vector(-0.1,0,-0.3,0),
+        new Vector(1, 1, 1, 1)
+    ];
+
     let animationNodes = [
         new RotationNode(cubeRt, new Vector(0, 0, 1, 0)),
         // new RotationNode(gn3, new Vector(0, 0, 1, 0)),
     ]
 
-//Rasterizer und RayTracer Wechseln
+    //Rasterizer und RayTracer Wechseln
     const canvas = document.getElementById("rasteriser") as HTMLCanvasElement;
     const canvas2 = document.getElementById("rayTracer") as HTMLCanvasElement;
 
@@ -201,9 +214,7 @@ window.addEventListener('load', function loadPage() {
         const setupVisitor = new RasterSetupVisitor(gl);
         setupVisitor.setup(sg);
 
-        const lightPositions = [
-            new Vector(1, 1, 1, 1)
-        ];
+
         const rayCamera = {
             origin: new Vector(0, 0, 0, 1),
             width: canvas.width,

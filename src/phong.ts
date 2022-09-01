@@ -44,9 +44,7 @@ export default function phong(
   }
   specular = specular.mul(kS)
   diffuse = diffuse.mul(kD)
-  // if(specular.length>0){
-  //   console.log(specular)
-  // }
+
   let phong = ambient.add(diffuse).add(specular);
   return phong;
 }

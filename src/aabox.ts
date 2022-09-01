@@ -111,5 +111,4 @@ export default class AABox {
 
     return new Intersection(tmin, intersectionPoint, new Vector(0,0,0,1))
   }
-
 }
