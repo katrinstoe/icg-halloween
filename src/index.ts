@@ -54,7 +54,7 @@ window.addEventListener('load', function loadPage() {
     sg.add(TaskBTr);
     //Icons auf Taskbar
     // //Icon Kreis
-    const TaskBIconSc = new GroupNode(new Scaling(new Vector(0.025, 0.025, 0.025,0)));
+    const TaskBIconSc = new GroupNode(new Scaling(new Vector(0.025, 0.025, 0.025, 0)));
     const TaskBIconTr = new GroupNode(new Translation(new Vector(-0.1, -0.54, -1, 0)));
 
     const TaskBIconSphere = new SphereNode(new Vector(1, 0.7, 0.7, 1));
@@ -161,6 +161,7 @@ window.addEventListener('load', function loadPage() {
     let animationNodes = [
         new RotationNode(cubeRt, new Vector(0, 0, 1, 0)),
         // new RotationNode(gn3, new Vector(0, 0, 1, 0)),
+
     ]
 
 //Rasterizer und RayTracer Wechseln
@@ -170,9 +171,12 @@ window.addEventListener('load', function loadPage() {
     const btn1 = document.getElementById('btnradio1') as HTMLInputElement;
     const btn2 = document.getElementById('btnradio2') as HTMLInputElement;
 
+    const shininessElement = document.getElementById("shininess") as HTMLInputElement;
+
+
     let renderer = localStorage.getItem("renderer")
     console.log(renderer)
-    if (renderer=="rasterizer"){
+    if (renderer == "rasterizer") {
         btn1.checked = true
     } else {
         btn2.checked = true
@@ -284,7 +288,6 @@ window.addEventListener('load', function loadPage() {
         }
 
 
-
     }
 
     function rayVisitor() {
@@ -298,7 +301,7 @@ window.addEventListener('load', function loadPage() {
 
 
         const lightPositions = [
-            new Vector(1, 1, 1, 0)
+            new Vector(1, 1, 1, 0),
         ];
         const camera = {
             origin: new Vector(0, 0, 0, 1),
@@ -306,8 +309,6 @@ window.addEventListener('load', function loadPage() {
             height: canvas.height,
             alpha: Math.PI / 3,
         };
-
-        let shininess = 10;
 
         const visitor = new RayVisitor(ctx, canvas.width, canvas.height);
 
@@ -337,20 +338,15 @@ window.addEventListener('load', function loadPage() {
             }
             animationHasStarted = true;
 
-            const shininessElement = document.getElementById("shininess") as HTMLInputElement;
             function animation(t: number) {
-                shininessElement.onchange = function () {
-                    shininess = Number(shininessElement.value);
-                    console.log("hallo")
-                    animate(t);
-                    animationHandle = window.requestAnimationFrame(animation);
-                }
+                animate(t);
+                animationHandle = window.requestAnimationFrame(animate);
             }
-            shininess = Number(shininessElement.value);
-            animationHandle = window.requestAnimationFrame(animation);
         }
 
         animate(0);
+
+
 
         document.getElementById("startAnimationBtn").addEventListener(
             "dblclick", startAnimation);
@@ -359,32 +355,39 @@ window.addEventListener('load', function loadPage() {
 
 
     }
+    let shininess = 10;
+    console.log(shininess)
+    shininessElement.onchange = function () {
+        shininess = Number(shininessElement.value);
+        console.log(shininess)
+    }
 
-        btn1.addEventListener('click', function () {
-            if (btn1.checked) {
-                console.log("render")
-                localStorage.setItem("renderer", "rasterizer")
-                // rasterVisitor()
-            } else if (btn2.checked) {
-                console.log("ray")
-                localStorage.setItem("renderer", "rayTracer")
-                // rayVisitor()
-            }
-            location.reload()
-        });
-        btn2.addEventListener('click', function () {
-            if (btn1.checked) {
-                console.log("render")
-                localStorage.setItem("renderer", "rasterizer")
-                // rasterVisitor()
-            } else if (btn2.checked) {
-                console.log("ray")
-                localStorage.setItem("renderer", "rayTracer")
-                // rayVisitor()
-            }
-            location.reload()
-        });
+    btn1.addEventListener('click', function () {
+        if (btn1.checked) {
+            console.log("render")
+            localStorage.setItem("renderer", "rasterizer")
+            // rasterVisitor()
+        } else if (btn2.checked) {
+            console.log("ray")
+            localStorage.setItem("renderer", "rayTracer")
+            // rayVisitor()
+        }
+        location.reload()
     });
+    btn2.addEventListener('click', function () {
+        if (btn1.checked) {
+            console.log("render")
+            localStorage.setItem("renderer", "rasterizer")
+            // rasterVisitor()
+        } else if (btn2.checked) {
+            console.log("ray")
+            localStorage.setItem("renderer", "rayTracer")
+            // rayVisitor()
+        }
+        location.reload()
+    });
+})
+;
 
 
 // let animationHandle: number;

@@ -9,7 +9,6 @@ varying vec3 vlightPositions;
 
 //lichtstrahl => auftreffpunkt
 
-vec3 lightPos = vec3(1.0, 1.0, 1.0);
 const float shininess = 16.0;
 const float kA = 0.3;
 const float kD = 0.6;
@@ -27,7 +26,8 @@ void main(void) {
 //
 //  float lightPos = 0.0;
 //  lightPos += 0.1 * (abs(sin(u_time)) + 0.1)/length/vPosition;
-  lightPos = vlightPositions;
+//  vlightPosition wieder einkommentiert
+  vec3 lightPos = vec3(1.0, 1.0, 1.0);
   vec3 ambient = kA*vColor;
 
   vec3 l = normalize(lightPos - vPosition);

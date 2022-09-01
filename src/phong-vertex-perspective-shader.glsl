@@ -14,6 +14,7 @@ uniform mat4 M;
 uniform mat4 V;
 uniform mat4 P;
 uniform mat4 N; // normal matrix
+uniform vec3 lightPositionsVisitor;
 
 varying vec3 v_normal;
 varying vec3 vColor;

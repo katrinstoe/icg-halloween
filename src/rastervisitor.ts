@@ -145,6 +145,7 @@ export class RasterVisitor implements Visitor {
     //allgemein kann ich kamera dann an würfel hängen der dann mit animation rotiert um objekte
     shader.getUniformMatrix("M").set(toWorld);
 
+
     const V = shader.getUniformMatrix("V");
     if (V && this.lookat) {
       V.set(this.lookat);
@@ -310,7 +311,7 @@ export class RasterSetupVisitor {
   visitSphereNode(node: SphereNode) {
     this.objects.set(
       node,
-      new RasterSphere(this.gl, this.lightpositions, new Vector(0, 0, 0, 1), 1, node.color)
+      new RasterSphere(this.gl, new Vector(0, 0, 0, 1), 1, node.color, this.lightpositions)
     );
   }
 

@@ -24,7 +24,7 @@ export default class RasterSphere {
      */
     elements: number;
 
-    lightPositionsBuffer: ArrayBuffer
+    lightPositionsBuffer: WebGLBuffer
 
     /**
      * Creates all WebGL buffers for the sphere
@@ -35,10 +35,10 @@ export default class RasterSphere {
      */
     constructor(
         private gl: WebGL2RenderingContext,
-        lightPositions: Array<Vector>,
         center: Vector,
         radius: number,
-        color: Vector
+        color: Vector,
+        lightPositions?: Array<Vector>
 
 
 ) {
@@ -125,8 +125,8 @@ export default class RasterSphere {
         //lightpositionBuffer
         const lightPositionBuffer = this.gl.createBuffer();
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, lightPositionBuffer);
-        this.gl.bufferData(this.gl.ELEMENT_ARRAY_BUFFER, new Float32Array(lightPositionsArray), this.gl.STATIC_DRAW);
-        this.vertexBuffer = lightPositionBuffer;
+        this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(lightPositionsArray), this.gl.STATIC_DRAW);
+        this.lightPositionsBuffer = lightPositionBuffer;
 
     }
 
@@ -152,8 +152,8 @@ export default class RasterSphere {
 
         this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
 
-        //this.gl.drawElements(this.gl.TRIANGLES, this.elements, this.gl.UNSIGNED_SHORT, 0);
-        this.gl.drawElements(this.gl.TRIANGLES, 3, this.gl.UNSIGNED_SHORT, 0);
+        this.gl.drawElements(this.gl.TRIANGLES, this.elements, this.gl.UNSIGNED_SHORT, 0);
+        //this.gl.drawElements(this.gl.TRIANGLES, 3, this.gl.UNSIGNED_SHORT, 0);
 
         //LightPositions binden
         const lightPosition = shader.getAttributeLocation("a_light_positions");
