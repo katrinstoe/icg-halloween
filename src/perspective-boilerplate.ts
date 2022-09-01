@@ -36,6 +36,14 @@ window.addEventListener('load', () => {
     const setupVisitor = new RasterSetupVisitor(gl, lightPositions);
     setupVisitor.setup(sg);
 
+    const shininessElement = document.getElementById("shininess") as HTMLInputElement;
+
+    let shininessCalc = 10;
+    console.log(shininessCalc)
+    shininessElement.onchange = function () {
+        shininessCalc = Number(shininessElement.value);
+        console.log(shininessCalc)
+    }
     const camera = {
         eye: new Vector(-.5, .5, -1, 1),
         center: new Vector(0, 0, 0, 1),
@@ -43,7 +51,8 @@ window.addEventListener('load', () => {
         fovy: 60,
         aspect: canvas.width / canvas.height,
         near: 0.1,
-        far: 100
+        far: 100,
+        shininess: shininessCalc
     };
     const shader = new Shader(gl,
         perspectiveVertexShader,

@@ -172,7 +172,15 @@ window.addEventListener('load', function loadPage() {
     const btn2 = document.getElementById('btnradio2') as HTMLInputElement;
 
     const shininessElement = document.getElementById("shininess") as HTMLInputElement;
-
+    let shininessCalc = 25;
+    console.log(shininessCalc)
+    //Version 1 mit rerender
+    shininessElement.onchange = function () {
+        shininessCalc = Number(shininessElement.value);
+        //ging als jenachdem aktuellen visitor nochmal gecalled haben aber dann endless loop und super schnell
+        rerender()
+    }
+    console.log(shininessCalc)
 
     let renderer = localStorage.getItem("renderer")
     console.log(renderer)
@@ -183,16 +191,21 @@ window.addEventListener('load', function loadPage() {
     }
     console.log(btn1.checked)
     console.log(btn2.checked)
-    if (btn1.checked) {
-        // canvas2.style.visibility='hidden';
-        // canvas.style.visibility='visible';
-        rasterVisitor()
-    } else if (btn2.checked) {
-        // canvas.style.visibility='hidden';
-        // canvas2.style.visibility='visible';
-        btn2.checked = true
-        rayVisitor()
+
+    function rerender() {
+        console.log("called")
+        if (btn1.checked) {
+            btn1.checked = true
+            btn2.checked = false
+            rasterVisitor()
+        } else if (btn2.checked) {
+            btn1.checked = false
+            btn2.checked = true
+            rayVisitor()
+        }
     }
+
+    rerender()
 
     function rasterVisitor() {
         canvas2.style.display = "none"
@@ -223,6 +236,7 @@ window.addEventListener('load', function loadPage() {
             aspect: canvas.width / canvas.height,
             near: 0.1,
             far: 100,
+            shininess: shininessCalc
         };
 
         const phongShader = new Shader(gl,
@@ -250,6 +264,13 @@ window.addEventListener('load', function loadPage() {
             lastTimestamp = timestamp;
             window.requestAnimationFrame(animate);
         }
+        //2. Version mit requestAnimationframe
+        // shininessElement.onchange = function () {
+        //     shininessCalc = Number(shininessElement.value);
+        //     window.requestAnimationFrame(animate);
+        // }
+        // shininessCalc = Number(shininessElement.value);
+        // window.requestAnimationFrame(animate);
 
         Promise.all(
             [phongShader.load(), textureShader.load()]
@@ -299,7 +320,6 @@ window.addEventListener('load', function loadPage() {
         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         const data = imageData.data;
 
-
         const lightPositions = [
             new Vector(1, 1, 1, 0),
         ];
@@ -308,6 +328,7 @@ window.addEventListener('load', function loadPage() {
             width: canvas.width,
             height: canvas.height,
             alpha: Math.PI / 3,
+            shininess: shininessCalc
         };
 
         const visitor = new RayVisitor(ctx, canvas.width, canvas.height);
@@ -347,7 +368,6 @@ window.addEventListener('load', function loadPage() {
         animate(0);
 
 
-
         document.getElementById("startAnimationBtn").addEventListener(
             "dblclick", startAnimation);
         document.getElementById("stopAnimationBtn").addEventListener(
@@ -355,12 +375,7 @@ window.addEventListener('load', function loadPage() {
 
 
     }
-    let shininess = 10;
-    console.log(shininess)
-    shininessElement.onchange = function () {
-        shininess = Number(shininessElement.value);
-        console.log(shininess)
-    }
+
 
     btn1.addEventListener('click', function () {
         if (btn1.checked) {

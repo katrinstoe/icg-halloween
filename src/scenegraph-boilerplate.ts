@@ -25,7 +25,14 @@ window.addEventListener('load', () => {
     gn2.add(gn3);
 
     gn3.add(new SphereNode(new Vector(0, 0, .3, 1)));
+    const shininessElement = document.getElementById("shininess") as HTMLInputElement;
 
+    let shininessCalc = 10;
+    console.log(shininessCalc)
+    shininessElement.onchange = function () {
+        shininessCalc = Number(shininessElement.value);
+        console.log(shininessCalc)
+    }
     const lightPositions = [
         new Vector(1, 1, 1, 1)
     ];
@@ -33,7 +40,8 @@ window.addEventListener('load', () => {
         origin: new Vector(0, 0, 0, 1),
         width: canvas.width,
         height: canvas.height,
-        alpha: Math.PI / 3
+        alpha: Math.PI / 3,
+        shininess: shininessCalc
     }
 
     const visitor = new RayVisitor(ctx, canvas.width, canvas.height);

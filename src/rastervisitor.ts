@@ -7,7 +7,7 @@ import Visitor from './visitor';
 import {
   Node, GroupNode,
   SphereNode, AABoxNode,
-  TextureBoxNode, PyramidNode
+  TextureBoxNode, PyramidNode, CameraNode, LightNode
 } from './nodes';
 import Shader from './shader';
 import RasterPyramid from "./raster-pyramid";
@@ -19,7 +19,8 @@ interface Camera {
   fovy: number,
   aspect: number,
   near: number,
-  far: number
+  far: number,
+  shininess: number
 }
 
 interface Renderable {
@@ -56,7 +57,7 @@ export class RasterVisitor implements Visitor {
    * Renders the Scenegraph
    * @param rootNode The root node of the Scenegraph
    * @param camera The camera used
-   * @param lightPositions The light light positions
+   * @param lightPositions The light positions
    */
   render(
     rootNode: Node,
@@ -89,6 +90,8 @@ export class RasterVisitor implements Visitor {
    */
   private perspective: Matrix;
 
+  private shininess: number;
+
   /**
    * Helper function to setup camera matrices
    * @param camera The camera used
@@ -98,13 +101,14 @@ export class RasterVisitor implements Visitor {
       camera.eye,
       camera.center,
       camera.up);
-
     this.perspective = Matrix.perspective(
       camera.fovy,
       camera.aspect,
       camera.near,
       camera.far
     );
+    this.shininess = camera.shininess;
+    console.log(this.shininess)
   }
 
   /**
@@ -144,6 +148,7 @@ export class RasterVisitor implements Visitor {
     //eignenen kameravisitor vllt machen der in viewmatrix veändert
     //allgemein kann ich kamera dann an würfel hängen der dann mit animation rotiert um objekte
     shader.getUniformMatrix("M").set(toWorld);
+    shader.getUniformFloat("shininess").set(this.shininess)
 
 
     const V = shader.getUniformMatrix("V");
@@ -165,6 +170,7 @@ export class RasterVisitor implements Visitor {
       normalMatrix.setVal(3,2,0);
       N.set(normalMatrix)
     }
+    const shininess =
 
     this.renderables.get(node).render(shader);
   }
@@ -252,6 +258,11 @@ export class RasterVisitor implements Visitor {
 
     this.renderables.get(node).render(shader);
   }
+
+  visitCameraNode(node: CameraNode) {
+  };
+  visitLightNode(node: LightNode) {
+  };
 }
 
 /** 
@@ -356,4 +367,9 @@ export class RasterSetupVisitor {
         new RasterPyramid(this.gl, new Vector(0.1, 0.1, -0.1, 1), new Vector(0.8, 0.1, -0.1, 1), new Vector(0.5, 0.1, -0.5, 1), new Vector(0.5, 0.8, -0.2, 1))
     );
   }
+
+  visitCameraNode(node: CameraNode) {
+  };
+  visitLightNode(node: LightNode) {
+  };
 }
