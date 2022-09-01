@@ -298,7 +298,7 @@ window.addEventListener('load', function loadPage() {
 
 
         const lightPositions = [
-            new Vector(1, 1, 1, 1)
+            new Vector(1, 1, 1, 0)
         ];
         const camera = {
             origin: new Vector(0, 0, 0, 1),

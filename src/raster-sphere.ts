@@ -100,6 +100,7 @@ export default class RasterSphere {
             lightPositionsArray.push(lightPosition.x);
             lightPositionsArray.push(lightPosition.y);
             lightPositionsArray.push(lightPosition.z);
+            lightPositionsArray.push(lightPosition.w)
         }
 
         const vertexBuffer = this.gl.createBuffer();
@@ -158,7 +159,7 @@ export default class RasterSphere {
         const lightPosition = shader.getAttributeLocation("a_light_positions");
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.lightPositionsBuffer);
         this.gl.enableVertexAttribArray(lightPosition);
-        this.gl.vertexAttribPointer(lightPosition, 3, this.gl.FLOAT, false, 0, 0);
+        this.gl.vertexAttribPointer(lightPosition, 4, this.gl.FLOAT, false, 0, 0);
 
 
 
