@@ -172,7 +172,7 @@ window.addEventListener('load', function loadPage() {
     const btn2 = document.getElementById('btnradio2') as HTMLInputElement;
 
     const shininessElement = document.getElementById("shininess") as HTMLInputElement;
-    let shininessCalc = 25;
+    let shininessCalc = Number(shininessElement.value);
     console.log(shininessCalc)
     //Version 1 mit rerender
 
@@ -270,6 +270,7 @@ window.addEventListener('load', function loadPage() {
         //2. Version mit requestAnimationframe
         shininessElement.onchange = function () {
             camera.shininess = Number(shininessElement.value);
+            console.log(camera.shininess)
         }
 
 
@@ -341,6 +342,7 @@ window.addEventListener('load', function loadPage() {
         let animationHasStarted = true;
 
         function animate(timestamp: number) {
+            console.log("ich starte mal")
             let deltaT = timestamp - lastTimestamp;
             if (animationHasStarted) {
                 deltaT = 0;
@@ -349,9 +351,11 @@ window.addEventListener('load', function loadPage() {
             animationTime += deltaT;
             lastTimestamp = timestamp;
             animationNodes[0].angle = animationTime / 2000;
+            console.log(camera.shininess)
 
             visitor.render(sg, camera, lightPositions);
             // animationHandle = window.requestAnimationFrame(animate);
+            console.log("animate zu Ende")
         }
 
         function startAnimation() {
@@ -367,9 +371,12 @@ window.addEventListener('load', function loadPage() {
 
         }
 
+        console.log("animate aufgerufen")
         animate(0);
         shininessElement.onchange = function () {
+            console.log("shininess change")
             camera.shininess = Number(shininessElement.value);
+            console.log(camera.shininess)
             window.requestAnimationFrame(animate)
         }
         console.log("fertig shininess")
