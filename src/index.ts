@@ -354,7 +354,8 @@ window.addEventListener('load', function loadPage() {
             alpha: Math.PI / 3,
             shininess: shininessCalc,
             kS: kSCalc,
-            kD: kDCalc
+            kD: kDCalc,
+            kA: kACalc
         };
 
         const visitor = new RayVisitor(ctx, canvas.width, canvas.height);
@@ -404,7 +405,10 @@ window.addEventListener('load', function loadPage() {
         }
         kDElement.onchange = function () {
             camera.kD = Number(kDElement.value);
-            console.log("kD"+ camera.kD)
+            window.requestAnimationFrame(animate)
+        }
+        kAElement.onchange = function () {
+            camera.kA = Number(kAElement.value);
             window.requestAnimationFrame(animate)
         }
         console.log("fertig shininess")

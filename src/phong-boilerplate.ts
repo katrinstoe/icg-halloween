@@ -19,8 +19,9 @@ window.addEventListener('load', () => {
         new Vector(1, 1, -1, 1)
     ];
     let shininess = 10;
-    let kS = 2;
-    let kD =2;
+    let kS = 0.5;
+    let kD =0.5;
+    let kA = 0.5;
     const camera = {
         origin: new Vector(0, 0, 0, 1),
         width: canvas.width,
@@ -28,7 +29,8 @@ window.addEventListener('load', () => {
         alpha: Math.PI / 3,
         shininess: shininess,
         kS: kS,
-        kD: kD
+        kD: kD,
+        kA: kA
     }
 
     function setPixel(x: number, y: number, color: Vector) {
@@ -58,7 +60,7 @@ window.addEventListener('load', () => {
                     } else {
                         let color = phong(
                             Object.assign(Object.create(Vector.prototype), minObj.color),
-                            minIntersection, lightPositions, shininess, camera.origin, camera.kS, camera.kD);
+                            minIntersection, lightPositions, shininess, camera.origin, camera.kS, camera.kD, camera.kA);
                         setPixel(x, y, color);
                     }
 

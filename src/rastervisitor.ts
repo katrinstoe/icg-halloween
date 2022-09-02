@@ -201,6 +201,13 @@ export class RasterVisitor implements Visitor {
     toWorld = this.model[this.model.length-1];
 
     shader.getUniformMatrix("M").set(toWorld);
+    shader.getUniformFloat("shininess").set(this.shininess)
+    shader.getUniformFloat("kS").set(this.kS)
+    shader.getUniformFloat("kD").set(this.kD)
+    shader.getUniformFloat("kA").set(this.kA)
+
+
+
     let V = shader.getUniformMatrix("V");
     if (V && this.lookat) {
       V.set(this.lookat);
@@ -226,6 +233,13 @@ export class RasterVisitor implements Visitor {
     toWorld = this.model[this.model.length-1];
 
     shader.getUniformMatrix("M").set(toWorld);
+    shader.getUniformFloat("shininess").set(this.shininess)
+    shader.getUniformFloat("kS").set(this.kS)
+    shader.getUniformFloat("kD").set(this.kD)
+    shader.getUniformFloat("kA").set(this.kA)
+
+
+
     shader.getUniformMatrix("V").set(this.lookat);
     let P = shader.getUniformMatrix("P");
     if (P && this.perspective) {
@@ -249,6 +263,11 @@ export class RasterVisitor implements Visitor {
     fromWorld = this.inverse[this.inverse.length-1]
 
     shader.getUniformMatrix("M").set(toWorld);
+    shader.getUniformFloat("shininess").set(this.shininess)
+    shader.getUniformFloat("kS").set(this.kS)
+    shader.getUniformFloat("kD").set(this.kD)
+    shader.getUniformFloat("kA").set(this.kA)
+
 
     const V = shader.getUniformMatrix("V");
     if (V && this.lookat) {
