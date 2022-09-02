@@ -21,7 +21,9 @@ interface Camera {
   near: number,
   far: number,
   shininess: number,
-  kS: number
+  kS: number,
+  kD: number,
+  kA: number
 }
 
 interface Renderable {
@@ -95,6 +97,9 @@ export class RasterVisitor implements Visitor {
 
   private kS: number;
 
+  private kD: number;
+  private kA: number;
+
   /**
    * Helper function to setup camera matrices
    * @param camera The camera used
@@ -111,7 +116,9 @@ export class RasterVisitor implements Visitor {
       camera.far
     );
     this.shininess = camera.shininess;
-    this. kS= camera.kS;
+    this.kS= camera.kS;
+    this.kD = camera.kD;
+    this.kA = camera.kA;
     // console.log(this.shininess)
   }
 
@@ -154,6 +161,8 @@ export class RasterVisitor implements Visitor {
     shader.getUniformMatrix("M").set(toWorld);
     shader.getUniformFloat("shininess").set(this.shininess)
     shader.getUniformFloat("kS").set(this.kS)
+    shader.getUniformFloat("kD").set(this.kD)
+    shader.getUniformFloat("kA").set(this.kA)
 
 
     const V = shader.getUniformMatrix("V");

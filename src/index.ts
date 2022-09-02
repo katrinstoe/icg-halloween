@@ -176,7 +176,13 @@ window.addEventListener('load', function loadPage() {
 
     const kSElement = document.getElementById("kS") as HTMLInputElement;
     let kSCalc = Number(kSElement.value)
-    //Version 1 mit rerender
+
+    const kDElement = document.getElementById("kD") as HTMLInputElement;
+    let kDCalc = Number(kDElement.value)
+
+    const kAElement = document.getElementById("kA") as HTMLInputElement;
+    let kACalc = Number(kDElement.value)
+
 
 
     let renderer = localStorage.getItem("renderer")
@@ -241,7 +247,9 @@ window.addEventListener('load', function loadPage() {
             near: 0.1,
             far: 100,
             shininess: shininessCalc,
-            kS: kSCalc
+            kS: kSCalc,
+            kD: kDCalc,
+            kA: kACalc
         };
 
         const phongShader = new Shader(gl,
@@ -277,6 +285,14 @@ window.addEventListener('load', function loadPage() {
         kSElement.onchange = function () {
             camera.kS = Number(kSElement.value);
             console.log(camera.kS)
+        }
+        kDElement.onchange = function () {
+            camera.kD = Number(kDElement.value);
+            console.log(camera.kD)
+        }
+        kAElement.onchange = function () {
+            camera.kA = Number(kAElement.value);
+            console.log(camera.kA)
         }
 
 
@@ -337,7 +353,8 @@ window.addEventListener('load', function loadPage() {
             height: canvas.height,
             alpha: Math.PI / 3,
             shininess: shininessCalc,
-            kS: kSCalc
+            kS: kSCalc,
+            kD: kDCalc
         };
 
         const visitor = new RayVisitor(ctx, canvas.width, canvas.height);
@@ -358,7 +375,6 @@ window.addEventListener('load', function loadPage() {
             animationTime += deltaT;
             lastTimestamp = timestamp;
             animationNodes[0].angle = animationTime / 2000;
-            console.log(camera.shininess)
 
             visitor.render(sg, camera, lightPositions);
             // animationHandle = window.requestAnimationFrame(animate);
@@ -384,6 +400,11 @@ window.addEventListener('load', function loadPage() {
         }
         kSElement.onchange = function () {
             camera.kS = Number(kSElement.value);
+            window.requestAnimationFrame(animate)
+        }
+        kDElement.onchange = function () {
+            camera.kD = Number(kDElement.value);
+            console.log("kD"+ camera.kD)
             window.requestAnimationFrame(animate)
         }
         console.log("fertig shininess")

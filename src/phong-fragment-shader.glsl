@@ -8,13 +8,15 @@ varying vec3 vPosition;
 varying vec3 vlightPositions;
 varying float vshininess;
 varying float vkS;
+varying float vkD;
+varying float vkA;
 
 //lichtstrahl => auftreffpunkt
 
 const float shininess = 16.0;
 const float kA = 0.3;
-const float kD = 0.6;
-const float kS = 0.7;
+//const float kD = 0.6;
+//const float kS = 0.7;
 
 //uniform float u_time = 0.1;
 
@@ -29,14 +31,14 @@ void main(void) {
 //  float lightPos = 0.0;
 //  lightPos += 0.1 * (abs(sin(u_time)) + 0.1)/length/vPosition;
 
-  vec3 ambient = kA*vColor;
+  vec3 ambient = vkA*vColor;
 
   vec3 l = normalize(vlightPositions - vPosition);
   vec3 v = normalize(-vPosition);
   vec3 r= normalize(reflect(-l, v_normal));
   vec3 n = normalize(v_normal);
 
-  vec3 diffuse = vColor * max(0.0, dot(n, l))*kD;
+  vec3 diffuse = vColor * max(0.0, dot(n, l))*vkD;
   vec3 specular = vColor * pow(max(0.0, dot(r, v)), vshininess)* vkS;
   vec3 phong = diffuse+ specular+ ambient;
 

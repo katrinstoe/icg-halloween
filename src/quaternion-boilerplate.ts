@@ -40,6 +40,10 @@ window.addEventListener('load', () => {
     let shininessCalc = Number(shininessElement.value)
     const kSElement = document.getElementById("kS") as HTMLInputElement;
     let kSCalc = Number(kSElement.value)
+    const kDElement = document.getElementById("kD") as HTMLInputElement;
+    let kDCalc = Number(kDElement.value)
+    const kAElement = document.getElementById("kA") as HTMLInputElement;
+    let kACalc = Number(kAElement.value)
     let camera = {
         eye: new Vector(0, 0, 2, 1),
         center: new Vector(0, 0, 0, 1),
@@ -49,7 +53,9 @@ window.addEventListener('load', () => {
         near: 0.1,
         far: 100,
         shininess: shininessCalc,
-        kS: kSCalc
+        kS: kSCalc,
+        kD: kDCalc,
+        kA: kACalc
     };
     shininessElement.onchange = function () {
         camera.shininess = Number(shininessElement.value);
@@ -57,6 +63,13 @@ window.addEventListener('load', () => {
     kSElement.onchange = function () {
         camera.kS = Number(kSElement.value);
         console.log(camera.kS)
+    }
+    kDElement.onchange = function () {
+        camera.kD = Number(kDElement.value);
+    }
+    kAElement.onchange = function () {
+        camera.kA = Number(kAElement.value);
+        console.log(camera.kA)
     }
 
     const phongShader = new Shader(gl,

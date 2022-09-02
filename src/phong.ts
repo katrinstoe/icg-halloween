@@ -14,13 +14,13 @@ import Ray from "./ray";
 export default function phong(
   color: Vector, intersection: Intersection,
   lightPositions: Array<Vector>, shininess: number,
-  cameraPosition: Vector, kS: number
+  cameraPosition: Vector, kS: number, kD: number
   // , kD: number, kA: number
 ): Vector {
   const lightColor = new Vector(0.8, 0.8, 0.8, 0);
   const white = new Vector(1, 1, 1, 0)
   const kA = 0.8;
-  const kD = 0.5;
+  // const kD = 0.5;
   // const kS = 0.5;
   let p = intersection.point;
   let n = intersection.normal.normalize();
