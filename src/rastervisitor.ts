@@ -108,7 +108,7 @@ export class RasterVisitor implements Visitor {
       camera.far
     );
     this.shininess = camera.shininess;
-    console.log(this.shininess)
+    // console.log(this.shininess)
   }
 
   /**

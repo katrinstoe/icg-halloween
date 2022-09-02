@@ -175,12 +175,7 @@ window.addEventListener('load', function loadPage() {
     let shininessCalc = 25;
     console.log(shininessCalc)
     //Version 1 mit rerender
-    shininessElement.onchange = function () {
-        shininessCalc = Number(shininessElement.value);
-        //ging als jenachdem aktuellen visitor nochmal gecalled haben aber dann endless loop und super schnell
-        rerender()
-    }
-    console.log(shininessCalc)
+
 
     let renderer = localStorage.getItem("renderer")
     console.log(renderer)
@@ -206,6 +201,13 @@ window.addEventListener('load', function loadPage() {
     }
 
     rerender()
+
+    // shininessElement.onchange = function () {
+    //     shininessCalc = Number(shininessElement.value);
+    //     //ging als jenachdem aktuellen visitor nochmal gecalled haben aber dann endless loop und super schnell
+    //     rerender()
+    // }
+    // console.log(shininessCalc)
 
     function rasterVisitor() {
         canvas2.style.display = "none"
@@ -264,13 +266,14 @@ window.addEventListener('load', function loadPage() {
             lastTimestamp = timestamp;
             window.requestAnimationFrame(animate);
         }
+
         //2. Version mit requestAnimationframe
         // shininessElement.onchange = function () {
         //     shininessCalc = Number(shininessElement.value);
-        //     window.requestAnimationFrame(animate);
+        //     window.requestAnimationFrame(rasterVisitor);
         // }
         // shininessCalc = Number(shininessElement.value);
-        // window.requestAnimationFrame(animate);
+        // window.requestAnimationFrame(rasterVisitor);
 
         Promise.all(
             [phongShader.load(), textureShader.load()]
