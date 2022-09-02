@@ -173,7 +173,9 @@ window.addEventListener('load', function loadPage() {
 
     const shininessElement = document.getElementById("shininess") as HTMLInputElement;
     let shininessCalc = Number(shininessElement.value);
-    console.log(shininessCalc)
+
+    const kSElement = document.getElementById("kS") as HTMLInputElement;
+    let kSCalc = Number(kSElement.value)
     //Version 1 mit rerender
 
 
@@ -238,7 +240,8 @@ window.addEventListener('load', function loadPage() {
             aspect: canvas.width / canvas.height,
             near: 0.1,
             far: 100,
-            shininess: shininessCalc
+            shininess: shininessCalc,
+            kS: kSCalc
         };
 
         const phongShader = new Shader(gl,
@@ -270,7 +273,10 @@ window.addEventListener('load', function loadPage() {
         //2. Version mit requestAnimationframe
         shininessElement.onchange = function () {
             camera.shininess = Number(shininessElement.value);
-            console.log(camera.shininess)
+        }
+        kSElement.onchange = function () {
+            camera.kS = Number(kSElement.value);
+            console.log(camera.kS)
         }
 
 
@@ -330,7 +336,8 @@ window.addEventListener('load', function loadPage() {
             width: canvas.width,
             height: canvas.height,
             alpha: Math.PI / 3,
-            shininess: shininessCalc
+            shininess: shininessCalc,
+            kS: kSCalc
         };
 
         const visitor = new RayVisitor(ctx, canvas.width, canvas.height);
@@ -370,13 +377,13 @@ window.addEventListener('load', function loadPage() {
             }
 
         }
-
-        console.log("animate aufgerufen")
         animate(0);
         shininessElement.onchange = function () {
-            console.log("shininess change")
             camera.shininess = 50-Number(shininessElement.value);
-            console.log(camera.shininess)
+            window.requestAnimationFrame(animate)
+        }
+        kSElement.onchange = function () {
+            camera.kS = Number(kSElement.value);
             window.requestAnimationFrame(animate)
         }
         console.log("fertig shininess")

@@ -20,7 +20,8 @@ interface Camera {
   aspect: number,
   near: number,
   far: number,
-  shininess: number
+  shininess: number,
+  kS: number
 }
 
 interface Renderable {
@@ -92,6 +93,8 @@ export class RasterVisitor implements Visitor {
 
   private shininess: number;
 
+  private kS: number;
+
   /**
    * Helper function to setup camera matrices
    * @param camera The camera used
@@ -108,6 +111,7 @@ export class RasterVisitor implements Visitor {
       camera.far
     );
     this.shininess = camera.shininess;
+    this. kS= camera.kS;
     // console.log(this.shininess)
   }
 
@@ -149,6 +153,7 @@ export class RasterVisitor implements Visitor {
     //allgemein kann ich kamera dann an würfel hängen der dann mit animation rotiert um objekte
     shader.getUniformMatrix("M").set(toWorld);
     shader.getUniformFloat("shininess").set(this.shininess)
+    shader.getUniformFloat("kS").set(this.kS)
 
 
     const V = shader.getUniformMatrix("V");

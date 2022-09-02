@@ -16,6 +16,7 @@ uniform mat4 P;
 uniform mat4 N; // normal matrix
 uniform vec3 lightPositionsVisitor;
 uniform float shininess;
+uniform float kS;
 
 
 varying vec3 v_normal;
@@ -23,6 +24,7 @@ varying vec3 vColor;
 varying vec3 vPosition;
 varying vec3 vlightPositions;
 varying float vshininess;
+varying float vkS;
 
 // Pass the vertex position in view space
 // to the fragment shader
@@ -38,6 +40,7 @@ void main() {
   vlightPositions = vec3(a_light_positions);
 
   vshininess = shininess;
+  vkS = kS;
 
   vPosition = vec3(V * M * vec4(a_position, 1.0));
   v_normal = normalize((V * N * vec4(a_normal, 0)).xyz);

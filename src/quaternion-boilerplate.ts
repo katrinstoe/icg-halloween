@@ -37,13 +37,9 @@ window.addEventListener('load', () => {
     setupVisitor.setup(sg);
 
     const shininessElement = document.getElementById("shininess") as HTMLInputElement;
-
-    let shininessCalc = 10;
-    console.log(shininessCalc)
-    shininessElement.onchange = function () {
-        shininessCalc = Number(shininessElement.value);
-        console.log(shininessCalc)
-    }
+    let shininessCalc = Number(shininessElement.value)
+    const kSElement = document.getElementById("kS") as HTMLInputElement;
+    let kSCalc = Number(kSElement.value)
     let camera = {
         eye: new Vector(0, 0, 2, 1),
         center: new Vector(0, 0, 0, 1),
@@ -52,8 +48,16 @@ window.addEventListener('load', () => {
         aspect: canvas.width / canvas.height,
         near: 0.1,
         far: 100,
-        shininess: shininessCalc
+        shininess: shininessCalc,
+        kS: kSCalc
     };
+    shininessElement.onchange = function () {
+        camera.shininess = Number(shininessElement.value);
+    }
+    kSElement.onchange = function () {
+        camera.kS = Number(kSElement.value);
+        console.log(camera.kS)
+    }
 
     const phongShader = new Shader(gl,
         phongVertexShader,

@@ -36,12 +36,19 @@ window.addEventListener('load', () => {
     const lightPositions = [
         new Vector(1, 1, 1, 1)
     ];
+    const kS = 10;
+    const kA = 10;
+    const kD = 10;
+
     const camera = {
         origin: new Vector(0, 0, 0, 1),
         width: canvas.width,
         height: canvas.height,
         alpha: Math.PI / 3,
-        shininess: shininessCalc
+        shininess: shininessCalc,
+        kS: kS,
+        kD: kD,
+        kA: kA
     }
 
     const visitor = new RayVisitor(ctx, canvas.width, canvas.height);

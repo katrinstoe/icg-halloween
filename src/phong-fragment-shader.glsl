@@ -7,6 +7,7 @@ varying vec3 v_normal;
 varying vec3 vPosition;
 varying vec3 vlightPositions;
 varying float vshininess;
+varying float vkS;
 
 //lichtstrahl => auftreffpunkt
 
@@ -36,7 +37,7 @@ void main(void) {
   vec3 n = normalize(v_normal);
 
   vec3 diffuse = vColor * max(0.0, dot(n, l))*kD;
-  vec3 specular = vColor * pow(max(0.0, dot(r, v)), vshininess)* kS;
+  vec3 specular = vColor * pow(max(0.0, dot(r, v)), vshininess)* vkS;
   vec3 phong = diffuse+ specular+ ambient;
 
   gl_FragColor = vec4(phong, 1.0);
