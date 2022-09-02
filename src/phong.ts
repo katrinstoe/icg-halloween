@@ -39,11 +39,11 @@ export default function phong(
     let mal2 = term.mul(2)
     let r = mal2.sub(l);
 
-    diffuse = diffuse.add(lightColor.mul(Math.max(0.0, n.dot(l))));
-    specular = specular.add(lightColor.mul(Math.pow(Math.max(0.0, r.dot(v)), shininess)));
+    diffuse = diffuse.add(lightColor.mul(Math.max(0.0, n.dot(l)))).mul(kD);
+    specular = specular.add(lightColor.mul(Math.pow(Math.max(0.0, r.dot(v)), shininess))).mul(kS);
   }
-  specular = specular.mul(kS)
-  diffuse = diffuse.mul(kD)
+  // specular = specular.mul(kS)
+  // diffuse = diffuse.mul(kD)
   // if(specular.length>0){
   //   console.log(specular)
   // }
