@@ -268,12 +268,10 @@ window.addEventListener('load', function loadPage() {
         }
 
         //2. Version mit requestAnimationframe
-        // shininessElement.onchange = function () {
-        //     shininessCalc = Number(shininessElement.value);
-        //     window.requestAnimationFrame(rasterVisitor);
-        // }
-        // shininessCalc = Number(shininessElement.value);
-        // window.requestAnimationFrame(rasterVisitor);
+        shininessElement.onchange = function () {
+            camera.shininess = Number(shininessElement.value);
+        }
+
 
         Promise.all(
             [phongShader.load(), textureShader.load()]
@@ -366,10 +364,15 @@ window.addEventListener('load', function loadPage() {
                 animate(t);
                 animationHandle = window.requestAnimationFrame(animate);
             }
+
         }
 
         animate(0);
-
+        shininessElement.onchange = function () {
+            camera.shininess = Number(shininessElement.value);
+            window.requestAnimationFrame(animate)
+        }
+        console.log("fertig shininess")
 
         document.getElementById("startAnimationBtn").addEventListener(
             "dblclick", startAnimation);
