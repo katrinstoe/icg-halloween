@@ -31,6 +31,7 @@ import mouseClickVisitor from "./mouse-click-visitor";
 
 const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1));
 const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.5, 0.5, 1), new Vector(0, 0, 0, 1));
+var copyVideo = false;
 
 window.addEventListener('load', function loadPage() {
 
@@ -294,7 +295,63 @@ window.addEventListener('load', function loadPage() {
             let mx = event.clientX - canvas.getBoundingClientRect().left;
         }
 
+        function setupVideo(url) {
+            const video = document.createElement('video');
 
+            let playing = false;
+            let timeupdate = false;
+
+            video.playsInline = true;
+            video.muted = true;
+            video.loop = true;
+
+            // Waiting for these 2 events ensures
+            // there is data in the video
+
+            video.addEventListener('playing', () => {
+                playing = true;
+                checkReady();
+            }, true);
+
+            video.addEventListener('timeupdate', () => {
+                timeupdate = true;
+                checkReady();
+            }, true);
+
+            video.src = url;
+            video.play();
+
+            function checkReady() {
+                if (playing && timeupdate) {
+                    copyVideo = true;
+                }
+            }
+
+            return video;
+
+
+            const texture = initTexture(gl);
+
+            const video = setupVideo('Firefox.mp4');
+
+            let then = 0;
+
+            // Draw the scene repeatedly
+            function render(now) {
+                now *= 0.001;  // convert to seconds
+                const deltaTime = now - then;
+                then = now;
+
+                if (copyVideo) {
+                    updateTexture(gl, texture, video);
+                }
+
+                drawScene(gl, programInfo, buffers, texture, deltaTime);
+
+                requestAnimationFrame(render);
+            }
+            requestAnimationFrame(render);
+        }
 
     }
 
