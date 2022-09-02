@@ -375,7 +375,7 @@ window.addEventListener('load', function loadPage() {
         animate(0);
         shininessElement.onchange = function () {
             console.log("shininess change")
-            camera.shininess = Number(shininessElement.value);
+            camera.shininess = 50-Number(shininessElement.value);
             console.log(camera.shininess)
             window.requestAnimationFrame(animate)
         }
