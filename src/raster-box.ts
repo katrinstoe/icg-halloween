@@ -177,6 +177,7 @@ export default class RasterBox {
         // Nx = UyVz - UzVy
         // Ny = UzVx - UxVz
         // Nz = UxVy - UyVx
+        //https://www.khronos.org/opengl/wiki/Calculating_a_Surface_Normal
         let normalsTriangles = []
         for (let triangle of triangles) {
             let U = triangle[1].sub(triangle[0])
