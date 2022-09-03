@@ -158,13 +158,6 @@ window.addEventListener('load', function loadPage() {
     sphereTr.add(sphereSc);
     sg.add(sphereTr);
 
-    //Sonne
-    const sonne = new SphereNode(new Vector(0.8,0.8,0.4,1))
-    const sonneSc = new GroupNode(new Scaling(new Vector(0.01,0.01,0.01,0.01)))
-    const sonneTr = new GroupNode(new Translation(new Vector(-0.1,0,-0.3,0)))
-    sonneSc.add(sonne);
-    sonneTr.add(sonneSc);
-    sg.add(sonneTr)
 
     const lightPositions = [
         //new Vector(-0.1,0,-0.3,0),
