@@ -10,9 +10,11 @@ import {
     AABoxNode, TextureBoxNode, PyramidNode, CameraNode, LightNode
 } from './nodes';
 import AABox from './aabox';
+import Pyramid from "./pyramid";
 
 const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1));
 const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.5, 0.5, 1), new Vector(0, 0, 0, 1));
+const UNIT_PYRAMID = new Pyramid(new Vector(0,1,0,1), new Vector(-0.5,-0.5,-0.5,1), new Vector(0.5,0.5,0.5,1), new Vector(0,0,0,0));
 
 /**
  * Class representing a Visitor that uses
@@ -157,7 +159,30 @@ export default class mouseClickVisitor implements Visitor {
     visitTextureBoxNode(node: TextureBoxNode) {
     }
 
-    visitPyramidNode(node: PyramidNode): void {
+    visitPyramidNode(node: PyramidNode){
+
+        let toWorld = Matrix.identity();
+        let fromWorld = Matrix.identity();
+        // TODO assign the model matrix and its inverse
+        for (let i = 0; i < this.model.length; i++) {
+            toWorld = toWorld.mul(this.model[i]);
+            fromWorld = this.inverse[i].mul(fromWorld);
+        }
+        const ray = new Ray(fromWorld.mulVec(this.ray.origin), fromWorld.mulVec(this.ray.direction).normalize());
+        let intersection = UNIT_PYRAMID.intersect(ray);
+        if (intersection) {
+            const intersectionPointWorld = toWorld.mulVec(intersection.point);
+            const intersectionNormalWorld = toWorld.mulVec(intersection.normal).normalize();
+            intersection = new Intersection(
+                (intersectionPointWorld.x - this.ray.origin.x) / this.ray.direction.x,
+                intersectionPointWorld,
+                intersectionNormalWorld,
+            );
+            if (this.intersection === null || intersection.closerThan(this.intersection)) {
+                this.intersection = intersection;
+                this.intersectionColor = node.color;
+            }
+        }
     }
 
     visitCameraNode(node: CameraNode): void{};
