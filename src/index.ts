@@ -434,7 +434,7 @@ window.addEventListener('load', function loadPage() {
     });
     btn2.addEventListener('click', function (){
         if (btn1.checked) {
-            console.log("render")
+            console.log("render");
             localStorage.setItem("renderer", "rasterizer")
             // rasterVisitor()
         } else if (btn2.checked) {
