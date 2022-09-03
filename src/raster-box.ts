@@ -23,6 +23,8 @@ export default class RasterBox {
 
     normalBuffer: WebGLBuffer;
 
+    color: Vector
+
 
     /**
      * Creates all WebGL buffers for the box
@@ -37,16 +39,18 @@ export default class RasterBox {
      * @param gl The canvas' context
      * @param minPoint The minimal x,y,z of the box
      * @param maxPoint The maximal x,y,z of the box
+     * @param color
      */
     constructor(
         private gl: WebGL2RenderingContext,
         minPoint: Vector,
         maxPoint: Vector,
-        center: Vector
+        color: Vector
     ) {
         this.gl = gl;
         const mi = minPoint;
         const ma = maxPoint;
+        let normals = []
 
         let vertices = [
             mi.x, mi.y, ma.z,
@@ -57,7 +61,7 @@ export default class RasterBox {
             mi.x, mi.y, mi.z,
             mi.x, ma.y, mi.z,
             ma.x, ma.y, mi.z
-        ];
+        ]
         let indices = [
             // front
             0, 1, 2, 2, 3, 0,
@@ -72,21 +76,17 @@ export default class RasterBox {
             // bottom
             5, 4, 1, 1, 0, 5
         ];
-        let color = [
-            1, 0, 0, 1,
-            1, 1, 0, 1,
-            0.5, 0, 0.5, 1,
-            0.5, 0, 0, 1,
-            1, 0, 1, 1,
-            0, 1, 1, 1,
-            0, 0.5, 1, 1
-        ]
-        let normals = []
+        let colors = [
+            color.x, color.y, color.z, color.a,
+            color.x, color.y, color.z, color.a,
+            color.x, color.y, color.z, color.a,
+            color.x, color.y, color.z, color.a,
+            color.x, color.y, color.z, color.a,
+            color.x, color.y, color.z, color.a,
+            color.x, color.y, color.z, color.a,
+            color.x, color.y, color.z, color.a,
 
-        let normal = (new Vector(x, y, z, 1)).sub(center).normalize();
-        normals.push(normal.x);
-        normals.push(normal.y);
-        normals.push(normal.z);
+        ]
 
         const vertexBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
@@ -100,10 +100,10 @@ export default class RasterBox {
         this.elements = indices.length;
 
         // TODO create and fill a buffer for colours
-        const colorBufffer = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, colorBufffer);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(color), gl.STATIC_DRAW);
-        this.colorBuffer = colorBufffer;
+        const colorBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
+        this.colorBuffer = colorBuffer;
     }
 
     /**

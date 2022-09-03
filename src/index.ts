@@ -48,7 +48,7 @@ window.addEventListener('load', function loadPage() {
     //Taskbar
     const TaskBTr = new GroupNode(new Translation(new Vector(0, -.545, -1, 0)));
     const TaskBSc = new GroupNode(new Scaling(new Vector(1.2, 0.07, 0.0001, 0)))
-    const TaskBBox = new AABoxNode(new Vector(0, 0, 0, 0));
+    const TaskBBox = new AABoxNode(new Vector(0, 0, 1, 0));
     TaskBSc.add(TaskBBox)
     TaskBTr.add(TaskBSc);
     sg.add(TaskBTr);
@@ -65,7 +65,7 @@ window.addEventListener('load', function loadPage() {
     const TaskBIconBoxTr = new GroupNode(new Translation(new Vector(0, -0.54, -1, 0)));
     const TaskBIconBoxSc = new GroupNode(new Scaling(new Vector(0.045, 0.045, 0.0001, 0)));
 
-    const TaskBIconBox = new AABoxNode(new Vector(0, 0, 0, 0));
+    const TaskBIconBox = new AABoxNode(new Vector(0, 0, 1, 0));
     TaskBIconBoxSc.add(TaskBIconBox);
     TaskBIconBoxTr.add(TaskBIconBoxSc)
     sg.add(TaskBIconBoxTr)
@@ -74,7 +74,7 @@ window.addEventListener('load', function loadPage() {
     const headerBTr = new GroupNode(new Translation(new Vector(-0.3, 1.08, 0, 0)));
     const headerBSc = new GroupNode(new Scaling(new Vector(0.6, 0.07, 0.0001, 0)))
 
-    const headerBBox = new AABoxNode(new Vector(0, 0, 0, 0));
+    const headerBBox = new AABoxNode(new Vector(1, 0, 0, 0));
     headerBSc.add(headerBBox)
     headerBTr.add(headerBSc)
     TaskBTr.add(headerBTr)
@@ -99,8 +99,9 @@ window.addEventListener('load', function loadPage() {
     //Zweiter Header
     const headerBTr2 = new GroupNode(new Translation(new Vector(0.3, 1.08, 0, 0)));
     const headerBSc2 = new GroupNode(new Scaling(new Vector(0.55, 0.07, 0.0001, 0)))
+    const headerBBox2 = new AABoxNode(new Vector(0, 0, 1, 0));
 
-    headerBSc2.add(headerBBox)
+    headerBSc2.add(headerBBox2)
     // headerBarSc2.add(textureGeistText)
     headerBTr2.add(headerBSc2)
     TaskBTr.add(headerBTr2)
@@ -159,7 +160,7 @@ window.addEventListener('load', function loadPage() {
     sg.add(sphereTr);
 
 
-    const cubeTest = new AABoxNode(new Vector(0, 0, 0, 0));
+    const cubeTest = new AABoxNode(new Vector(0, 0, 1, 0));
     const cubeTestSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.2, 0)));
     const cubeTestTr = new GroupNode(new Translation(new Vector(-0.01, 0, -1, 0)));
     // const cubeTestRt = new GroupNode(new Rotation(new Vector(0, 1, 0, 0), 1));
