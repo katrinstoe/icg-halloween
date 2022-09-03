@@ -65,7 +65,7 @@ window.addEventListener('load', function loadPage() {
     const TaskBIconBoxTr = new GroupNode(new Translation(new Vector(0, -0.54, -1, 0)));
     const TaskBIconBoxSc = new GroupNode(new Scaling(new Vector(0.045, 0.045, 0.0001, 0)));
 
-    const TaskBIconBox = new AABoxNode(new Vector(0, 0, 1, 0));
+    const TaskBIconBox = new AABoxNode(new Vector(0, 1, 1, 0));
     TaskBIconBoxSc.add(TaskBIconBox);
     TaskBIconBoxTr.add(TaskBIconBoxSc)
     sg.add(TaskBIconBoxTr)
@@ -161,20 +161,21 @@ window.addEventListener('load', function loadPage() {
 
 
     const cubeTest = new AABoxNode(new Vector(0, 0, 1, 0));
-    const cubeTestSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.2, 0)));
+    const cubeTestSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.5, 0)));
     const cubeTestTr = new GroupNode(new Translation(new Vector(-0.01, 0, -1, 0)));
     // const cubeTestRt = new GroupNode(new Rotation(new Vector(0, 1, 0, 0), 1));
-
+    // const gn32 = new GroupNode(new Translation(new Vector(0, 0, 0, 0)));
     // cubeSc.add(cube);
     //TODO: Texture anzeigen geht nicht?
     cubeTestSc.add(cubeTest)
     // cubeTestRt.add(cubeTestSc);
     cubeTestTr.add(cubeTestSc);
+    // gn32.add(cubeTestTr)
     sg.add(cubeTestTr);
 
     let animationNodes = [
         new RotationNode(cubeRt, new Vector(0, 0, 1, 0)),
-        // new RotationNode(gn3, new Vector(0, 0, 1, 0)),
+        // new RotationNode(gn32, new Vector(1, 1, 1, 0)),
 
     ]
 
