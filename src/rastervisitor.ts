@@ -184,7 +184,6 @@ export class RasterVisitor implements Visitor {
       normalMatrix.setVal(3,2,0);
       N.set(normalMatrix)
     }
-    const shininess =
 
     this.renderables.get(node).render(shader);
   }
@@ -205,8 +204,6 @@ export class RasterVisitor implements Visitor {
     shader.getUniformFloat("kS").set(this.kS)
     shader.getUniformFloat("kD").set(this.kD)
     shader.getUniformFloat("kA").set(this.kA)
-
-
 
     let V = shader.getUniformMatrix("V");
     if (V && this.lookat) {
@@ -355,7 +352,11 @@ export class RasterSetupVisitor {
   visitSphereNode(node: SphereNode) {
     this.objects.set(
       node,
-      new RasterSphere(this.gl, new Vector(0, 0, 0, 1), 1, node.color, this.lightpositions)
+      new RasterSphere(
+          this.gl,
+          new Vector(0, 0, 0, 1), 1,
+          node.color,
+          this.lightpositions)
     );
   }
 
@@ -369,7 +370,8 @@ export class RasterSetupVisitor {
       new RasterBox(
         this.gl,
         new Vector(-0.5, -0.5, -0.5, 1),
-        new Vector(0.5, 0.5, 0.5, 1)
+        new Vector(0.5, 0.5, 0.5, 1),
+        node.color
       )
     );
   }
