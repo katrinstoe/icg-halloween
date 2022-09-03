@@ -105,11 +105,9 @@ export default class RayVisitor implements Visitor {
         let matrix = node.transform.getMatrix()
         let inverseMatrix = node.transform.getInverseMatrix()
         let identity = this.model[this.model.length - 1]
-        // this.model.push(identity.mul(matrix))
-        // this.inverse.push(identity.mul(inverseMatrix))
+
         this.inverse.push(inverseMatrix)
         this.model.push(matrix)
-        // this.inverse.push(inverseMatrix.mul(this.inverse[this.inverse.length-1]))
 
         for (let child of children) {
             child.accept(this);
