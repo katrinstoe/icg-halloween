@@ -64,19 +64,25 @@ export default class AABox {
     let min = this.vertices[4]
     let max = this.vertices[2]
 
-    let tmin = (min.x - ray.origin.x) / ray.direction.x;
+    let tmin = (min.x-ray.origin.x)/ray.direction.x;;
     let tmax = (max.x - ray.origin.x) / ray.direction.x;
 
     if (tmin > tmax){
-      /*temp = tmin;
-      tmin = tmax;
-      tmax = temp;*/
       //swap tmax and tmin
-      tmax = tmin+(tmin=tmax)-tmax;
+      let temp = tmin;
+      tmin = tmax;
+      tmax = temp;
     }
 
     let tymin = (min.y - ray.origin.y) / ray.direction.y;
     let tymax = (max.y - ray.origin.y) / ray.direction.y;
+
+    if (tymin > tymax){
+      //swap tmax and tmin
+      let temp = tymin;
+      tymin = tymax;
+      tymax = temp;
+    }
 
     if (tymin > tymax || tymin > tmax){
       return null
@@ -92,7 +98,9 @@ export default class AABox {
     let tzmax = (max.z -  ray.origin.z) / ray.direction.z;
 
     if (tzmin > tzmax){
-      tzmax = tzmin+(tzmin=tzmax)-tzmax;
+      let temp = tzmin;
+      tzmin = tzmax;
+      tzmax = temp;
     }
 
     if ((tmin > tzmax) || (tzmin > tmax)){
@@ -111,5 +119,4 @@ export default class AABox {
 
     return new Intersection(tmin, intersectionPoint, new Vector(0,0,0,1))
   }
-
 }

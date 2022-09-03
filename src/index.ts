@@ -54,7 +54,7 @@ window.addEventListener('load', function loadPage() {
     sg.add(TaskBTr);
     //Icons auf Taskbar
     // //Icon Kreis
-    const TaskBIconSc = new GroupNode(new Scaling(new Vector(0.025, 0.025, 0.025, 0)));
+    const TaskBIconSc = new GroupNode(new Scaling(new Vector(0.025, 0.025, 0.025,0)));
     const TaskBIconTr = new GroupNode(new Translation(new Vector(-0.1, -0.54, -1, 0)));
 
     const TaskBIconSphere = new SphereNode(new Vector(1, 0.7, 0.7, 1));
@@ -161,7 +161,6 @@ window.addEventListener('load', function loadPage() {
     let animationNodes = [
         new RotationNode(cubeRt, new Vector(0, 0, 1, 0)),
         // new RotationNode(gn3, new Vector(0, 0, 1, 0)),
-
     ]
 
 //Rasterizer und RayTracer Wechseln
@@ -187,7 +186,7 @@ window.addEventListener('load', function loadPage() {
 
     let renderer = localStorage.getItem("renderer")
     console.log(renderer)
-    if (renderer == "rasterizer") {
+    if (renderer=="rasterizer"){
         btn1.checked = true
     } else {
         btn2.checked = true
@@ -393,7 +392,9 @@ window.addEventListener('load', function loadPage() {
                 animationHandle = window.requestAnimationFrame(animate);
             }
 
+            animationHandle = window.requestAnimationFrame(animation);
         }
+
         animate(0);
         shininessElement.onchange = function () {
             camera.shininess = 50-Number(shininessElement.value);
@@ -417,12 +418,9 @@ window.addEventListener('load', function loadPage() {
             "dblclick", startAnimation);
         document.getElementById("stopAnimationBtn").addEventListener(
             "dblclick", () => cancelAnimationFrame(animationHandle));
-
-
     }
 
-
-    btn1.addEventListener('click', function () {
+    btn1.addEventListener('click', function (){
         if (btn1.checked) {
             console.log("render")
             localStorage.setItem("renderer", "rasterizer")
@@ -434,7 +432,7 @@ window.addEventListener('load', function loadPage() {
         }
         location.reload()
     });
-    btn2.addEventListener('click', function () {
+    btn2.addEventListener('click', function (){
         if (btn1.checked) {
             console.log("render")
             localStorage.setItem("renderer", "rasterizer")
@@ -446,8 +444,7 @@ window.addEventListener('load', function loadPage() {
         }
         location.reload()
     });
-})
-;
+});
 
 
 // let animationHandle: number;
