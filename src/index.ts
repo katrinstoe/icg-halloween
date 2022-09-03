@@ -158,6 +158,19 @@ window.addEventListener('load', function loadPage() {
     sphereTr.add(sphereSc);
     sg.add(sphereTr);
 
+
+    const cubeTest = new AABoxNode(new Vector(0, 0, 0, 0));
+    const cubeTestSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.2, 0)));
+    const cubeTestTr = new GroupNode(new Translation(new Vector(-0.01, 0, -1, 0)));
+    // const cubeTestRt = new GroupNode(new Rotation(new Vector(0, 1, 0, 0), 1));
+
+    // cubeSc.add(cube);
+    //TODO: Texture anzeigen geht nicht?
+    cubeTestSc.add(cubeTest)
+    // cubeTestRt.add(cubeTestSc);
+    cubeTestTr.add(cubeTestSc);
+    sg.add(cubeTestTr);
+
     let animationNodes = [
         new RotationNode(cubeRt, new Vector(0, 0, 1, 0)),
         // new RotationNode(gn3, new Vector(0, 0, 1, 0)),
@@ -446,8 +459,7 @@ window.addEventListener('load', function loadPage() {
         }
         location.reload()
     });
-})
-;
+});
 
 
 // let animationHandle: number;

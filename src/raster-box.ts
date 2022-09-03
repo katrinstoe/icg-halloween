@@ -21,6 +21,9 @@ export default class RasterBox {
      */
     elements: number;
 
+    normalBuffer: WebGLBuffer;
+
+
     /**
      * Creates all WebGL buffers for the box
      *     6 ------- 7
@@ -38,10 +41,13 @@ export default class RasterBox {
     constructor(
         private gl: WebGL2RenderingContext,
         minPoint: Vector,
-        maxPoint: Vector) {
+        maxPoint: Vector,
+        center: Vector
+    ) {
         this.gl = gl;
         const mi = minPoint;
         const ma = maxPoint;
+
         let vertices = [
             mi.x, mi.y, ma.z,
             ma.x, mi.y, ma.z,
@@ -75,6 +81,13 @@ export default class RasterBox {
             0, 1, 1, 1,
             0, 0.5, 1, 1
         ]
+        let normals = []
+
+        let normal = (new Vector(x, y, z, 1)).sub(center).normalize();
+        normals.push(normal.x);
+        normals.push(normal.y);
+        normals.push(normal.z);
+
         const vertexBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
@@ -97,7 +110,10 @@ export default class RasterBox {
      * Renders the box
      * @param shader The shader used to render
      */
-    render(shader: Shader) {
+    render(shader
+               :
+               Shader
+    ) {
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.vertexBuffer);
         const positionLocation = shader.getAttributeLocation("a_position");
         this.gl.enableVertexAttribArray(positionLocation);
