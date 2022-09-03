@@ -41,7 +41,8 @@ void main() {
   
   // Pass the color and transformed vertex position through
   // TODO
-  vColor =a_color;
+  vColor = a_color;
+
   vlightPositions = vec3(a_light_positions);
 
   vshininess = shininess;
