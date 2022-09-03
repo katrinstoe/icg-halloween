@@ -157,26 +157,53 @@ export default class RasterBox {
         //     twelvethNormalB.x, twelvethNormalB.y, twelvethNormalB.z, twelvethNormalB.a,
         //
         // ]
-
+        //
+        // let normals = [
+        //     triangles[0][0].x, triangles[0][0].y, triangles[0][0].z, triangles[0][0].a,
+        //     triangles[0][1].x, triangles[0][1].y, triangles[0][1].z, triangles[0][1].a,
+        //     triangles[0][2].x, triangles[0][2].y, triangles[0][2].z, triangles[0][2].a,
+        //     triangles[1][0].x, triangles[1][0].y, triangles[1][0].z, triangles[1][0].a,
+        //     triangles[1][1].x, triangles[1][1].y, triangles[1][1].z, triangles[1][1].a,
+        //     triangles[1][2].x, triangles[1][2].y, triangles[1][2].z, triangles[1][2].a,
+        //     triangles[2][0].x, triangles[2][0].y, triangles[2][0].z, triangles[2][0].a,
+        //     triangles[2][1].x, triangles[2][1].y, triangles[2][1].z, triangles[2][1].a,
+        //     triangles[2][2].x, triangles[2][2].y, triangles[2][2].z, triangles[2][2].a,
+        //     triangles[3][0].x, triangles[3][0].y, triangles[3][0].z, triangles[3][0].a
+        //     ]
+        let i = 0
+        //So for a triangle p1, p2, p3,
+        // if the vector U = p2 - p1 and the vector V = p3 - p1 then the
+        // normal N = U X V and can be calculated by:
+        // Nx = UyVz - UzVy
+        // Ny = UzVx - UxVz
+        // Nz = UxVy - UyVx
+        let normalsTriangles = []
         for (let triangle of triangles) {
-            triangle[1].sub(triangle[2]).cross(triangle[2].sub(triangle[0]))
-            console.log(triangle)
-        }
+            let U = triangle[1].sub(triangle[0])
+            let V = triangle[2].sub(triangle[1])
 
+            normalsTriangles[i] = U.cross(V)
+            // triangle[1].sub(triangle[0]).cross(triangle[2].sub(triangle[0]))
+            i++;
+        }
+        // console.log(triangles)
+        //bis [3][0] ursprünglich
+        console.log(normalsTriangles)
         let normals = [
-            triangles[0][0].x, triangles[0][0].y, triangles[0][0].z, triangles[0][0].a,
-            triangles[1][0].x, triangles[1][0].y, triangles[1][0].z, triangles[1][0].a,
-            triangles[2][0].x, triangles[2][0].y, triangles[2][0].z, triangles[2][0].a,
-            triangles[3][0].x, triangles[3][0].y, triangles[3][0].z, triangles[3][0].a,
-            triangles[4][0].x, triangles[4][0].y, triangles[4][0].z, triangles[4][0].a,
-            triangles[5][0].x, triangles[5][0].y, triangles[5][0].z, triangles[5][0].a,
-            triangles[6][0].x, triangles[6][0].y, triangles[6][0].z, triangles[6][0].a,
-            triangles[7][0].x, triangles[7][0].y, triangles[7][0].z, triangles[7][0].a,
-            triangles[8][0].x, triangles[8][0].y, triangles[8][0].z, triangles[8][0].a,
-            triangles[9][0].x, triangles[9][0].y, triangles[9][0].z, triangles[9][0].a,
+            normalsTriangles[0].x, normalsTriangles[0].y, normalsTriangles[0].z, normalsTriangles[0].a,
+            normalsTriangles[1].x, normalsTriangles[1].y, normalsTriangles[1].z, normalsTriangles[1].a,
+            normalsTriangles[2].x, normalsTriangles[2].y, normalsTriangles[2].z, normalsTriangles[2].a,
+            normalsTriangles[3].x, normalsTriangles[3].y, normalsTriangles[3].z, normalsTriangles[3].a,
+            normalsTriangles[4].x, normalsTriangles[4].y, normalsTriangles[4].z, normalsTriangles[4].a,
+            normalsTriangles[5].x, normalsTriangles[5].y, normalsTriangles[5].z, normalsTriangles[5].a,
+            normalsTriangles[6].x, normalsTriangles[6].y, normalsTriangles[6].z, normalsTriangles[6].a,
+            normalsTriangles[7].x, normalsTriangles[7].y, normalsTriangles[7].z, normalsTriangles[7].a,
+            normalsTriangles[8].x, normalsTriangles[8].y, normalsTriangles[8].z, normalsTriangles[8].a,
+            normalsTriangles[9].x, normalsTriangles[9].y, normalsTriangles[9].z, normalsTriangles[9].a,
+            normalsTriangles[10].x, normalsTriangles[10].y, normalsTriangles[10].z, normalsTriangles[10].a,
+            normalsTriangles[11].x, normalsTriangles[11].y, normalsTriangles[11].z, normalsTriangles[11].a,
         ]
         console.log(normals)
-
 
         let colors = [
             color.x, color.y, color.z, color.a,
