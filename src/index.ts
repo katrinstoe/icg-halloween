@@ -26,7 +26,7 @@ import Sphere from "./sphere";
 import AABox from "./aabox";
 import RayVisitor from "./rayvisitor";
 import phong from "./phong";
-import {RotationNode} from "./animation-nodes";
+import {DriverNode, RotationNode, ScalerNode} from "./animation-nodes";
 import mouseClickVisitor from "./mouse-click-visitor";
 import RasterPyramid from "./raster-pyramid";
 import Pyramid from "./pyramid";
@@ -189,6 +189,15 @@ window.addEventListener('load', function loadPage() {
     let animationNodes = [
         new RotationNode(cubeRt, new Vector(0, 0, 1, 0)),
         // new RotationNode(gn3, new Vector(0, 0, 1, 0)),
+    ]
+
+    let DriverNodes = [
+        //new RotationNode(cubeSc, new Vector(0,0,1,0)),
+        new DriverNode(driverGhostTr, new Vector(0.75,-0.8,0,0))
+    ]
+
+    let ScalerNodes = [
+        new ScalerNode(driverGhostSc, new Vector(0.1, 0.1, 0.1, 1))
     ]
 
 //Rasterizer und RayTracer Wechseln
