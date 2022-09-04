@@ -163,9 +163,9 @@ window.addEventListener('load', function loadPage() {
     sg.add(sphereTr);
 
 
-    const cubeTest = new TexturePyramidNode('geist.png');
-    const cubeTestSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.2, 0)));
-    const cubeTestTr = new GroupNode(new Translation(new Vector(-0.01, 0, -1, 0)));
+    const cubeTest = new TexturePyramidNode('many_ghosts.jpg');
+    const cubeTestSc = new GroupNode(new Scaling(new Vector(0.5, 0.5, 0.5, 0)));
+    const cubeTestTr = new GroupNode(new Translation(new Vector(-0.01, 0, -0.1, 0)));
 
     cubeTestSc.add(cubeTest)
     cubeTestTr.add(cubeTestSc);
