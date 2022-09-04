@@ -171,6 +171,21 @@ window.addEventListener('load', function loadPage() {
     cubeTestTr.add(cubeTestSc);
     sg.add(cubeTestTr);
 
+    //kleiner driver geist
+    const driverGhost = new TextureBoxNode("geist.png")
+    const driverGhostSc = new GroupNode(new Scaling(new Vector(0.1, 0.1, 0.1, 1)))
+    driverGhostSc.add(driverGhost);
+    const driverGhostTr = new GroupNode(new Translation(new Vector(0.75, -0.8, 0, 0)))
+    driverGhostTr.add(driverGhostSc)
+    sg.add(driverGhostTr)
+
+    const ghostCastle = new TextureBoxNode("ghost_castle.jpg")
+    const ghostCastleSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.2, 1)))
+    const ghostCastleTr = new GroupNode(new Translation(new Vector(0.9, -0.75, -0.1, 0)))
+    ghostCastleSc.add(ghostCastle)
+    ghostCastleTr.add(ghostCastleSc)
+    sg.add(ghostCastleTr)
+
     let animationNodes = [
         new RotationNode(cubeRt, new Vector(0, 0, 1, 0)),
         // new RotationNode(gn3, new Vector(0, 0, 1, 0)),
