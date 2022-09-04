@@ -7,7 +7,7 @@ import Visitor from './visitor';
 import phong from './phong';
 import {
     Node, GroupNode, SphereNode,
-    AABoxNode, TextureBoxNode, PyramidNode, CameraNode, LightNode
+    AABoxNode, TextureBoxNode, PyramidNode, CameraNode, LightNode, TexturePyramidNode
 } from './nodes';
 import AABox from './aabox';
 import Pyramid from "./pyramid";
@@ -183,6 +183,13 @@ export default class mouseClickVisitor implements Visitor {
                 this.intersectionColor = node.color;
             }
         }
+    }
+
+    /**
+     * Visits a textured box node
+     * @param node The node to visit
+     */
+    visitTexturePyramidNode(node: TexturePyramidNode) {
     }
 
     visitCameraNode(node: CameraNode): void{};

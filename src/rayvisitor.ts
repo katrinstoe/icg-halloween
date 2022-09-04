@@ -7,7 +7,7 @@ import Visitor from './visitor';
 import phong from './phong';
 import {
     Node, GroupNode, SphereNode,
-    AABoxNode, TextureBoxNode, PyramidNode, CameraNode, LightNode
+    AABoxNode, TextureBoxNode, PyramidNode, CameraNode, LightNode, TexturePyramidNode
 } from './nodes';
 import AABox from './aabox';
 import Pyramid from "./pyramid";
@@ -225,7 +225,7 @@ export default class RayVisitor implements Visitor {
      * Visits a textured pyramid node
      * @param node The node to visit
      */
-    visitTexturePyramidNode(node: RasterTexturePyramid) {
+    visitTexturePyramidNode(node: TexturePyramidNode) {
     }
 
     //TODO: implementieren
