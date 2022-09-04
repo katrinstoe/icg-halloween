@@ -14,7 +14,7 @@ uniform mat4 M;
 uniform mat4 V;
 uniform mat4 P;
 uniform mat4 N; // normal matrix
-uniform vec3 lightPositionsVisitor;
+uniform vec3 lightPositions;
 uniform float shininess;
 uniform float kS;
 uniform float kD;
@@ -43,7 +43,8 @@ void main() {
   // TODO
   vColor = a_color;
 
-  vlightPositions = vec3(a_light_positions);
+//  vlightPositions = vec3(a_light_positions);
+vlightPositions = lightPositions;
 
   vshininess = shininess;
   vkS = kS;

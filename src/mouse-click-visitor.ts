@@ -105,6 +105,8 @@ export default class mouseClickVisitor implements Visitor {
             fromWorld = this.inverse[i].mul(fromWorld);
         }
         const ray = new Ray(fromWorld.mulVec(this.ray.origin), fromWorld.mulVec(this.ray.direction).normalize());
+
+        //let lightpos = fromWorld.mulVec(new Vector(1,1,1,1))
         let intersection = UNIT_SPHERE.intersect(ray);
         if (intersection) {
             const intersectionPointWorld = toWorld.mulVec(intersection.point);

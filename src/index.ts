@@ -28,6 +28,7 @@ import RayVisitor from "./rayvisitor";
 import phong from "./phong";
 import {RotationNode} from "./animation-nodes";
 import mouseClickVisitor from "./mouse-click-visitor";
+import {LightVisitor} from "./lightVisitor";
 
 const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1));
 const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.5, 0.5, 1), new Vector(0, 0, 0, 1));
@@ -198,6 +199,8 @@ window.addEventListener('load', function loadPage() {
     const kAElement = document.getElementById("kA") as HTMLInputElement;
     let kACalc = Number(kDElement.value)
 
+    const lightPositionXElement = document.getElementById("lightPositionX") as HTMLInputElement;
+    let lightPositionXCalc = Number(lightPositionXElement.value)
 
 
     let renderer = localStorage.getItem("renderer")
@@ -239,7 +242,8 @@ window.addEventListener('load', function loadPage() {
         const ctx = canvas2.getContext("2d");
 
         const lightPositions = [
-            new Vector(1, 1, 1, 1)
+            // new Vector(1, 1, 1, 1)
+            new Vector(lightPositionXCalc, 1,1,1)
         ];
         // setup for rendering
         const setupVisitor = new RasterSetupVisitor(gl, lightPositions);
@@ -264,7 +268,8 @@ window.addEventListener('load', function loadPage() {
             shininess: shininessCalc,
             kS: kSCalc,
             kD: kDCalc,
-            kA: kACalc
+            kA: kACalc,
+            lightPositions: lightPositions
         };
 
         const phongShader = new Shader(gl,
@@ -276,7 +281,9 @@ window.addEventListener('load', function loadPage() {
             textureVertexShader,
             textureFragmentShader
         );
+        const lightVisitor = new LightVisitor(gl)
         const visitor = new RasterVisitor(gl, phongShader, textureShader, setupVisitor.objects);
+        console.log(setupVisitor.objects)
 
         function simulate(deltaT: number) {
             for (let animationNode of animationNodes) {
@@ -299,15 +306,20 @@ window.addEventListener('load', function loadPage() {
         }
         kSElement.onchange = function () {
             camera.kS = Number(kSElement.value);
-            console.log(camera.kS)
         }
         kDElement.onchange = function () {
             camera.kD = Number(kDElement.value);
-            console.log(camera.kD)
         }
         kAElement.onchange = function () {
             camera.kA = Number(kAElement.value);
-            console.log(camera.kA)
+        }
+        lightPositionXElement.onchange = function () {
+            let lightPositionX = Number(lightPositionXElement.value)
+            for (let lightPosition of lightPositions) {
+                lightPosition.x = lightPositionX;
+            }
+            // lightPositions = Number(lightPositionXElement.value);
+            console.log(camera.lightPositions)
         }
 
 
@@ -360,7 +372,7 @@ window.addEventListener('load', function loadPage() {
         const data = imageData.data;
 
         const lightPositions = [
-            new Vector(1, 1, 1, 0),
+            new Vector(lightPositionXCalc, 1, 1, 0),
         ];
         const camera = {
             origin: new Vector(0, 0, 0, 1),
@@ -370,7 +382,8 @@ window.addEventListener('load', function loadPage() {
             shininess: shininessCalc,
             kS: kSCalc,
             kD: kDCalc,
-            kA: kACalc
+            kA: kACalc,
+            lightPositions: lightPositions
         };
 
         const visitor = new RayVisitor(ctx, canvas.width, canvas.height);

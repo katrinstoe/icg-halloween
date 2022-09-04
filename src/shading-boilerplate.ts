@@ -37,12 +37,7 @@ window.addEventListener('load', () => {
     sg2.add(gn0);
     const cube = new TextureBoxNode('hci-logo.png');
     gn3.add(cube);
-    const lightPositions = [
-        new Vector(1, 1, 1, 1)
-    ];
-    // setup for rendering
-    const setupVisitor = new RasterSetupVisitor(gl, lightPositions);
-    setupVisitor.setup(sg);
+
     const shininessElement = document.getElementById("shininess") as HTMLInputElement;
     let shininessCalc = Number(shininessElement.value);
     const kSElement = document.getElementById("kS") as HTMLInputElement;
@@ -51,6 +46,15 @@ window.addEventListener('load', () => {
     let kDCalc = Number(kDElement.value)
     const kAElement = document.getElementById("kA") as HTMLInputElement;
     let kACalc = Number(kDElement.value)
+    const lightPositionXElement = document.getElementById("lightPositionX") as HTMLInputElement;
+    let lightPositionXCalc = Number(lightPositionXElement.value)
+    const lightPositions = [
+        // new Vector(1, 1, 1, 1)
+        new Vector(lightPositionXCalc, 1,1,1)
+    ];
+    // setup for rendering
+    const setupVisitor = new RasterSetupVisitor(gl, lightPositions);
+    setupVisitor.setup(sg);
 
     let camera = {
         eye: new Vector(0, 0, 1, 1),
@@ -63,7 +67,9 @@ window.addEventListener('load', () => {
         shininess: shininessCalc,
         kS: kSCalc,
         kD: kDCalc,
-        kA: kACalc
+        kA: kACalc,
+        lightPositions: lightPositions
+
     };
     shininessElement.onchange = function () {
         camera.shininess = Number(shininessElement.value);
@@ -80,7 +86,14 @@ window.addEventListener('load', () => {
         camera.kD = Number(kDElement.value);
         console.log(camera.kD)
     }
-
+    lightPositionXElement.onchange = function () {
+        let lightPositionX = Number(lightPositionXElement.value)
+        for (let lightPosition of lightPositions) {
+            lightPosition.x = lightPositionX;
+        }
+        // lightPositions = Number(lightPositionXElement.value);
+        console.log(camera.lightPositions)
+    }
     const phongShader = new Shader(gl,
         phongVertexShader,
         phongFragmentShader

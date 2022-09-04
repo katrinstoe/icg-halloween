@@ -5,7 +5,7 @@
     <title>ICG Index</title>
     <link rel="icon" type="image/png" href="hci-logo.png">
     <link rel="icon" type="image/png" href="geist.png">
-<!--    <link rel="icon" type="image/png" href="Icons/minimize.png">-->
+    <!--    <link rel="icon" type="image/png" href="Icons/minimize.png">-->
 
     <script type="text/javascript" src="index.bundle.js"></script>
 </head>
@@ -14,7 +14,7 @@
 <nav class="navbar navbar-light bg-light px-2 mx-2">
     <a class="navbar-brand" href="/index.html">
         <img src="geist.png" width="30" height="30" class="d-inline-block align-top" alt="">
-<!--        <img src="Icons/minimize.svg" width="30" height="30" class="d-inline-block align-top" alt="">-->
+        <!--        <img src="Icons/minimize.svg" width="30" height="30" class="d-inline-block align-top" alt="">-->
     </a>
     <p>Double Click to switch renderer</p>
 
@@ -47,20 +47,24 @@
 <!--<br>-->
 <!--kinda tacky but it works-->
 <div class="container-fluid">
-<!--    <div class="bg-light d-flex align-items-center justify-items-center">-->
-<!--        <div class="me-auto "><h5 class="text-center">This is a cute scenegraph <3</h5></div>-->
-<!--        <div class="btn-group">-->
-<!--            <button class="btn btn-minimize d-flex justify-content-center align-items-center" type="button">-->
-<!--                <img class="text-center" src="/Icons/minimize.svg" alt="min" height="10px" width="20px">-->
-<!--            </button>-->
-<!--            <button class="btn btn-close" type="button" aria-label="close"></button>-->
-<!--        </div>-->
-<!--    </div>-->
+    <!--    <div class="bg-light d-flex align-items-center justify-items-center">-->
+    <!--        <div class="me-auto "><h5 class="text-center">This is a cute scenegraph <3</h5></div>-->
+    <!--        <div class="btn-group">-->
+    <!--            <button class="btn btn-minimize d-flex justify-content-center align-items-center" type="button">-->
+    <!--                <img class="text-center" src="/Icons/minimize.svg" alt="min" height="10px" width="20px">-->
+    <!--            </button>-->
+    <!--            <button class="btn btn-close" type="button" aria-label="close"></button>-->
+    <!--        </div>-->
+    <!--    </div>-->
     <div class="zeichenflaeche d-flex justify-content-center">
         <div class="figure justify-content-center align-items-center">
             <figure class="figure d-flex justify-content-center">
-                <canvas id="rasteriser" class="canvas mx-auto d-block rounded" style="position: absolute; left: 900px; z-index: 1; top: 50px;" width="800" height="800"></canvas>
-                <canvas id="rayTracer" class="canvas mx-auto d-block rounded" style="position: absolute; left: 900px; z-index: 1; top: 50px;" width="800" height="800"></canvas>
+                <canvas id="rasteriser" class="canvas mx-auto d-block rounded"
+                        style="position: absolute; left: 900px; z-index: 1; top: 50px;" width="800"
+                        height="800"></canvas>
+                <canvas id="rayTracer" class="canvas mx-auto d-block rounded"
+                        style="position: absolute; left: 900px; z-index: 1; top: 50px;" width="800"
+                        height="800"></canvas>
             </figure>
             <figcaption class="figure-caption text-center" style="position: absolute; left: 1200px; top: 900px;">
                 <button id="startAnimationBtn" class="btn btn-dark">Start</button>
@@ -88,6 +92,11 @@
         <label for="kA">kA: 0</label>
         <input class="form-control-range" id="kA" type="range" min="0" max="1" step="0.1">
         <label for="kA">1</label>
+    </div>
+    <div class="form-group text-end">
+        <label for="LightPositionX">0</label>
+        <input class="form-control-range" id="lightPositionX" type="range" min="0" max="1" step="0.1">
+        <label for="lightPositionX">1</label>
     </div>
 </div>
 

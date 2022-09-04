@@ -189,7 +189,7 @@ export default class RasterBox {
         }
         // console.log(triangles)
         //bis [3][0] ursprünglich
-        console.log(normalsTriangles)
+        // console.log(normalsTriangles)
         let normals = [
             normalsTriangles[0].x, normalsTriangles[0].y, normalsTriangles[0].z, normalsTriangles[0].a,
             normalsTriangles[1].x, normalsTriangles[1].y, normalsTriangles[1].z, normalsTriangles[1].a,
@@ -204,7 +204,7 @@ export default class RasterBox {
             normalsTriangles[10].x, normalsTriangles[10].y, normalsTriangles[10].z, normalsTriangles[10].a,
             normalsTriangles[11].x, normalsTriangles[11].y, normalsTriangles[11].z, normalsTriangles[11].a,
         ]
-        console.log(normals)
+        // console.log(normals)
 
         let colors = [
             color.x, color.y, color.z, color.a,
