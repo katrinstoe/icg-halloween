@@ -159,6 +159,31 @@ export class PyramidNode extends Node {
   }*/
 }
 
+/**
+ * Class representing a Textured Axis Aligned Box in the Scenegraph
+ * @extends Node
+ */
+export class TexturePyramidNode extends Node {
+  /**
+   * Creates an axis aligned box textured box
+   * The box's center is located at the origin
+   * with all edges of length 1
+   * @param texture The image filename for the texture
+   */
+  constructor(public texture: string) {
+    super();
+  }
+
+  /**
+   * Accepts a visitor according to the visitor pattern
+   * @param visitor The visitor
+   */
+  accept(visitor: Visitor) {
+    // TODO
+    visitor.visitTexturePyramidNode(this)
+  }
+}
+
 export class CameraNode extends Node {
   /**
    * Creates an axis aligned box textured box
