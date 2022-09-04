@@ -153,10 +153,10 @@ export class PyramidNode extends Node {
    * Accepts a visitor according to the visitor pattern
    * @param visitor The visitor
    */
-  /*accept(visitor: Visitor) {
+  accept(visitor: Visitor) {
     // TODO
     visitor.visitPyramidNode(this);
-  }*/
+  }
 }
 
 export class CameraNode extends Node {

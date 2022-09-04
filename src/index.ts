@@ -163,7 +163,7 @@ window.addEventListener('load', function loadPage() {
     sg.add(sphereTr);
 
 
-    const cubeTest = new PyramidNode(new Vector(0.5, 0.5, 0.5, 0));
+    const cubeTest = new PyramidNode(new Vector(1, 0, 0, 0));
     const cubeTestSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.2, 0)));
     const cubeTestTr = new GroupNode(new Translation(new Vector(-0.01, 0, -1, 0)));
 

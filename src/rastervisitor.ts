@@ -400,7 +400,11 @@ export class RasterSetupVisitor {
     this.objects.set(
         node,
         new RasterPyramid(
-            this.gl, new Vector(-0.5, -0.5, 0.5, 1), new Vector(0.5, -0.5, 0.5, 1), new Vector(0, -0.5, -0.5, 1), new Vector(0, 0.5, 0, 1),
+            this.gl,
+            new Vector(-0.5, -0.5, 0.5, 1),
+            new Vector(0.5, -0.5, 0.5, 1),
+            new Vector(0, -0.5, -0.5, 1),
+            new Vector(0, 0.5, 0, 1),
             node.color
         ),
     );
