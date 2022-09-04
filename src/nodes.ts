@@ -181,7 +181,6 @@ export class CameraNode extends Node {
 }
 
 export class LightNode extends Node {
-  positionArray: Array<Vector>
   /**
    * Creates an axis aligned box textured box
    * The box's center is located at the origin
@@ -190,7 +189,6 @@ export class LightNode extends Node {
    */
   constructor(public position: Vector) {
     super();
-    this.positionArray = new Array<Vector>()
   }
 
   /**

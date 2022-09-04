@@ -4,7 +4,7 @@ import Vector from './vector';
 import {
     GroupNode,
     SphereNode,
-    AABoxNode, TextureBoxNode
+    AABoxNode, TextureBoxNode, LightNode
 } from './nodes';
 import {
     RasterVisitor,
@@ -134,9 +134,9 @@ window.addEventListener('load', function loadPage() {
     // headerBTextSc2.add(textureMinimize)
     headerBTextTr2.add(headerBTextSc2)
     headerBTr2.add(headerBTextTr2)
-
-    //Zeichenflaeche 1
-    // const cube = new AABoxNode(new Vector(0, 0, 0, 0));
+    //
+    // //Zeichenflaeche 1
+    // const cube = new AABoxNode(new Vector(1, 0, 0, 0));
     const cubeSc = new GroupNode(new Scaling(new Vector(0.7, 0.7, 0.1, 0)));
     const cubeTr = new GroupNode(new Translation(new Vector(0.5, 0, -1, 0)));
     const cubeRt = new GroupNode(new Rotation(new Vector(0, 1, 0, 0), 1));
@@ -150,32 +150,37 @@ window.addEventListener('load', function loadPage() {
     cubeTr.add(cubeRt);
     sg.add(cubeTr);
 
-    //Zeichenflaeche2
+    // //Zeichenflaeche2
     //TODO: rausfinden wieso in raytracer sobald die sphere drin is der hintergrund schwarz wird
     const sphere = new SphereNode(new Vector(1, 0.7, 0.7, 1))
     const sphereSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.2, 0)));
     const sphereTr = new GroupNode(new Translation(new Vector(-0.3, 0, -1, 0)));
     sphereSc.add(sphere);
-    // sphereSc.add(textureHCILogo)
     sphereTr.add(sphereSc);
     sg.add(sphereTr);
 
 
-    const cubeTest = new AABoxNode(new Vector(0, 0, 1, 0));
-    const cubeTestSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.5, 0)));
-    const cubeTestTr = new GroupNode(new Translation(new Vector(-0.01, 0, -1, 0)));
-    // const cubeTestRt = new GroupNode(new Rotation(new Vector(0, 1, 0, 0), 1));
-    // const gn32 = new GroupNode(new Translation(new Vector(0, 0, 0, 0)));
-    // cubeSc.add(cube);
-    //TODO: Texture anzeigen geht nicht?
-    cubeTestSc.add(cubeTest)
-    // cubeTestRt.add(cubeTestSc);
-    cubeTestTr.add(cubeTestSc);
-    // gn32.add(cubeTestTr)
-    sg.add(cubeTestTr);
+
+
+    // const cubeTest = new AABoxNode(new Vector(0, 0, 1, 0));
+    // const cubeTestSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.5, 0)));
+    // const cubeTestTr = new GroupNode(new Translation(new Vector(-0.01, 0, -1, 0)));
+
+    // //TODO: Texture anzeigen geht nicht?
+    // cubeTestSc.add(cubeTest)
+    // cubeTestTr.add(cubeTestSc);
+    // sg.add(cubeTestTr);
+
+    //muss punkt sein
+    const light1 = new LightNode(new Vector(1, 0, 0, 1))
+    const lightRt = new GroupNode(new Rotation(new Vector(0, 1, 0, 0), 1));
+    lightRt.add(light1)
+    sg.add(lightRt)
+
 
     let animationNodes = [
         new RotationNode(cubeRt, new Vector(0, 0, 1, 0)),
+        new RotationNode(lightRt, new Vector(0, 0, 1, 0))
         // new RotationNode(gn32, new Vector(1, 1, 1, 0)),
 
     ]
@@ -241,11 +246,14 @@ window.addEventListener('load', function loadPage() {
         const gl = canvas.getContext("webgl2");
         const ctx = canvas2.getContext("2d");
 
-        const lightPositions = [
-            // new Vector(1, 1, 1, 1)
-            new Vector(lightPositionXCalc, 1,1,1)
-        ];
+        // const lightPositions = [
+        //     // new Vector(1, 1, 1, 1)
+        //     new Vector(lightPositionXCalc, 1,1,1)
+        // ];
         // setup for rendering
+        const lightPositionsVisitor = new LightVisitor(gl)
+        const lightPositions = lightPositionsVisitor.visit(sg)
+        console.log(lightPositions)
         const setupVisitor = new RasterSetupVisitor(gl, lightPositions);
         setupVisitor.setup(sg);
 
@@ -271,6 +279,7 @@ window.addEventListener('load', function loadPage() {
             kA: kACalc,
             lightPositions: lightPositions
         };
+        console.log(camera.lightPositions)
 
         const phongShader = new Shader(gl,
             phongVertexShaderPerspective,
@@ -281,7 +290,7 @@ window.addEventListener('load', function loadPage() {
             textureVertexShader,
             textureFragmentShader
         );
-        const lightVisitor = new LightVisitor(gl)
+
         const visitor = new RasterVisitor(gl, phongShader, textureShader, setupVisitor.objects);
         console.log(setupVisitor.objects)
 
@@ -295,7 +304,7 @@ window.addEventListener('load', function loadPage() {
 
         function animate(timestamp: number) {
             simulate(timestamp - lastTimestamp);
-            visitor.render(sg, camera, []);
+            visitor.render(sg, camera, lightPositions);
             lastTimestamp = timestamp;
             window.requestAnimationFrame(animate);
         }
@@ -475,22 +484,3 @@ window.addEventListener('load', function loadPage() {
         location.reload()
     });
 });
-
-
-// let animationHandle: number;
-//
-// let lastTimestamp = 0;
-// let animationTime = 0;
-// let animationHasStarted = true;
-// function animateRayTracer(timestamp: number){
-//     let deltaT = timestamp - lastTimestamp;
-//     if (animationHasStarted) {
-//         deltaT = 0;
-//         animationHasStarted = false;
-//     }
-//     animationTime += deltaT;
-//     lastTimestamp = timestamp;
-//     gnRotation.angle = animationTime / 2000;
-//
-//     visitor.render(sg, camera, lightPositions);
-// }

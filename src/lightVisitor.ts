@@ -16,11 +16,11 @@ export class LightVisitor implements Visitor {
         this.model = new Array<Matrix>(Matrix.identity())
         this.inverse = new Array<Matrix>(Matrix.identity())
     }
-    render(
-        rootNode: Node,
-    ) {
+    visit(rootNode: Node): Vector[] {
         // traverse and render
+        this.lightPositions = []
         rootNode.accept(this);
+        return this.lightPositions
     }
 
     visitAABoxNode(node: AABoxNode): void {
@@ -29,7 +29,22 @@ export class LightVisitor implements Visitor {
     visitCameraNode(node: CameraNode): void {
     }
 
-    visitGroupNode(node: GroupNode): void {
+    /**
+     * Visits a group node
+     * @param node The node to visit
+     */
+    visitGroupNode(node: GroupNode) {
+        let children = node.getchildren()
+        let matrix = node.transform.getMatrix()
+        let inverseMatrix = node.transform.getInverseMatrix()
+        this.model.push(this.model[this.model.length-1].mul(matrix))
+        this.inverse.push(inverseMatrix.mul(this.inverse[this.inverse.length-1]))
+
+        for (let child of children){
+            child.accept(this)
+        }
+        this.model.pop()
+        this.inverse.pop()
     }
 
     visitLightNode(node: LightNode): void {
@@ -39,6 +54,9 @@ export class LightVisitor implements Visitor {
         // TODO Calculate the model matrix for the sphere
         toWorld = this.model[this.model.length - 1];
         fromWorld = this.inverse[this.inverse.length - 1]
+
+
+        this.lightPositions.push(fromWorld.mulVec(node.position))
 
     }
 
