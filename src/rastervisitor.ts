@@ -11,6 +11,7 @@ import {
 } from './nodes';
 import Shader from './shader';
 import RasterPyramid from "./raster-pyramid";
+import RasterTexturePyramid from "./raster-texture-pyramid";
 
 interface Camera {
   eye: Vector,
@@ -400,6 +401,23 @@ export class RasterSetupVisitor {
     this.objects.set(
         node,
         new RasterPyramid(this.gl, new Vector(-0.5, -0.5, 0.5, 1), new Vector(0.5, -0.5, 0.5, 1), new Vector(0, -0.5, -0.5, 1), new Vector(0, 0.5, 0, 1))
+    );
+  }
+
+  /**
+   * Visits a textured box node. Loads the texture
+   * and creates a uv coordinate buffer
+   * @param  {TextureBoxNode} node - The node to visit
+   */
+  visitTexturePyramidNode(node: RasterTexturePyramid) {
+    this.objects.set(
+        node,
+        new RasterTextureBox(
+            this.gl,
+            new Vector(-0.5, -0.5, -0.5, 1),
+            new Vector(0.5, 0.5, 0.5, 1),
+            node.texture
+        )
     );
   }
 
