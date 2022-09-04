@@ -98,7 +98,7 @@ export default class RasterTexturePyramid {
     }
 
     /**
-     * Renders the textured box
+     * Renders the textured pyramid
      * @param {Shader} shader - The shader used to render
      */
     render(shader: Shader) {

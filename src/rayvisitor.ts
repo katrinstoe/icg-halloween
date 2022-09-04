@@ -7,14 +7,15 @@ import Visitor from './visitor';
 import phong from './phong';
 import {
     Node, GroupNode, SphereNode,
-    AABoxNode, TextureBoxNode, PyramidNode, CameraNode, LightNode
+    AABoxNode, TextureBoxNode, PyramidNode, CameraNode, LightNode, TexturePyramidNode
 } from './nodes';
 import AABox from './aabox';
 import Pyramid from "./pyramid";
+import RasterTexturePyramid from "./raster-texture-pyramid";
 
 const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1));
 const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.5, 0.5, 1), new Vector(0, 0, 0, 1));
-const UNIT_PYRAMID = new Pyramid(new Vector(0.5, 0.5, 0.5, 1), new Vector(0.1, 0.1, 0.1, 1), new Vector(0.8, 0.1, 0.8, 1),new Vector(0.5, 0.1, 0.1, 1), new Vector(0, 0, 0, 1))
+const UNIT_PYRAMID = new Pyramid(new Vector(-0.5, -0.5, 0.5, 1), new Vector(0.5, -0.5, 0.5, 1), new Vector(0, -0.5, -0.5, 1), new Vector(0, 0.5, 0, 1), new Vector(0, 0, 0, 1))
 
 /**
  * Class representing a Visitor that uses
@@ -219,6 +220,14 @@ export default class RayVisitor implements Visitor {
             }
         }
     }
+
+    /**
+     * Visits a textured pyramid node
+     * @param node The node to visit
+     */
+    visitTexturePyramidNode(node: TexturePyramidNode) {
+    }
+
     //TODO: implementieren
     visitCameraNode(node: CameraNode) {
     };

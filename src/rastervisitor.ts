@@ -7,10 +7,11 @@ import Visitor from './visitor';
 import {
   Node, GroupNode,
   SphereNode, AABoxNode,
-  TextureBoxNode, PyramidNode, CameraNode, LightNode
+  TextureBoxNode, PyramidNode, CameraNode, LightNode, TexturePyramidNode
 } from './nodes';
 import Shader from './shader';
 import RasterPyramid from "./raster-pyramid";
+import RasterTexturePyramid from "./raster-texture-pyramid";
 
 interface Camera {
   eye: Vector,
@@ -289,6 +290,35 @@ export class RasterVisitor implements Visitor {
     this.renderables.get(node).render(shader);
   }
 
+  /**
+   * Visits a textured box node
+   * @param  {TextureBoxNode} node - The node to visit
+   */
+  visitTexturePyramidNode(node: TexturePyramidNode) {
+    this.textureshader.use();
+    let shader = this.textureshader;
+
+    let toWorld = Matrix.identity();
+    // TODO calculate the model matrix for the box
+    toWorld = this.model[this.model.length-1];
+
+    shader.getUniformMatrix("M").set(toWorld);
+    shader.getUniformFloat("shininess").set(this.shininess)
+    shader.getUniformFloat("kS").set(this.kS)
+    shader.getUniformFloat("kD").set(this.kD)
+    shader.getUniformFloat("kA").set(this.kA)
+
+
+
+    shader.getUniformMatrix("V").set(this.lookat);
+    let P = shader.getUniformMatrix("P");
+    if (P && this.perspective) {
+      P.set(this.perspective);
+    }
+    this.renderables.get(node).render(shader);
+  }
+
+
   visitCameraNode(node: CameraNode) {
   };
   visitLightNode(node: LightNode) {
@@ -407,6 +437,27 @@ export class RasterSetupVisitor {
             new Vector(0, 0.5, 0, 1),
             node.color
         ),
+    );
+  }
+
+
+
+  /**
+   * Visits a textured box node. Loads the texture
+   * and creates a uv coordinate buffer
+   * @param  {TextureBoxNode} node - The node to visit
+   */
+  visitTexturePyramidNode(node: TexturePyramidNode) {
+    this.objects.set(
+        node,
+        new RasterTexturePyramid(
+            this.gl,
+            new Vector(-0.5, -0.5, 0.5, 1),
+            new Vector(0.5, -0.5, 0.5, 1),
+            new Vector(0, -0.5, -0.5, 1),
+            new Vector(0, 0.5, 0, 1),
+            node.texture
+        )
     );
   }
 
