@@ -354,7 +354,7 @@ window.addEventListener('load', function loadPage() {
                     DriverNodes[0].active = true;
                     break;
                 case "ArrowRight":
-                    DriverNodes[0].direction ="right"
+                    DriverNodes[0].direction = "right"
                     DriverNodes[0].active = true;
                     break;
                 case "ArrowUp":
@@ -374,7 +374,7 @@ window.addEventListener('load', function loadPage() {
                     ScalerNodes[0].active = true;
                     break;
                 case "1":
-                    for(let animationNode of animationNodes){
+                    for (let animationNode of animationNodes) {
                         animationNode.toggleActive();
                     }
                     break;
@@ -425,9 +425,7 @@ window.addEventListener('load', function loadPage() {
             let mx = event.clientX - canvas.getBoundingClientRect().left;
         }
 
-
     }
-
     function rayVisitor() {
         canvas.style.display = "none"
         canvas2.style.display = "block"
