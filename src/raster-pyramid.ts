@@ -6,7 +6,7 @@ import Shader from './shader';
  */
 export default class RasterPyramid {
     /**
-     * The buffer containing the box's vertices
+     * The buffer containing the pyramid's vertices
      */
     vertexBuffer: WebGLBuffer;
     /**

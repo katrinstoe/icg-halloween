@@ -23,7 +23,7 @@ export default class Pyramid {
    * @param backPoint The back corner
    * @param rightPoint The right corner
    * @param leftPoint the left corner
-   * @param color The colour of the Pyramid
+   * @param color The color of the Pyramid
    */
   constructor(public top: Vector, public backPoint: Vector, public rightPoint: Vector, public leftPoint: Vector, public color: Vector) {
     /*
