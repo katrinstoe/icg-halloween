@@ -241,11 +241,16 @@ window.addEventListener('load', function loadPage() {
         }
 
         let lastTimestamp = performance.now();
+        const texture = initTexture(gl);
+        const video = setupVideo('Firefox.mp4');
+        let then = 0;
 
         function animate(timestamp: number) {
             simulate(timestamp - lastTimestamp);
+            if (copyVideo) {
+                updateTexture(gl, texture, video);
+            }
             visitor.render(sg, camera, []);
-            updateTexture(gl, initTexture(gl), setupVideo("icgTestVideo.mp4"))
             lastTimestamp = timestamp;
             window.requestAnimationFrame(animate);
         }
