@@ -159,14 +159,6 @@ window.addEventListener('load', function loadPage() {
     sphereTr.add(sphereSc);
     sg.add(sphereTr);
 
-    //Sonne
-    const sonne = new SphereNode(new Vector(0.8,0.8,0.4,1))
-    const sonneSc = new GroupNode(new Scaling(new Vector(0.01,0.01,0.01,0.01)))
-    const sonneTr = new GroupNode(new Translation(new Vector(-0.1,0,-0.3,0)))
-    sonneSc.add(sonne);
-    sonneTr.add(sonneSc);
-    sg.add(sonneTr)
-
     const lightPositions = [
         //new Vector(-0.1,0,-0.3,0),
         new Vector(1, 1, 1, 1)
@@ -210,11 +202,9 @@ window.addEventListener('load', function loadPage() {
         const gl = canvas.getContext("webgl2");
         const ctx = canvas2.getContext("2d");
 
-
         // setup for rendering
         const setupVisitor = new RasterSetupVisitor(gl);
         setupVisitor.setup(sg);
-
 
         const rayCamera = {
             origin: new Vector(0, 0, 0, 1),
@@ -235,13 +225,13 @@ window.addEventListener('load', function loadPage() {
 
         const phongShader = new Shader(gl,
             phongVertexShaderPerspective,
-            // fragmentShader
             phongFragmentShader
         );
         const textureShader = new Shader(gl,
             textureVertexShader,
             textureFragmentShader
         );
+
         const visitor = new RasterVisitor(gl, phongShader, textureShader, setupVisitor.objects);
 
         function simulate(deltaT: number) {
@@ -255,6 +245,7 @@ window.addEventListener('load', function loadPage() {
         function animate(timestamp: number) {
             simulate(timestamp - lastTimestamp);
             visitor.render(sg, camera, []);
+            updateTexture(gl, initTexture(gl), setupVideo("icgTestVideo.mp4"))
             lastTimestamp = timestamp;
             window.requestAnimationFrame(animate);
         }
@@ -264,7 +255,6 @@ window.addEventListener('load', function loadPage() {
         ).then(x =>
             window.requestAnimationFrame(animate)
         );
-
 
         window.addEventListener('keydown', function (event) {
             switch (event.key) {
@@ -295,7 +285,7 @@ window.addEventListener('load', function loadPage() {
             let mx = event.clientX - canvas.getBoundingClientRect().left;
         }
 
-        function setupVideo(url) {
+        function setupVideo(url: string) {
             const video = document.createElement('video');
 
             let playing = false;
@@ -326,33 +316,47 @@ window.addEventListener('load', function loadPage() {
                     copyVideo = true;
                 }
             }
-
             return video;
-
-
-            const texture = initTexture(gl);
-
-            const video = setupVideo('Firefox.mp4');
-
-            let then = 0;
-
-            // Draw the scene repeatedly
-            function render(now) {
-                now *= 0.001;  // convert to seconds
-                const deltaTime = now - then;
-                then = now;
-
-                if (copyVideo) {
-                    updateTexture(gl, texture, video);
-                }
-
-                drawScene(gl, programInfo, buffers, texture, deltaTime);
-
-                requestAnimationFrame(render);
-            }
-            requestAnimationFrame(render);
         }
 
+        function updateTexture(gl: any, texture: any, video: any) {
+            const level = 0;
+            const internalFormat = gl.RGBA;
+            const srcFormat = gl.RGBA;
+            const srcType = gl.UNSIGNED_BYTE;
+            gl.bindTexture(gl.TEXTURE_2D, texture);
+            gl.texImage2D(gl.TEXTURE_2D, level, internalFormat,
+                srcFormat, srcType, video);
+        }
+
+        function initTexture(gl: any) {
+            const texture = gl.createTexture();
+            gl.bindTexture(gl.TEXTURE_2D, texture);
+
+            // Because video has to be download over the internet
+            // they might take a moment until it's ready so
+            // put a single pixel in the texture so we can
+            // use it immediately.
+            const level = 0;
+            const internalFormat = gl.RGBA;
+            const width = 1;
+            const height = 1;
+            const border = 0;
+            const srcFormat = gl.RGBA;
+            const srcType = gl.UNSIGNED_BYTE;
+            const pixel = new Uint8Array([0, 0, 255, 255]);  // opaque blue
+            gl.texImage2D(gl.TEXTURE_2D, level, internalFormat,
+                width, height, border, srcFormat, srcType,
+                pixel);
+
+            // Turn off mips and set wrapping to clamp to edge so it
+            // will work regardless of the dimensions of the video.
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+
+            return texture;
+        }
     }
 
     function rayVisitor() {
@@ -443,134 +447,3 @@ window.addEventListener('load', function loadPage() {
         location.reload()
     });
 });
-
-
-// let animationHandle: number;
-//
-// let lastTimestamp = 0;
-// let animationTime = 0;
-// let animationHasStarted = true;
-// function animateRayTracer(timestamp: number){
-//     let deltaT = timestamp - lastTimestamp;
-//     if (animationHasStarted) {
-//         deltaT = 0;
-//         animationHasStarted = false;
-//     }
-//     animationTime += deltaT;
-//     lastTimestamp = timestamp;
-//     gnRotation.angle = animationTime / 2000;
-//
-//     visitor.render(sg, camera, lightPositions);
-// }
-
-
-// // construct scene graph
-// const sg = new GroupNode(new Rotation(new Vector(0, 0, 1, 0), 0));
-// // //Texturen
-// const textureGeist = new TextureBoxNode('geist.png');
-// const textureHCILogo = new TextureBoxNode('hci-logo.png');
-// const textureMinimize = new TextureBoxNode('Icons/minusIcon.jpg');
-// const textureClose = new TextureBoxNode('Icons/close.png');
-// const textureGeistText = new TextureBoxNode('Icons/geistText.png');
-// const textureKugelText = new TextureBoxNode('Icons/kugelText.png');
-// //Taskbar
-// const TaskBarTr = new GroupNode(new Translation(new Vector(0, -0.95, 0, 0)));
-// const TaskBarSc = new GroupNode(new Scaling(new Vector(3, 0.1, 0.1, 0)))
-// const TaskBarBox = new AABoxNode(new Vector(0, 0, 0, 0));
-// TaskBarSc.add(TaskBarBox)
-// TaskBarTr.add(TaskBarSc);
-// const TaskBarIconSc = new GroupNode(new Scaling(new Vector(0.05, 0.05, 0.05, 0.05)));
-// const TaskBarIconTr = new GroupNode(new Translation(new Vector(0.8, 0, 0.03, 0)));
-// const TaskBarIconTrBox = new GroupNode(new Translation(new Vector(0.6, 0, 0, 0)));
-// const TaskBarIconScBox = new GroupNode(new Scaling(new Vector(0.05, 0.05, 0.05, 0.05)));
-// // //Icon Rosa Kreis
-// const TaskBarIconSphere = new SphereNode(new Vector(1, 0.7, 0.7, 1));
-// TaskBarIconSc.add(TaskBarIconSphere);
-// TaskBarIconTr.add(TaskBarIconSc);
-// TaskBarTr.add(TaskBarIconTr);
-// // //Icon Viereck
-// const TaskBarIconBox = new AABoxNode(new Vector(0, 0, 0, 0));
-// TaskBarIconScBox.add(TaskBarIconBox);
-// TaskBarIconScBox.add(textureGeist)
-// TaskBarIconTrBox.add(TaskBarIconScBox)
-// TaskBarTr.add(TaskBarIconTrBox)
-// //Header Transformations
-// const headerBarTr = new GroupNode(new Translation(new Vector(0.5, 1.9, 0, 0)));
-// const headerBarTr2 = new GroupNode(new Translation(new Vector(-0.58, 1.9, 0, 0)));
-// //
-// const headerBarSc = new GroupNode(new Scaling(new Vector(1, 0.1, 0.1, 0)))
-// const headerBarSc2 = new GroupNode(new Scaling(new Vector(1, 0.1, 0.1, 0)))
-// // //HeaderBoxen
-// const headerBarBox = new AABoxNode(new Vector(0, 0, 0, 0));
-// headerBarSc.add(headerBarBox)
-// headerBarTr.add(headerBarSc)
-// TaskBarTr.add(headerBarTr)
-// //
-// headerBarSc2.add(headerBarBox)
-// // headerBarSc2.add(textureGeistText)
-// headerBarTr2.add(headerBarSc2)
-// TaskBarTr.add(headerBarTr2)
-// //HeaderBoxen für Namebeschriftung
-// const headerBarTextTr = new GroupNode(new Translation(new Vector(0.55, 1.9, 0, 0)));
-// const headerBarTextTr2 = new GroupNode(new Translation(new Vector(-0.5, 1.9, 0, 0)));
-// //
-// const headerBarTextSc = new GroupNode(new Scaling(new Vector(0.25, 0.09, 0.1, 0)))
-// const headerBarTextSc2 = new GroupNode(new Scaling(new Vector(0.25, 0.09, 0.1, 0)))
-// headerBarTextSc.add(headerBarBox)
-// headerBarTextSc.add(textureKugelText)
-// headerBarTextTr.add(headerBarTextSc)
-// TaskBarTr.add(headerBarTextTr)
-// //
-// headerBarTextSc2.add(headerBarBox)
-// headerBarTextSc2.add(textureGeistText)
-// headerBarTextTr2.add(headerBarTextSc2)
-// TaskBarTr.add(headerBarTextTr2)
-// //
-// // //HeaderBox1 Icon Transformations
-// const headerBarIconBoxSc = new GroupNode(new Scaling(new Vector(0.05, 0.05, 0.05, 0.05)));
-// const headerBarIconBoxTr = new GroupNode(new Translation(new Vector(-0.3, 0, 0, 0)));
-// const headerBarIconBoxTr2 = new GroupNode(new Translation(new Vector(-0.4, 0, 0, 0)));
-// const headerBarIconBoxSc2 = new GroupNode(new Scaling(new Vector(0.05, 0.05, 0.05, 0.05)));
-// //HeaderBox2 Icons
-// const headerBarIconBox2Tr = new GroupNode(new Translation(new Vector(-1.3, 0, 0, 0)));
-// const headerBarIconBox2Tr2 = new GroupNode(new Translation(new Vector(-1.4, 0, 0, 0)));
-// //
-// //Header Icons (Vierecke, später Textur drauf)
-// const headerBarIconBox = new AABoxNode(new Vector(0, 0, 0, 0));
-// headerBarIconBoxSc.add(headerBarIconBox);
-// headerBarIconBoxSc.add(textureMinimize);
-// headerBarIconBoxTr.add(headerBarIconBoxSc)
-// headerBarTr.add(headerBarIconBoxTr)
-// //
-// const headerBarIconBox2 = new AABoxNode(new Vector(0, 0, 0, 0));
-// headerBarIconBoxSc2.add(headerBarIconBox2);
-// headerBarIconBoxSc2.add(textureClose);
-// headerBarIconBoxTr2.add(headerBarIconBoxSc2)
-// headerBarTr.add(headerBarIconBoxTr2)
-// //
-// headerBarIconBox2Tr.add(headerBarIconBoxSc)
-// headerBarTr.add(headerBarIconBox2Tr)
-// headerBarIconBox2Tr2.add(headerBarIconBoxSc2)
-// headerBarTr.add(headerBarIconBox2Tr2)
-// //
-// // //Zeichenflaeche 1
-// const cube = new AABoxNode(new Vector(0, 0, 0, 0));
-// const cubeSc = new GroupNode(new Scaling(new Vector(1, 1, 1, 1)));
-// const cubeTr = new GroupNode(new Translation(new Vector(-0.5, 0, 0, 0)))
-// const cubeRt = new GroupNode(new Rotation(new Vector(0, 1, 0, 0), 1));
-// cubeSc.add(cube);
-// cubeSc.add(textureGeist)
-// cubeRt.add(cubeSc);
-// cubeTr.add(cubeRt)
-// sg.add(cubeTr);
-// // //Zeichenflaeche2
-// const sphere = new SphereNode(new Vector(1, 0.7, 0.7, 1))
-// // const sphereSc = new GroupNode(new Scaling(new Vector(0.4, 0.4, 0.4, 1)));
-// // const sphereTr = new GroupNode(new Translation(new Vector(0.5, 0, 0, 0)));
-// const sphereSc = new GroupNode(new Scaling(new Vector(0.4, 0.4, 0.4, 1)));
-// const sphereTr = new GroupNode(new Translation(new Vector(0.5, 0, -1, 0)));
-// sphereSc.add(sphere);
-// // sphereSc.add(textureHCILogo)
-// sphereTr.add(sphereSc);
-// sg.add(sphereTr);
-// //

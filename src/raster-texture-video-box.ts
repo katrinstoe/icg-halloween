@@ -73,6 +73,7 @@ export default class RasterTextureBox {
         this.elements = vertices.length / 3;
 
         let cubeTexture = gl.createTexture();
+
         let cubeImage = new Image();
         cubeImage.onload = function () {
             gl.bindTexture(gl.TEXTURE_2D, cubeTexture);
