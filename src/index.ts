@@ -303,6 +303,14 @@ window.addEventListener('load', function loadPage() {
             for (let animationNode of animationNodes) {
                 animationNode.simulate(deltaT);
             }
+
+            for (let driverNode of DriverNodes) {
+                driverNode.simulate(deltaT);
+            }
+
+            for (let scalerNode of ScalerNodes) {
+                scalerNode.simulate(deltaT);
+            }
         }
 
         let lastTimestamp = performance.now();
@@ -341,11 +349,60 @@ window.addEventListener('load', function loadPage() {
 
         window.addEventListener('keydown', function (event) {
             switch (event.key) {
+                case "ArrowLeft":
+                    DriverNodes[0].direction = "left"
+                    DriverNodes[0].active = true;
+                    break;
+                case "ArrowRight":
+                    DriverNodes[0].direction ="right"
+                    DriverNodes[0].active = true;
+                    break;
                 case "ArrowUp":
-                    animationNodes[0].toggleActive();
+                    DriverNodes[0].direction = "up"
+                    DriverNodes[0].active = true;
+                    break;
+                case "ArrowDown":
+                    DriverNodes[0].direction = "down"
+                    DriverNodes[0].active = true;
+                    break;
+                case "+":
+                    ScalerNodes[0].zoom = "in"
+                    ScalerNodes[0].active = true;
+                    break;
+                case "-":
+                    ScalerNodes[0].zoom = "out"
+                    ScalerNodes[0].active = true;
+                    break;
+                case "1":
+                    for(let animationNode of animationNodes){
+                        animationNode.toggleActive();
+                    }
                     break;
             }
         });
+        window.addEventListener('keyup', function (event) {
+            switch (event.key) {
+                case "ArrowLeft":
+                    DriverNodes[0].active = false;
+                    break;
+                case "ArrowRight":
+                    DriverNodes[0].active = false;
+                    break;
+                case "ArrowUp":
+                    DriverNodes[0].active = false;
+                    break;
+                case "ArrowDown":
+                    DriverNodes[0].active = false;
+                    break;
+                case "+":
+                    ScalerNodes[0].active = false;
+                    break;
+                case "-":
+                    ScalerNodes[0].active = false;
+                    break;
+            }
+        });
+
 
         function getMousePos(canvas: HTMLCanvasElement, evt: MouseEvent) {
             let rect = canvas.getBoundingClientRect();
