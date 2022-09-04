@@ -16,7 +16,6 @@
         <img src="geist.png" width="30" height="30" class="d-inline-block align-top" alt="">
 <!--        <img src="Icons/minimize.svg" width="30" height="30" class="d-inline-block align-top" alt="">-->
     </a>
-    <p>Double Click to switch renderer</p>
 
     <div class="btn-group" role="group">
         <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
@@ -68,6 +67,26 @@
                 <button id="addTexture" class="btn btn-dark">Texture</button>
             </figcaption>
         </div>
+    </div>
+    <div class="form-group text-end">
+        <label for="shininess">Shininess: 1</label>
+        <input class="form-control-range" id="shininess" type="range" min="1" max="50">
+        <label for="shininess">50</label>
+    </div>
+    <div class="form-group text-end">
+        <label for="kS">kS: 0</label>
+        <input class="form-control-range" id="kS" type="range" min="0" max="1" step="0.1">
+        <label for="kS">1</label>
+    </div>
+    <div class="form-group text-end">
+        <label for="kD">kD: 0</label>
+        <input class="form-control-range" id="kD" type="range" min="0" max="1" step="0.1">
+        <label for="kD">1</label>
+    </div>
+    <div class="form-group text-end">
+        <label for="kA">kA: 0</label>
+        <input class="form-control-range" id="kA" type="range" min="0" max="1" step="0.1">
+        <label for="kA">1</label>
     </div>
 </div>
 

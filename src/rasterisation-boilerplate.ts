@@ -31,10 +31,12 @@ window.addEventListener('load', () => {
     gn3.add(sphere1);
     const gn2 = new GroupNode(new Translation(new Vector(-.2, -0.2, 0, 0)));
     sg.add(gn2);
-
+    const lightPositions = [
+        new Vector(1, 1, 1, 1)
+    ];
 
     // setup for rendering
-    const setupVisitor = new RasterSetupVisitor(gl);
+    const setupVisitor = new RasterSetupVisitor(gl, lightPositions);
     setupVisitor.setup(sg);
 
     const shader = new Shader(gl,

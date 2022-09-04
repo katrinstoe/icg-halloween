@@ -7,7 +7,7 @@ import Visitor from './visitor';
 import {
   Node, GroupNode,
   SphereNode, AABoxNode,
-  TextureBoxNode, PyramidNode
+  TextureBoxNode, PyramidNode, CameraNode, LightNode
 } from './nodes';
 import Shader from './shader';
 import RasterPyramid from "./raster-pyramid";
@@ -19,7 +19,11 @@ interface Camera {
   fovy: number,
   aspect: number,
   near: number,
-  far: number
+  far: number,
+  shininess: number,
+  kS: number,
+  kD: number,
+  kA: number
 }
 
 interface Renderable {
@@ -56,7 +60,7 @@ export class RasterVisitor implements Visitor {
    * Renders the Scenegraph
    * @param rootNode The root node of the Scenegraph
    * @param camera The camera used
-   * @param lightPositions The light light positions
+   * @param lightPositions The light positions
    */
   render(
     rootNode: Node,
@@ -89,6 +93,13 @@ export class RasterVisitor implements Visitor {
    */
   private perspective: Matrix;
 
+  private shininess: number;
+
+  private kS: number;
+
+  private kD: number;
+  private kA: number;
+
   /**
    * Helper function to setup camera matrices
    * @param camera The camera used
@@ -98,13 +109,17 @@ export class RasterVisitor implements Visitor {
       camera.eye,
       camera.center,
       camera.up);
-
     this.perspective = Matrix.perspective(
       camera.fovy,
       camera.aspect,
       camera.near,
       camera.far
     );
+    this.shininess = camera.shininess;
+    this.kS= camera.kS;
+    this.kD = camera.kD;
+    this.kA = camera.kA;
+    // console.log(this.shininess)
   }
 
   /**
@@ -144,6 +159,11 @@ export class RasterVisitor implements Visitor {
     //eignenen kameravisitor vllt machen der in viewmatrix veändert
     //allgemein kann ich kamera dann an würfel hängen der dann mit animation rotiert um objekte
     shader.getUniformMatrix("M").set(toWorld);
+    shader.getUniformFloat("shininess").set(this.shininess)
+    shader.getUniformFloat("kS").set(this.kS)
+    shader.getUniformFloat("kD").set(this.kD)
+    shader.getUniformFloat("kA").set(this.kA)
+
 
     const V = shader.getUniformMatrix("V");
     if (V && this.lookat) {
@@ -180,6 +200,11 @@ export class RasterVisitor implements Visitor {
     toWorld = this.model[this.model.length-1];
 
     shader.getUniformMatrix("M").set(toWorld);
+    shader.getUniformFloat("shininess").set(this.shininess)
+    shader.getUniformFloat("kS").set(this.kS)
+    shader.getUniformFloat("kD").set(this.kD)
+    shader.getUniformFloat("kA").set(this.kA)
+
     let V = shader.getUniformMatrix("V");
     if (V && this.lookat) {
       V.set(this.lookat);
@@ -205,6 +230,13 @@ export class RasterVisitor implements Visitor {
     toWorld = this.model[this.model.length-1];
 
     shader.getUniformMatrix("M").set(toWorld);
+    shader.getUniformFloat("shininess").set(this.shininess)
+    shader.getUniformFloat("kS").set(this.kS)
+    shader.getUniformFloat("kD").set(this.kD)
+    shader.getUniformFloat("kA").set(this.kA)
+
+
+
     shader.getUniformMatrix("V").set(this.lookat);
     let P = shader.getUniformMatrix("P");
     if (P && this.perspective) {
@@ -228,6 +260,11 @@ export class RasterVisitor implements Visitor {
     fromWorld = this.inverse[this.inverse.length-1]
 
     shader.getUniformMatrix("M").set(toWorld);
+    shader.getUniformFloat("shininess").set(this.shininess)
+    shader.getUniformFloat("kS").set(this.kS)
+    shader.getUniformFloat("kD").set(this.kD)
+    shader.getUniformFloat("kA").set(this.kA)
+
 
     const V = shader.getUniformMatrix("V");
     if (V && this.lookat) {
@@ -251,6 +288,11 @@ export class RasterVisitor implements Visitor {
 
     this.renderables.get(node).render(shader);
   }
+
+  visitCameraNode(node: CameraNode) {
+  };
+  visitLightNode(node: LightNode) {
+  };
 }
 
 /** 
@@ -262,13 +304,16 @@ export class RasterSetupVisitor {
    * The created render objects
    */
   public objects: WeakMap<Node, Renderable>
+  public lightpositions: Array<Vector>;
+
 
   /**
    * Creates a new RasterSetupVisitor
    * @param context The 3D context in which to create buffers
    */
-  constructor(private gl: WebGL2RenderingContext) {
+  constructor(private gl: WebGL2RenderingContext, lightPositions: Array<Vector>) {
     this.objects = new WeakMap();
+    this.lightpositions = lightPositions;
   }
 
   /**
@@ -307,7 +352,11 @@ export class RasterSetupVisitor {
   visitSphereNode(node: SphereNode) {
     this.objects.set(
       node,
-      new RasterSphere(this.gl, new Vector(0, 0, 0, 1), 1, node.color)
+      new RasterSphere(
+          this.gl,
+          new Vector(0, 0, 0, 1), 1,
+          node.color,
+          this.lightpositions)
     );
   }
 
@@ -321,7 +370,8 @@ export class RasterSetupVisitor {
       new RasterBox(
         this.gl,
         new Vector(-0.5, -0.5, -0.5, 1),
-        new Vector(0.5, 0.5, 0.5, 1)
+        new Vector(0.5, 0.5, 0.5, 1),
+        node.color
       )
     );
   }
@@ -352,4 +402,9 @@ export class RasterSetupVisitor {
         new RasterPyramid(this.gl, new Vector(0.1, 0.1, -0.1, 1), new Vector(0.8, 0.1, -0.1, 1), new Vector(0.5, 0.1, -0.5, 1), new Vector(0.5, 0.8, -0.2, 1))
     );
   }
+
+  visitCameraNode(node: CameraNode) {
+  };
+  visitLightNode(node: LightNode) {
+  };
 }

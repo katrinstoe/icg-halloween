@@ -29,11 +29,21 @@ window.addEventListener('load', () => {
     const sg = new GroupNode(new SQT(new Vector(1, 1, 1, 0), { angle: 0.6, axis: new Vector(0, 1, 0, 0) }, new Vector(0, 0, 0, 0)));
     const cube = new TextureBoxNode('hci-logo.png');
     sg.add(cube);
-
+    const lightPositions = [
+        new Vector(1, 1, 1, 1)
+    ];
     // setup for rendering
-    const setupVisitor = new RasterSetupVisitor(gl);
+    const setupVisitor = new RasterSetupVisitor(gl, lightPositions);
     setupVisitor.setup(sg);
 
+    const shininessElement = document.getElementById("shininess") as HTMLInputElement;
+    let shininessCalc = Number(shininessElement.value)
+    const kSElement = document.getElementById("kS") as HTMLInputElement;
+    let kSCalc = Number(kSElement.value)
+    const kDElement = document.getElementById("kD") as HTMLInputElement;
+    let kDCalc = Number(kDElement.value)
+    const kAElement = document.getElementById("kA") as HTMLInputElement;
+    let kACalc = Number(kAElement.value)
     let camera = {
         eye: new Vector(0, 0, 2, 1),
         center: new Vector(0, 0, 0, 1),
@@ -41,8 +51,26 @@ window.addEventListener('load', () => {
         fovy: 60,
         aspect: canvas.width / canvas.height,
         near: 0.1,
-        far: 100
+        far: 100,
+        shininess: shininessCalc,
+        kS: kSCalc,
+        kD: kDCalc,
+        kA: kACalc
     };
+    shininessElement.onchange = function () {
+        camera.shininess = Number(shininessElement.value);
+    }
+    kSElement.onchange = function () {
+        camera.kS = Number(kSElement.value);
+        console.log(camera.kS)
+    }
+    kDElement.onchange = function () {
+        camera.kD = Number(kDElement.value);
+    }
+    kAElement.onchange = function () {
+        camera.kA = Number(kAElement.value);
+        console.log(camera.kA)
+    }
 
     const phongShader = new Shader(gl,
         phongVertexShader,

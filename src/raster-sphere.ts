@@ -24,6 +24,8 @@ export default class RasterSphere {
      */
     elements: number;
 
+    lightPositionsBuffer: WebGLBuffer
+
     /**
      * Creates all WebGL buffers for the sphere
      * @param gl The canvas' context
@@ -35,12 +37,16 @@ export default class RasterSphere {
         private gl: WebGL2RenderingContext,
         center: Vector,
         radius: number,
-        color: Vector
-    ) {
+        color: Vector,
+        lightPositions?: Array<Vector>
+
+
+) {
         let vertices = [];
         let indices = [];
         let normals = [];
         let colors = [];
+        let lightPositionsArray=[];
 
         let ringsize = 30;
 
@@ -75,6 +81,7 @@ export default class RasterSphere {
                 normals.push(normal.x);
                 normals.push(normal.y);
                 normals.push(normal.z);
+
             }
         }
 
@@ -88,6 +95,12 @@ export default class RasterSphere {
                 indices.push((ring + 1) * ringsize + ring2);
                 indices.push((ring + 1) * ringsize + ((ring2 + 1) % ringsize));
             }
+        }
+        for (let lightPosition of lightPositions) {
+            lightPositionsArray.push(lightPosition.x);
+            lightPositionsArray.push(lightPosition.y);
+            lightPositionsArray.push(lightPosition.z);
+            lightPositionsArray.push(lightPosition.w)
         }
 
         const vertexBuffer = this.gl.createBuffer();
@@ -109,6 +122,12 @@ export default class RasterSphere {
         gl.bindBuffer(this.gl.ARRAY_BUFFER, colorBuffer);
         gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(colors), this.gl.STATIC_DRAW);
         this.colorBuffer = colorBuffer;
+        //lightpositionBuffer
+        const lightPositionBuffer = this.gl.createBuffer();
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, lightPositionBuffer);
+        this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(lightPositionsArray), this.gl.STATIC_DRAW);
+        this.lightPositionsBuffer = lightPositionBuffer;
+
     }
 
     /**
@@ -134,6 +153,14 @@ export default class RasterSphere {
         this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
 
         this.gl.drawElements(this.gl.TRIANGLES, this.elements, this.gl.UNSIGNED_SHORT, 0);
+        //this.gl.drawElements(this.gl.TRIANGLES, 3, this.gl.UNSIGNED_SHORT, 0);
+
+        //LightPositions binden
+        const lightPosition = shader.getAttributeLocation("a_light_positions");
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.lightPositionsBuffer);
+        this.gl.enableVertexAttribArray(lightPosition);
+        this.gl.vertexAttribPointer(lightPosition, 4, this.gl.FLOAT, false, 0, 0);
+
 
 
         this.gl.disableVertexAttribArray(positionLocation);
@@ -141,6 +168,7 @@ export default class RasterSphere {
         this.gl.disableVertexAttribArray(color)
         // TODO disable normal vertex attrib array
         this.gl.disableVertexAttribArray(aNormal)
+        this.gl.disableVertexAttribArray(lightPosition)
 
     }
 }
