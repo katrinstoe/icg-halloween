@@ -40,7 +40,7 @@ export default class Pyramid {
       0, 1, 2, //front
       1, 3, 2, //right
       3, 0, 2, //left
-      0, 1, 3 //bottom
+      0, 3, 1 //bottom
     ];
     this.color = color;
 
