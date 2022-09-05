@@ -26,7 +26,7 @@ import Sphere from "./sphere";
 import AABox from "./aabox";
 import RayVisitor from "./rayvisitor";
 import phong from "./phong";
-import {RotationNode} from "./animation-nodes";
+import {DriverNode, RotationNode, TranslatorNode} from "./animation-nodes";
 import mouseClickVisitor from "./mouse-click-visitor";
 import {LightVisitor} from "./lightVisitor";
 
@@ -172,17 +172,18 @@ window.addEventListener('load', function loadPage() {
     // sg.add(cubeTestTr);
 
     //muss punkt sein
-    const light1 = new LightNode(new Vector(1, 0, 0, 1))
-    const lightRt = new GroupNode(new Rotation(new Vector(0, 1, 0, 0), 1));
-    lightRt.add(light1)
-    sg.add(lightRt)
+    const light1 = new LightNode(new Vector(1, 1, 0, 1))
+    const lightTr = new GroupNode(new Translation(new Vector(-0.3, 0, -1, 0)));
+
+    lightTr.add(light1)
+    sg.add(lightTr)
 
 
     let animationNodes = [
         new RotationNode(cubeRt, new Vector(0, 0, 1, 0)),
-        new RotationNode(lightRt, new Vector(0, 0, 1, 0))
+        new DriverNode(lightTr, new Vector(1, 0, 0, 0)),
+        // new TranslatorNode(lightTr, new Vector(1, 0, 0, 0), "left")
         // new RotationNode(gn32, new Vector(1, 1, 1, 0)),
-
     ]
 
 //Rasterizer und RayTracer Wechseln
@@ -403,58 +404,58 @@ window.addEventListener('load', function loadPage() {
         let animationTime = 0;
         let animationHasStarted = true;
 
-        function animate(timestamp: number) {
-            console.log("ich starte mal")
-            let deltaT = timestamp - lastTimestamp;
-            if (animationHasStarted) {
-                deltaT = 0;
-                animationHasStarted = false;
-            }
-            animationTime += deltaT;
-            lastTimestamp = timestamp;
-            animationNodes[0].angle = animationTime / 2000;
+        // function animate(timestamp: number) {
+        //     console.log("ich starte mal")
+        //     let deltaT = timestamp - lastTimestamp;
+        //     if (animationHasStarted) {
+        //         deltaT = 0;
+        //         animationHasStarted = false;
+        //     }
+        //     animationTime += deltaT;
+        //     lastTimestamp = timestamp;
+        //     animationNodes[0].angle = animationTime / 2000;
+        //
+        //     visitor.render(sg, camera, lightPositions);
+        //     // animationHandle = window.requestAnimationFrame(animate);
+        //     console.log("animate zu Ende")
+        // }
 
-            visitor.render(sg, camera, lightPositions);
-            // animationHandle = window.requestAnimationFrame(animate);
-            console.log("animate zu Ende")
-        }
-
-        function startAnimation() {
-            if (animationHandle) {
-                window.cancelAnimationFrame(animationHandle);
-            }
-            animationHasStarted = true;
-
-            function animation(t: number) {
-                animate(t);
-                animationHandle = window.requestAnimationFrame(animate);
-            }
-
-        }
-        animate(0);
-        shininessElement.onchange = function () {
-            camera.shininess = 50-Number(shininessElement.value);
-            window.requestAnimationFrame(animate)
-        }
-        kSElement.onchange = function () {
-            camera.kS = Number(kSElement.value);
-            window.requestAnimationFrame(animate)
-        }
-        kDElement.onchange = function () {
-            camera.kD = Number(kDElement.value);
-            window.requestAnimationFrame(animate)
-        }
-        kAElement.onchange = function () {
-            camera.kA = Number(kAElement.value);
-            window.requestAnimationFrame(animate)
-        }
-        console.log("fertig shininess")
-
-        document.getElementById("startAnimationBtn").addEventListener(
-            "dblclick", startAnimation);
-        document.getElementById("stopAnimationBtn").addEventListener(
-            "dblclick", () => cancelAnimationFrame(animationHandle));
-
+        // function startAnimation() {
+        //     if (animationHandle) {
+        //         window.cancelAnimationFrame(animationHandle);
+        //     }
+        //     animationHasStarted = true;
+        //
+        //     function animation(t: number) {
+        //         animate(t);
+        //         animationHandle = window.requestAnimationFrame(animate);
+        //     }
+        //
+        // }
+        // animate(0);
+        // shininessElement.onchange = function () {
+        //     camera.shininess = 50-Number(shininessElement.value);
+        //     window.requestAnimationFrame(animate)
+        // }
+        // kSElement.onchange = function () {
+        //     camera.kS = Number(kSElement.value);
+        //     window.requestAnimationFrame(animate)
+        // }
+        // kDElement.onchange = function () {
+        //     camera.kD = Number(kDElement.value);
+        //     window.requestAnimationFrame(animate)
+        // }
+        // kAElement.onchange = function () {
+        //     camera.kA = Number(kAElement.value);
+        //     window.requestAnimationFrame(animate)
+        // }
+        // console.log("fertig shininess")
+        //
+        // document.getElementById("startAnimationBtn").addEventListener(
+        //     "dblclick", startAnimation);
+        // document.getElementById("stopAnimationBtn").addEventListener(
+        //     "dblclick", () => cancelAnimationFrame(animationHandle));
+        //
 
     }
 
