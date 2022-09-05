@@ -4,7 +4,7 @@ import Vector from './vector';
 import {
     GroupNode,
     SphereNode,
-    AABoxNode, TextureBoxNode
+    AABoxNode, TextureBoxNode, TextureVideoBoxNode
 } from './nodes';
 import {
     RasterVisitor,
@@ -28,6 +28,7 @@ import RayVisitor from "./rayvisitor";
 import phong from "./phong";
 import {RotationNode} from "./animation-nodes";
 import mouseClickVisitor from "./mouse-click-visitor";
+import RasterTextureVideoBox from "./raster-texture-video-box";
 
 const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1));
 const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.5, 0.5, 1), new Vector(0, 0, 0, 1));
@@ -158,6 +159,10 @@ window.addEventListener('load', function loadPage() {
     // sphereSc.add(textureHCILogo)
     sphereTr.add(sphereSc);
     sg.add(sphereTr);
+
+    const videoBox = new TextureVideoBoxNode("icgTestVideo.mp4");
+    //sg.add(textureGeist);
+    sg.add(videoBox);
 
     const lightPositions = [
         //new Vector(-0.1,0,-0.3,0),
