@@ -7,7 +7,7 @@ import Visitor from './visitor';
 import phong from './phong';
 import {
     Node, GroupNode, SphereNode,
-    AABoxNode, TextureBoxNode, PyramidNode
+    AABoxNode, TextureBoxNode, PyramidNode, TextureVideoBoxNode
 } from './nodes';
 import AABox from './aabox';
 
@@ -150,11 +150,19 @@ export default class mouseClickVisitor implements Visitor {
             }
         }
     }
+
     /**
      * Visits a textured box node
      * @param node The node to visit
      */
     visitTextureBoxNode(node: TextureBoxNode) {
+    }
+
+    /**
+     * Visits a textured box node
+     * @param node The node to visit
+     */
+    visitTextureVideoBoxNode(node: TextureVideoBoxNode) {
     }
 
     visitPyramidNode(node: PyramidNode): void {

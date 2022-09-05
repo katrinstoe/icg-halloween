@@ -7,7 +7,7 @@ import Visitor from './visitor';
 import {
   Node, GroupNode,
   SphereNode, AABoxNode,
-  TextureBoxNode, PyramidNode
+  TextureBoxNode, PyramidNode, TextureVideoBoxNode
 } from './nodes';
 import Shader from './shader';
 import RasterPyramid from "./raster-pyramid";
@@ -214,6 +214,27 @@ export class RasterVisitor implements Visitor {
   }
 
   /**
+   * Visits a textured box node
+   * @param  {TextureBoxNode} node - The node to visit
+   */
+  visitTextureVideoBoxNode(node: TextureVideoBoxNode) {
+    this.textureshader.use();
+    let shader = this.textureshader;
+
+    let toWorld = Matrix.identity();
+    // TODO calculate the model matrix for the box
+    toWorld = this.model[this.model.length-1];
+
+    shader.getUniformMatrix("M").set(toWorld);
+    shader.getUniformMatrix("V").set(this.lookat);
+    let P = shader.getUniformMatrix("P");
+    if (P && this.perspective) {
+      P.set(this.perspective);
+    }
+    this.renderables.get(node).render(shader);
+  }
+
+  /**
    * Visits a pyramid node
    * @param node The node to visit
    */
@@ -342,6 +363,27 @@ export class RasterSetupVisitor {
       )
     );
   }
+
+
+  /**
+   * Visits a textured box node. Loads the texture
+   * and creates a uv coordinate buffer
+   * @param  {TextureBoxNode} node - The node to visit
+   */
+  visitTextureVideoBoxNode(node: TextureVideoBoxNode) {
+    this.objects.set(
+        node,
+        new RasterTextureBox(
+            this.gl,
+            new Vector(-0.5, -0.5, -0.5, 1),
+            new Vector(0.5, 0.5, 0.5, 1),
+            node.texture
+        )
+    );
+  }
+
+
+
   /**
    * Visits a pyramid node
    * @param node - The node to visit

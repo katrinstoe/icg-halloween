@@ -1,10 +1,13 @@
 import Vector from './vector';
 import Shader from './shader';
+import * as url from "url";
+
+let copyVideo = false;
 
 /**
  * A class creating buffers for a textured box to render it with WebGL
  */
-export default class RasterTextureBox {
+export default class RasterTextureVideoBox {
     /**
      * The buffer containing the box's vertices
      */
@@ -21,6 +24,10 @@ export default class RasterTextureBox {
      * The amount of faces
      */
     elements: number;
+
+    video: HTMLVideoElement;
+
+    cubeTexture: any;
 
     /**
      * Creates all WebGL buffers for the textured box
@@ -41,7 +48,7 @@ export default class RasterTextureBox {
         private gl: WebGL2RenderingContext,
         minPoint: Vector,
         maxPoint: Vector,
-        texture: string
+        url: string
     ) {
         const mi = minPoint;
         const ma = maxPoint;
@@ -72,34 +79,20 @@ export default class RasterTextureBox {
         this.vertexBuffer = vertexBuffer;
         this.elements = vertices.length / 3;
 
-        let cubeTexture = gl.createTexture();
+        let cubeTexture = initTexture(gl);
+        this.video = setupVideo('Firefox.mp4');
 
         let cubeImage = new Image();
         cubeImage.onload = function () {
             gl.bindTexture(gl.TEXTURE_2D, cubeTexture);
-
-
-
-            const level = 0;
-            const internalFormat = gl.RGBA;
-            const width = 1;
-            const height = 1;
-            const border = 0;
-            const srcFormat = gl.RGBA;
-            const srcType = gl.UNSIGNED_BYTE;
-            const pixel = new Uint8Array([0, 0, 255, 255]);  // opaque blue
-            gl.texImage2D(gl.TEXTURE_2D, level, internalFormat,
-                width, height, border, srcFormat, srcType,
-                pixel);
-
-            // Turn off mips and set wrapping to clamp to edge so it
-            // will work regardless of the dimensions of the video.
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, cubeImage);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-
+            gl.bindTexture(gl.TEXTURE_2D, null);
         }
-        cubeImage.src = texture;
+
+        cubeImage.src = url;
         this.texBuffer = cubeTexture;
 
         let uv = [
@@ -129,6 +122,9 @@ export default class RasterTextureBox {
      * @param {Shader} shader - The shader used to render
      */
     render(shader: Shader) {
+
+        updateTexture(this.gl, this.cubeTexture, this.video)
+
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.vertexBuffer);
         const positionLocation = shader.getAttributeLocation("a_position");
         this.gl.enableVertexAttribArray(positionLocation);
@@ -154,4 +150,79 @@ export default class RasterTextureBox {
         // TODO disable texture vertex attrib array
         this.gl.disableVertexAttribArray(textureCoord)
     }
+}
+
+function updateTexture(gl: any, texture: any, video: HTMLVideoElement) {
+    const level = 0;
+    const internalFormat = gl.RGBA;
+    const srcFormat = gl.RGBA;
+    const srcType = gl.UNSIGNED_BYTE;
+    gl.bindTexture(gl.TEXTURE_2D, texture);
+    gl.texImage2D(gl.TEXTURE_2D, level, internalFormat,
+        srcFormat, srcType, video);
+}
+
+
+function initTexture(gl: any) {
+    const texture = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, texture);
+
+    // Because video has to be download over the internet
+    // they might take a moment until it's ready so
+    // put a single pixel in the texture so we can
+    // use it immediately.
+    const level = 0;
+    const internalFormat = gl.RGBA;
+    const width = 1;
+    const height = 1;
+    const border = 0;
+    const srcFormat = gl.RGBA;
+    const srcType = gl.UNSIGNED_BYTE;
+    const pixel = new Uint8Array([0, 0, 255, 255]);  // opaque blue
+    gl.texImage2D(gl.TEXTURE_2D, level, internalFormat,
+        width, height, border, srcFormat, srcType,
+        pixel);
+
+    // Turn off mips and set wrapping to clamp to edge so it
+    // will work regardless of the dimensions of the video.
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+
+    return texture;
+}
+
+function setupVideo(url: string) {
+    const video = document.createElement('video');
+
+    let playing = false;
+    let timeupdate = false;
+
+    video.playsInline = true;
+    video.muted = true;
+    video.loop = true;
+
+    // Waiting for these 2 events ensures
+    // there is data in the video
+
+    video.addEventListener('playing', () => {
+        playing = true;
+        checkReady();
+    }, true);
+
+    video.addEventListener('timeupdate', () => {
+        timeupdate = true;
+        checkReady();
+    }, true);
+
+    video.src = url;
+    video.play();
+
+    function checkReady() {
+        if (playing && timeupdate) {
+            copyVideo = true;
+        }
+    }
+
+    return video;
 }
