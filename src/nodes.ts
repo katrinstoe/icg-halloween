@@ -1,6 +1,7 @@
 import Visitor from './visitor';
 import Vector from './vector';
 import { Transformation } from './transformation';
+import TextureVideoBox from "./texture-video-box";
 
 /**
  * Class representing a Node in a Scenegraph
@@ -154,7 +155,7 @@ export class TextureVideoBoxNode extends Node {
    */
   accept(visitor: Visitor) {
     // TODO
-    visitor.visitTextureBoxNode(this)
+    visitor.visitTextureVideoBoxNode(this)
   }
 }
 

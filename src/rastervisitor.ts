@@ -11,6 +11,7 @@ import {
 } from './nodes';
 import Shader from './shader';
 import RasterPyramid from "./raster-pyramid";
+import TextureVideoBox from "./texture-video-box";
 
 interface Camera {
   eye: Vector,
@@ -373,7 +374,7 @@ export class RasterSetupVisitor {
   visitTextureVideoBoxNode(node: TextureVideoBoxNode) {
     this.objects.set(
         node,
-        new RasterTextureBox(
+        new TextureVideoBox(
             this.gl,
             new Vector(-0.5, -0.5, -0.5, 1),
             new Vector(0.5, 0.5, 0.5, 1),

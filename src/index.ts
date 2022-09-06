@@ -28,7 +28,7 @@ import RayVisitor from "./rayvisitor";
 import phong from "./phong";
 import {RotationNode} from "./animation-nodes";
 import mouseClickVisitor from "./mouse-click-visitor";
-import RasterTextureVideoBox from "./raster-texture-video-box";
+import TextureVideoBox from "./texture-video-box";
 
 const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1));
 const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.5, 0.5, 1), new Vector(0, 0, 0, 1));

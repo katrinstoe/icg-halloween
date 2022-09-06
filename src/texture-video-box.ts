@@ -2,12 +2,12 @@ import Vector from './vector';
 import Shader from './shader';
 import * as url from "url";
 
-let copyVideo = false;
+
 
 /**
  * A class creating buffers for a textured box to render it with WebGL
  */
-export default class RasterTextureVideoBox {
+export default class TextureVideoBox {
     /**
      * The buffer containing the box's vertices
      */
@@ -27,7 +27,12 @@ export default class RasterTextureVideoBox {
 
     video: HTMLVideoElement;
 
-    cubeTexture: any;
+    cubeTexture: WebGLTexture;
+
+    copyVideo: boolean;
+
+    playing: boolean;
+    timeupdate: boolean;
 
     /**
      * Creates all WebGL buffers for the textured box
@@ -79,8 +84,8 @@ export default class RasterTextureVideoBox {
         this.vertexBuffer = vertexBuffer;
         this.elements = vertices.length / 3;
 
-        let cubeTexture = initTexture(gl);
-        this.video = setupVideo('Firefox.mp4');
+        let cubeTexture = this.initTexture(gl);
+        this.video = this.setupVideo(url);
 
         let cubeImage = new Image();
         cubeImage.onload = function () {
@@ -93,7 +98,7 @@ export default class RasterTextureVideoBox {
         }
 
         cubeImage.src = url;
-        this.texBuffer = cubeTexture;
+        this.cubeTexture = cubeTexture;
 
         let uv = [
             // front
@@ -123,7 +128,9 @@ export default class RasterTextureVideoBox {
      */
     render(shader: Shader) {
 
-        updateTexture(this.gl, this.cubeTexture, this.video)
+        if (this.copyVideo) {
+            this.updateTexture(this.gl, this.cubeTexture, this.video);
+        }
 
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.vertexBuffer);
         const positionLocation = shader.getAttributeLocation("a_position");
@@ -140,7 +147,7 @@ export default class RasterTextureVideoBox {
 
 
         this.gl.activeTexture(this.gl.TEXTURE0);
-        this.gl.bindTexture(this.gl.TEXTURE_2D, this.texBuffer);
+        this.gl.bindTexture(this.gl.TEXTURE_2D, this.cubeTexture);
         shader.getUniformInt("sampler").set(0);
         this.gl.drawArrays(this.gl.TRIANGLES, 0, this.elements);
         //added
@@ -150,79 +157,81 @@ export default class RasterTextureVideoBox {
         // TODO disable texture vertex attrib array
         this.gl.disableVertexAttribArray(textureCoord)
     }
-}
 
-function updateTexture(gl: any, texture: any, video: HTMLVideoElement) {
-    const level = 0;
-    const internalFormat = gl.RGBA;
-    const srcFormat = gl.RGBA;
-    const srcType = gl.UNSIGNED_BYTE;
-    gl.bindTexture(gl.TEXTURE_2D, texture);
-    gl.texImage2D(gl.TEXTURE_2D, level, internalFormat,
-        srcFormat, srcType, video);
-}
-
-
-function initTexture(gl: any) {
-    const texture = gl.createTexture();
-    gl.bindTexture(gl.TEXTURE_2D, texture);
-
-    // Because video has to be download over the internet
-    // they might take a moment until it's ready so
-    // put a single pixel in the texture so we can
-    // use it immediately.
-    const level = 0;
-    const internalFormat = gl.RGBA;
-    const width = 1;
-    const height = 1;
-    const border = 0;
-    const srcFormat = gl.RGBA;
-    const srcType = gl.UNSIGNED_BYTE;
-    const pixel = new Uint8Array([0, 0, 255, 255]);  // opaque blue
-    gl.texImage2D(gl.TEXTURE_2D, level, internalFormat,
-        width, height, border, srcFormat, srcType,
-        pixel);
-
-    // Turn off mips and set wrapping to clamp to edge so it
-    // will work regardless of the dimensions of the video.
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-
-    return texture;
-}
-
-function setupVideo(url: string) {
-    const video = document.createElement('video');
-
-    let playing = false;
-    let timeupdate = false;
-
-    video.playsInline = true;
-    video.muted = true;
-    video.loop = true;
-
-    // Waiting for these 2 events ensures
-    // there is data in the video
-
-    video.addEventListener('playing', () => {
-        playing = true;
-        checkReady();
-    }, true);
-
-    video.addEventListener('timeupdate', () => {
-        timeupdate = true;
-        checkReady();
-    }, true);
-
-    video.src = url;
-    video.play();
-
-    function checkReady() {
-        if (playing && timeupdate) {
-            copyVideo = true;
-        }
+    updateTexture(gl: any, texture: WebGLTexture, video: HTMLVideoElement) {
+        const level = 0;
+        const internalFormat = gl.RGBA;
+        const srcFormat = gl.RGBA;
+        const srcType = gl.UNSIGNED_BYTE;
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        gl.texImage2D(gl.TEXTURE_2D, level, internalFormat,
+            srcFormat, srcType, video);
     }
 
-    return video;
+    initTexture(gl: any) {
+        const texture = gl.createTexture();
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+
+        // Because video has to be download over the internet
+        // they might take a moment until it's ready so
+        // put a single pixel in the texture so we can
+        // use it immediately.
+        const level = 0;
+        const internalFormat = gl.RGBA;
+        const width = 1;
+        const height = 1;
+        const border = 0;
+        const srcFormat = gl.RGBA;
+        const srcType = gl.UNSIGNED_BYTE;
+        const pixel = new Uint8Array([0, 0, 255, 255]);  // opaque blue
+        gl.texImage2D(gl.TEXTURE_2D, level, internalFormat,
+            width, height, border, srcFormat, srcType,
+            pixel);
+
+        // Turn off mips and set wrapping to clamp to edge so it
+        // will work regardless of the dimensions of the video.
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+
+        return texture;
+    }
+
+    setupVideo(url: string) {
+        const video = document.createElement('video');
+
+        this.playing = false;
+        this.timeupdate = false;
+
+        video.playsInline = true;
+        video.muted = true;
+        video.loop = true;
+
+        // Waiting for these 2 events ensures
+        // there is data in the video
+
+        video.addEventListener('playing', () => {
+            this.playing = true;
+            this.checkReady();
+        }, true);
+
+        video.addEventListener('timeupdate', () => {
+            this.timeupdate = true;
+            this.checkReady();
+        }, true);
+
+        video.src = url;
+        video.play();
+
+        this.checkReady();
+
+        return video;
+    }
+
+    checkReady() {
+        if (this.playing && this.timeupdate) {
+            this.copyVideo = true;
+        }
+    }
 }
+
