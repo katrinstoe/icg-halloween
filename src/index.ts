@@ -26,10 +26,11 @@ import Sphere from "./sphere";
 import AABox from "./aabox";
 import RayVisitor from "./rayvisitor";
 import phong from "./phong";
-import {RotationNode} from "./animation-nodes";
+import {DriverNode, RotationNode, ScalerNode} from "./animation-nodes";
 import mouseClickVisitor from "./mouse-click-visitor";
 import RasterPyramid from "./raster-pyramid";
 import Pyramid from "./pyramid";
+import {LightVisitor} from "./lightVisitor";
 
 const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1));
 const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.5, 0.5, 1), new Vector(0, 0, 0, 1));
