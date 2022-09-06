@@ -26,11 +26,10 @@ import Sphere from "./sphere";
 import AABox from "./aabox";
 import RayVisitor from "./rayvisitor";
 import phong from "./phong";
-import {DriverNode, RotationNode, TranslatorNode} from "./animation-nodes";
+import {RotationNode} from "./animation-nodes";
 import mouseClickVisitor from "./mouse-click-visitor";
 import RasterPyramid from "./raster-pyramid";
 import Pyramid from "./pyramid";
-import {LightVisitor} from "./lightVisitor";
 
 const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1));
 const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.5, 0.5, 1), new Vector(0, 0, 0, 1));
@@ -184,11 +183,35 @@ window.addEventListener('load', function loadPage() {
     sg.add(lightTr)
 
 
+    //kleiner driver geist
+    const driverGhost = new TextureBoxNode("geist.png")
+    const driverGhostSc = new GroupNode(new Scaling(new Vector(0.1, 0.1, 0.1, 1)))
+    driverGhostSc.add(driverGhost);
+    const driverGhostTr = new GroupNode(new Translation(new Vector(0.75, -0.8, 0, 0)))
+    driverGhostTr.add(driverGhostSc)
+    sg.add(driverGhostTr)
+
+    const ghostCastle = new TextureBoxNode("ghost_castle.jpg")
+    const ghostCastleSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.2, 1)))
+    const ghostCastleTr = new GroupNode(new Translation(new Vector(0.9, -0.75, -0.1, 0)))
+    ghostCastleSc.add(ghostCastle)
+    ghostCastleTr.add(ghostCastleSc)
+    sg.add(ghostCastleTr)
+
     let animationNodes = [
         new RotationNode(cubeRt, new Vector(0, 0, 1, 0)),
         // new DriverNode(lightTr, new Vector(1, 0, 0, 0)),
         // new TranslatorNode(lightTr, new Vector(1, 0, 0, 0), "left")
         new RotationNode(lightTr, new Vector(1, 1, 1, 0)),
+    ]
+
+    let DriverNodes = [
+        //new RotationNode(cubeSc, new Vector(0,0,1,0)),
+        new DriverNode(driverGhostTr, new Vector(0.75,-0.8,0,0))
+    ]
+
+    let ScalerNodes = [
+        new ScalerNode(driverGhostSc, new Vector(0.1, 0.1, 0.1, 1))
     ]
 
 //Rasterizer und RayTracer Wechseln
@@ -308,6 +331,14 @@ window.addEventListener('load', function loadPage() {
                 const lightPositions = lightPositionsVisitor.visit(sg);
                 camera.lightPositions = lightPositions;
             }
+
+            for (let driverNode of DriverNodes) {
+                driverNode.simulate(deltaT);
+            }
+
+            for (let scalerNode of ScalerNodes) {
+                scalerNode.simulate(deltaT);
+            }
         }
 
         let lastTimestamp = performance.now();
@@ -351,8 +382,56 @@ window.addEventListener('load', function loadPage() {
 
         window.addEventListener('keydown', function (event) {
             switch (event.key) {
+                case "ArrowLeft":
+                    DriverNodes[0].direction = "left"
+                    DriverNodes[0].active = true;
+                    break;
+                case "ArrowRight":
+                    DriverNodes[0].direction = "right"
+                    DriverNodes[0].active = true;
+                    break;
                 case "ArrowUp":
-                    animationNodes[0].toggleActive();
+                    DriverNodes[0].direction = "up"
+                    DriverNodes[0].active = true;
+                    break;
+                case "ArrowDown":
+                    DriverNodes[0].direction = "down"
+                    DriverNodes[0].active = true;
+                    break;
+                case "+":
+                    ScalerNodes[0].zoom = "in"
+                    ScalerNodes[0].active = true;
+                    break;
+                case "-":
+                    ScalerNodes[0].zoom = "out"
+                    ScalerNodes[0].active = true;
+                    break;
+                case "1":
+                    for (let animationNode of animationNodes) {
+                        animationNode.toggleActive();
+                    }
+                    break;
+            }
+        });
+        window.addEventListener('keyup', function (event) {
+            switch (event.key) {
+                case "ArrowLeft":
+                    DriverNodes[0].active = false;
+                    break;
+                case "ArrowRight":
+                    DriverNodes[0].active = false;
+                    break;
+                case "ArrowUp":
+                    DriverNodes[0].active = false;
+                    break;
+                case "ArrowDown":
+                    DriverNodes[0].active = false;
+                    break;
+                case "+":
+                    ScalerNodes[0].active = false;
+                    break;
+                case "-":
+                    ScalerNodes[0].active = false;
                     break;
             }
         });
@@ -378,9 +457,7 @@ window.addEventListener('load', function loadPage() {
             let mx = event.clientX - canvas.getBoundingClientRect().left;
         }
 
-
     }
-
     function rayVisitor() {
         canvas.style.display = "none"
         canvas2.style.display = "block"

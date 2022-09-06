@@ -190,10 +190,10 @@ export class DriverNode extends AnimationNode {
         this.vector.y -= 0.001 * deltaT;
       }
       if(this.direction == "left"){
-        this.vector.x += 0.001 * deltaT;
+        this.vector.x -= 0.001 * deltaT;
       }
       if(this.direction == "right"){
-        this.vector.x -= 0.001 * deltaT;
+        this.vector.x += 0.001 * deltaT;
       }
       this.groupNode.transform = new Translation(this.vector);
     }

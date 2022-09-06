@@ -58,7 +58,7 @@ export default class RasterPyramid {
             // left
             2, 0, 3,
             // bottom
-            0, 1, 2,
+            0, 2, 1,
         ];
         let colors = [
             color.x, color.y, color.z, color.a,
