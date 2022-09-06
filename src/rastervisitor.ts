@@ -8,11 +8,13 @@ import {
   Node, GroupNode,
   SphereNode, AABoxNode,
   TextureBoxNode, PyramidNode, CameraNode, LightNode, TexturePyramidNode
+  ,TextureVideoBoxNode
 } from './nodes';
 import Shader from './shader';
 import RasterPyramid from "./raster-pyramid";
 import RasterTexturePyramid from "./raster-texture-pyramid";
 import {LightVisitor} from "./lightVisitor";
+import TextureVideoBox from "./texture-video-box";
 
 interface Camera {
   eye: Vector,
@@ -236,6 +238,27 @@ export class RasterVisitor implements Visitor {
     toWorld = this.model[this.model.length-1];
 
     shader.getUniformMatrix("M").set(toWorld);
+    shader.getUniformMatrix("V").set(this.lookat);
+    let P = shader.getUniformMatrix("P");
+    if (P && this.perspective) {
+      P.set(this.perspective);
+    }
+    this.renderables.get(node).render(shader);
+  }
+
+  /**
+   * Visits a textured box node
+   * @param  {TextureBoxNode} node - The node to visit
+   */
+  visitTextureVideoBoxNode(node: TextureVideoBoxNode) {
+    this.textureshader.use();
+    let shader = this.textureshader;
+
+    let toWorld = Matrix.identity();
+    // TODO calculate the model matrix for the box
+    toWorld = this.model[this.model.length-1];
+
+    shader.getUniformMatrix("M").set(toWorld);
     shader.getUniformFloat("shininess").set(this.shininess)
     shader.getUniformFloat("kS").set(this.kS)
     shader.getUniformFloat("kD").set(this.kD)
@@ -427,6 +450,27 @@ export class RasterSetupVisitor {
       )
     );
   }
+
+
+  /**
+   * Visits a textured box node. Loads the texture
+   * and creates a uv coordinate buffer
+   * @param  {TextureBoxNode} node - The node to visit
+   */
+  visitTextureVideoBoxNode(node: TextureVideoBoxNode) {
+    this.objects.set(
+        node,
+        new TextureVideoBox(
+            this.gl,
+            new Vector(-0.5, -0.5, -0.5, 1),
+            new Vector(0.5, 0.5, 0.5, 1),
+            node.texture
+        )
+    );
+  }
+
+
+
   /**
    * Visits a pyramid node
    * @param node - The node to visit

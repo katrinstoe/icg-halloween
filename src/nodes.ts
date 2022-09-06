@@ -1,6 +1,7 @@
 import Visitor from './visitor';
 import Vector from './vector';
 import { Transformation } from './transformation';
+import TextureVideoBox from "./texture-video-box";
 
 /**
  * Class representing a Node in a Scenegraph
@@ -130,6 +131,31 @@ export class TextureBoxNode extends Node {
   accept(visitor: Visitor) {
     // TODO
     visitor.visitTextureBoxNode(this)
+  }
+}
+
+/**
+ * Class representing a Video Textured Axis Aligned Box in the Scenegraph
+ * @extends Node
+ */
+export class TextureVideoBoxNode extends Node {
+  /**
+   * Creates an axis aligned box textured box
+   * The box's center is located at the origin
+   * with all edges of length 1
+   * @param texture The image filename for the texture
+   */
+  constructor(public texture: string) {
+    super();
+  }
+
+  /**
+   * Accepts a visitor according to the visitor pattern
+   * @param visitor The visitor
+   */
+  accept(visitor: Visitor) {
+    // TODO
+    visitor.visitTextureVideoBoxNode(this)
   }
 }
 

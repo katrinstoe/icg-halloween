@@ -4,7 +4,12 @@ import Vector from './vector';
 import {
     GroupNode,
     SphereNode,
-    AABoxNode, TextureBoxNode, LightNode, PyramidNode, TexturePyramidNode
+    AABoxNode,
+    TextureBoxNode,
+    LightNode,
+    PyramidNode,
+    TexturePyramidNode,
+    TextureVideoBoxNode
 } from './nodes';
 import {
     RasterVisitor,
@@ -31,6 +36,7 @@ import mouseClickVisitor from "./mouse-click-visitor";
 import RasterPyramid from "./raster-pyramid";
 import Pyramid from "./pyramid";
 import {LightVisitor} from "./lightVisitor";
+import TextureVideoBox from "./texture-video-box";
 
 const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1));
 const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.5, 0.5, 1), new Vector(0, 0, 0, 1));
@@ -182,6 +188,9 @@ window.addEventListener('load', function loadPage() {
 
     lightTr.add(light1)
     sg.add(lightTr)
+    const videoBox = new TextureVideoBoxNode("icgTestVideo.mp4");
+    //sg.add(textureGeist);
+    sg.add(videoBox);
 
 
     //kleiner driver geist
@@ -312,13 +321,13 @@ window.addEventListener('load', function loadPage() {
 
         const phongShader = new Shader(gl,
             phongVertexShaderPerspective,
-            // fragmentShader
             phongFragmentShader
         );
         const textureShader = new Shader(gl,
             textureVertexShader,
             textureFragmentShader
         );
+
         const visitor = new RasterVisitor(gl, phongShader, textureShader, setupVisitor.objects);
         console.log(setupVisitor.objects)
 
@@ -343,6 +352,7 @@ window.addEventListener('load', function loadPage() {
         }
 
         let lastTimestamp = performance.now();
+        let then = 0;
 
         function animate(timestamp: number) {
             simulate(timestamp - lastTimestamp);
@@ -379,7 +389,6 @@ window.addEventListener('load', function loadPage() {
         ).then(x =>
             window.requestAnimationFrame(animate)
         );
-
 
         window.addEventListener('keydown', function (event) {
             switch (event.key) {

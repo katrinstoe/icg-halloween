@@ -188,6 +188,12 @@ export default class RayVisitor implements Visitor {
     visitTextureBoxNode(node: TextureBoxNode) {
     }
 
+  /**
+   * Visits a textured Video box node
+   * @param node The node to visit
+   */
+  visitTextureVideoBoxNode(node: TextureBoxNode) {}
+
 
     /**
      * Visits a Pyramid node
