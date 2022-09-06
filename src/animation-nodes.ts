@@ -199,3 +199,49 @@ export class DriverNode extends AnimationNode {
     }
   }
 }
+/**
+ * Class representing a Mover Animation
+ * @extends AnimationNode
+ */
+export class TranslatorNode extends AnimationNode {
+  /**
+   * The vector to move along
+   */
+  vector: Vector;
+  direction: String;
+
+  /**
+   * Creates a new MoverNode
+   * @param groupNode The group node to attach to
+   * @param vector The vector to move along
+   */
+  constructor(groupNode: GroupNode, vector: Vector, direction: String) {
+    super(groupNode);
+    this.vector = vector;
+    this.active = false;
+    this.direction = direction
+  }
+
+  /**
+   * Advances the animation by deltaT
+   * @param deltaT The time difference, the animation is advanced by
+   */
+  simulate(deltaT: number) {
+
+    if(this.active){
+      if(this.direction == "up"){
+        this.vector.y += 0.001 * deltaT;
+      }
+      if(this.direction == "down"){
+        this.vector.y -= 0.001 * deltaT;
+      }
+      if(this.direction == "left"){
+        this.vector.x += 0.001 * deltaT;
+      }
+      if(this.direction == "right"){
+        this.vector.x -= 0.001 * deltaT;
+      }
+      this.groupNode.transform = new Translation(this.vector);
+    }
+  }
+}

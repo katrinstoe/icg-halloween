@@ -4,7 +4,7 @@ import Vector from './vector';
 import {
     GroupNode,
     SphereNode,
-    AABoxNode, TextureBoxNode, PyramidNode, TexturePyramidNode
+    AABoxNode, TextureBoxNode, LightNode, PyramidNode, TexturePyramidNode
 } from './nodes';
 import {
     RasterVisitor,
@@ -26,10 +26,11 @@ import Sphere from "./sphere";
 import AABox from "./aabox";
 import RayVisitor from "./rayvisitor";
 import phong from "./phong";
-import {RotationNode} from "./animation-nodes";
+import {DriverNode, RotationNode, TranslatorNode} from "./animation-nodes";
 import mouseClickVisitor from "./mouse-click-visitor";
 import RasterPyramid from "./raster-pyramid";
 import Pyramid from "./pyramid";
+import {LightVisitor} from "./lightVisitor";
 
 const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1));
 const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.5, 0.5, 1), new Vector(0, 0, 0, 1));
@@ -163,17 +164,31 @@ window.addEventListener('load', function loadPage() {
     sg.add(sphereTr);
 
 
+    // const cubeTest = new AABoxNode(new Vector(0, 0, 1, 0));
+    // const cubeTestSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.5, 0)));
+    // const cubeTestTr = new GroupNode(new Translation(new Vector(-0.01, 0, -1, 0)));
+
+    // //TODO: Texture anzeigen geht nicht?
+    // cubeTestSc.add(cubeTest)
+    // cubeTestTr.add(cubeTestSc);
+    // sg.add(cubeTestTr);
     const cubeTest = new TexturePyramidNode('geist.png');
     const cubeTestSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.2, 0)));
     const cubeTestTr = new GroupNode(new Translation(new Vector(-0.01, 0, -1, 0)));
 
-    cubeTestSc.add(cubeTest)
-    cubeTestTr.add(cubeTestSc);
-    sg.add(cubeTestTr);
+    //muss punkt sein
+    const light1 = new LightNode(new Vector(1, 1, 0, 1))
+    const lightTr = new GroupNode(new Translation(new Vector(-0.3, 0, -1, 0)));
+
+    lightTr.add(light1)
+    sg.add(lightTr)
+
 
     let animationNodes = [
         new RotationNode(cubeRt, new Vector(0, 0, 1, 0)),
-        // new RotationNode(gn3, new Vector(0, 0, 1, 0)),
+        // new DriverNode(lightTr, new Vector(1, 0, 0, 0)),
+        // new TranslatorNode(lightTr, new Vector(1, 0, 0, 0), "left")
+        new RotationNode(lightTr, new Vector(1, 1, 1, 0)),
     ]
 
 //Rasterizer und RayTracer Wechseln
@@ -195,11 +210,13 @@ window.addEventListener('load', function loadPage() {
     const kAElement = document.getElementById("kA") as HTMLInputElement;
     let kACalc = Number(kDElement.value)
 
+    const lightPositionXElement = document.getElementById("lightPositionX") as HTMLInputElement;
+    let lightPositionXCalc = Number(lightPositionXElement.value)
 
 
     let renderer = localStorage.getItem("renderer")
     console.log(renderer)
-    if (renderer=="rasterizer"){
+    if (renderer == "rasterizer") {
         btn1.checked = true
     } else {
         btn2.checked = true
@@ -235,10 +252,14 @@ window.addEventListener('load', function loadPage() {
         const gl = canvas.getContext("webgl2");
         const ctx = canvas2.getContext("2d");
 
-        const lightPositions = [
-            new Vector(1, 1, 1, 1)
-        ];
+        // const lightPositions = [
+        //     // new Vector(1, 1, 1, 1)
+        //     new Vector(lightPositionXCalc, 1,1,1)
+        // ];
         // setup for rendering
+        const lightPositionsVisitor = new LightVisitor(gl)
+        const lightPositions = lightPositionsVisitor.visit(sg)
+        console.log(lightPositions)
         const setupVisitor = new RasterSetupVisitor(gl, lightPositions);
         setupVisitor.setup(sg);
 
@@ -261,7 +282,8 @@ window.addEventListener('load', function loadPage() {
             shininess: shininessCalc,
             kS: kSCalc,
             kD: kDCalc,
-            kA: kACalc
+            kA: kACalc,
+            lightPositions: lightPositions
         };
 
         const phongShader = new Shader(gl,
@@ -274,10 +296,17 @@ window.addEventListener('load', function loadPage() {
             textureFragmentShader
         );
         const visitor = new RasterVisitor(gl, phongShader, textureShader, setupVisitor.objects);
+        console.log(setupVisitor.objects)
+
+        let animationTime = 0;
 
         function simulate(deltaT: number) {
+            animationTime += deltaT;
             for (let animationNode of animationNodes) {
+                animationNode.angle = animationTime / 500;
                 animationNode.simulate(deltaT);
+                const lightPositions = lightPositionsVisitor.visit(sg);
+                camera.lightPositions = lightPositions;
             }
         }
 
@@ -285,7 +314,7 @@ window.addEventListener('load', function loadPage() {
 
         function animate(timestamp: number) {
             simulate(timestamp - lastTimestamp);
-            visitor.render(sg, camera, []);
+            visitor.render(sg, camera, lightPositions);
             lastTimestamp = timestamp;
             window.requestAnimationFrame(animate);
         }
@@ -296,15 +325,20 @@ window.addEventListener('load', function loadPage() {
         }
         kSElement.onchange = function () {
             camera.kS = Number(kSElement.value);
-            console.log(camera.kS)
         }
         kDElement.onchange = function () {
             camera.kD = Number(kDElement.value);
-            console.log(camera.kD)
         }
         kAElement.onchange = function () {
             camera.kA = Number(kAElement.value);
-            console.log(camera.kA)
+        }
+        lightPositionXElement.onchange = function () {
+            let lightPositionX = Number(lightPositionXElement.value)
+            for (let lightPosition of lightPositions) {
+                lightPosition.x = lightPositionX;
+            }
+            // lightPositions = Number(lightPositionXElement.value);
+            console.log(camera.lightPositions)
         }
 
 
@@ -357,7 +391,7 @@ window.addEventListener('load', function loadPage() {
         const data = imageData.data;
 
         const lightPositions = [
-            new Vector(1, 1, 1, 0),
+            new Vector(lightPositionXCalc, 1, 1, 0),
         ];
         const camera = {
             origin: new Vector(0, 0, 0, 1),
@@ -367,7 +401,8 @@ window.addEventListener('load', function loadPage() {
             shininess: shininessCalc,
             kS: kSCalc,
             kD: kDCalc,
-            kA: kACalc
+            kA: kACalc,
+            lightPositions: lightPositions
         };
 
         const visitor = new RayVisitor(ctx, canvas.width, canvas.height);
@@ -378,57 +413,59 @@ window.addEventListener('load', function loadPage() {
         let animationTime = 0;
         let animationHasStarted = true;
 
-        function animate(timestamp: number) {
-            console.log("ich starte mal")
-            let deltaT = timestamp - lastTimestamp;
-            if (animationHasStarted) {
-                deltaT = 0;
-                animationHasStarted = false;
-            }
-            animationTime += deltaT;
-            lastTimestamp = timestamp;
-            animationNodes[0].angle = animationTime / 2000;
+        // function animate(timestamp: number) {
+        //     console.log("ich starte mal")
+        //     let deltaT = timestamp - lastTimestamp;
+        //     if (animationHasStarted) {
+        //         deltaT = 0;
+        //         animationHasStarted = false;
+        //     }
+        //     animationTime += deltaT;
+        //     lastTimestamp = timestamp;
+        //     animationNodes[0].angle = animationTime / 2000;
+        //
+        //     visitor.render(sg, camera, lightPositions);
+        //     // animationHandle = window.requestAnimationFrame(animate);
+        //     console.log("animate zu Ende")
+        // }
 
-            visitor.render(sg, camera, lightPositions);
-            // animationHandle = window.requestAnimationFrame(animate);
-            console.log("animate zu Ende")
-        }
+        // function startAnimation() {
+        //     if (animationHandle) {
+        //         window.cancelAnimationFrame(animationHandle);
+        //     }
+        //     animationHasStarted = true;
+        //
+        //     function animation(t: number) {
+        //         animate(t);
+        //         animationHandle = window.requestAnimationFrame(animate);
+        //     }
+        //
+        // }
+        // animate(0);
+        // shininessElement.onchange = function () {
+        //     camera.shininess = 50-Number(shininessElement.value);
+        //     window.requestAnimationFrame(animate)
+        // }
+        // kSElement.onchange = function () {
+        //     camera.kS = Number(kSElement.value);
+        //     window.requestAnimationFrame(animate)
+        // }
+        // kDElement.onchange = function () {
+        //     camera.kD = Number(kDElement.value);
+        //     window.requestAnimationFrame(animate)
+        // }
+        // kAElement.onchange = function () {
+        //     camera.kA = Number(kAElement.value);
+        //     window.requestAnimationFrame(animate)
+        // }
+        // console.log("fertig shininess")
+        //
+        // document.getElementById("startAnimationBtn").addEventListener(
+        //     "dblclick", startAnimation);
+        // document.getElementById("stopAnimationBtn").addEventListener(
+        //     "dblclick", () => cancelAnimationFrame(animationHandle));
+        //
 
-        function startAnimation() {
-            if (animationHandle) {
-                window.cancelAnimationFrame(animationHandle);
-            }
-            animationHasStarted = true;
-
-            function animation(t: number) {
-                animate(t);
-                animationHandle = window.requestAnimationFrame(animate);
-            }
-
-        }
-        animate(0);
-        shininessElement.onchange = function () {
-            camera.shininess = 50-Number(shininessElement.value);
-            window.requestAnimationFrame(animate)
-        }
-        kSElement.onchange = function () {
-            camera.kS = Number(kSElement.value);
-            window.requestAnimationFrame(animate)
-        }
-        kDElement.onchange = function () {
-            camera.kD = Number(kDElement.value);
-            window.requestAnimationFrame(animate)
-        }
-        kAElement.onchange = function () {
-            camera.kA = Number(kAElement.value);
-            window.requestAnimationFrame(animate)
-        }
-        console.log("fertig shininess")
-
-        document.getElementById("startAnimationBtn").addEventListener(
-            "dblclick", startAnimation);
-        document.getElementById("stopAnimationBtn").addEventListener(
-            "dblclick", () => cancelAnimationFrame(animationHandle));
     }
 
     btn1.addEventListener('click', function (){
@@ -456,22 +493,3 @@ window.addEventListener('load', function loadPage() {
         location.reload()
     });
 });
-
-
-// let animationHandle: number;
-//
-// let lastTimestamp = 0;
-// let animationTime = 0;
-// let animationHasStarted = true;
-// function animateRayTracer(timestamp: number){
-//     let deltaT = timestamp - lastTimestamp;
-//     if (animationHasStarted) {
-//         deltaT = 0;
-//         animationHasStarted = false;
-//     }
-//     animationTime += deltaT;
-//     lastTimestamp = timestamp;
-//     gnRotation.angle = animationTime / 2000;
-//
-//     visitor.render(sg, camera, lightPositions);
-// }

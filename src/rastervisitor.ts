@@ -12,6 +12,7 @@ import {
 import Shader from './shader';
 import RasterPyramid from "./raster-pyramid";
 import RasterTexturePyramid from "./raster-texture-pyramid";
+import {LightVisitor} from "./lightVisitor";
 
 interface Camera {
   eye: Vector,
@@ -24,7 +25,8 @@ interface Camera {
   shininess: number,
   kS: number,
   kD: number,
-  kA: number
+  kA: number,
+  lightPositions: Array<Vector>
 }
 
 interface Renderable {
@@ -120,6 +122,7 @@ export class RasterVisitor implements Visitor {
     this.kS= camera.kS;
     this.kD = camera.kD;
     this.kA = camera.kA;
+    this.lightPosisitions = camera.lightPositions
     // console.log(this.shininess)
   }
 
@@ -164,6 +167,7 @@ export class RasterVisitor implements Visitor {
     shader.getUniformFloat("kS").set(this.kS)
     shader.getUniformFloat("kD").set(this.kD)
     shader.getUniformFloat("kA").set(this.kA)
+    shader.getUniformVec3("lightPositions").set(this.lightPosisitions[0])
 
 
     const V = shader.getUniformMatrix("V");
@@ -440,26 +444,6 @@ export class RasterSetupVisitor {
     );
   }
 
-
-
-  /**
-   * Visits a textured box node. Loads the texture
-   * and creates a uv coordinate buffer
-   * @param  {TextureBoxNode} node - The node to visit
-   */
-  visitTexturePyramidNode(node: TexturePyramidNode) {
-    this.objects.set(
-        node,
-        new RasterTexturePyramid(
-            this.gl,
-            new Vector(-0.5, -0.5, 0.5, 1),
-            new Vector(0.5, -0.5, 0.5, 1),
-            new Vector(0, -0.5, -0.5, 1),
-            new Vector(0, 0.5, 0, 1),
-            node.texture
-        )
-    );
-  }
 
   visitCameraNode(node: CameraNode) {
   };

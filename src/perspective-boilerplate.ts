@@ -44,6 +44,10 @@ window.addEventListener('load', () => {
     let kDCalc = Number(kDElement.value)
     const kAElement = document.getElementById("kA") as HTMLInputElement;
     let kACalc = Number(kAElement.value)
+    const lightPositionXElement = document.getElementById("lightPositionX") as HTMLInputElement;
+    let lightPositionXCalc = Number(lightPositionXElement.value)
+
+
     const camera = {
         eye: new Vector(-.5, .5, -1, 1),
         center: new Vector(0, 0, 0, 1),
@@ -55,7 +59,9 @@ window.addEventListener('load', () => {
         shininess: shininessCalc,
         kS: kSCalc,
         kD: kDCalc,
-        kA: kACalc
+        kA: kACalc,
+        lightPositions: lightPositions
+
     };
 
     shininessElement.onchange = function () {
@@ -69,6 +75,14 @@ window.addEventListener('load', () => {
     }
     kAElement.onchange = function () {
         camera.kA = Number(kAElement.value);
+    }
+    lightPositionXElement.onchange = function () {
+        let lightPositionX = Number(lightPositionXElement.value)
+        for (let lightPosition of lightPositions) {
+            lightPosition.x = lightPositionX;
+        }
+        // lightPositions = Number(lightPositionXElement.value);
+        console.log(camera.lightPositions)
     }
 
     const shader = new Shader(gl,

@@ -212,7 +212,7 @@ export class LightNode extends Node {
    * with all edges of length 1
    * @param texture The image filename for the texture
    */
-  constructor(public camera: string) {
+  constructor(public position: Vector) {
     super();
   }
 
