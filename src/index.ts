@@ -160,8 +160,6 @@ window.addEventListener('load', function loadPage() {
     sg.add(sphereTr);
 
 
-
-
     // const cubeTest = new AABoxNode(new Vector(0, 0, 1, 0));
     // const cubeTestSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.5, 0)));
     // const cubeTestTr = new GroupNode(new Translation(new Vector(-0.01, 0, -1, 0)));
@@ -181,9 +179,9 @@ window.addEventListener('load', function loadPage() {
 
     let animationNodes = [
         new RotationNode(cubeRt, new Vector(0, 0, 1, 0)),
-        new DriverNode(lightTr, new Vector(1, 0, 0, 0)),
+        // new DriverNode(lightTr, new Vector(1, 0, 0, 0)),
         // new TranslatorNode(lightTr, new Vector(1, 0, 0, 0), "left")
-        // new RotationNode(gn32, new Vector(1, 1, 1, 0)),
+        new RotationNode(lightTr, new Vector(1, 1, 1, 0)),
     ]
 
 //Rasterizer und RayTracer Wechseln
@@ -295,9 +293,15 @@ window.addEventListener('load', function loadPage() {
         const visitor = new RasterVisitor(gl, phongShader, textureShader, setupVisitor.objects);
         console.log(setupVisitor.objects)
 
+        let animationTime = 0;
+
         function simulate(deltaT: number) {
+            animationTime += deltaT;
             for (let animationNode of animationNodes) {
+                animationNode.angle = animationTime / 500;
                 animationNode.simulate(deltaT);
+                const lightPositions = lightPositionsVisitor.visit(sg);
+                camera.lightPositions = lightPositions;
             }
         }
 
