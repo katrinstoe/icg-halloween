@@ -6,7 +6,7 @@ import Shader from './shader';
  */
 export default class RasterPyramid {
     /**
-     * The buffer containing the box's vertices
+     * The buffer containing the pyramid's vertices
      */
     vertexBuffer: WebGLBuffer;
     /**
@@ -29,13 +29,15 @@ export default class RasterPyramid {
      * @param rightPoint
      * @param backPoint
      * @param topPoint
+     * @param color
      */
     constructor(
         private gl: WebGL2RenderingContext,
         leftPoint: Vector,
         rightPoint: Vector,
         backPoint: Vector,
-        topPoint: Vector) {
+        topPoint: Vector,
+        color: Vector) {
         this.gl = gl;
         const l = leftPoint;
         const r = rightPoint;
@@ -57,11 +59,12 @@ export default class RasterPyramid {
             // bottom
             0, 1, 2,
         ];
-        let color = [
-            1, 0, 0, 1,
-            1, 1, 0, 1,
-            0.5, 0, 0.5, 1,
-            0.5, 0, 0, 1,
+        let colors = [
+            color.x, color.y, color.z, color.a,
+            color.x, color.y, color.z, color.a,
+            color.x, color.y, color.z, color.a,
+            color.x, color.y, color.z, color.a,
+            color.x, color.y, color.z, color.a,
         ]
         const vertexBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
@@ -77,7 +80,7 @@ export default class RasterPyramid {
         // TODO create and fill a buffer for colours
         const colorBufffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, colorBufffer);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(color), gl.STATIC_DRAW);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
         this.colorBuffer = colorBufffer;
     }
 

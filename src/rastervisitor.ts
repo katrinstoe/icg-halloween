@@ -404,7 +404,13 @@ export class RasterSetupVisitor {
   visitPyramidNode(node: PyramidNode) {
     this.objects.set(
         node,
-        new RasterPyramid(this.gl, new Vector(0.1, 0.1, -0.1, 1), new Vector(0.8, 0.1, -0.1, 1), new Vector(0.5, 0.1, -0.5, 1), new Vector(0.5, 0.8, -0.2, 1))
+        new RasterPyramid(
+            this.gl,
+            new Vector(0.1, 0.1, -0.1, 1),
+            new Vector(0.8, 0.1, -0.1, 1),
+            new Vector(0.5, 0.1, -0.5, 1),
+            new Vector(0.5, 0.8, -0.2, 1),
+            node.color)
     );
   }
 
