@@ -1,5 +1,15 @@
 import Visitor from "./visitor";
-import {AABoxNode, CameraNode, GroupNode, LightNode, Node, PyramidNode, SphereNode, TextureBoxNode} from "./nodes";
+import {
+    AABoxNode,
+    CameraNode,
+    GroupNode,
+    LightNode,
+    Node,
+    PyramidNode,
+    SphereNode,
+    TextureBoxNode,
+    TexturePyramidNode
+} from "./nodes";
 import Vector from "./vector";
 import Matrix from "./matrix";
 
@@ -62,6 +72,8 @@ export class LightVisitor implements Visitor {
 
     lightNodeList(){
 
+    }
+    visitTexturePyramidNode(node: TexturePyramidNode) {
     }
 
     visitPyramidNode(node: PyramidNode): void {

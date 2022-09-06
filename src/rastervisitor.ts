@@ -102,6 +102,7 @@ export class RasterVisitor implements Visitor {
 
   private kD: number;
   private kA: number;
+  private lightPosisitions: Array<Vector>;
 
   /**
    * Helper function to setup camera matrices
@@ -441,6 +442,24 @@ export class RasterSetupVisitor {
             new Vector(0, 0.5, 0, 1),
             node.color
         ),
+    );
+  }
+  /**
+   * Visits a textured box node. Loads the texture
+   * and creates a uv coordinate buffer
+   * @param  {TextureBoxNode} node - The node to visit
+   */
+  visitTexturePyramidNode(node: TexturePyramidNode) {
+    this.objects.set(
+        node,
+        new RasterTexturePyramid(
+            this.gl,
+            new Vector(-0.5, -0.5, 0.5, 1),
+            new Vector(0.5, -0.5, 0.5, 1),
+            new Vector(0, -0.5, -0.5, 1),
+            new Vector(0, 0.5, 0, 1),
+            node.texture
+        )
     );
   }
 
