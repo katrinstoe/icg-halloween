@@ -8,7 +8,8 @@ import {
     PyramidNode,
     SphereNode,
     TextureBoxNode,
-    TexturePyramidNode
+    TexturePyramidNode,
+    TextureVideoBoxNode
 } from "./nodes";
 import Vector from "./vector";
 import Matrix from "./matrix";
@@ -26,6 +27,10 @@ export class LightVisitor implements Visitor {
         this.model = new Array<Matrix>(Matrix.identity())
         this.inverse = new Array<Matrix>(Matrix.identity())
     }
+
+    visitTextureVideoBoxNode(node: TextureVideoBoxNode): void {
+    }
+
     visit(rootNode: Node): Vector[] {
         // traverse and render
         this.lightPositions = []

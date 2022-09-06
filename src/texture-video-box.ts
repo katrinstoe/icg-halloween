@@ -3,6 +3,8 @@ import Shader from './shader';
 import * as url from "url";
 
 
+//Credits: Tino :) & https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial/Animating_textures_in_WebGL
+
 
 /**
  * A class creating buffers for a textured box to render it with WebGL

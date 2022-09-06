@@ -9,7 +9,7 @@ import {
     TexturePyramidNode,
     TextureVideoBoxNode
 } from './nodes';
-import RasterTexturePyramid from "./raster-texture-pyramid";import {GroupNode, SphereNode, AABoxNode, TextureBoxNode, PyramidNode, TextureVideoBoxNode} from './nodes';
+import RasterTexturePyramid from "./raster-texture-pyramid";
 import TextureVideoBox from "./texture-video-box";
 
 export default interface Visitor {
