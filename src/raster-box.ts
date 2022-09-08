@@ -114,9 +114,10 @@ export default class RasterBox {
             // bottom
             5, 4, 1, 1, 0, 5
         ];
+        //erstellen Triangles mit denen wir
         let triangles: Vector[] = []
-        for (let i = 0; i < indices.length; i+=3) {
-            triangles.push(new Vector(vertices[indices[i+0]], vertices[indices[i+1]], vertices[indices[i+1]], 1))
+        for (let i = 0; i < indices.length; i++) {
+            triangles.push(new Vector(vertices[indices[i*3]], vertices[indices[i*3+1]], vertices[indices[i*3+2]], 1))
         }
 
         // //0,1,2
@@ -200,8 +201,8 @@ export default class RasterBox {
         let colors = []
         for (let j = 0; j < triangles.length; j+=3) {
 
-            let U = triangles[i+1].sub(triangles[i])
-            let V = triangles[i+2].sub(triangles[i+1])
+            let U = triangles[j+1].sub(triangles[j])
+            let V = triangles[j+2].sub(triangles[j+1])
 
             normalsTriangles.push(U.cross(V).x)
             normalsTriangles.push(U.cross(V).y)
