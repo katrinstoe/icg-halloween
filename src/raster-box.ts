@@ -61,66 +61,49 @@ export default class RasterBox {
             ma.x, mi.y, ma.z, //5 / 1
             ma.x, mi.y, ma.z, //6 / 1
             ma.x, mi.y, ma.z, //7 / 1
-            ma.x, ma.y, ma.z, //8 /2
+            ma.x, mi.y, ma.z, //8 / 1
             ma.x, ma.y, ma.z, //9 /2
             ma.x, ma.y, ma.z, //10 /2
             ma.x, ma.y, ma.z, //11 /2
-            mi.x, ma.y, ma.z, //12 /3
+            ma.x, ma.y, ma.z, //12 /2
             mi.x, ma.y, ma.z, //13 /3
+            mi.x, ma.y, ma.z, //14 /3
+            mi.x, ma.y, ma.z, //15 /3
             mi.x, ma.y, ma.z, //6 /3
             mi.x, ma.y, ma.z, //6 /3
-            ma.x, mi.y, mi.z, //16 /4
+            ma.x, mi.y, mi.z, //18 /4
             ma.x, mi.y, mi.z, //1 /4
             ma.x, mi.y, mi.z, //1 /4
             ma.x, mi.y, mi.z, //1 /4
-            mi.x, mi.y, mi.z, //20 / 5
+            mi.x, mi.y, mi.z, //22 / 5
             mi.x, mi.y, mi.z, //0 / 5
             mi.x, mi.y, mi.z, //0 / 5
             mi.x, mi.y, mi.z, //0 / 5
             mi.x, mi.y, mi.z, //0 / 5
-            mi.x, ma.y, mi.z, //24 / 6
+            mi.x, ma.y, mi.z, //27 / 6
             mi.x, ma.y, mi.z, //3 / 6
             mi.x, ma.y, mi.z, //3 / 6
             mi.x, ma.y, mi.z, //3 / 6
-            ma.x, ma.y, mi.z, //28 / 7
-            ma.x, ma.y, mi.z, //2 / 7
-            ma.x, ma.y, mi.z, //2 / 7
-            ma.x, ma.y, mi.z //2 / 7
+            ma.x, ma.y, mi.z, //31 / 7
+            ma.x, ma.y, mi.z, //32 / 7
+            ma.x, ma.y, mi.z, //33 / 7
+            ma.x, ma.y, mi.z, //34 / 7
+            ma.x, ma.y, mi.z //34 / 7
         ]
         let verticesVectors = [
+            new Vector(mi.x, mi.y, ma.z, 1),//0
             new Vector(mi.x, mi.y, ma.z, 1),
             new Vector(mi.x, mi.y, ma.z, 1),
             new Vector(mi.x, mi.y, ma.z, 1),
             new Vector(mi.x, mi.y, ma.z, 1),
+            new Vector(ma.x, mi.y, ma.z, 1),//1
             new Vector(ma.x, mi.y, ma.z, 1),
-            new Vector(ma.x, mi.y, ma.z, 1),
-            new Vector(ma.x, mi.y, ma.z, 1),
-            new Vector(ma.x, mi.y, ma.z, 1),
-            new Vector(ma.x, ma.y, ma.z, 1),
-            new Vector(ma.x, ma.y, ma.z, 1),
-            new Vector(ma.x, ma.y, ma.z, 1),
-            new Vector(ma.x, ma.y, ma.z, 1),
-            new Vector(mi.x, ma.y, ma.z, 1),
-            new Vector(mi.x, ma.y, ma.z, 1),
-            new Vector(mi.x, ma.y, ma.z, 1),
-            new Vector(mi.x, ma.y, ma.z, 1),
-            new Vector(ma.x, mi.y, mi.z, 1),
-            new Vector(ma.x, mi.y, mi.z, 1),
-            new Vector(ma.x, mi.y, mi.z, 1),
-            new Vector(ma.x, mi.y, mi.z, 1),
-            new Vector(mi.x, mi.y, mi.z, 1),
-            new Vector(mi.x, mi.y, mi.z, 1),
-            new Vector(mi.x, mi.y, mi.z, 1),
-            new Vector(mi.x, mi.y, mi.z, 1),
-            new Vector(mi.x, mi.y, mi.z, 1),
-            new Vector(mi.x, ma.y, mi.z, 1),
-            new Vector(mi.x, ma.y, mi.z, 1),
-            new Vector(mi.x, ma.y, mi.z, 1),
-            new Vector(mi.x, ma.y, mi.z, 1),
-            new Vector(ma.x, ma.y, mi.z, 1),
-            new Vector(ma.x, ma.y, mi.z, 1),
-            new Vector(ma.x, ma.y, mi.z, 1),
-            new Vector(ma.x, ma.y, mi.z, 1)
+            new Vector(ma.x, ma.y, ma.z, 1),//2
+            new Vector(mi.x, ma.y, ma.z, 1),//3
+            new Vector(ma.x, mi.y, mi.z, 1),//4
+            new Vector(mi.x, mi.y, mi.z, 1),//5
+            new Vector(mi.x, ma.y, mi.z, 1),//6
+            new Vector(ma.x, ma.y, mi.z, 1),//7
         ]
         let indices = [
             // front
@@ -138,29 +121,29 @@ export default class RasterBox {
         ];
 
         //0,1,2
-        let firstTriangleFront = [verticesVectors[0], verticesVectors[4], verticesVectors[8]]
+        let firstTriangleFront = [verticesVectors[0], verticesVectors[4], verticesVectors[9]]
         //2, 3, 0
-        let secondTriangleFront = [verticesVectors[9], verticesVectors[12], verticesVectors[1]]
+        let secondTriangleFront = [verticesVectors[10], verticesVectors[13], verticesVectors[1]]
         //4, 5, 6
-        let firstTriangleBack = [verticesVectors[16], verticesVectors[20], verticesVectors[24]]
+        let firstTriangleBack = [verticesVectors[18], verticesVectors[22], verticesVectors[27]]
         //6, 7, 4
-        let secondTriangleBack = [verticesVectors[25], verticesVectors[7], verticesVectors[17]]
+        let secondTriangleBack = [verticesVectors[28], verticesVectors[31], verticesVectors[19]]
         // 1, 4, 7,
-        let firstTriangleRight = [verticesVectors[5], verticesVectors[18], verticesVectors[7]]
+        let firstTriangleRight = [verticesVectors[5], verticesVectors[20], verticesVectors[32]]
         // 7, 2, 1,
-        let secondTriangleRight = [verticesVectors[7], verticesVectors[2], verticesVectors[6]]
+        let secondTriangleRight = [verticesVectors[33], verticesVectors[11], verticesVectors[6]]
         //3, 2, 7,
-        let firstTriangleTop = [verticesVectors[3], verticesVectors[2],verticesVectors[7]]
+        let firstTriangleTop = [verticesVectors[14], verticesVectors[12],verticesVectors[34]]
         // 7, 6, 3,
-        let secondTriangleTop = [verticesVectors[7], verticesVectors[26],verticesVectors[3]]
+        let secondTriangleTop = [verticesVectors[35], verticesVectors[29],verticesVectors[15]]
         // 5, 0, 3,
-        let firstTriangleLeft = [verticesVectors[21],verticesVectors[2],verticesVectors[3]]
+        let firstTriangleLeft = [verticesVectors[23],verticesVectors[2],verticesVectors[16]]
         // 3, 6, 5,
-        let secondTriangleLeft = [verticesVectors[3],verticesVectors[27],verticesVectors[22]]
+        let secondTriangleLeft = [verticesVectors[17],verticesVectors[30],verticesVectors[24]]
         // 5, 4, 1,
-        let firstTriangleBottom = [verticesVectors[23],verticesVectors[19],verticesVectors[7]]
+        let firstTriangleBottom = [verticesVectors[25],verticesVectors[21],verticesVectors[7]]
         // 1, 0, 5
-        let secondTriangleBottom = [verticesVectors[8],verticesVectors[3],verticesVectors[24]]
+        let secondTriangleBottom = [verticesVectors[8],verticesVectors[3],verticesVectors[26]]
         let triangles = [firstTriangleFront, secondTriangleFront, firstTriangleBack, secondTriangleBack, firstTriangleRight, secondTriangleBack, firstTriangleTop, secondTriangleTop, firstTriangleLeft, secondTriangleLeft, firstTriangleBottom, secondTriangleBottom]
 
         // Nf = (↑B - ↑A) × (↑C - ↑A)
