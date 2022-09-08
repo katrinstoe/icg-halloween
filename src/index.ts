@@ -493,10 +493,10 @@ window.addEventListener('load', function loadPage() {
         const visitor = new RayVisitor(ctx, canvas.width, canvas.height);
 
 
-        let animationTime = 0;
+        //let animationTime = 0;
 
         function simulate(deltaT: number) {
-            animationTime += deltaT;
+            //animationTime += deltaT;
             for (let animationNode of animationNodes) {
                 animationNode.simulate(deltaT);
                 camera.lightPositions = lightPositions;
