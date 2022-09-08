@@ -32,9 +32,9 @@ export default class RasterBox {
      *    / |       / |
      *   3 ------- 2  |
      *   |  |      |  |
-     *   |  5 -----|- 4
+     *   |  5 -----|- 4  max?
      *   | /       | /
-     *   0 ------- 1
+     *   0 ------- 1  min?
      *  looking in negative z axis direction
      * @param gl The canvas' context
      * @param minPoint The minimal x,y,z of the box
@@ -53,14 +53,24 @@ export default class RasterBox {
 
 
         let vertices = [
-            mi.x, mi.y, ma.z, //5
-            ma.x, mi.y, ma.z, //4
-            ma.x, ma.y, ma.z, //7
-            mi.x, ma.y, ma.z, //6
-            ma.x, mi.y, mi.z, //1
-            mi.x, mi.y, mi.z, //0
-            mi.x, ma.y, mi.z, //3
-            ma.x, ma.y, mi.z //2
+            mi.x, mi.y, ma.z, //5 / 0
+            ma.x, mi.y, ma.z, //4 / 1
+            ma.x, ma.y, ma.z, //7 /2
+            mi.x, ma.y, ma.z, //6 /3
+            ma.x, mi.y, mi.z, //1 /4
+            mi.x, mi.y, mi.z, //0 / 5
+            mi.x, ma.y, mi.z, //3 / 6
+            ma.x, ma.y, mi.z //2 / 7
+        ]
+        let verticesVectors = [
+            new Vector(mi.x, mi.y, ma.z, 1),
+            new Vector(ma.x, mi.y, ma.z, 1),
+            new Vector(ma.x, ma.y, ma.z, 1),
+            new Vector(mi.x, ma.y, ma.z, 1),
+            new Vector(ma.x, mi.y, mi.z, 1),
+            new Vector(mi.x, mi.y, mi.z, 1),
+            new Vector(mi.x, ma.y, mi.z, 1),
+            new Vector(ma.x, ma.y, mi.z, 1)
         ]
         let indices = [
             // front
@@ -78,52 +88,36 @@ export default class RasterBox {
         ];
 
         //0,1,2
-        let firstTriangleFront = [
-            new Vector(mi.x, mi.y, mi.z,1), new Vector(ma.x, mi.y, mi.z, 1), new Vector(ma.x, ma.y, mi.z, 1)
-        ]
+        let firstTriangleFront = [verticesVectors[0], verticesVectors[1], verticesVectors[2]]
         //2, 3, 0
-        let secondTriangleFront = [
-            new Vector(ma.x, ma.y, mi.z, 1), new Vector(mi.x, ma.y, mi.z, 1), new Vector(mi.x, mi.y, mi.z,1)
-        ]
+        let secondTriangleFront = [verticesVectors[2], verticesVectors[2], verticesVectors[0]]
         //4, 5, 6
-        let firstTriangleBack = [
-            new Vector(ma.x, mi.y, ma.z, 1), new Vector(mi.x, mi.y, ma.z, 1), new Vector(mi.x, ma.y, ma.z, 1)
-        ]
+        let firstTriangleBack = [verticesVectors[4], verticesVectors[5], verticesVectors[6]]
         //6, 7, 4
-        let secondTriangleBack = [
-            new Vector(mi.x, ma.y, ma.z, 1), new Vector(ma.x, ma.y, ma.z, 1), new Vector(ma.x, mi.y, ma.z, 1)
+        let secondTriangleBack = [verticesVectors[6], verticesVectors[7], verticesVectors[4]
         ]
         // 1, 4, 7,
-        let firstTriangleRight = [
-            new Vector(ma.x, mi.y, mi.z, 1), new Vector(ma.x, mi.y, ma.z, 1), new Vector(ma.x, ma.y, ma.z, 1)
+        let firstTriangleRight = [verticesVectors[1], verticesVectors[4], verticesVectors[7]
         ]
         // 7, 2, 1,
-        let secondTriangleRight = [
-            new Vector(ma.x, ma.y, ma.z, 1), new Vector(ma.x, ma.y, mi.z, 1), new Vector(ma.x, mi.y, mi.z, 1)
-        ]
+        let secondTriangleRight = [verticesVectors[7], verticesVectors[2], verticesVectors[1]]
         //3, 2, 7,
-        let firstTriangleTop = [
-            new Vector(mi.x, ma.y, mi.z, 1), new Vector(ma.x, ma.y, mi.z, 1),new Vector(ma.x, ma.y, ma.z, 1)
+        let firstTriangleTop = [verticesVectors[3], verticesVectors[2],verticesVectors[7]
         ]
         // 7, 6, 3,
-        let secondTriangleTop = [
-            new Vector(ma.x, ma.y, ma.z, 1), new Vector(mi.x, ma.y, ma.z, 1), new Vector(mi.x, ma.y, mi.z, 1)
+        let secondTriangleTop = [verticesVectors[7], verticesVectors[6],verticesVectors[3]
         ]
         // 5, 0, 3,
-        let firstTriangleLeft = [
-            new Vector(mi.x, mi.y, ma.z, 1), new Vector(mi.x, mi.y, mi.z, 1), new Vector(mi.x, ma.y, mi.z, 1)
+        let firstTriangleLeft = [verticesVectors[5],verticesVectors[0],verticesVectors[3]
         ]
         // 3, 6, 5,
-        let secondTriangleLeft = [
-            new Vector(mi.x, ma.y, mi.z, 1), new Vector(mi.x, ma.y, ma.z, 1), new Vector(mi.x, mi.y, ma.z, 1)
+        let secondTriangleLeft = [verticesVectors[3],verticesVectors[6],verticesVectors[5]
         ]
         // 5, 4, 1,
-        let firstTriangleBottom = [
-            new Vector(mi.x, mi.y, ma.z, 1),  new Vector(ma.x, mi.y, ma.z, 1), new Vector(ma.x, mi.y, mi.z, 1)
+        let firstTriangleBottom = [verticesVectors[5],verticesVectors[4],verticesVectors[1]
         ]
         // 1, 0, 5
-        let secondTriangleBottom = [
-            new Vector(ma.x, mi.y, mi.z, 1), new Vector(mi.x, mi.y, mi.z, 1), new Vector(mi.x, mi.y, ma.z, 1)
+        let secondTriangleBottom = [verticesVectors[1],verticesVectors[0],verticesVectors[5]
         ]
         let triangles = [firstTriangleFront, secondTriangleFront, firstTriangleBack, secondTriangleBack, firstTriangleRight, secondTriangleBack, firstTriangleTop, secondTriangleTop, firstTriangleLeft, secondTriangleLeft, firstTriangleBottom, secondTriangleBottom]
 
@@ -190,6 +184,7 @@ export default class RasterBox {
         // console.log(triangles)
         //bis [3][0] ursprünglich
         // console.log(normalsTriangles)
+
         let normals = [
             normalsTriangles[0].x, normalsTriangles[0].y, normalsTriangles[0].z, normalsTriangles[0].a,
             normalsTriangles[1].x, normalsTriangles[1].y, normalsTriangles[1].z, normalsTriangles[1].a,
