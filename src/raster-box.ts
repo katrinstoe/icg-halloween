@@ -94,31 +94,23 @@ export default class RasterBox {
         //4, 5, 6
         let firstTriangleBack = [verticesVectors[4], verticesVectors[5], verticesVectors[6]]
         //6, 7, 4
-        let secondTriangleBack = [verticesVectors[6], verticesVectors[7], verticesVectors[4]
-        ]
+        let secondTriangleBack = [verticesVectors[6], verticesVectors[7], verticesVectors[4]]
         // 1, 4, 7,
-        let firstTriangleRight = [verticesVectors[1], verticesVectors[4], verticesVectors[7]
-        ]
+        let firstTriangleRight = [verticesVectors[1], verticesVectors[4], verticesVectors[7]]
         // 7, 2, 1,
         let secondTriangleRight = [verticesVectors[7], verticesVectors[2], verticesVectors[1]]
         //3, 2, 7,
-        let firstTriangleTop = [verticesVectors[3], verticesVectors[2],verticesVectors[7]
-        ]
+        let firstTriangleTop = [verticesVectors[3], verticesVectors[2],verticesVectors[7]]
         // 7, 6, 3,
-        let secondTriangleTop = [verticesVectors[7], verticesVectors[6],verticesVectors[3]
-        ]
+        let secondTriangleTop = [verticesVectors[7], verticesVectors[6],verticesVectors[3]]
         // 5, 0, 3,
-        let firstTriangleLeft = [verticesVectors[5],verticesVectors[0],verticesVectors[3]
-        ]
+        let firstTriangleLeft = [verticesVectors[5],verticesVectors[0],verticesVectors[3]]
         // 3, 6, 5,
-        let secondTriangleLeft = [verticesVectors[3],verticesVectors[6],verticesVectors[5]
-        ]
+        let secondTriangleLeft = [verticesVectors[3],verticesVectors[6],verticesVectors[5]]
         // 5, 4, 1,
-        let firstTriangleBottom = [verticesVectors[5],verticesVectors[4],verticesVectors[1]
-        ]
+        let firstTriangleBottom = [verticesVectors[5],verticesVectors[4],verticesVectors[1]]
         // 1, 0, 5
-        let secondTriangleBottom = [verticesVectors[1],verticesVectors[0],verticesVectors[5]
-        ]
+        let secondTriangleBottom = [verticesVectors[1],verticesVectors[0],verticesVectors[5]]
         let triangles = [firstTriangleFront, secondTriangleFront, firstTriangleBack, secondTriangleBack, firstTriangleRight, secondTriangleBack, firstTriangleTop, secondTriangleTop, firstTriangleLeft, secondTriangleLeft, firstTriangleBottom, secondTriangleBottom]
 
         // Nf = (↑B - ↑A) × (↑C - ↑A)

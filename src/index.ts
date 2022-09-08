@@ -285,7 +285,7 @@ window.addEventListener('load', function loadPage() {
         const gl = canvas.getContext("webgl2");
         const ctx = canvas2.getContext("2d");
 
-        const lightPositionsVisitor = new LightVisitor(gl)
+        const lightPositionsVisitor = new LightVisitor()
         let lightPositions = lightPositionsVisitor.visit(sg)
         const setupVisitor = new RasterSetupVisitor(gl, lightPositions);
         setupVisitor.setup(sg);
@@ -467,14 +467,13 @@ window.addEventListener('load', function loadPage() {
         // canvas.hidden
         console.log("RayTracer")
         const ctx = canvas2.getContext("2d");
-        const gl = canvas.getContext("webgl2");
         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         const data = imageData.data;
         //
         // const lightPositions = [
         //     new Vector(0, 1, 1, 0),
         // ];
-        const lightPositionsVisitor = new LightVisitor(gl)
+        const lightPositionsVisitor = new LightVisitor()
         let lightPositions = lightPositionsVisitor.visit(sg)
 
         const camera = {
