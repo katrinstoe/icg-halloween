@@ -57,8 +57,7 @@ export default class RayVisitor implements Visitor {
      */
     render(
         rootNode: Node,
-        camera: { origin: Vector, width: number, height: number, alpha: number, shininess: number, kS: number, kD: number, kA:number},
-        lightPositions: Array<Vector>
+        camera: { origin: Vector, width: number, height: number, alpha: number, shininess: number, kS: number, kD: number, kA:number, lightPositions: Array<Vector>}
     ) {
         // clear
         let data = this.imageData.data;
@@ -84,7 +83,7 @@ export default class RayVisitor implements Visitor {
                         data[4 * (width * y + x) + 2] = 0;
                         data[4 * (width * y + x) + 3] = 255;
                     } else {
-                        let color = phong(this.intersectionColor, this.intersection, lightPositions, camera.shininess, camera.origin, camera.kS, camera.kD, camera.kA);
+                        let color = phong(this.intersectionColor, this.intersection, camera.shininess, camera.origin, camera.kS, camera.kD, camera.kA, camera.lightPositions);
                         data[4 * (width * y + x) + 0] = color.r * 255;
                         data[4 * (width * y + x) + 1] = color.g * 255;
                         data[4 * (width * y + x) + 2] = color.b * 255;
