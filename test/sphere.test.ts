@@ -2,11 +2,16 @@ import Sphere from "../src/sphere";
 import Vector from "../src/vector";
 import Ray from "../src/ray";
 import Intersection from "../src/intersection";
+import Camera from "../src/camera";
 
 describe(".intersect() calculates intersection with Rays", ()=>{
     let sphere: Sphere
     let ray
-    const camera = {width:1000, height:1000, alpha:Math.PI * 2 / 3}
+    const camera = new Camera(new Vector(0, 0, 0, 1),
+        new Vector(0, 0, 0, 1),
+        new Vector(0, 0, -1, 1),
+        new Vector(0, 1, 0, 0),
+        60, 0.1, 100, 1000, 1000, 0, 0, 0, 0)
 
     beforeEach(()=>{
         sphere = new Sphere(

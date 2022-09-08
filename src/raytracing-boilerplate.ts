@@ -3,6 +3,7 @@ import 'bootstrap/scss/bootstrap.scss';
 import Sphere from './sphere';
 import Vector from './vector';
 import Ray from './ray';
+import Camera from "./camera";
 
 window.addEventListener('load', evt => {
     const canvas = document.getElementById("raytracer") as HTMLCanvasElement;
@@ -15,11 +16,11 @@ window.addEventListener('load', evt => {
         new Vector(0, 0, 0, 1)
     );
 
-    const camera = {
-        width: canvas.width,
-        height: canvas.height,
-        alpha: Math.PI * 2 / 3
-    }
+    const camera = new Camera(new Vector(0, 0, 0, 1),
+        new Vector(0, 0, 0, 1),
+        new Vector(0, 0, -1, 1),
+        new Vector(0, 1, 0, 0),
+        60, 0.1, 100, canvas.width, canvas.height, 0, 0, 0, 0)
     for (let x = 0; x < canvas.width; x++) {
         for (let y = 0; y < canvas.height; y++) {
             const ray = Ray.makeRay(x, y, camera);

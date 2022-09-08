@@ -4,6 +4,7 @@ import Vector from './vector';
 import {GroupNode, SphereNode} from './nodes';
 import RayVisitor from './rayvisitor';
 import { Rotation, Scaling, Translation } from './transformation';
+import Camera from "./camera";
 
 window.addEventListener('load', () => {
     const canvas = document.getElementById("raytracer") as HTMLCanvasElement;
@@ -40,7 +41,7 @@ window.addEventListener('load', () => {
     const kA = 10;
     const kD = 10;
 
-    const camera = {
+   /* const camera = {
         origin: new Vector(0, 0, 0, 1),
         width: canvas.width,
         height: canvas.height,
@@ -49,7 +50,13 @@ window.addEventListener('load', () => {
         kS: kS,
         kD: kD,
         kA: kA
-    }
+    }*/
+    const camera = new Camera(new Vector(0, 0, 0, 1),
+        new Vector(0, 0, 0, 1),
+        new Vector(0, 0, -1, 1),
+        new Vector(0, 1, 0, 0),
+        60, 0.1, 100, canvas.width, canvas.height, shininessCalc,
+        kS, kD, kA)
 
     const visitor = new RayVisitor(ctx, canvas.width, canvas.height);
 

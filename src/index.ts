@@ -9,7 +9,7 @@ import {
     LightNode,
     PyramidNode,
     TexturePyramidNode,
-    TextureVideoBoxNode
+    TextureVideoBoxNode, CameraNode
 } from './nodes';
 import {
     RasterVisitor,
@@ -37,12 +37,31 @@ import RasterPyramid from "./raster-pyramid";
 import Pyramid from "./pyramid";
 import {LightVisitor} from "./lightVisitor";
 import TextureVideoBox from "./texture-video-box";
+import {CameraVisitor} from "./cameraVisitor";
+import Camera from "./camera";
 
 const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1));
 const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.5, 0.5, 1), new Vector(0, 0, 0, 1));
 const UNIT_PYRAMID = new Pyramid(new Vector(-0.5, -0.5, 0.5, 1), new Vector(0.5, -0.5, 0.5, 1), new Vector(0, -0.5, -0.5, 1), new Vector(0, 0.5, 0, 1), new Vector(0, 0, 0, 1))
 
 window.addEventListener('load', function loadPage() {
+    const canvas = document.getElementById("rasteriser") as HTMLCanvasElement;
+    const canvas2 = document.getElementById("rayTracer") as HTMLCanvasElement;
+
+    const shininessElement = document.getElementById("shininess") as HTMLInputElement;
+    let shininessCalc = Number(shininessElement.value);
+
+    const kSElement = document.getElementById("kS") as HTMLInputElement;
+    let kSCalc = Number(kSElement.value)
+
+    const kDElement = document.getElementById("kD") as HTMLInputElement;
+    let kDCalc = Number(kDElement.value)
+
+    const kAElement = document.getElementById("kA") as HTMLInputElement;
+    let kACalc = Number(kDElement.value)
+
+    const lightPositionXElement = document.getElementById("lightPositionX") as HTMLInputElement;
+    let lightPositionXCalc = Number(lightPositionXElement.value)
 
     // //Texturen
     const textureGeist = new TextureBoxNode('geist.png');
@@ -188,6 +207,16 @@ window.addEventListener('load', function loadPage() {
 
     lightTr.add(light1)
     sg.add(lightTr)
+
+    const sgcamera = new Camera(new Vector(0, 0, 0, 1),
+        new Vector(0, 0, 0, 1),
+        new Vector(0, 0, -1, 1),
+        new Vector(0, 1, 0, 0),
+        60, 0.1, 100, canvas.width, canvas.height, shininessCalc,
+        kSCalc, kDCalc, kACalc)
+    const nodeCamera = new CameraNode(sgcamera)
+    sg.add(nodeCamera)
+
     const videoBox = new TextureVideoBoxNode("icgTestVideo.mp4");
     //sg.add(textureGeist);
     sg.add(videoBox);
@@ -225,26 +254,12 @@ window.addEventListener('load', function loadPage() {
     ]
 
 //Rasterizer und RayTracer Wechseln
-    const canvas = document.getElementById("rasteriser") as HTMLCanvasElement;
-    const canvas2 = document.getElementById("rayTracer") as HTMLCanvasElement;
+
 
     const btn1 = document.getElementById('btnradio1') as HTMLInputElement;
     const btn2 = document.getElementById('btnradio2') as HTMLInputElement;
 
-    const shininessElement = document.getElementById("shininess") as HTMLInputElement;
-    let shininessCalc = Number(shininessElement.value);
 
-    const kSElement = document.getElementById("kS") as HTMLInputElement;
-    let kSCalc = Number(kSElement.value)
-
-    const kDElement = document.getElementById("kD") as HTMLInputElement;
-    let kDCalc = Number(kDElement.value)
-
-    const kAElement = document.getElementById("kA") as HTMLInputElement;
-    let kACalc = Number(kDElement.value)
-
-    const lightPositionXElement = document.getElementById("lightPositionX") as HTMLInputElement;
-    let lightPositionXCalc = Number(lightPositionXElement.value)
 
 
     let renderer = localStorage.getItem("renderer")
@@ -291,20 +306,22 @@ window.addEventListener('load', function loadPage() {
         // ];
         // setup for rendering
         const lightPositionsVisitor = new LightVisitor(gl)
-        const lightPositions = lightPositionsVisitor.visit(sg)
+        let lightPositions = lightPositionsVisitor.visit(sg)
         console.log(lightPositions)
         const setupVisitor = new RasterSetupVisitor(gl, lightPositions);
         setupVisitor.setup(sg);
+        const cameraVisitor = new CameraVisitor(gl)
+        let camera = cameraVisitor.visit(sg)
 
 
-        const rayCamera = {
+        /*const rayCamera = {
             origin: new Vector(0, 0, 0, 1),
             width: canvas.width,
             height: canvas.height,
             alpha: Math.PI / 3,
-        };
+        };*/
 
-        let camera = {
+        /*let camera = {
             eye: new Vector(0, 0, 0, 1), // camera-position
             center: new Vector(0, 0, -1, 1), //position camera is facing
             up: new Vector(0, 1, 0, 0), // up vector of camera
@@ -317,7 +334,7 @@ window.addEventListener('load', function loadPage() {
             kD: kDCalc,
             kA: kACalc,
             lightPositions: lightPositions
-        };
+        };*/
 
         const phongShader = new Shader(gl,
             phongVertexShaderPerspective,
@@ -338,8 +355,8 @@ window.addEventListener('load', function loadPage() {
             for (let animationNode of animationNodes) {
                 animationNode.angle = animationTime / 500;
                 animationNode.simulate(deltaT);
-                const lightPositions = lightPositionsVisitor.visit(sg);
-                camera.lightPositions = lightPositions;
+                lightPositions = lightPositionsVisitor.visit(sg);
+                //camera.lightPositions = lightPositions;
             }
 
             for (let driverNode of DriverNodes) {
@@ -380,7 +397,7 @@ window.addEventListener('load', function loadPage() {
                 lightPosition.x = lightPositionX;
             }
             // lightPositions = Number(lightPositionXElement.value);
-            console.log(camera.lightPositions)
+           // console.log(camera.lightPositions)
         }
 
 
@@ -457,7 +474,7 @@ window.addEventListener('load', function loadPage() {
         window.addEventListener('dblclick', function (evt) {
             let mousePos = getMousePos(canvas, evt);
             let mouseVisitor = new mouseClickVisitor(ctx, canvas.width, canvas.height, mousePos);
-            mouseVisitor.render(sg, rayCamera, lightPositions);
+            mouseVisitor.render(sg, camera, lightPositions);
             setupVisitor.setup(sg);
             visitor.render(sg, camera, []);
 
@@ -480,7 +497,7 @@ window.addEventListener('load', function loadPage() {
         const lightPositions = [
             new Vector(lightPositionXCalc, 1, 1, 0),
         ];
-        const camera = {
+       /* const camera = {
             origin: new Vector(0, 0, 0, 1),
             width: canvas.width,
             height: canvas.height,
@@ -490,7 +507,8 @@ window.addEventListener('load', function loadPage() {
             kD: kDCalc,
             kA: kACalc,
             lightPositions: lightPositions
-        };
+        };*/
+
 
         const visitor = new RayVisitor(ctx, canvas.width, canvas.height);
 

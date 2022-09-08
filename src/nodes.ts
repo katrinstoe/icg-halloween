@@ -2,6 +2,7 @@ import Visitor from './visitor';
 import Vector from './vector';
 import { Transformation } from './transformation';
 import TextureVideoBox from "./texture-video-box";
+import Camera from "./camera";
 
 /**
  * Class representing a Node in a Scenegraph
@@ -212,12 +213,9 @@ export class TexturePyramidNode extends Node {
 
 export class CameraNode extends Node {
   /**
-   * Creates an axis aligned box textured box
-   * The box's center is located at the origin
-   * with all edges of length 1
-   * @param texture The image filename for the texture
+   * @param camera The camera
    */
-  constructor(public camera: string) {
+  constructor(public camera: Camera) {
     super();
   }
 

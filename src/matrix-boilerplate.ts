@@ -5,6 +5,7 @@ import phong from './phong';
 import Sphere from './sphere';
 import Vector from './vector';
 import Matrix from './matrix';
+import Camera from "./camera";
 
 window.addEventListener('load', () => {
     const canvas = document.getElementById("raytracer") as HTMLCanvasElement;
@@ -18,15 +19,12 @@ window.addEventListener('load', () => {
     const kS = 2;
     const kD = 2;
     const kA = 2;
-    const camera = {
-        origin: new Vector(0, 0, 0, 1),
-        width: canvas.width,
-        height: canvas.height,
-        alpha: Math.PI / 3,
-        kS: kS,
-        kD: kD,
-        kA: kA
-    }
+    const camera = new Camera(new Vector(0, 0, 0, 1),
+        new Vector(0, 0, 0, 1),
+        new Vector(0, 0, -1, 1),
+        new Vector(0, 1, 0, 0),
+        60, 0.1, 100, canvas.width, canvas.height, shininess,
+        kS, kD, kA)
 
     function setPixel(x: number, y: number, color: Vector) {
         data[4 * (canvas.width * y + x) + 0] = Math.min(255, color.r * 255);
