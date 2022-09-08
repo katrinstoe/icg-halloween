@@ -287,7 +287,7 @@ window.addEventListener('load', function loadPage() {
         const gl = canvas.getContext("webgl2");
         const ctx = canvas2.getContext("2d");
 
-        const lightPositionsVisitor = new LightVisitor(gl)
+        const lightPositionsVisitor = new LightVisitor()
         let lightPositions = lightPositionsVisitor.visit(sg)
         const setupVisitor = new RasterSetupVisitor(gl, lightPositions);
         setupVisitor.setup(sg);
@@ -475,7 +475,7 @@ window.addEventListener('load', function loadPage() {
         // const lightPositions = [
         //     new Vector(0, 1, 1, 0),
         // ];
-        const lightPositionsVisitor = new LightVisitor(gl)
+        const lightPositionsVisitor = new LightVisitor()
         let lightPositions = lightPositionsVisitor.visit(sg)
 
         const camera = {
@@ -516,7 +516,7 @@ window.addEventListener('load', function loadPage() {
 
         function animate(timestamp: number) {
             simulate(timestamp - lastTimestamp);
-            visitor.render(sg, camera, lightPositions);
+            visitor.render(sg, camera);
             lastTimestamp = timestamp;
             window.requestAnimationFrame(animate);
         }
@@ -579,37 +579,37 @@ window.addEventListener('load', function loadPage() {
                     break;
             }
         });
-
-        function animate(timestamp: number) {
-            console.log("ich starte mal")
-            let deltaT = timestamp - lastTimestamp;
-            if (animationHasStarted) {
-                deltaT = 0;
-                animationHasStarted = false;
-            }
-            animationTime += deltaT;
-            lastTimestamp = timestamp;
-            animationNodes[0].angle = animationTime / 2000;
-            camera.lightPositions = lightPositionsVisitor.visit(sg);
-            visitor.render(sg, camera);
-            // animationHandle = window.requestAnimationFrame(animate);
-            console.log("animate zu Ende")
-        }
-
-        function startAnimation() {
-            console.log("start ray animation")
-            if (animationHandle) {
-                console.log("oh no")
-                window.cancelAnimationFrame(animationHandle);
-            }
-            animationHasStarted = true;
-
-            function animation(t: number) {
-                animate(t);
-                animationHandle = window.requestAnimationFrame(animate);
-            }
-
-        }
+        //
+        // function animate(timestamp: number) {
+        //     console.log("ich starte mal")
+        //     let deltaT = timestamp - lastTimestamp;
+        //     if (animationHasStarted) {
+        //         deltaT = 0;
+        //         animationHasStarted = false;
+        //     }
+        //     animationTime += deltaT;
+        //     lastTimestamp = timestamp;
+        //     animationNodes[0].angle = animationTime / 2000;
+        //     camera.lightPositions = lightPositionsVisitor.visit(sg);
+        //     visitor.render(sg, camera);
+        //     // animationHandle = window.requestAnimationFrame(animate);
+        //     console.log("animate zu Ende")
+        // }
+        //
+        // function startAnimation() {
+        //     console.log("start ray animation")
+        //     if (animationHandle) {
+        //         console.log("oh no")
+        //         window.cancelAnimationFrame(animationHandle);
+        //     }
+        //     animationHasStarted = true;
+        //
+        //     function animation(t: number) {
+        //         animate(t);
+        //         animationHandle = window.requestAnimationFrame(animate);
+        //     }
+        //
+        // }
         animate(0);
         shininessElement.onchange = function () {
             camera.shininess = 50-Number(shininessElement.value);
@@ -629,10 +629,10 @@ window.addEventListener('load', function loadPage() {
         }
         console.log("fertig shininess")
 
-        document.getElementById("startAnimationBtn").addEventListener(
-            "dblclick", startAnimation);
-        document.getElementById("stopAnimationBtn").addEventListener(
-            "dblclick", () => cancelAnimationFrame(animationHandle));
+        // document.getElementById("startAnimationBtn").addEventListener(
+        //     "dblclick", startAnimation);
+        // document.getElementById("stopAnimationBtn").addEventListener(
+        //     "dblclick", () => cancelAnimationFrame(animationHandle));
 
 
     }

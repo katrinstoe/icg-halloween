@@ -22,7 +22,6 @@ export class LightVisitor implements Visitor {
 
 
     constructor(
-        private gl: WebGL2RenderingContext
     ) {
         this.model = new Array<Matrix>(Matrix.identity())
         this.inverse = new Array<Matrix>(Matrix.identity())
