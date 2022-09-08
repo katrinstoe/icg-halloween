@@ -25,7 +25,8 @@ window.addEventListener('load', () => {
         alpha: Math.PI / 3,
         kS: kS,
         kD: kD,
-        kA: kA
+        kA: kA,
+        lightPositions: lightPositions
     }
 
     function setPixel(x: number, y: number, color: Vector) {
@@ -57,7 +58,7 @@ window.addEventListener('load', () => {
                 const ray = Ray.makeRay(x, y, camera);
                 const intersection = sphere.intersect(ray);
                 if (intersection) {
-                    const color = phong(sphere.color, intersection, lightPositions, shininess, camera.origin, camera.kS, camera.kD, camera.kA);
+                    const color = phong(sphere.color, intersection, shininess, camera.origin, camera.kS, camera.kD, camera.kA, camera.lightPositions);
                     setPixel(x, y, color);
 
                 }
