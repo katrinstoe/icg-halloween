@@ -516,15 +516,16 @@ window.addEventListener('load', function loadPage() {
 
         let lastTimestamp = performance.now();
         let then = 0;
+        let animationHandle: number;
 
         function animate(timestamp: number) {
+            console.log("ich starte mal")
             simulate(timestamp - lastTimestamp);
             visitor.render(sg, camera, lightPositions);
             lastTimestamp = timestamp;
             window.requestAnimationFrame(animate);
+            console.log("animate zu Ende")
         }
-
-        window.requestAnimationFrame(animate);
 
 
         window.addEventListener('keydown', function (event) {
@@ -582,6 +583,22 @@ window.addEventListener('load', function loadPage() {
                     break;
             }
         });
+
+        function startAnimation() {
+            if (animationHandle) {
+                window.cancelAnimationFrame(animationHandle);
+            }
+            function animation(t: number) {
+                animate(t);
+                animationHandle = window.requestAnimationFrame(animation);
+            }
+            animationHandle = window.requestAnimationFrame(animation);
+        }
+
+        document.getElementById("startAnimationBtn").addEventListener(
+            "click", startAnimation);
+        document.getElementById("stopAnimationBtn").addEventListener(
+            "click", () => cancelAnimationFrame(animationHandle));
 
         // function animate(timestamp: number) {
         //     console.log("ich starte mal")
