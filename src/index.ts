@@ -164,9 +164,11 @@ window.addEventListener('load', function loadPage() {
     const sphere = new SphereNode(new Vector(1, 0.7, 0.7, 1))
     const sphereSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.2, 0)));
     const sphereTr = new GroupNode(new Translation(new Vector(-0.3, 0, -1, 0)));
+    const sphereRt = new GroupNode(new Rotation(new Vector(0,0,1,0), 1));
     sphereSc.add(sphere);
     // sphereSc.add(textureHCILogo)
-    sphereTr.add(sphereSc);
+    sphereRt.add(sphereSc)
+    sphereTr.add(sphereRt);
     sg.add(sphereTr);
 
 
@@ -209,7 +211,7 @@ window.addEventListener('load', function loadPage() {
     sg.add(ghostCastleTr)
 
     let animationNodes = [
-        new RotationNode(cubeRt, new Vector(0, 0, 1, 0)),
+        new RotationNode(sphereRt, new Vector(0, 0, 1, 0)),
         // new DriverNode(lightTr, new Vector(1, 0, 0, 0)),
         // new TranslatorNode(lightTr, new Vector(1, 0, 0, 0), "left")
         new RotationNode(lightTr, new Vector(1, 1, 1, 0)),
@@ -522,6 +524,8 @@ window.addEventListener('load', function loadPage() {
             window.requestAnimationFrame(animate);
         }
 
+        window.requestAnimationFrame(animate);
+
 
         window.addEventListener('keydown', function (event) {
             switch (event.key) {
@@ -578,8 +582,6 @@ window.addEventListener('load', function loadPage() {
                     break;
             }
         });
-
-        animate(0);
 
         // function animate(timestamp: number) {
         //     console.log("ich starte mal")
