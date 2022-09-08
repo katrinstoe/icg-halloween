@@ -243,8 +243,8 @@ window.addEventListener('load', function loadPage() {
     const kAElement = document.getElementById("kA") as HTMLInputElement;
     let kACalc = Number(kDElement.value)
 
-    const lightPositionXElement = document.getElementById("lightPositionX") as HTMLInputElement;
-    let lightPositionXCalc = Number(lightPositionXElement.value)
+    // const lightPositionXElement = document.getElementById("lightPositionX") as HTMLInputElement;
+    // let lightPositionXCalc = Number(lightPositionXElement.value)
 
 
     let renderer = localStorage.getItem("renderer")
@@ -285,14 +285,8 @@ window.addEventListener('load', function loadPage() {
         const gl = canvas.getContext("webgl2");
         const ctx = canvas2.getContext("2d");
 
-        // const lightPositions = [
-        //     // new Vector(1, 1, 1, 1)
-        //     new Vector(lightPositionXCalc, 1,1,1)
-        // ];
-        // setup for rendering
         const lightPositionsVisitor = new LightVisitor(gl)
-        const lightPositions = lightPositionsVisitor.visit(sg)
-        console.log(lightPositions)
+        let lightPositions = lightPositionsVisitor.visit(sg)
         const setupVisitor = new RasterSetupVisitor(gl, lightPositions);
         setupVisitor.setup(sg);
 
@@ -338,8 +332,7 @@ window.addEventListener('load', function loadPage() {
             for (let animationNode of animationNodes) {
                 animationNode.angle = animationTime / 500;
                 animationNode.simulate(deltaT);
-                const lightPositions = lightPositionsVisitor.visit(sg);
-                camera.lightPositions = lightPositions;
+                camera.lightPositions = lightPositionsVisitor.visit(sg);
             }
 
             for (let driverNode of DriverNodes) {
@@ -356,7 +349,7 @@ window.addEventListener('load', function loadPage() {
 
         function animate(timestamp: number) {
             simulate(timestamp - lastTimestamp);
-            visitor.render(sg, camera, lightPositions);
+            visitor.render(sg, camera, camera.lightPositions);
             lastTimestamp = timestamp;
             window.requestAnimationFrame(animate);
         }
@@ -374,14 +367,14 @@ window.addEventListener('load', function loadPage() {
         kAElement.onchange = function () {
             camera.kA = Number(kAElement.value);
         }
-        lightPositionXElement.onchange = function () {
-            let lightPositionX = Number(lightPositionXElement.value)
-            for (let lightPosition of lightPositions) {
-                lightPosition.x = lightPositionX;
-            }
-            // lightPositions = Number(lightPositionXElement.value);
-            console.log(camera.lightPositions)
-        }
+        // lightPositionXElement.onchange = function () {
+        //     let lightPositionX = Number(lightPositionXElement.value)
+        //     for (let lightPosition of lightPositions) {
+        //         lightPosition.x = lightPositionX;
+        //     }
+        //     // lightPositions = Number(lightPositionXElement.value);
+        //     console.log(camera.lightPositions)
+        // }
 
 
         Promise.all(
@@ -457,9 +450,9 @@ window.addEventListener('load', function loadPage() {
         window.addEventListener('dblclick', function (evt) {
             let mousePos = getMousePos(canvas, evt);
             let mouseVisitor = new mouseClickVisitor(ctx, canvas.width, canvas.height, mousePos);
-            mouseVisitor.render(sg, rayCamera, lightPositions);
+            mouseVisitor.render(sg, rayCamera, camera.lightPositions);
             setupVisitor.setup(sg);
-            visitor.render(sg, camera, []);
+            visitor.render(sg, camera, camera.lightPositions);
 
         }, false);
 
@@ -474,12 +467,16 @@ window.addEventListener('load', function loadPage() {
         // canvas.hidden
         console.log("RayTracer")
         const ctx = canvas2.getContext("2d");
+        const gl = canvas.getContext("webgl2");
         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         const data = imageData.data;
+        //
+        // const lightPositions = [
+        //     new Vector(0, 1, 1, 0),
+        // ];
+        const lightPositionsVisitor = new LightVisitor(gl)
+        let lightPositions = lightPositionsVisitor.visit(sg)
 
-        const lightPositions = [
-            new Vector(lightPositionXCalc, 1, 1, 0),
-        ];
         const camera = {
             origin: new Vector(0, 0, 0, 1),
             width: canvas.width,
@@ -500,58 +497,60 @@ window.addEventListener('load', function loadPage() {
         let animationTime = 0;
         let animationHasStarted = true;
 
-        // function animate(timestamp: number) {
-        //     console.log("ich starte mal")
-        //     let deltaT = timestamp - lastTimestamp;
-        //     if (animationHasStarted) {
-        //         deltaT = 0;
-        //         animationHasStarted = false;
-        //     }
-        //     animationTime += deltaT;
-        //     lastTimestamp = timestamp;
-        //     animationNodes[0].angle = animationTime / 2000;
-        //
-        //     visitor.render(sg, camera, lightPositions);
-        //     // animationHandle = window.requestAnimationFrame(animate);
-        //     console.log("animate zu Ende")
-        // }
+        function animate(timestamp: number) {
+            console.log("ich starte mal")
+            let deltaT = timestamp - lastTimestamp;
+            if (animationHasStarted) {
+                deltaT = 0;
+                animationHasStarted = false;
+            }
+            animationTime += deltaT;
+            lastTimestamp = timestamp;
+            animationNodes[0].angle = animationTime / 2000;
+            camera.lightPositions = lightPositionsVisitor.visit(sg);
+            visitor.render(sg, camera);
+            // animationHandle = window.requestAnimationFrame(animate);
+            console.log("animate zu Ende")
+        }
 
-        // function startAnimation() {
-        //     if (animationHandle) {
-        //         window.cancelAnimationFrame(animationHandle);
-        //     }
-        //     animationHasStarted = true;
-        //
-        //     function animation(t: number) {
-        //         animate(t);
-        //         animationHandle = window.requestAnimationFrame(animate);
-        //     }
-        //
-        // }
-        // animate(0);
-        // shininessElement.onchange = function () {
-        //     camera.shininess = 50-Number(shininessElement.value);
-        //     window.requestAnimationFrame(animate)
-        // }
-        // kSElement.onchange = function () {
-        //     camera.kS = Number(kSElement.value);
-        //     window.requestAnimationFrame(animate)
-        // }
-        // kDElement.onchange = function () {
-        //     camera.kD = Number(kDElement.value);
-        //     window.requestAnimationFrame(animate)
-        // }
-        // kAElement.onchange = function () {
-        //     camera.kA = Number(kAElement.value);
-        //     window.requestAnimationFrame(animate)
-        // }
-        // console.log("fertig shininess")
-        //
-        // document.getElementById("startAnimationBtn").addEventListener(
-        //     "dblclick", startAnimation);
-        // document.getElementById("stopAnimationBtn").addEventListener(
-        //     "dblclick", () => cancelAnimationFrame(animationHandle));
-        //
+        function startAnimation() {
+            console.log("start ray animation")
+            if (animationHandle) {
+                console.log("oh no")
+                window.cancelAnimationFrame(animationHandle);
+            }
+            animationHasStarted = true;
+
+            function animation(t: number) {
+                animate(t);
+                animationHandle = window.requestAnimationFrame(animate);
+            }
+
+        }
+        animate(0);
+        shininessElement.onchange = function () {
+            camera.shininess = 50-Number(shininessElement.value);
+            window.requestAnimationFrame(animate)
+        }
+        kSElement.onchange = function () {
+            camera.kS = Number(kSElement.value);
+            window.requestAnimationFrame(animate)
+        }
+        kDElement.onchange = function () {
+            camera.kD = Number(kDElement.value);
+            window.requestAnimationFrame(animate)
+        }
+        kAElement.onchange = function () {
+            camera.kA = Number(kAElement.value);
+            window.requestAnimationFrame(animate)
+        }
+        console.log("fertig shininess")
+
+        document.getElementById("startAnimationBtn").addEventListener(
+            "dblclick", startAnimation);
+        document.getElementById("stopAnimationBtn").addEventListener(
+            "dblclick", () => cancelAnimationFrame(animationHandle));
+
 
     }
 

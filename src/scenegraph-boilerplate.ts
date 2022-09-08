@@ -27,8 +27,7 @@ window.addEventListener('load', () => {
     gn3.add(new SphereNode(new Vector(0, 0, .3, 1)));
     const shininessElement = document.getElementById("shininess") as HTMLInputElement;
 
-    let shininessCalc = 10;
-    console.log(shininessCalc)
+    let shininessCalc = 0.5;
     shininessElement.onchange = function () {
         shininessCalc = Number(shininessElement.value);
         console.log(shininessCalc)
@@ -48,7 +47,8 @@ window.addEventListener('load', () => {
         shininess: shininessCalc,
         kS: kS,
         kD: kD,
-        kA: kA
+        kA: kA,
+        lightPositions: lightPositions
     }
 
     const visitor = new RayVisitor(ctx, canvas.width, canvas.height);
@@ -68,7 +68,7 @@ window.addEventListener('load', () => {
         lastTimestamp = timestamp;
         gnRotation.angle = animationTime / 2000;
 
-        visitor.render(sg, camera, lightPositions);
+        visitor.render(sg, camera);
         // animationHandle = window.requestAnimationFrame(animate);
     }
 
