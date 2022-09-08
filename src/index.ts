@@ -336,7 +336,6 @@ window.addEventListener('load', function loadPage() {
         function simulate(deltaT: number) {
             animationTime += deltaT;
             for (let animationNode of animationNodes) {
-                animationNode.angle = animationTime / 500;
                 animationNode.simulate(deltaT);
                 const lightPositions = lightPositionsVisitor.visit(sg);
                 camera.lightPositions = lightPositions;
@@ -494,11 +493,93 @@ window.addEventListener('load', function loadPage() {
 
         const visitor = new RayVisitor(ctx, canvas.width, canvas.height);
 
-        let animationHandle: number;
 
-        let lastTimestamp = 0;
         let animationTime = 0;
-        let animationHasStarted = true;
+
+        function simulate(deltaT: number) {
+            animationTime += deltaT;
+            for (let animationNode of animationNodes) {
+                animationNode.simulate(deltaT);
+                camera.lightPositions = lightPositions;
+            }
+
+            for (let driverNode of DriverNodes) {
+                driverNode.simulate(deltaT);
+            }
+
+            for (let scalerNode of ScalerNodes) {
+                scalerNode.simulate(deltaT);
+            }
+        }
+
+        let lastTimestamp = performance.now();
+        let then = 0;
+
+        function animate(timestamp: number) {
+            simulate(timestamp - lastTimestamp);
+            visitor.render(sg, camera, lightPositions);
+            lastTimestamp = timestamp;
+            window.requestAnimationFrame(animate);
+        }
+
+
+        window.addEventListener('keydown', function (event) {
+            switch (event.key) {
+                case "ArrowLeft":
+                    DriverNodes[0].direction = "left"
+                    DriverNodes[0].active = true;
+                    break;
+                case "ArrowRight":
+                    DriverNodes[0].direction = "right"
+                    DriverNodes[0].active = true;
+                    break;
+                case "ArrowUp":
+                    DriverNodes[0].direction = "up"
+                    DriverNodes[0].active = true;
+                    break;
+                case "ArrowDown":
+                    DriverNodes[0].direction = "down"
+                    DriverNodes[0].active = true;
+                    break;
+                case "+":
+                    ScalerNodes[0].zoom = "in"
+                    ScalerNodes[0].active = true;
+                    break;
+                case "-":
+                    ScalerNodes[0].zoom = "out"
+                    ScalerNodes[0].active = true;
+                    break;
+                case "1":
+                    for (let animationNode of animationNodes) {
+                        animationNode.toggleActive();
+                    }
+                    break;
+            }
+        });
+        window.addEventListener('keyup', function (event) {
+            switch (event.key) {
+                case "ArrowLeft":
+                    DriverNodes[0].active = false;
+                    break;
+                case "ArrowRight":
+                    DriverNodes[0].active = false;
+                    break;
+                case "ArrowUp":
+                    DriverNodes[0].active = false;
+                    break;
+                case "ArrowDown":
+                    DriverNodes[0].active = false;
+                    break;
+                case "+":
+                    ScalerNodes[0].active = false;
+                    break;
+                case "-":
+                    ScalerNodes[0].active = false;
+                    break;
+            }
+        });
+
+        animate(0);
 
         // function animate(timestamp: number) {
         //     console.log("ich starte mal")
