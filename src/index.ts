@@ -180,9 +180,14 @@ window.addEventListener('load', function loadPage() {
     // cubeTestSc.add(cubeTest)
     // cubeTestTr.add(cubeTestSc);
     // sg.add(cubeTestTr);
-    const cubeTest = new TexturePyramidNode('geist.png');
-    const cubeTestSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.2, 0)));
-    const cubeTestTr = new GroupNode(new Translation(new Vector(-0.01, 0, -1, 0)));
+    // const cubeTest = new TexturePyramidNode('geist.png');
+    const pyramid = new PyramidNode(new Vector(1, 0, 1, 0))
+    const pyramidSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.2, 0)));
+    const pyramidTr = new GroupNode(new Translation(new Vector(-0.2, -0.4, -1, 0)));
+
+    pyramidSc.add(pyramid)
+    pyramidTr.add(pyramidSc)
+    sg.add(pyramidTr)
 
     //muss punkt sein
     const light1 = new LightNode(new Vector(1, 1, 0, 1))
@@ -192,7 +197,14 @@ window.addEventListener('load', function loadPage() {
     sg.add(lightTr)
 
     const videoBox = new TextureVideoBoxNode("icgTestVideo.mp4");
-    sg.add(videoBox);
+    const videoSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.2, 0)));
+    const videoTr = new GroupNode(new Translation(new Vector(-0.5, 0.5, -1, 0)));
+
+    videoSc.add(videoBox);
+    videoTr.add(videoSc)
+    sg.add(videoTr)
+
+
 
 
     //kleiner driver geist
