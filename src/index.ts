@@ -190,8 +190,8 @@ window.addEventListener('load', function loadPage() {
 
     lightTr.add(light1)
     sg.add(lightTr)
+
     const videoBox = new TextureVideoBoxNode("icgTestVideo.mp4");
-    //sg.add(textureGeist);
     sg.add(videoBox);
 
 
@@ -468,7 +468,6 @@ window.addEventListener('load', function loadPage() {
         // canvas.hidden
         console.log("RayTracer")
         const ctx = canvas2.getContext("2d");
-        const gl = canvas.getContext("webgl2");
         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         const data = imageData.data;
         //
