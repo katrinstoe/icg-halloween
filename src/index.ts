@@ -224,8 +224,6 @@ window.addEventListener('load', function loadPage() {
 
     let animationNodes = [
         new RotationNode(sphereRt, new Vector(0, 0, 1, 0)),
-        // new DriverNode(lightTr, new Vector(1, 0, 0, 0)),
-        // new TranslatorNode(lightTr, new Vector(1, 0, 0, 0), "left")
         new RotationNode(lightTr, new Vector(1, 1, 1, 0)),
     ]
 
