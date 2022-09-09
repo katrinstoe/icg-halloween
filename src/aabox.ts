@@ -77,7 +77,7 @@ export default class AABox {
 
         this.color = color;
 
-        for (let i = 0; i < this.indices.length; i+=3) {
+        for (let i = 0; i < this.indices.length; i++) {
             this.triangles.push(this.vertices[this.indices[i] * 3], this.vertices[this.indices[i] * 3+1], this.vertices[this.indices[i] * 3+2])
         }
         console.log(this.triangles)
