@@ -199,7 +199,7 @@ window.addEventListener('load', function loadPage() {
 
     const videoBox = new TextureVideoBoxNode("icgTestVideo.mp4");
     const videoSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.2, 0)));
-    const videoTr = new GroupNode(new Translation(new Vector(-0.5, 0.5, -1, 0)));
+    const videoTr = new GroupNode(new Translation(new Vector(-0.2, 0.2, -1, 0)));
 
     videoSc.add(videoBox);
     videoTr.add(videoSc)
@@ -330,12 +330,12 @@ window.addEventListener('load', function loadPage() {
             phongVertexShaderPerspective,
             phongFragmentShader
         );
-        const textureShader = new Shader(gl,
-            textureVertexShader,
-            textureFragmentShader
-        );
+        // const textureShader = new Shader(gl,
+        //     textureVertexShader,
+        //     textureFragmentShader
+        // );
 
-        const visitor = new RasterVisitor(gl, phongShader, textureShader, setupVisitor.objects);
+        const visitor = new RasterVisitor(gl, phongShader, phongShader, setupVisitor.objects);
         console.log(setupVisitor.objects)
 
         let animationTime = 0;
@@ -390,7 +390,7 @@ window.addEventListener('load', function loadPage() {
 
 
         Promise.all(
-            [phongShader.load(), textureShader.load()]
+            [phongShader.load()]
         ).then(x =>
             window.requestAnimationFrame(animate)
         );

@@ -171,6 +171,7 @@ export class RasterVisitor implements Visitor {
     shader.getUniformFloat("kD").set(this.kD)
     shader.getUniformFloat("kA").set(this.kA)
     shader.getUniformVec3("lightPositions").set(this.lightPosisitions[0])
+    shader.getUniformFloat("textureSampleYes").set(0)
 
 
     const V = shader.getUniformMatrix("V");
@@ -212,6 +213,8 @@ export class RasterVisitor implements Visitor {
     shader.getUniformFloat("kS").set(this.kS)
     shader.getUniformFloat("kD").set(this.kD)
     shader.getUniformFloat("kA").set(this.kA)
+    shader.getUniformFloat("textureSampleYes").set(0)
+
 
     let V = shader.getUniformMatrix("V");
     if (V && this.lookat) {
@@ -239,6 +242,12 @@ export class RasterVisitor implements Visitor {
 
     shader.getUniformMatrix("M").set(toWorld);
     shader.getUniformMatrix("V").set(this.lookat);
+    shader.getUniformFloat("shininess").set(this.shininess)
+    shader.getUniformFloat("kS").set(this.kS)
+    shader.getUniformFloat("kD").set(this.kD)
+    shader.getUniformFloat("kA").set(this.kA)
+    shader.getUniformFloat("textureSampleYes").set(1)
+
     let P = shader.getUniformMatrix("P");
     if (P && this.perspective) {
       P.set(this.perspective);
@@ -263,6 +272,8 @@ export class RasterVisitor implements Visitor {
     shader.getUniformFloat("kS").set(this.kS)
     shader.getUniformFloat("kD").set(this.kD)
     shader.getUniformFloat("kA").set(this.kA)
+    shader.getUniformFloat("textureSampleYes").set(1)
+
 
 
 
@@ -293,6 +304,8 @@ export class RasterVisitor implements Visitor {
     shader.getUniformFloat("kS").set(this.kS)
     shader.getUniformFloat("kD").set(this.kD)
     shader.getUniformFloat("kA").set(this.kA)
+    shader.getUniformFloat("textureSampleYes").set(0)
+
 
 
     const V = shader.getUniformMatrix("V");
@@ -335,6 +348,8 @@ export class RasterVisitor implements Visitor {
     shader.getUniformFloat("kS").set(this.kS)
     shader.getUniformFloat("kD").set(this.kD)
     shader.getUniformFloat("kA").set(this.kA)
+    shader.getUniformFloat("textureSampleYes").set(1)
+
 
 
 
