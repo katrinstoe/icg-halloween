@@ -360,6 +360,8 @@ window.addEventListener('load', function loadPage() {
         btn2.checked = false
         visitor = rasterVisitor
         console.log(visitor)
+        canvas2.style.display = "none"
+        canvas.style.display = "block"
     }
 
     function rerenderRay(){
@@ -367,6 +369,8 @@ window.addEventListener('load', function loadPage() {
         btn2.checked = true
         visitor = rayVisitor
         console.log(visitor)
+        canvas2.style.display = "block"
+        canvas.style.display = "none"
     }
 
 
