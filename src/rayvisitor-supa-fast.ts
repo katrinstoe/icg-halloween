@@ -40,7 +40,16 @@ export default class RayVisitorSupaFast implements Visitor {
     ) {
         this.imageData = context.getImageData(0, 0, width, height);
     }
-
+    //ich habe:
+    // Pro Pixel alle Transformations des Szenengraph berechnet
+    // ich will:
+    // pro renderaufruf alle Transformations des Szenengraph berechnen
+    // ich brauche:
+    // 1 szenengraphaufruf per render nich per pixel
+    //Daher haben wir jetzt LeadNodeAndPositionList in der die Objekte inklusive aller wichtiger Daten gespeichert werden
+    //Dann kann der szenengraph einmal per render (nachdem die animation sich geändert hat) durchlaufen und sich die Endpositionen für die Objekte speichern, braucht
+    //so nicht pro Pixel jeweils ganzen Szenengraph traversieren, sondern kann einmal endposition mit matrix kriegen und anwenden
+    //
     render(
         rootNode: Node,
         camera: { origin: Vector, width: number, height: number, alpha: number, shininess: number, kS: number, kD: number, kA: number, lightPositions: Array<Vector> }
@@ -54,7 +63,7 @@ export default class RayVisitorSupaFast implements Visitor {
         const height = this.imageData.height;
         this.traverse = new Array<Matrix>(Matrix.identity())
         this.inverse = new Array<Matrix>(Matrix.identity())
-
+        //wird einmal aufgerufen für renderaufruf und speichert die matrizen, farben, etc. in Liste mithilfe der einzelnen visit Methoden
         rootNode.accept(this);
 
         for (let x = 0; x < width; x++) {
@@ -62,7 +71,8 @@ export default class RayVisitorSupaFast implements Visitor {
                 this.ray = Ray.makeRay(x, y, camera);
 
                 this.intersection = null;
-
+                //ruft für jedes Pixel jedesObject in der Liste auf und berechnet Intersection einmal und muss nichtmehr ganzen Szenengraph pro Pixel traversieren (weiß
+                //Endpositionen der einzelnen Objekte
                 for (let objectNodeWrapper of this.leafNodeAndPositionsList) {
                     this.visitObjectNodeIntersect(objectNodeWrapper)
                 }
@@ -86,7 +96,7 @@ export default class RayVisitorSupaFast implements Visitor {
         this.context.putImageData(this.imageData, 0, 0);
 
     }
-
+    //allgemeine Methode zum Intersecten von Objekten
     visitObjectNodeIntersect(node: ObjectNodeWrapper) {
         const ray = new Ray(node.fromWorld.mulVec(this.ray.origin), node.fromWorld.mulVec(this.ray.direction).normalize());
         let intersection = node.object.intersect(ray);
@@ -149,6 +159,7 @@ export default class RayVisitorSupaFast implements Visitor {
 
     visitTextureVideoBoxNode(node: TextureVideoBoxNode): void {
     }
+    //erstellt wichtige Werte für einzelne Objekte und added sie zur Liste
     private addToNodesList(objectGeometry: geometryObject) {
         let toWorld = this.traverse[this.traverse.length-1];
         let fromWorld = this.inverse[this.inverse.length-1];
