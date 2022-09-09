@@ -37,6 +37,7 @@ import RasterPyramid from "./raster-pyramid";
 import Pyramid from "./pyramid";
 import {LightVisitor} from "./lightVisitor";
 import TextureVideoBox from "./texture-video-box";
+import RayVisitorSupaFast from "./rayvisitor-supa-fast";
 
 const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1));
 const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.5, 0.5, 1), new Vector(0, 0, 0, 1));
@@ -496,7 +497,8 @@ window.addEventListener('load', function loadPage() {
             lightPositions: lightPositions
         };
 
-        const visitor = new RayVisitor(ctx, canvas.width, canvas.height);
+        // const visitor = new RayVisitor(ctx, canvas.width, canvas.height);
+        const visitor = new RayVisitorSupaFast(ctx, canvas.width, canvas.height);
 
 
         let animationTime = 0;

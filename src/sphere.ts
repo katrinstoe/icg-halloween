@@ -2,11 +2,12 @@ import Vector from './vector';
 import Intersection from './intersection';
 import Ray from './ray';
 import Matrix from "./matrix";
+import geometryObject from "./GeometryObject";
 
 /**
  * A class representing a sphere
  */
-export default class Sphere {
+export default class Sphere implements geometryObject{
   /**
    * Creates a new Sphere with center and radius
    * @param center The center of the Sphere
