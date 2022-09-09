@@ -41,31 +41,46 @@ export default class AABox {
         0----1
          */
         //in dreiecke umschreiben
+        // this.indices = [
+        //     0, 1, 2, 3,
+        //     1, 5, 6, 2,
+        //     4, 0, 3, 7,
+        //     3, 2, 6, 7,
+        //     5, 4, 7, 6,
+        //     0, 4, 5, 1
+        // ];
         this.indices = [
-            0, 1, 2, 3,
-            1, 5, 6, 2,
-            4, 0, 3, 7,
-            3, 2, 6, 7,
-            5, 4, 7, 6,
-            0, 4, 5, 1
+            // front
+            0, 1, 2, 2, 3, 0,
+            // back
+            4, 5, 6, 6, 7, 4,
+            // right
+            1, 4, 7, 7, 2, 1,
+            // top
+            3, 2, 7, 7, 6, 3,
+            // left
+            5, 0, 3, 3, 6, 5,
+            // bottom
+            5, 4, 1, 1, 0, 5
         ];
 
         this.vertices = [
-            new Vector(minPoint.x, minPoint.y, maxPoint.z, 1),
-            new Vector(maxPoint.x, minPoint.y, maxPoint.z, 1),
-            new Vector(maxPoint.x, maxPoint.y, maxPoint.z, 1),
-            new Vector(minPoint.x, maxPoint.y, maxPoint.z, 1),
-            new Vector(minPoint.x, minPoint.y, minPoint.z, 1),
-            new Vector(maxPoint.x, minPoint.y, minPoint.z, 1),
-            new Vector(maxPoint.x, maxPoint.y, minPoint.z, 1),
-            new Vector(minPoint.x, maxPoint.y, minPoint.z, 1)
+            new Vector(minPoint.x, minPoint.y, maxPoint.z, 1), //0
+            new Vector(maxPoint.x, minPoint.y, maxPoint.z, 1), //1
+            new Vector(maxPoint.x, maxPoint.y, maxPoint.z, 1), //2
+            new Vector(minPoint.x, maxPoint.y, maxPoint.z, 1), //3
+            new Vector(minPoint.x, minPoint.y, minPoint.z, 1), //4
+            new Vector(maxPoint.x, minPoint.y, minPoint.z, 1), //5
+            new Vector(maxPoint.x, maxPoint.y, minPoint.z, 1), //6
+            new Vector(minPoint.x, maxPoint.y, minPoint.z, 1) //7
         ];
 
         this.color = color;
-        // let triangles: Vector[] = []
-        // for (let i = 0; i < this.indices.length; i++) {
-        //     this.triangles.push(new Vector(this.vertices[this.indices[i * 3]], this.vertices[this.indices[i * 3 + 1]], this.vertices[this.indices[i * 3 + 2]], 1))
-        // }
+
+        for (let i = 0; i < this.indices.length; i+=3) {
+            this.triangles.push(this.vertices[this.indices[i] * 3], this.vertices[this.indices[i] * 3+1], this.vertices[this.indices[i] * 3+2])
+        }
+        console.log(this.triangles)
     }
 
     /**
@@ -76,8 +91,8 @@ export default class AABox {
     intersect(ray: Ray): Intersection | null {
         // TODO
         let min = Number.MAX_VALUE;
-        for (let i = 0; i < this.vertices.length; i+=3) {
-            let intersection = this.intersectTriangle(ray, this.vertices[i], this.vertices[i+1], this.vertices[i+2])
+        for (let i = 0; i < this.triangles.length; i+=3) {
+            let intersection = this.intersectTriangle(ray, this.triangles[i], this.triangles[i+1], this.triangles[i+2])
             if (intersection === null || intersection.t<min) {
                 if (intersection != null){
                     min = intersection.t

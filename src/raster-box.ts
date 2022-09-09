@@ -85,7 +85,7 @@ export default class RasterBox {
         //erstellen Triangles mit denen wir normalen später berechenn
         let triangles: Vector[] = []
         for (let i = 0; i < indices.length; i++) {
-            triangles.push(new Vector(vertices[indices[i] * 3+0], vertices[indices[i] * 3+1], vertices[indices[i] * 3+2], 1))
+            triangles.push(new Vector(vertices[indices[i] * 3], vertices[indices[i] * 3+1], vertices[indices[i] * 3+2], 1))
         }
         let normalsTriangles = []
         let colors = []
