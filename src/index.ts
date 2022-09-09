@@ -470,10 +470,7 @@ window.addEventListener('load', function loadPage() {
         const ctx = canvas2.getContext("2d");
         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         const data = imageData.data;
-        //
-        // const lightPositions = [
-        //     new Vector(0, 1, 1, 0),
-        // ];
+
         const lightPositionsVisitor = new LightVisitor()
         let lightPositions = lightPositionsVisitor.visit(sg)
 
