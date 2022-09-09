@@ -21,6 +21,7 @@ export default class Sphere {
 
   /**
    * Calculates the intersection of the sphere with the given ray
+   * Quelle: https://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-sphere-intersection
    * @param ray The ray to intersect with
    * @return The intersection if there is one, null if there is none
    */
