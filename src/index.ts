@@ -39,6 +39,7 @@ import {LightVisitor} from "./lightVisitor";
 import TextureVideoBox from "./texture-video-box";
 import {CameraVisitor} from "./cameraVisitor";
 import Camera from "./camera";
+import Visitor from "./visitor";
 
 const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1));
 const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.5, 0.5, 1), new Vector(0, 0, 0, 1));
@@ -256,8 +257,88 @@ window.addEventListener('load', function loadPage() {
 //Rasterizer und RayTracer Wechseln
 
 
+
+
+
+ /*   function rerender() {
+        console.log("called")
+        if (btn1.checked) {
+            btn1.checked = true
+            btn2.checked = false
+            //rasterVisitor()
+            visitor = new RasterVisitor()
+        } else if (btn2.checked) {
+            btn1.checked = false
+            btn2.checked = true
+            //rayVisitor()
+        }
+    }
+
+    rerender()*/
+
+    // shininessElement.onchange = function () {
+    //     shininessCalc = Number(shininessElement.value);
+    //     //ging als jenachdem aktuellen visitor nochmal gecalled haben aber dann endless loop und super schnell
+    //     rerender()
+    // }
+    // console.log(shininessCalc)
+
+    //function rasterVisitor() {
+        canvas2.style.display = "none"
+        canvas.style.display = "block"
+        const gl = canvas.getContext("webgl2");
+        const ctx = canvas2.getContext("2d");
+
+    const phongShader = new Shader(gl,
+        phongVertexShaderPerspective,
+        phongFragmentShader
+    );
+    const textureShader = new Shader(gl,
+        textureVertexShader,
+        textureFragmentShader
+    );
+
+        // const lightPositions = [
+        //     // new Vector(1, 1, 1, 1)
+        //     new Vector(lightPositionXCalc, 1,1,1)
+        // ];
+        // setup for rendering
+        const lightPositionsVisitor = new LightVisitor(gl)
+        let lightPositions = lightPositionsVisitor.visit(sg)
+        console.log(lightPositions)
+        const cameraVisitor = new CameraVisitor(gl)
+        let camera = cameraVisitor.visit(sg)
+
+
+    let setupVisitor = new RasterSetupVisitor(gl, lightPositions)
+    let rasterVisitor = new RasterVisitor(gl, phongShader, textureShader, setupVisitor.objects)
+    let rayVisitor = new RayVisitor(ctx, canvas.width, canvas.height)
+    let visitor: RayVisitor|RasterVisitor
+
     const btn1 = document.getElementById('btnradio1') as HTMLInputElement;
     const btn2 = document.getElementById('btnradio2') as HTMLInputElement;
+
+    function render(){
+        console.log("called")
+        if (btn1.checked) {
+            btn1.checked = true
+            btn2.checked = false
+            //rasterVisitor()
+            //setupVisitor = new RasterSetupVisitor(gl, lightPositions)
+            visitor = rasterVisitor
+            //loadScene()
+            console.log(visitor)
+        } else if (btn2.checked) {
+            btn1.checked = false
+            btn2.checked = true
+            visitor = rayVisitor
+            //loadScene()
+            console.log(visitor)
+            //rayVisitor()
+        }
+    }
+
+    render()
 
 
 
@@ -271,81 +352,80 @@ window.addEventListener('load', function loadPage() {
     }
     console.log(btn1.checked)
     console.log(btn2.checked)
+    btn1.addEventListener("click", rerenderRaster)
+    btn2.addEventListener("click", rerenderRay)
 
-    function rerender() {
+    function rerenderRaster(){
+        btn1.checked = true
+        btn2.checked = false
+        visitor = rasterVisitor
+        console.log(visitor)
+    }
+
+    function rerenderRay(){
+        btn1.checked = false
+        btn2.checked = true
+        visitor = rayVisitor
+        console.log(visitor)
+    }
+
+
+
+    /*function rerender() {
         console.log("called")
         if (btn1.checked) {
             btn1.checked = true
             btn2.checked = false
-            rasterVisitor()
+            //rasterVisitor()
+            //setupVisitor = new RasterSetupVisitor(gl, lightPositions)
+            visitor = rasterVisitor
+            //loadScene()
+            console.log(visitor)
         } else if (btn2.checked) {
             btn1.checked = false
             btn2.checked = true
-            rayVisitor()
+            visitor = rayVisitor
+            //loadScene()
+            console.log(visitor)
+            //rayVisitor()
         }
     }
+    rerender()*/
 
-    rerender()
 
-    // shininessElement.onchange = function () {
-    //     shininessCalc = Number(shininessElement.value);
-    //     //ging als jenachdem aktuellen visitor nochmal gecalled haben aber dann endless loop und super schnell
-    //     rerender()
-    // }
-    // console.log(shininessCalc)
 
-    function rasterVisitor() {
-        canvas2.style.display = "none"
-        canvas.style.display = "block"
-        const gl = canvas.getContext("webgl2");
-        const ctx = canvas2.getContext("2d");
 
-        // const lightPositions = [
-        //     // new Vector(1, 1, 1, 1)
-        //     new Vector(lightPositionXCalc, 1,1,1)
-        // ];
-        // setup for rendering
-        const lightPositionsVisitor = new LightVisitor(gl)
-        let lightPositions = lightPositionsVisitor.visit(sg)
-        console.log(lightPositions)
-        const setupVisitor = new RasterSetupVisitor(gl, lightPositions);
+    //function loadScene(){
+        //const setupVisitor = new RasterSetupVisitor(gl, lightPositions);
         setupVisitor.setup(sg);
-        const cameraVisitor = new CameraVisitor(gl)
-        let camera = cameraVisitor.visit(sg)
 
 
-        /*const rayCamera = {
-            origin: new Vector(0, 0, 0, 1),
-            width: canvas.width,
-            height: canvas.height,
-            alpha: Math.PI / 3,
-        };*/
+        shininessElement.onchange = function () {
+            camera.shininess = Number(shininessElement.value);
+        }
+        kSElement.onchange = function () {
+            camera.kS = Number(kSElement.value);
+            console.log(camera.kS)
+        }
+        kDElement.onchange = function () {
+            camera.kD = Number(kDElement.value);
+            console.log(camera.kD)
+        }
+        kAElement.onchange = function () {
+            camera.kD = Number(kDElement.value);
+            console.log(camera.kD)
+        }
+        lightPositionXElement.onchange = function () {
+            let lightPositionX = Number(lightPositionXElement.value)
+            for (let lightPosition of lightPositions) {
+                lightPosition.x = lightPositionX;
+            }
+            // lightPositions = Number(lightPositionXElement.value);
+            //console.log(camera.lightPositions)
+        }
 
-        /*let camera = {
-            eye: new Vector(0, 0, 0, 1), // camera-position
-            center: new Vector(0, 0, -1, 1), //position camera is facing
-            up: new Vector(0, 1, 0, 0), // up vector of camera
-            fovy: 60,
-            aspect: canvas.width / canvas.height,
-            near: 0.1,
-            far: 100,
-            shininess: shininessCalc,
-            kS: kSCalc,
-            kD: kDCalc,
-            kA: kACalc,
-            lightPositions: lightPositions
-        };*/
 
-        const phongShader = new Shader(gl,
-            phongVertexShaderPerspective,
-            phongFragmentShader
-        );
-        const textureShader = new Shader(gl,
-            textureVertexShader,
-            textureFragmentShader
-        );
-
-        const visitor = new RasterVisitor(gl, phongShader, textureShader, setupVisitor.objects);
+        //const visitor = new RasterVisitor(gl, phongShader, textureShader, setupVisitor.objects);
         console.log(setupVisitor.objects)
 
         let animationTime = 0;
@@ -353,7 +433,7 @@ window.addEventListener('load', function loadPage() {
         function simulate(deltaT: number) {
             animationTime += deltaT;
             for (let animationNode of animationNodes) {
-                animationNode.angle = animationTime / 500;
+                //animationNode.angle = animationTime / 500;
                 animationNode.simulate(deltaT);
                 lightPositions = lightPositionsVisitor.visit(sg);
                 //camera.lightPositions = lightPositions;
@@ -397,7 +477,7 @@ window.addEventListener('load', function loadPage() {
                 lightPosition.x = lightPositionX;
             }
             // lightPositions = Number(lightPositionXElement.value);
-           // console.log(camera.lightPositions)
+            // console.log(camera.lightPositions)
         }
 
 
@@ -483,9 +563,11 @@ window.addEventListener('load', function loadPage() {
         function mouseClickedOn(event: { clientX: number; }) {
             let mx = event.clientX - canvas.getBoundingClientRect().left;
         }
+    //}
 
-    }
-    function rayVisitor() {
+
+  //  }
+ /*   function rayVisitor() {
         canvas.style.display = "none"
         canvas2.style.display = "block"
         // canvas.hidden
@@ -510,7 +592,7 @@ window.addEventListener('load', function loadPage() {
         };*/
 
 
-        const visitor = new RayVisitor(ctx, canvas.width, canvas.height);
+ /*       const visitor = new RayVisitor(ctx, canvas.width, canvas.height);
 
         let animationHandle: number;
 
@@ -596,5 +678,5 @@ window.addEventListener('load', function loadPage() {
             // rayVisitor()
         }
         location.reload()
-    });
+    });*/
 });
