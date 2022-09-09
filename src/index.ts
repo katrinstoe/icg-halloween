@@ -180,9 +180,14 @@ window.addEventListener('load', function loadPage() {
     // cubeTestSc.add(cubeTest)
     // cubeTestTr.add(cubeTestSc);
     // sg.add(cubeTestTr);
-    const cubeTest = new TexturePyramidNode('geist.png');
-    const cubeTestSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.2, 0)));
-    const cubeTestTr = new GroupNode(new Translation(new Vector(-0.01, 0, -1, 0)));
+    // const cubeTest = new TexturePyramidNode('geist.png');
+    const pyramid = new PyramidNode(new Vector(1, 0, 1, 0))
+    const pyramidSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.2, 0)));
+    const pyramidTr = new GroupNode(new Translation(new Vector(-0.2, -0.4, -1, 0)));
+
+    pyramidSc.add(pyramid)
+    pyramidTr.add(pyramidSc)
+    sg.add(pyramidTr)
 
     //muss punkt sein
     const light1 = new LightNode(new Vector(1, 1, 0, 1))
@@ -190,9 +195,16 @@ window.addEventListener('load', function loadPage() {
 
     lightTr.add(light1)
     sg.add(lightTr)
+
     const videoBox = new TextureVideoBoxNode("icgTestVideo.mp4");
-    //sg.add(textureGeist);
-    sg.add(videoBox);
+    const videoSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.2, 0)));
+    const videoTr = new GroupNode(new Translation(new Vector(-0.5, 0.5, -1, 0)));
+
+    videoSc.add(videoBox);
+    videoTr.add(videoSc)
+    sg.add(videoTr)
+
+
 
 
     //kleiner driver geist
@@ -212,8 +224,6 @@ window.addEventListener('load', function loadPage() {
 
     let animationNodes = [
         new RotationNode(sphereRt, new Vector(0, 0, 1, 0)),
-        // new DriverNode(lightTr, new Vector(1, 0, 0, 0)),
-        // new TranslatorNode(lightTr, new Vector(1, 0, 0, 0), "left")
         new RotationNode(lightTr, new Vector(1, 1, 1, 0)),
     ]
 
@@ -468,13 +478,9 @@ window.addEventListener('load', function loadPage() {
         // canvas.hidden
         console.log("RayTracer")
         const ctx = canvas2.getContext("2d");
-        const gl = canvas.getContext("webgl2");
         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         const data = imageData.data;
-        //
-        // const lightPositions = [
-        //     new Vector(0, 1, 1, 0),
-        // ];
+
         const lightPositionsVisitor = new LightVisitor()
         let lightPositions = lightPositionsVisitor.visit(sg)
 

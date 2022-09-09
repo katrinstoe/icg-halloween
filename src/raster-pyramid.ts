@@ -20,6 +20,7 @@ export default class RasterPyramid {
      * The amount of indices
      */
     elements: number;
+    private normalBuffer: WebGLBuffer;
 
     /**
      * Creates all WebGL buffers for the box
@@ -60,13 +61,56 @@ export default class RasterPyramid {
             // bottom
             0, 2, 1,
         ];
-        let colors = [
-            color.x, color.y, color.z, color.a,
-            color.x, color.y, color.z, color.a,
-            color.x, color.y, color.z, color.a,
-            color.x, color.y, color.z, color.a,
-            color.x, color.y, color.z, color.a,
-        ]
+        //erstellen Triangles mit denen wir
+        let triangles: Vector[] = []
+        for (let i = 0; i < indices.length; i++) {
+            triangles.push(new Vector(vertices[indices[i] * 3+0], vertices[indices[i] * 3+1], vertices[indices[i] * 3+2], 1))
+        }
+        let normalsTriangles = []
+        let colors = []
+        for (let j = 0; j < triangles.length; j+=3) {
+            let U = triangles[j+1].sub(triangles[j])
+            let V = triangles[j+2].sub(triangles[j+1])
+
+            normalsTriangles.push(U.cross(V).x)
+            normalsTriangles.push(U.cross(V).y)
+            normalsTriangles.push(U.cross(V).z)
+
+            normalsTriangles.push(U.cross(V).x)
+            normalsTriangles.push(U.cross(V).y)
+            normalsTriangles.push(U.cross(V).z)
+
+            normalsTriangles.push(U.cross(V).x)
+            normalsTriangles.push(U.cross(V).y)
+            normalsTriangles.push(U.cross(V).z)
+
+            colors.push(color.x)
+            colors.push(color.y)
+            colors.push(color.z)
+            colors.push(color.a)
+
+            colors.push(color.x)
+            colors.push(color.y)
+            colors.push(color.z)
+            colors.push(color.a)
+
+            colors.push(color.x)
+            colors.push(color.y)
+            colors.push(color.z)
+            colors.push(color.a)
+        }
+
+        vertices = []
+        for (let j = 0; j < triangles.length; j++) {
+            vertices.push(triangles[j].x)
+            vertices.push(triangles[j].y)
+            vertices.push(triangles[j].z)
+        }
+        indices = []
+        for (let j = 0; j < vertices.length; j+=1) {
+            indices.push(j)
+        }
+
         const vertexBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
@@ -83,6 +127,12 @@ export default class RasterPyramid {
         gl.bindBuffer(gl.ARRAY_BUFFER, colorBufffer);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
         this.colorBuffer = colorBufffer;
+
+        const normalBuffer = this.gl.createBuffer();
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, normalBuffer);
+        this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(normalsTriangles), this.gl.STATIC_DRAW);
+        this.normalBuffer = normalBuffer;
+        this.elements = vertices.length;
     }
 
     /**
@@ -104,11 +154,17 @@ export default class RasterPyramid {
         this.gl.vertexAttribPointer(color, 4, this.gl.FLOAT, false, 0, 0)
         //this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(color), this.gl.STATIC_DRAW)
 
+        const aNormal = shader.getAttributeLocation("a_normal")
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.normalBuffer);
+        this.gl.enableVertexAttribArray(aNormal)
+        this.gl.vertexAttribPointer(aNormal, 3, this.gl.FLOAT, false, 0, 0)
+
         this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
         this.gl.drawElements(this.gl.TRIANGLES, this.elements, this.gl.UNSIGNED_SHORT, 0);
 
         this.gl.disableVertexAttribArray(positionLocation);
         // TODO disable color vertex attrib array
         this.gl.disableVertexAttribArray(color)
+        this.gl.disableVertexAttribArray(aNormal)
     }
 }
