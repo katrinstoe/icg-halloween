@@ -1,5 +1,6 @@
 import Visitor from "./visitor";
 import {
+    AABoxButtonNode,
     AABoxNode,
     CameraNode,
     GroupNode,
@@ -7,6 +8,7 @@ import {
     Node,
     PyramidNode,
     SphereNode,
+    TextureBoxButtonNode,
     TextureBoxNode,
     TexturePyramidNode,
     TextureVideoBoxNode
@@ -21,10 +23,14 @@ export class LightVisitor implements Visitor {
     lightNodes: Array<LightNode>
 
 
-    constructor(
-    ) {
+    constructor() {
         this.model = new Array<Matrix>(Matrix.identity())
         this.inverse = new Array<Matrix>(Matrix.identity())
+    }
+
+    visitAABoxButtonNode(node: AABoxButtonNode): void {
+    }
+    visitTextureBoxButtonNode(node: TextureBoxButtonNode): void {
     }
 
     visitTextureVideoBoxNode(node: TextureVideoBoxNode): void {
@@ -75,8 +81,8 @@ export class LightVisitor implements Visitor {
     }
 
     lightNodeList(){
-
     }
+
     visitTexturePyramidNode(node: TexturePyramidNode) {
     }
 

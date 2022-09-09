@@ -198,3 +198,11 @@ export default class AABox {
         // }
     }
 }
+
+export class AABox_Button extends AABox {
+
+    constructor(minPoint: Vector, maxPoint: Vector, public color: Vector) {
+        super(minPoint, maxPoint, color);
+    }
+
+}

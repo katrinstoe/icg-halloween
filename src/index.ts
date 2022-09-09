@@ -9,7 +9,7 @@ import {
     LightNode,
     PyramidNode,
     TexturePyramidNode,
-    TextureVideoBoxNode
+    TextureVideoBoxNode, AABoxButtonNode
 } from './nodes';
 import {
     RasterVisitor,
@@ -31,7 +31,7 @@ import Sphere from "./sphere";
 import AABox from "./aabox";
 import RayVisitor from "./rayvisitor";
 import phong from "./phong";
-import {DriverNode, RotationNode, ScalerNode} from "./animation-nodes";
+import {DriverNode, MinMaxNode, RotationNode, ScalerNode} from "./animation-nodes";
 import mouseClickVisitor from "./mouse-click-visitor";
 import RasterPyramid from "./raster-pyramid";
 import Pyramid from "./pyramid";
@@ -64,7 +64,7 @@ window.addEventListener('load', function loadPage() {
     sg.add(TaskBTr);
     //Icons auf Taskbar
     // //Icon Kreis
-    const TaskBIconSc = new GroupNode(new Scaling(new Vector(0.025, 0.025, 0.025,0)));
+    const TaskBIconSc = new GroupNode(new Scaling(new Vector(0.025, 0.025, 0.025, 0)));
     const TaskBIconTr = new GroupNode(new Translation(new Vector(-0.1, -0.54, -1, 0)));
 
     const TaskBIconSphere = new SphereNode(new Vector(1, 0.7, 0.7, 1));
@@ -164,7 +164,7 @@ window.addEventListener('load', function loadPage() {
     const sphere = new SphereNode(new Vector(1, 0.7, 0.7, 1))
     const sphereSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.2, 0)));
     const sphereTr = new GroupNode(new Translation(new Vector(-0.3, 0, -1, 0)));
-    const sphereRt = new GroupNode(new Rotation(new Vector(0,0,1,0), 1));
+    const sphereRt = new GroupNode(new Rotation(new Vector(0, 0, 1, 0), 1));
     sphereSc.add(sphere);
     // sphereSc.add(textureHCILogo)
     sphereRt.add(sphereSc)
@@ -192,7 +192,9 @@ window.addEventListener('load', function loadPage() {
     sg.add(lightTr)
 
     const videoBox = new TextureVideoBoxNode("icgTestVideo.mp4");
-    sg.add(videoBox);
+    const videoBoxSc = new GroupNode(new Scaling(new Vector(0.3, 0.3, 0.3, 0.3)));
+    videoBoxSc.add(videoBox);
+    sg.add(videoBoxSc);
 
 
     //kleiner driver geist
@@ -210,8 +212,36 @@ window.addEventListener('load', function loadPage() {
     ghostCastleTr.add(ghostCastleSc)
     sg.add(ghostCastleTr)
 
+    //TestButton
+    const testButtonTr = new GroupNode(new Translation(new Vector(-1.0, -1.0, -4.0, 0)))
+    const testButton2Tr = new GroupNode(new Translation(new Vector(0, 0, 0, 0)))
+    const minmax = new MinMaxNode(testButton2Tr,  new Vector(1,0.5,0.5,0),new Vector(0.5,1,0.5,0), 3000)
+    const testButton = new AABoxButtonNode(new Vector(0, 0, 0, 0), () => {
+        minmax.active = true;
+    })
+    minmax.active = false;
+    testButtonTr.add(testButton2Tr);
+    testButton2Tr.add(testButton)
+    sg.add(testButtonTr)
+
+
+    //TestButton
+    const testButtonTr2 = new GroupNode(new Translation(new Vector(1.0, -1.0, -4.0, 0)))
+    const testButton2Tr2 = new GroupNode(new Translation(new Vector(0, 0, 0, 0)))
+    const minmax2 = new MinMaxNode(testButton2Tr2, new Vector(1,0.5,0.5,0),new Vector(0.5,1,0.5,0), 1000)
+    const testButton2 = new AABoxButtonNode(new Vector(0, 0, 0, 0), () => {
+        minmax2.active = true;
+    })
+    minmax2.active = false;
+    testButtonTr2.add(testButton2Tr2);
+    testButton2Tr2.add(testButton2)
+    sg.add(testButtonTr2)
+
+
     let animationNodes = [
         new RotationNode(sphereRt, new Vector(0, 0, 1, 0)),
+        minmax,
+        minmax2,
         // new DriverNode(lightTr, new Vector(1, 0, 0, 0)),
         // new TranslatorNode(lightTr, new Vector(1, 0, 0, 0), "left")
         new RotationNode(lightTr, new Vector(1, 1, 1, 0)),
@@ -219,14 +249,14 @@ window.addEventListener('load', function loadPage() {
 
     let DriverNodes = [
         //new RotationNode(cubeSc, new Vector(0,0,1,0)),
-        new DriverNode(driverGhostTr, new Vector(0.75,-0.8,0,0))
+        new DriverNode(driverGhostTr, new Vector(0.75, -0.8, 0, 0))
     ]
 
     let ScalerNodes = [
         new ScalerNode(driverGhostSc, new Vector(0.1, 0.1, 0.1, 1))
     ]
 
-//Rasterizer und RayTracer Wechseln
+    //Rasterizer und RayTracer Wechseln
     const canvas = document.getElementById("rasteriser") as HTMLCanvasElement;
     const canvas2 = document.getElementById("rayTracer") as HTMLCanvasElement;
 
@@ -245,9 +275,6 @@ window.addEventListener('load', function loadPage() {
     const kAElement = document.getElementById("kA") as HTMLInputElement;
     let kACalc = Number(kDElement.value)
 
-    // const lightPositionXElement = document.getElementById("lightPositionX") as HTMLInputElement;
-    // let lightPositionXCalc = Number(lightPositionXElement.value)
-
 
     let renderer = localStorage.getItem("renderer")
     console.log(renderer)
@@ -256,8 +283,6 @@ window.addEventListener('load', function loadPage() {
     } else {
         btn2.checked = true
     }
-    console.log(btn1.checked)
-    console.log(btn2.checked)
 
     function rerender() {
         console.log("called")
@@ -319,6 +344,7 @@ window.addEventListener('load', function loadPage() {
             phongVertexShaderPerspective,
             phongFragmentShader
         );
+
         const textureShader = new Shader(gl,
             textureVertexShader,
             textureFragmentShader
@@ -417,6 +443,7 @@ window.addEventListener('load', function loadPage() {
                     break;
             }
         });
+
         window.addEventListener('keyup', function (event) {
             switch (event.key) {
                 case "ArrowLeft":
@@ -453,15 +480,15 @@ window.addEventListener('load', function loadPage() {
             let mouseVisitor = new mouseClickVisitor(ctx, canvas.width, canvas.height, mousePos);
             mouseVisitor.render(sg, rayCamera, camera.lightPositions);
             setupVisitor.setup(sg);
-            visitor.render(sg, camera, camera.lightPositions);
-
+            //visitor.render(sg, camera, camera.lightPositions);
         }, false);
 
         function mouseClickedOn(event: { clientX: number; }) {
             let mx = event.clientX - canvas.getBoundingClientRect().left;
         }
-
     }
+
+
     function rayVisitor() {
         canvas.style.display = "none"
         canvas2.style.display = "block"
@@ -608,7 +635,7 @@ window.addEventListener('load', function loadPage() {
         // }
         animate(0);
         shininessElement.onchange = function () {
-            camera.shininess = 50-Number(shininessElement.value);
+            camera.shininess = 50 - Number(shininessElement.value);
             window.requestAnimationFrame(animate)
         }
         kSElement.onchange = function () {
@@ -633,7 +660,7 @@ window.addEventListener('load', function loadPage() {
 
     }
 
-    btn1.addEventListener('click', function (){
+    btn1.addEventListener('click', function () {
         if (btn1.checked) {
             console.log("render")
             localStorage.setItem("renderer", "rasterizer")
@@ -645,7 +672,7 @@ window.addEventListener('load', function loadPage() {
         }
         location.reload()
     });
-    btn2.addEventListener('click', function (){
+    btn2.addEventListener('click', function () {
         if (btn1.checked) {
             console.log("render")
             localStorage.setItem("renderer", "rasterizer")
