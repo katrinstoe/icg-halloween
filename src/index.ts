@@ -188,8 +188,8 @@ window.addEventListener('load', function loadPage() {
 
     lightTr.add(light1)
     sg.add(lightTr)
+
     const videoBox = new TextureVideoBoxNode("icgTestVideo.mp4");
-    //sg.add(textureGeist);
     sg.add(videoBox);
 
 
