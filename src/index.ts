@@ -326,6 +326,7 @@ window.addEventListener('load', function loadPage() {
             //rasterVisitor()
             //setupVisitor = new RasterSetupVisitor(gl, lightPositions)
             visitor = rasterVisitor
+            setupVisitor.setup(sg);
             //loadScene()
             console.log(visitor)
         } else if (btn2.checked) {
@@ -362,6 +363,7 @@ window.addEventListener('load', function loadPage() {
         console.log(visitor)
         canvas2.style.display = "none"
         canvas.style.display = "block"
+        setupVisitor.setup(sg);
     }
 
     function rerenderRay(){
@@ -369,8 +371,9 @@ window.addEventListener('load', function loadPage() {
         btn2.checked = true
         visitor = rayVisitor
         console.log(visitor)
-        canvas2.style.display = "block"
         canvas.style.display = "none"
+        canvas2.style.display = "block"
+
     }
 
 
@@ -401,7 +404,7 @@ window.addEventListener('load', function loadPage() {
 
     //function loadScene(){
         //const setupVisitor = new RasterSetupVisitor(gl, lightPositions);
-        setupVisitor.setup(sg);
+
 
 
         shininessElement.onchange = function () {
