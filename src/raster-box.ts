@@ -117,7 +117,8 @@ export default class RasterBox {
         //erstellen Triangles mit denen wir
         let triangles: Vector[] = []
         for (let i = 0; i < indices.length; i++) {
-            triangles.push(new Vector(vertices[indices[i*3]], vertices[indices[i*3+1]], vertices[indices[i*3+2]], 1))
+            // triangles.push(new Vector(vertices[indices[i*3+0]], vertices[indices[i*3+1]], vertices[indices[i*3+2]], 1))
+            triangles.push(new Vector(vertices[indices[i] * 3+0], vertices[indices[i] * 3+1], vertices[indices[i] * 3+2], 1))
         }
 
         // //0,1,2
@@ -189,7 +190,6 @@ export default class RasterBox {
         //     triangles[2][2].x, triangles[2][2].y, triangles[2][2].z, triangles[2][2].a,
         //     triangles[3][0].x, triangles[3][0].y, triangles[3][0].z, triangles[3][0].a
         //     ]
-        let i = 0
         //So for a triangle p1, p2, p3,
         // if the vector U = p2 - p1 and the vector V = p3 - p1 then the
         // normal N = U X V and can be calculated by:
