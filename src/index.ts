@@ -207,7 +207,7 @@ window.addEventListener('load', function loadPage() {
     ghostCastleTr.add(ghostCastleSc)
     sg.add(ghostCastleTr)
 
-    //TestButton Wieso wird das nicht angezeigt????
+    /*//TestButton Wieso wird das nicht angezeigt????
     const testButtonTr = new GroupNode(new Translation(new Vector(-1.0, -1.0, -4.0, 0)))
     const testButton2Tr = new GroupNode(new Translation(new Vector(0, 0, 0, 0)))
     const minmax = new MinMaxNode(testButton2Tr,  new Vector(1,0.5,0.5,0),new Vector(0.5,1,0.5,0), 3000)
@@ -217,37 +217,41 @@ window.addEventListener('load', function loadPage() {
     minmax.active = false;
     testButtonTr.add(testButton2Tr);
     testButton2Tr.add(testButton)
-    sg.add(testButtonTr)
-
+    sg.add(testButtonTr)*/
 
 
     //TestButton
     const redSquare = new AABoxNode(new Vector(1,0,0,1));
     const redSquareTr = new GroupNode(new Translation(new Vector(-1,-2,-5,0)));
+    const redSquareSc = new GroupNode(new Scaling(new Vector(2,1,1,1)))
     redSquareTr.add(redSquare);
+    redSquareSc.add(redSquareTr);
 
-    const testButtonTr2 = new GroupNode(new Translation(new Vector(1.0, -1.0, -4.0, 0)))
-    const testButton2Tr2 = new GroupNode(new Translation(new Vector(0, 0, 0, 0)))
-    const minmax2 = new MinMaxNode(testButton2Tr2, new Vector(1,1,1,0),new Vector(0.1,0.1,0.1,0), 500)
-    const testButton2 = new AABoxButtonNode(new Vector(0, 0, 0, 0), () => {
-        minmax2.active = true;
+
+    const testButtonTr = new GroupNode(new Translation(new Vector(1.0, -1.0, -4.0, 0)))
+    const emptyTranslationTestButton = new GroupNode(new Translation(new Vector(0, 0, 0, 0)))
+    const minmax = new MinMaxNode(emptyTranslationTestButton, new Vector(1,1,1,0),new Vector(0.1,0.1,0.1,0), 500)
+    const testButton = new AABoxButtonNode(new Vector(0, 0, 0, 0), () => {
+        minmax.active = true;
     })
-    minmax2.active = false;
+    minmax.active = false;
 
-    testButtonTr2.add(testButton2Tr2);
+    testButtonTr.add(emptyTranslationTestButton);
 
-    testButton2Tr2.add(testButton2)
+    emptyTranslationTestButton.add(testButton)
 
-    testButton2Tr2.add(redSquareTr);
+    emptyTranslationTestButton.add(redSquareSc);
 
-    sg.add(redSquareTr)
-    sg.add(testButtonTr2)
+    emptyTranslationTestButton.add(headerBTr);
+
+    sg.add(redSquareSc)
+
+    sg.add(testButtonTr)
 
 
     let animationNodes = [
         new RotationNode(sphereRt, new Vector(0, 0, 1, 0)),
         minmax,
-        minmax2,
         // new DriverNode(lightTr, new Vector(1, 0, 0, 0)),
         // new TranslatorNode(lightTr, new Vector(1, 0, 0, 0), "left")
         new RotationNode(lightTr, new Vector(1, 1, 1, 0)),
