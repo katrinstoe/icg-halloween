@@ -59,7 +59,7 @@ export default class RasterPyramid {
             // left
             2, 0, 3,
             // bottom
-            0, 2, 1,
+            0, 2, 1
         ];
         //erstellen Triangles mit denen wir
         let triangles: Vector[] = []
