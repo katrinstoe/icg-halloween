@@ -82,6 +82,28 @@ export default class mouseClickVisitor implements Visitor {
     }
 
     visitTextureBoxButtonNode(node: TextureBoxButtonNode): void {
+        let toWorld = Matrix.identity();
+        let fromWorld = Matrix.identity();
+        // TODO assign the model matrix and its inverse
+        for (let i = 0; i < this.model.length; i++) {
+            toWorld = toWorld.mul(this.model[i]);
+            fromWorld = this.inverse[i].mul(fromWorld);
+        }
+        const ray = new Ray(fromWorld.mulVec(this.ray.origin), fromWorld.mulVec(this.ray.direction).normalize());
+        let intersection = UNIT_AABOX.intersect(ray);
+        if (intersection) {
+            const intersectionPointWorld = toWorld.mulVec(intersection.point);
+            const intersectionNormalWorld = toWorld.mulVec(intersection.normal).normalize();
+            intersection = new Intersection(
+                (intersectionPointWorld.x - this.ray.origin.x) / this.ray.direction.x,
+                intersectionPointWorld,
+                intersectionNormalWorld,
+            );
+            if (this.intersection === null || intersection.closerThan(this.intersection)) {
+                this.intersection = intersection;
+                this.animation = node.animate;
+            }
+        }
     }
 
     /**
@@ -196,6 +218,27 @@ export default class mouseClickVisitor implements Visitor {
      * @param node The node to visit
      */
     visitTextureBoxNode(node: TextureBoxNode) {
+        let toWorld = Matrix.identity();
+        let fromWorld = Matrix.identity();
+        // TODO assign the model matrix and its inverse
+        for (let i = 0; i < this.model.length; i++) {
+            toWorld = toWorld.mul(this.model[i]);
+            fromWorld = this.inverse[i].mul(fromWorld);
+        }
+        const ray = new Ray(fromWorld.mulVec(this.ray.origin), fromWorld.mulVec(this.ray.direction).normalize());
+        let intersection = UNIT_AABOX.intersect(ray);
+        if (intersection) {
+            const intersectionPointWorld = toWorld.mulVec(intersection.point);
+            const intersectionNormalWorld = toWorld.mulVec(intersection.normal).normalize();
+            intersection = new Intersection(
+                (intersectionPointWorld.x - this.ray.origin.x) / this.ray.direction.x,
+                intersectionPointWorld,
+                intersectionNormalWorld,
+            );
+            if (this.intersection === null || intersection.closerThan(this.intersection)) {
+                this.intersection = intersection;
+            }
+        }
     }
 
     /**
@@ -231,13 +274,10 @@ export default class mouseClickVisitor implements Visitor {
         }
     }
 
-    /**
-     * Visits a textured box node
-     * @param node The node to visit
-     */
-    visitTexturePyramidNode(node: TexturePyramidNode) {
-    }
+
+    visitTexturePyramidNode(node: TexturePyramidNode) {}
 
     visitCameraNode(node: CameraNode): void{};
+
     visitLightNode(node: LightNode): void{};
 }

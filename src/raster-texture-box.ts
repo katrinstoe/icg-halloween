@@ -145,9 +145,10 @@ export default class RasterTextureBox {
     }
 }
 
-export class RasterTextureBoxButton extends RasterTextureBox{
+export class TextureBoxButton extends RasterTextureBox{
 
     constructor(gl: WebGL2RenderingContext, minPoint: Vector, maxPoint: Vector, texture: string) {
         super(gl, minPoint, maxPoint, texture);
     }
 }
+

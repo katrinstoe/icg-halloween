@@ -9,7 +9,7 @@ import {
     LightNode,
     PyramidNode,
     TexturePyramidNode,
-    TextureVideoBoxNode, AABoxButtonNode
+    TextureVideoBoxNode, AABoxButtonNode, TextureBoxButtonNode
 } from './nodes';
 import {
     RasterVisitor,
@@ -139,9 +139,7 @@ window.addEventListener('load', function loadPage() {
     const headerBTextTr2 = new GroupNode(new Translation(new Vector(0.15, 0.394, 0, 0)));
     const headerBTextSc2 = new GroupNode(new Scaling(new Vector(0.16, 0.09, 0.0001, 0)))
 
-    // headerBTextSc2.add(headerBBox)
     headerBTextSc2.add(textureGeistText)
-    // headerBTextSc2.add(textureMinimize)
     headerBTextTr2.add(headerBTextSc2)
     headerBTr2.add(headerBTextTr2)
 
@@ -151,9 +149,7 @@ window.addEventListener('load', function loadPage() {
     const cubeTr = new GroupNode(new Translation(new Vector(0.5, 0, -1, 0)));
     const cubeRt = new GroupNode(new Rotation(new Vector(0, 1, 0, 0), 1));
     const gn3 = new GroupNode(new Translation(new Vector(0, 0, 0, 0)));
-    // const cubeTexture = new TextureBoxNode('hci-logo.png');
 
-    // cubeSc.add(cube);
     //TODO: Texture anzeigen geht nicht?
     cubeSc.add(textureGeist)
     cubeRt.add(cubeSc);
@@ -173,15 +169,7 @@ window.addEventListener('load', function loadPage() {
     sg.add(sphereTr);
 
 
-    // const cubeTest = new AABoxNode(new Vector(0, 0, 1, 0));
-    // const cubeTestSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.5, 0)));
-    // const cubeTestTr = new GroupNode(new Translation(new Vector(-0.01, 0, -1, 0)));
-
     // //TODO: Texture anzeigen geht nicht?
-    // cubeTestSc.add(cubeTest)
-    // cubeTestTr.add(cubeTestSc);
-    // sg.add(cubeTestTr);
-    // const cubeTest = new TexturePyramidNode('geist.png');
     const pyramid = new PyramidNode(new Vector(1, 0, 1, 0))
     const pyramidSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.2, 0)));
     const pyramidTr = new GroupNode(new Translation(new Vector(-0.2, -0.4, -1, 0)));
@@ -197,15 +185,8 @@ window.addEventListener('load', function loadPage() {
     lightTr.add(light1)
     sg.add(lightTr)
 
+    //Video-Box
     const videoBox = new TextureVideoBoxNode("icgTestVideo.mp4");
-    const videoSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.2, 0)));
-    const videoTr = new GroupNode(new Translation(new Vector(-0.5, 0.5, -1, 0)));
-
-    videoSc.add(videoBox);
-    videoTr.add(videoSc)
-    sg.add(videoTr)
-
-
     const videoBoxSc = new GroupNode(new Scaling(new Vector(0.3, 0.3, 0.3, 0.3)));
     videoBoxSc.add(videoBox);
     sg.add(videoBoxSc);
@@ -226,11 +207,11 @@ window.addEventListener('load', function loadPage() {
     ghostCastleTr.add(ghostCastleSc)
     sg.add(ghostCastleTr)
 
-    //TestButton
+    //TestButton Wieso wird das nicht angezeigt????
     const testButtonTr = new GroupNode(new Translation(new Vector(-1.0, -1.0, -4.0, 0)))
     const testButton2Tr = new GroupNode(new Translation(new Vector(0, 0, 0, 0)))
     const minmax = new MinMaxNode(testButton2Tr,  new Vector(1,0.5,0.5,0),new Vector(0.5,1,0.5,0), 3000)
-    const testButton = new AABoxButtonNode(new Vector(0, 0, 0, 0), () => {
+    const testButton = new TextureBoxButtonNode("geist.png", () => {
         minmax.active = true;
     })
     minmax.active = false;
@@ -239,16 +220,27 @@ window.addEventListener('load', function loadPage() {
     sg.add(testButtonTr)
 
 
+
     //TestButton
+    const redSquare = new AABoxNode(new Vector(1,0,0,1));
+    const redSquareTr = new GroupNode(new Translation(new Vector(-1,-2,-5,0)));
+    redSquareTr.add(redSquare);
+
     const testButtonTr2 = new GroupNode(new Translation(new Vector(1.0, -1.0, -4.0, 0)))
     const testButton2Tr2 = new GroupNode(new Translation(new Vector(0, 0, 0, 0)))
-    const minmax2 = new MinMaxNode(testButton2Tr2, new Vector(1,0.5,0.5,0),new Vector(0.5,1,0.5,0), 1000)
+    const minmax2 = new MinMaxNode(testButton2Tr2, new Vector(1,1,1,0),new Vector(0.1,0.1,0.1,0), 500)
     const testButton2 = new AABoxButtonNode(new Vector(0, 0, 0, 0), () => {
         minmax2.active = true;
     })
     minmax2.active = false;
+
     testButtonTr2.add(testButton2Tr2);
+
     testButton2Tr2.add(testButton2)
+
+    testButton2Tr2.add(redSquareTr);
+
+    sg.add(redSquareTr)
     sg.add(testButtonTr2)
 
 

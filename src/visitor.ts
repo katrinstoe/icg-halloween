@@ -24,5 +24,4 @@ export default interface Visitor {
     visitLightNode(node: LightNode): void;
     visitAABoxButtonNode(node: AABoxButtonNode): void;
     visitTextureBoxButtonNode(node: TextureBoxButtonNode): void;
-
 }
