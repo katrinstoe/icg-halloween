@@ -183,6 +183,12 @@ export default class Scenegraph {
         lightTr.add(light1)
         sg.add(lightTr)
 
+        const light2 = new LightNode(new Vector(-1, 1, 0, 1))
+        const lightTr2 = new GroupNode(new Translation(new Vector(0, 0, -1, 0)));
+
+        lightTr2.add(light2)
+        sg.add(lightTr2)
+
         const videoBox = new TextureVideoBoxNode("icgTestVideo.mp4");
         const videoSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.2, 0)));
         const videoTr = new GroupNode(new Translation(new Vector(0.1, 0, -0.5, 0)));
@@ -212,6 +218,7 @@ export default class Scenegraph {
         let animationNodes = [
             new RotationNode(sphereRt, new Vector(0, 0, 1, 0)),
             new RotationNode(lightTr, new Vector(1, 1, 1, 0)),
+            new RotationNode(lightTr2, new Vector(1, 1, 1, 0)),
         ]
 
         let driverNodes = [

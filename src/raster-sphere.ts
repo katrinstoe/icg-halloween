@@ -38,9 +38,6 @@ export default class RasterSphere {
         center: Vector,
         radius: number,
         color: Vector,
-        lightPositions?: Array<Vector>
-
-
 ) {
         let vertices = [];
         let indices = [];
@@ -96,12 +93,6 @@ export default class RasterSphere {
                 indices.push((ring + 1) * ringsize + ((ring2 + 1) % ringsize));
             }
         }
-        // for (let lightPosition of lightPositions) {
-        //     lightPositionsArray.push(lightPosition.x);
-        //     lightPositionsArray.push(lightPosition.y);
-        //     lightPositionsArray.push(lightPosition.z);
-        //     lightPositionsArray.push(lightPosition.w)
-        // }
 
         const vertexBuffer = this.gl.createBuffer();
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, vertexBuffer);
@@ -122,12 +113,6 @@ export default class RasterSphere {
         gl.bindBuffer(this.gl.ARRAY_BUFFER, colorBuffer);
         gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(colors), this.gl.STATIC_DRAW);
         this.colorBuffer = colorBuffer;
-        //TODO: lightpositionBuffer
-
-        // const lightPositionBuffer = this.gl.createBuffer();
-        // this.gl.bindBuffer(this.gl.ARRAY_BUFFER, lightPositionBuffer);
-        // this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(lightPositionsArray), this.gl.STATIC_DRAW);
-        // this.lightPositionsBuffer = lightPositionBuffer;
 
     }
 

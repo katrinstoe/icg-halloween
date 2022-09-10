@@ -157,13 +157,13 @@ window.addEventListener('load', function loadPage() {
                 camera.lightPositions = lightPositionsVisitor.visit(sg);
             }
 
-            // for (let driverNode of driverNodes) {
-            //     driverNode.simulate(deltaT);
-            // }
-            //
-            // for (let scalerNode of scalerNodes) {
-            //     scalerNode.simulate(deltaT);
-            // }
+            for (let driverNode of driverNodes) {
+                driverNode.simulate(deltaT);
+            }
+
+            for (let scalerNode of scalerNodes) {
+                scalerNode.simulate(deltaT);
+            }
         }
 
         let lastTimestamp = performance.now();
