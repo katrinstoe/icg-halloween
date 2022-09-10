@@ -18,6 +18,7 @@ export default class AABox {
     indices: Array<number>;
 
     triangles: Vector[] = []
+    intersection: Intersection;
 
 
     // color: Vector;
@@ -68,10 +69,7 @@ export default class AABox {
             0, 4, 5, 1
         ];
         this.color = color;
-        // let triangles: Vector[] = []
-        // for (let i = 0; i < this.indices.length; i++) {
-        //     this.triangles.push(new Vector(this.vertices[this.indices[i * 3]], this.vertices[this.indices[i * 3 + 1]], this.vertices[this.indices[i * 3 + 2]], 1))
-        // }
+
     }
 
     /**
@@ -80,6 +78,31 @@ export default class AABox {
      * @return The intersection if there is one, null if there is none
      */
     intersect(ray: Ray): Intersection | null {
+        let centerCube = new Vector((this.minPoint.x + this.maxPoint.x) / 2, (this.minPoint.y + this.maxPoint.y) / 2, (this.minPoint.z + this.maxPoint.z) / 2, 1)
+        for (let j = 0; j < this.vertices.length / 3; j++) {
+            let intersection = this.intersectTriangle(ray, this.vertices[j], this.vertices[j+1], this.vertices[j+2])
+
+            if (intersection === null || intersection.t<this.minPoint.x) {
+
+                if (intersection != null){
+
+                    this.minPoint.x = intersection.t
+
+                }
+
+                this.intersection = intersection;
+
+            }
+        }
+        if (this.intersection) {
+
+            return this.intersection;
+
+        }
+
+        return null;
+    }
+    intersectTriangle(ray: Ray, v0: Vector, v1: Vector, v2: Vector): Intersection | null {
 
         let min = this.vertices[4]
         let max = this.vertices[2]
