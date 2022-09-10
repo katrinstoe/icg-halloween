@@ -147,8 +147,8 @@ window.addEventListener('load', function loadPage() {
 
     //Zeichenflaeche 1
     // const cube = new AABoxNode(new Vector(0, 0, 0, 0));
-    const cubeSc = new GroupNode(new Scaling(new Vector(0.7, 0.7, 0.1, 0)));
-    const cubeTr = new GroupNode(new Translation(new Vector(0.5, 0, -1, 0)));
+    const cubeSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.2, 0)));
+    const cubeTr = new GroupNode(new Translation(new Vector(-0.2, 0.2, -1, 0)));
     const cubeRt = new GroupNode(new Rotation(new Vector(0, 1, 0, 0), 1));
     const gn3 = new GroupNode(new Translation(new Vector(0, 0, 0, 0)));
     // const cubeTexture = new TextureBoxNode('hci-logo.png');
@@ -199,7 +199,7 @@ window.addEventListener('load', function loadPage() {
 
     const videoBox = new TextureVideoBoxNode("icgTestVideo.mp4");
     const videoSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.2, 0)));
-    const videoTr = new GroupNode(new Translation(new Vector(-0.2, 0.2, -1, 0)));
+    const videoTr = new GroupNode(new Translation(new Vector(-0.2, 0, -0.9, 0)));
 
     videoSc.add(videoBox);
     videoTr.add(videoSc)

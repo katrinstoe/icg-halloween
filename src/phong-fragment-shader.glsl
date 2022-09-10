@@ -50,10 +50,6 @@ void main(void) {
   vec3 diffuse = vColor * max(0.0, dot(n, l))*vkD;
   vec3 specular = vColor * pow(max(0.0, dot(r, v)), vshininess)* vkS;
   vec3 phong = diffuse+ specular+ ambient;
-  if(textureSample == 1.0){
-    gl_FragColor = vec4(texPhongColor.rgb*phong, 1.0);
-  } else{
-    gl_FragColor = vec4(phong, 1.0);
-  }
+  gl_FragColor = vec4(phong, 1.0);
 
 }

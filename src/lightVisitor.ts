@@ -67,16 +67,13 @@ export class LightVisitor implements Visitor {
 
         // TODO Calculate the model matrix for the sphere
         toWorld = this.model[this.model.length - 1];
-        fromWorld = this.inverse[this.inverse.length - 1]
+        fromWorld = this.inverse[this.inverse.length - 1];
 
 
         this.lightPositions.push(fromWorld.mulVec(node.position))
 
     }
 
-    lightNodeList(){
-
-    }
     visitTexturePyramidNode(node: TexturePyramidNode) {
     }
 
