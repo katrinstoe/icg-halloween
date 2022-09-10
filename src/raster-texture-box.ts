@@ -112,6 +112,16 @@ export default class RasterTextureBox {
         gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(uv),
             gl.STATIC_DRAW);
         this.texCoords = uvBuffer;
+        //hier ohne indices weil bei textures nicht reusen der selben indices möglich ist
+        //stattdessen interpolieren der vertices mit dem mittelpunkt des Würfels
+        //
+        //    \           / <--- interpolierte normale von center aus
+        //     \ - - - - /
+        //     |         |
+        //     |    x    |
+        //     |         |
+        //     /- - - - -\
+        //    /           \
 
         this.normals = []
         let centerCube = new Vector((mi.x + ma.x)/2, (mi.y + ma.y) / 2, (mi.z+ma.z)/2, 1)
@@ -121,7 +131,7 @@ export default class RasterTextureBox {
             this.normals.push(normal.y)
             this.normals.push(normal.z)
         }
-
+        console.log(this.normals)
         const normalBuffer = this.gl.createBuffer();
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, normalBuffer);
         this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(this.normals), this.gl.STATIC_DRAW);

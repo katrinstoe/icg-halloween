@@ -21,6 +21,8 @@ export default class RasterTexturePyramid {
      * The amount of faces
      */
     elements: number;
+    private normals: number[];
+    private normalBuffer: WebGLBuffer;
 
     /**
      * Creates all WebGL buffers for the textured box
@@ -95,6 +97,21 @@ export default class RasterTexturePyramid {
         gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(uv),
             gl.STATIC_DRAW);
         this.texCoords = uvBuffer;
+
+        this.normals = []
+        let centerCube = new Vector((l.x + r.x+to.x)/3, (l.y + r.y+to.y) / 3, (l.z+r.z+to.z)/3, 1)
+        for (let j = 0; j < vertices.length/3; j++) {
+            let normal = new Vector(vertices[j*3], vertices[j*3+1], vertices[j*3+3], 1).sub(centerCube).normalize()
+            this.normals.push(normal.x)
+            this.normals.push(normal.y)
+            this.normals.push(normal.z)
+        }
+
+        const normalBuffer = this.gl.createBuffer();
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, normalBuffer);
+        this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(this.normals), this.gl.STATIC_DRAW);
+        this.normalBuffer = normalBuffer;
+        this.elements = vertices.length/3;
     }
 
     /**
@@ -115,6 +132,10 @@ export default class RasterTexturePyramid {
         this.gl.enableVertexAttribArray(textureCoord);
         this.gl.vertexAttribPointer(textureCoord, 2, this.gl.FLOAT, false, 0, 0);
 
+        const aNormal = shader.getAttributeLocation("a_normal")
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.normalBuffer);
+        this.gl.enableVertexAttribArray(aNormal)
+        this.gl.vertexAttribPointer(aNormal, 3, this.gl.FLOAT, false, 0, 0)
 
         this.gl.activeTexture(this.gl.TEXTURE0);
         this.gl.bindTexture(this.gl.TEXTURE_2D, this.texBuffer);
@@ -127,5 +148,7 @@ export default class RasterTexturePyramid {
         this.gl.disableVertexAttribArray(positionLocation);
         // TODO disable texture vertex attrib array
         this.gl.disableVertexAttribArray(textureCoord)
+        this.gl.disableVertexAttribArray(aNormal)
+
     }
 }
