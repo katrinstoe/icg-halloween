@@ -205,14 +205,18 @@ export class RasterVisitor implements Visitor {
     this.shader.use();
     let shader = this.shader;
     let toWorld = Matrix.identity();
+    let fromWorld = Matrix.identity();
     // TODO Calculate the model matrix for the box
     toWorld = this.model[this.model.length-1];
+    fromWorld = this.inverse[this.inverse.length-1];
+
 
     shader.getUniformMatrix("M").set(toWorld);
     shader.getUniformFloat("shininess").set(this.shininess)
     shader.getUniformFloat("kS").set(this.kS)
     shader.getUniformFloat("kD").set(this.kD)
     shader.getUniformFloat("kA").set(this.kA)
+    shader.getUniformVec3("lightPositions").set(this.lightPosisitions[0])
     shader.getUniformFloat("textureSampleYes").set(0)
 
 
@@ -224,6 +228,15 @@ export class RasterVisitor implements Visitor {
     if (P && this.perspective) {
       P.set(this.perspective);
     }
+    const N = shader.getUniformMatrix("N")
+    let normalMatrix = fromWorld.transpose()
+
+    if(N){
+      normalMatrix.setVal(3,0,0);
+      normalMatrix.setVal(3,1,0);
+      normalMatrix.setVal(3,2,0);
+      N.set(normalMatrix)
+    }
 
     this.renderables.get(node).render(shader);
   }
@@ -233,24 +246,42 @@ export class RasterVisitor implements Visitor {
    * @param  {TextureBoxNode} node - The node to visit
    */
   visitTextureBoxNode(node: TextureBoxNode) {
-    this.textureshader.use();
     let shader = this.textureshader;
+    this.textureshader.use();
 
     let toWorld = Matrix.identity();
+    let fromWorld = Matrix.identity();
     // TODO calculate the model matrix for the box
     toWorld = this.model[this.model.length-1];
+    fromWorld = this.inverse[this.inverse.length-1];
+
 
     shader.getUniformMatrix("M").set(toWorld);
-    shader.getUniformMatrix("V").set(this.lookat);
+    const V = shader.getUniformMatrix("V");
+    if (V && this.lookat) {
+      V.set(this.lookat);
+    }
+
     shader.getUniformFloat("shininess").set(this.shininess)
     shader.getUniformFloat("kS").set(this.kS)
     shader.getUniformFloat("kD").set(this.kD)
     shader.getUniformFloat("kA").set(this.kA)
+    shader.getUniformVec3("lightPositions").set(this.lightPosisitions[0])
+
     shader.getUniformFloat("textureSampleYes").set(1)
 
     let P = shader.getUniformMatrix("P");
     if (P && this.perspective) {
       P.set(this.perspective);
+    }
+    const N = shader.getUniformMatrix("N")
+    let normalMatrix = fromWorld.transpose()
+
+    if(N){
+      normalMatrix.setVal(3,0,0);
+      normalMatrix.setVal(3,1,0);
+      normalMatrix.setVal(3,2,0);
+      N.set(normalMatrix)
     }
     this.renderables.get(node).render(shader);
   }
@@ -260,27 +291,42 @@ export class RasterVisitor implements Visitor {
    * @param  {TextureBoxNode} node - The node to visit
    */
   visitTextureVideoBoxNode(node: TextureVideoBoxNode) {
-    this.textureshader.use();
     let shader = this.textureshader;
+    this.textureshader.use();
 
     let toWorld = Matrix.identity();
+    let fromWorld = Matrix.identity();
     // TODO calculate the model matrix for the box
     toWorld = this.model[this.model.length-1];
+    fromWorld = this.inverse[this.inverse.length-1];
+
 
     shader.getUniformMatrix("M").set(toWorld);
+    const V = shader.getUniformMatrix("V");
+    if (V && this.lookat) {
+      V.set(this.lookat);
+    }
+
     shader.getUniformFloat("shininess").set(this.shininess)
     shader.getUniformFloat("kS").set(this.kS)
     shader.getUniformFloat("kD").set(this.kD)
     shader.getUniformFloat("kA").set(this.kA)
+    shader.getUniformVec3("lightPositions").set(this.lightPosisitions[0])
+
     shader.getUniformFloat("textureSampleYes").set(1)
 
-
-
-
-    shader.getUniformMatrix("V").set(this.lookat);
     let P = shader.getUniformMatrix("P");
     if (P && this.perspective) {
       P.set(this.perspective);
+    }
+    const N = shader.getUniformMatrix("N")
+    let normalMatrix = fromWorld.transpose()
+
+    if(N){
+      normalMatrix.setVal(3,0,0);
+      normalMatrix.setVal(3,1,0);
+      normalMatrix.setVal(3,2,0);
+      N.set(normalMatrix)
     }
     this.renderables.get(node).render(shader);
   }
@@ -304,6 +350,8 @@ export class RasterVisitor implements Visitor {
     shader.getUniformFloat("kS").set(this.kS)
     shader.getUniformFloat("kD").set(this.kD)
     shader.getUniformFloat("kA").set(this.kA)
+    shader.getUniformVec3("lightPositions").set(this.lightPosisitions[0])
+
     shader.getUniformFloat("textureSampleYes").set(0)
 
 
@@ -340,14 +388,18 @@ export class RasterVisitor implements Visitor {
     let shader = this.textureshader;
 
     let toWorld = Matrix.identity();
+    let fromWorld = Matrix.identity();
     // TODO calculate the model matrix for the box
     toWorld = this.model[this.model.length-1];
+    fromWorld = this.inverse[this.inverse.length-1];
+
 
     shader.getUniformMatrix("M").set(toWorld);
     shader.getUniformFloat("shininess").set(this.shininess)
     shader.getUniformFloat("kS").set(this.kS)
     shader.getUniformFloat("kD").set(this.kD)
     shader.getUniformFloat("kA").set(this.kA)
+    shader.getUniformVec3("lightPositions").set(this.lightPosisitions[0])
     shader.getUniformFloat("textureSampleYes").set(1)
 
 
@@ -357,6 +409,15 @@ export class RasterVisitor implements Visitor {
     let P = shader.getUniformMatrix("P");
     if (P && this.perspective) {
       P.set(this.perspective);
+    }
+    const N = shader.getUniformMatrix("N")
+    let normalMatrix = fromWorld.transpose()
+
+    if(N){
+      normalMatrix.setVal(3,0,0);
+      normalMatrix.setVal(3,1,0);
+      normalMatrix.setVal(3,2,0);
+      N.set(normalMatrix)
     }
     this.renderables.get(node).render(shader);
   }
@@ -495,10 +556,10 @@ export class RasterSetupVisitor {
         node,
         new RasterPyramid(
             this.gl,
-            new Vector(-0.5, -0.5, 0.5, 1),
-            new Vector(0.5, -0.5, 0.5, 1),
-            new Vector(0, -0.5, -0.5, 1),
-            new Vector(0, 0.5, 0, 1),
+            new Vector(-1, -1, -1, 1),
+            new Vector(1 , -1, 0, 1),
+            new Vector(-1, -1, 1, 1),
+            new Vector(-0.25, 1, 0, 1),
             node.color
         ),
     );
@@ -513,10 +574,10 @@ export class RasterSetupVisitor {
         node,
         new RasterTexturePyramid(
             this.gl,
-            new Vector(-0.5, -0.5, 0.5, 1),
-            new Vector(0.5, -0.5, 0.5, 1),
-            new Vector(0, -0.5, -0.5, 1),
-            new Vector(0, 0.5, 0, 1),
+            new Vector(-0.25, 1, 0, 1),
+            new Vector(-1, -1, -1, 1),
+            new Vector(1 , -1, 0, 1),
+            new Vector(-1, -1, 1, 1),
             node.texture
         )
     );

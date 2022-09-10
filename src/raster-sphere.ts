@@ -154,22 +154,12 @@ export default class RasterSphere {
         this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
 
         this.gl.drawElements(this.gl.TRIANGLES, this.elements, this.gl.UNSIGNED_SHORT, 0);
-        //this.gl.drawElements(this.gl.TRIANGLES, 3, this.gl.UNSIGNED_SHORT, 0);
-
-        //LightPositions binden
-        // const lightPosition = shader.getAttributeLocation("a_light_positions");
-        // this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.lightPositionsBuffer);
-        // this.gl.enableVertexAttribArray(lightPosition);
-        // this.gl.vertexAttribPointer(lightPosition, 4, this.gl.FLOAT, false, 0, 0);
-
-
 
         this.gl.disableVertexAttribArray(positionLocation);
         // TODO disable color vertex attrib array
         this.gl.disableVertexAttribArray(color)
         // TODO disable normal vertex attrib array
         this.gl.disableVertexAttribArray(aNormal)
-        // this.gl.disableVertexAttribArray(lightPosition)
 
     }
 }

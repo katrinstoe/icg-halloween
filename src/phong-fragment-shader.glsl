@@ -10,12 +10,12 @@ varying float vshininess;
 varying float vkS;
 varying float vkD;
 varying float vkA;
-varying vec2 v_texCoord;
-varying float textureSample;
+//varying vec2 v_texCoord;
+//varying float textureSample;
 
-uniform sampler2D sampler;
+//uniform sampler2D sampler;
 //lichtstrahl => auftreffpunkt
-vec3 texPhongColor;
+//vec3 texPhongColor;
 
 const float shininess = 16.0;
 const float kA = 0.3;
@@ -34,13 +34,13 @@ void main(void) {
 //
 //  float lightPos = 0.0;
 //  lightPos += 0.1 * (abs(sin(u_time)) + 0.1)/length/vPosition;
-  if(textureSample == 1.0){
-    texPhongColor = vec3(texture2D(sampler, v_texCoord.st));
-  } else{
-    texPhongColor = vColor;
-  }
+//    if(textureSample != 1.0){
+//      texPhongColor = vec3(texture2D(sampler, v_texCoord.st));
+//    } else{
+//      texPhongColor = vColor;
+//    }
 
-  vec3 ambient = vkA*texPhongColor;
+  vec3 ambient = vkA*vColor;
 
   vec3 l = normalize(vlightPositions - vPosition);
   vec3 v = normalize(-vPosition);

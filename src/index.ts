@@ -23,7 +23,8 @@ import phongVertexShaderPerspective from './phong-vertex-perspective-shader.glsl
 import perspectiveVertexShader from './perspective-vertex-shader.glsl';
 import fragmentShader from './basic-fragment-shader.glsl'
 import {Rotation, Scaling, Translation} from './transformation';
-import textureVertexShader from "./texture-vertex-shader.glsl";
+// import textureVertexShader from "./texture-vertex-shader.glsl";
+import textureVertexShader from "./texture-vertex-perspective-shader.glsl";
 import textureFragmentShader from "./texture-fragment-shader.glsl";
 import Ray from "./ray";
 import Intersection from "./intersection";
@@ -151,14 +152,30 @@ window.addEventListener('load', function loadPage() {
     const cubeTr = new GroupNode(new Translation(new Vector(-0.2, 0.2, -1, 0)));
     const cubeRt = new GroupNode(new Rotation(new Vector(0, 1, 0, 0), 1));
     const gn3 = new GroupNode(new Translation(new Vector(0, 0, 0, 0)));
-    // const cubeTexture = new TextureBoxNode('hci-logo.png');
+    const cubeTexture = new TexturePyramidNode('hci-logo.png');
 
     // cubeSc.add(cube);
     //TODO: Texture anzeigen geht nicht?
-    cubeSc.add(textureGeist)
+    // cubeSc.add(textureGeist)
+    cubeSc.add(cubeTexture)
     cubeRt.add(cubeSc);
     cubeTr.add(cubeRt);
     sg.add(cubeTr);
+
+    // const cube = new AABoxNode(new Vector(0, 0, 0, 0));
+    const cube2Sc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.2, 0)));
+    const cube2Tr = new GroupNode(new Translation(new Vector(0.1, -0.3, -1, 0)));
+    const cube2Rt = new GroupNode(new Rotation(new Vector(0, 1, 0, 0), 1));
+    const gn32 = new GroupNode(new Translation(new Vector(0, 0, 0, 0)));
+    const cubeTexture2 = new TextureBoxNode('hci-logo.png');
+
+    // cubeSc.add(cube);
+    //TODO: Texture anzeigen geht nicht?
+    // cubeSc.add(textureGeist)
+    cube2Sc.add(cubeTexture2)
+    cube2Rt.add(cube2Sc);
+    cube2Tr.add(cube2Rt);
+    sg.add(cube2Tr);
 
     //Zeichenflaeche2
     //TODO: rausfinden wieso in raytracer sobald die sphere drin is der hintergrund schwarz wird
@@ -199,7 +216,7 @@ window.addEventListener('load', function loadPage() {
 
     const videoBox = new TextureVideoBoxNode("icgTestVideo.mp4");
     const videoSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.2, 0)));
-    const videoTr = new GroupNode(new Translation(new Vector(-0.2, 0, -0.9, 0)));
+    const videoTr = new GroupNode(new Translation(new Vector(0.1, 0, -0.5, 0)));
 
     videoSc.add(videoBox);
     videoTr.add(videoSc)
@@ -330,12 +347,12 @@ window.addEventListener('load', function loadPage() {
             phongVertexShaderPerspective,
             phongFragmentShader
         );
-        // const textureShader = new Shader(gl,
-        //     textureVertexShader,
-        //     textureFragmentShader
-        // );
+        const textureShader = new Shader(gl,
+            textureVertexShader,
+            textureFragmentShader
+        );
 
-        const visitor = new RasterVisitor(gl, phongShader, phongShader, setupVisitor.objects);
+        const visitor = new RasterVisitor(gl, phongShader, textureShader, setupVisitor.objects);
         console.log(setupVisitor.objects)
 
         let animationTime = 0;
@@ -390,7 +407,7 @@ window.addEventListener('load', function loadPage() {
 
 
         Promise.all(
-            [phongShader.load()]
+            [phongShader.load(), textureShader.load()]
         ).then(x =>
             window.requestAnimationFrame(animate)
         );

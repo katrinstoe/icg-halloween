@@ -8,7 +8,7 @@ attribute vec3 a_normal;
 // TODO
 attribute vec3 a_color;
 attribute vec4 a_light_positions;
-attribute vec2 a_texCoord;
+//attribute vec2 a_texCoord;
 
 
 uniform float textureSampleYes;
@@ -23,7 +23,7 @@ uniform float kD;
 uniform float kA;
 
 
-varying vec2 v_texCoord;
+//varying vec2 v_texCoord;
 varying vec3 v_normal;
 varying vec3 vColor;
 varying vec3 vPosition;
@@ -45,7 +45,7 @@ void main() {
   // Pass the color and transformed vertex position through
   // TODO
   vColor = a_color;
-  v_texCoord = a_texCoord;
+//  v_texCoord = a_texCoord;
   textureSample = textureSampleYes;
 
   //  vlightPositions = vec3(a_light_positions);

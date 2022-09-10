@@ -21,7 +21,7 @@ export default class RasterTextureBox {
      * The amount of faces
      */
     elements: number;
-    private normalBuffer: WebGLBuffer;
+    normalBuffer: WebGLBuffer;
     normals: Array<number>;
 
     /**
@@ -115,7 +115,7 @@ export default class RasterTextureBox {
         //hier ohne indices weil bei textures nicht reusen der selben indices möglich ist
         //stattdessen interpolieren der vertices mit dem mittelpunkt des Würfels
         //
-        //    \           / <--- interpolierte normale von center aus
+        //    \           / <--- interpolierte normale von center aus (Linie zwischen Ecke-vertices und center denken und verlängern)
         //     \ - - - - /
         //     |         |
         //     |    x    |
