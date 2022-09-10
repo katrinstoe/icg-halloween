@@ -7,7 +7,7 @@ import {
     LightNode,
     CameraNode,
     TexturePyramidNode,
-    TextureVideoBoxNode
+    TextureVideoBoxNode, AABoxButtonNode, TextureBoxButtonNode
 } from './nodes';
 import RasterTexturePyramid from "./raster-texture-pyramid";
 import TextureVideoBox from "./texture-video-box";
@@ -22,4 +22,7 @@ export default interface Visitor {
     visitTexturePyramidNode(node: TexturePyramidNode): void;
     visitCameraNode(node: CameraNode): void;
     visitLightNode(node: LightNode): void;
+    visitAABoxButtonNode(node: AABoxButtonNode): void;
+    visitTextureBoxButtonNode(node: TextureBoxButtonNode): void;
+
 }
