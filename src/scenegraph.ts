@@ -183,11 +183,32 @@ export default class Scenegraph {
         lightTr.add(light1)
         sg.add(lightTr)
 
-        const light2 = new LightNode(new Vector(-1, 1, 0, 1))
-        const lightTr2 = new GroupNode(new Translation(new Vector(0, 0, -1, 0)));
+        const light2 = new LightNode(new Vector(-0.5, 0.5, 0, 1))
+        // const gelbeKugel2 = new SphereNode( new Vector(1,1,0,0));
+        // const gelbeKugelSc2 = new GroupNode(new Scaling( new Vector(0.02, 0.02, 0.02, 0)));
+        const lightTr2 = new GroupNode(new Translation(new Vector(-0.5, 0.43, -0.9, 0)));
 
         lightTr2.add(light2)
+        // gelbeKugelSc2.add(gelbeKugel2)
+        // lightTr2.add(gelbeKugelSc2)
         sg.add(lightTr2)
+
+        const light3 = new LightNode(new Vector(0, -0.8, -1, 1))
+        // const gelbeKugel3 = new SphereNode( new Vector(1,1,0,0));
+        // const gelbeKugelSc3 = new GroupNode(new Scaling( new Vector(0.02, 0.02, 0.02, 0)));
+        const lightTr3 = new GroupNode(new Translation(new Vector(0, -0.43, -1, 0)));
+
+        lightTr3.add(light3)
+        // gelbeKugelSc3.add(gelbeKugel3)
+        // lightTr3.add(gelbeKugelSc3)
+        sg.add(lightTr3)
+
+        //
+        // const light4 = new LightNode(new Vector(0, 1, 0, 1))
+        // const lightTr4 = new GroupNode(new Translation(new Vector(0, 0, -1, 0)));
+        //
+        // lightTr2.add(light4)
+        // sg.add(lightTr4)
 
         const videoBox = new TextureVideoBoxNode("icgTestVideo.mp4");
         const videoSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.2, 0)));

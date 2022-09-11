@@ -11,13 +11,17 @@ varying float vkS;
 varying float vkD;
 varying float vkA;
 varying float textureSample;
-varying vec3 vlightPositions[8];
+varying vec3 vlightPositions[3];
 varying vec3 vPosition;
 
 
 
 uniform float textureSampleYes;
-uniform vec3 lightPositions[8];
+vec3 lightPositions[3];
+uniform vec3 lightPositions1;
+uniform vec3 lightPositions2;
+uniform vec3 lightPositions3;
+
 uniform mat4 M;
 uniform mat4 V;
 uniform mat4 N;
@@ -33,8 +37,12 @@ void main() {
     textureSample = textureSampleYes;
 
     //  vlightPositions = vec3(a_light_positions);
-    for (int i=0; i<8; i++){
-        vlightPositions[i] = lightPositions[i];
+    lightPositions[0] = vec3(lightPositions1);
+    lightPositions[1] = vec3(lightPositions2);
+    lightPositions[2] = vec3(lightPositions3);
+
+    for (int i= 0; i<3; i++){
+        vlightPositions[i] = vec3(lightPositions[i]);
     }
 
     vshininess = shininess;

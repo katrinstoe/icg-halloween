@@ -16,7 +16,11 @@ uniform mat4 M;
 uniform mat4 V;
 uniform mat4 P;
 uniform mat4 N; // normal matrix
-uniform vec3 lightPositions[8];
+vec3 lightPositions[3];
+uniform vec3 lightPositions1;
+uniform vec3 lightPositions2;
+uniform vec3 lightPositions3;
+
 uniform float shininess;
 uniform float kS;
 uniform float kD;
@@ -27,7 +31,7 @@ uniform float kA;
 varying vec3 v_normal;
 varying vec3 vColor;
 varying vec3 vPosition;
-varying vec3 vlightPositions[8];
+varying vec3 vlightPositions[3];
 varying float vshininess;
 varying float vkS;
 varying float vkD;
@@ -50,8 +54,12 @@ void main() {
 
   //  vlightPositions = vec3(a_light_positions);
 //vlightPositions = lightPositions;
-  for (int i=0; i<8; i++){
-    vlightPositions[i] = vec3(vlightPositions[i]);
+    lightPositions[0] = vec3(lightPositions1);
+    lightPositions[1] = vec3(lightPositions2);
+    lightPositions[2] = vec3(lightPositions3);
+
+  for(int i= 0; i<3; i++){
+      vlightPositions[i] = vec3(lightPositions[i]);
   }
 
   vshininess = shininess;
