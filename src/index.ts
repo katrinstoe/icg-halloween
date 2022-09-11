@@ -301,36 +301,6 @@ window.addEventListener('load', function loadPage() {
         new ScalerNode(driverGhostSc, new Vector(0.1, 0.1, 0.1, 1))
     ]
 
-//Rasterizer und RayTracer Wechseln
-
-
-
-
-
- /*   function rerender() {
-        console.log("called")
-        if (btn1.checked) {
-            btn1.checked = true
-            btn2.checked = false
-            //rasterVisitor()
-            visitor = new RasterVisitor()
-        } else if (btn2.checked) {
-            btn1.checked = false
-            btn2.checked = true
-            //rayVisitor()
-        }
-    }
-
-    rerender()*/
-
-    // shininessElement.onchange = function () {
-    //     shininessCalc = Number(shininessElement.value);
-    //     //ging als jenachdem aktuellen visitor nochmal gecalled haben aber dann endless loop und super schnell
-    //     rerender()
-    // }
-    // console.log(shininessCalc)
-
-    //function rasterVisitor() {
         const gl = canvas.getContext("webgl2");
         const ctx = canvas2.getContext("2d");
 
@@ -343,17 +313,11 @@ window.addEventListener('load', function loadPage() {
         textureFragmentShader
     );
 
-        // const lightPositions = [
-        //     // new Vector(1, 1, 1, 1)
-        //     new Vector(lightPositionXCalc, 1,1,1)
-        // ];
-        // setup for rendering
         const lightPositionsVisitor = new LightVisitor
         let lightPositions = lightPositionsVisitor.visit(sg)
         console.log(lightPositions)
         const cameraVisitor = new CameraVisitor
         let camera = cameraVisitor.visit(sg)
-
 
     let setupVisitor = new RasterSetupVisitor(gl, lightPositions)
     let rasterVisitor = new RasterVisitor(gl, phongShader, textureShader, setupVisitor.objects)
@@ -362,35 +326,6 @@ window.addEventListener('load', function loadPage() {
 
     const btn1 = document.getElementById('btnradio1') as HTMLInputElement;
     const btn2 = document.getElementById('btnradio2') as HTMLInputElement;
-
-    function render(){
-        console.log("called")
-        if (btn1.checked) {
-            btn1.checked = true
-            btn2.checked = false
-            //rasterVisitor()
-            //setupVisitor = new RasterSetupVisitor(gl, lightPositions)
-            visitor = rasterVisitor
-            canvas2.style.display = "none"
-            canvas.style.display = "block"
-            loadScene(visitor)
-            console.log(visitor)
-        } else if (btn2.checked) {
-            btn1.checked = false
-            btn2.checked = true
-            visitor = rayVisitor
-            canvas2.style.display = "block"
-            canvas.style.display = "none"
-            loadScene(visitor)
-            console.log(visitor)
-            //rayVisitor()
-        }
-    }
-
-    render()
-
-
-
 
     let renderer = localStorage.getItem("renderer")
     console.log(renderer)
@@ -401,30 +336,31 @@ window.addEventListener('load', function loadPage() {
     }
     console.log(btn1.checked)
     console.log(btn2.checked)
-    btn1.addEventListener("click", rerenderRaster)
-    btn2.addEventListener("click", rerenderRay)
 
-    function rerenderRaster(){
-        btn1.checked = true
-        btn2.checked = false
-        visitor = rasterVisitor
-        console.log(visitor)
-        canvas2.style.display = "none"
-        canvas.style.display = "block"
-        loadScene(visitor)
+    function render(){
+        console.log("called")
+        if (btn1.checked) {
+            btn1.checked = true
+            btn2.checked = false
+            visitor = rasterVisitor
+            canvas2.style.display = "none"
+            canvas.style.display = "block"
+            loadScene()
+            console.log(visitor)
+        } else if (btn2.checked) {
+            btn1.checked = false
+            btn2.checked = true
+            visitor = rayVisitor
+            canvas2.style.display = "block"
+            canvas.style.display = "none"
+            loadScene()
+            console.log(visitor)
+        }
     }
 
-    function rerenderRay(){
-        btn1.checked = false
-        btn2.checked = true
-        visitor = rayVisitor
-        console.log(visitor)
-        canvas.style.display = "none"
-        canvas2.style.display = "block"
-        loadScene(visitor)
-    }
+    render()
 
-    function loadScene(visitor: RasterVisitor|RayVisitorSupaFast){
+    function loadScene(){
     if (btn1.checked){
         setupVisitor.setup(sg);
     }
@@ -501,8 +437,6 @@ window.addEventListener('load', function loadPage() {
             for (let lightPosition of lightPositions) {
                 lightPosition.x = lightPositionX;
             }
-            // lightPositions = Number(lightPositionXElement.value);
-            // console.log(camera.lightPositions)
         }
 
 
@@ -590,117 +524,24 @@ window.addEventListener('load', function loadPage() {
         }
     }
 
-
-  //  }
- /*   function rayVisitor() {
-        canvas.style.display = "none"
-        canvas2.style.display = "block"
-        // canvas.hidden
-        console.log("RayTracer")
-        const ctx = canvas2.getContext("2d");
-        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        const data = imageData.data;
-
-        const lightPositions = [
-            new Vector(lightPositionXCalc, 1, 1, 0),
-        ];
-        const camera = {
-            origin: new Vector(0, 0, 0, 1),
-            width: canvas.width,
-            height: canvas.height,
-            alpha: Math.PI / 3,
-            shininess: shininessCalc,
-            kS: kSCalc,
-            kD: kDCalc,
-            kA: kACalc,
-            lightPositions: lightPositions
-        };
-
-        const visitor = new RayVisitor(ctx, canvas.width, canvas.height);
-
-        let animationHandle: number;
-
-        let lastTimestamp = 0;
-        let animationTime = 0;
-        let animationHasStarted = true;
-
-        // function animate(timestamp: number) {
-        //     console.log("ich starte mal")
-        //     let deltaT = timestamp - lastTimestamp;
-        //     if (animationHasStarted) {
-        //         deltaT = 0;
-        //         animationHasStarted = false;
-        //     }
-        //     animationTime += deltaT;
-        //     lastTimestamp = timestamp;
-        //     animationNodes[0].angle = animationTime / 2000;
-        //
-        //     visitor.render(sg, camera, lightPositions);
-        //     // animationHandle = window.requestAnimationFrame(animate);
-        //     console.log("animate zu Ende")
-        // }
-
-        // function startAnimation() {
-        //     if (animationHandle) {
-        //         window.cancelAnimationFrame(animationHandle);
-        //     }
-        //     animationHasStarted = true;
-        //
-        //     function animation(t: number) {
-        //         animate(t);
-        //         animationHandle = window.requestAnimationFrame(animate);
-        //     }
-        //
-        // }
-        // animate(0);
-        // shininessElement.onchange = function () {
-        //     camera.shininess = 50-Number(shininessElement.value);
-        //     window.requestAnimationFrame(animate)
-        // }
-        // kSElement.onchange = function () {
-        //     camera.kS = Number(kSElement.value);
-        //     window.requestAnimationFrame(animate)
-        // }
-        // kDElement.onchange = function () {
-        //     camera.kD = Number(kDElement.value);
-        //     window.requestAnimationFrame(animate)
-        // }
-        // kAElement.onchange = function () {
-        //     camera.kA = Number(kAElement.value);
-        //     window.requestAnimationFrame(animate)
-        // }
-        // console.log("fertig shininess")
-        //
-        // document.getElementById("startAnimationBtn").addEventListener(
-        //     "dblclick", startAnimation);
-        // document.getElementById("stopAnimationBtn").addEventListener(
-        //     "dblclick", () => cancelAnimationFrame(animationHandle));
-        //
-
-    }
-
-    btn1.addEventListener('click', function (){
+    btn1.addEventListener('click', function () {
         if (btn1.checked) {
             console.log("render")
             localStorage.setItem("renderer", "rasterizer")
-            // rasterVisitor()
         } else if (btn2.checked) {
             console.log("ray")
             localStorage.setItem("renderer", "rayTracer")
-            // rayVisitor()
         }
         location.reload()
     });
-    btn2.addEventListener('click', function (){
+    btn2.addEventListener('click', function () {
         if (btn1.checked) {
             console.log("render")
             localStorage.setItem("renderer", "rasterizer")
-            // rasterVisitor()
         } else if (btn2.checked) {
             console.log("ray")
             localStorage.setItem("renderer", "rayTracer")
-            // rayVisitor()
         }
         location.reload()
-    });*/
+    });
 });
