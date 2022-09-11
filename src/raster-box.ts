@@ -193,3 +193,4 @@ export default class RasterBox {
         this.gl.disableVertexAttribArray(color)
     }
 }
+

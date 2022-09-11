@@ -153,6 +153,72 @@ export class ScalerNode extends AnimationNode {
   }
 }
 
+export class MinMaxNode extends AnimationNode {
+  /**
+   * The vector to scale along
+   */
+  vector: Vector;
+  zoom: String;
+  limit = 3000;
+  currentlimit = 0;
+  startSize = new Vector(0.5,0.5,0.5,0);
+  endSize = new Vector(1,1,1,0);
+  factor: number;
+
+
+  /**
+   * Creates a new ScalerNode
+   * @param groupNode The group node to attach to
+   * @param startSize
+   * @param endSize
+   */
+  constructor(groupNode: GroupNode, startSize: Vector, endSize: Vector, duration: number) {
+    super(groupNode);
+    this.startSize = startSize;
+    this.endSize = endSize;
+    this.active = false;
+    this.zoom = "in";
+    this.groupNode.transform = new Scaling(this.startSize);
+    this.limit = duration;
+  }
+
+  /**
+   * Advances the animation by deltaT
+   * @param deltaT The time difference, the animation is advanced by
+   */
+  simulate(deltaT: number) {
+    if (this.active){
+      this.currentlimit += deltaT;
+    }
+    this.factor = this.currentlimit/this.limit;
+    if(this.currentlimit>=this.limit){
+      if(this.zoom == "out"){
+        this.zoom = "in";
+      } else {
+        this.zoom = "out";
+      };
+      this.active=false;
+      this.currentlimit = 0;
+    }
+    if (this.active) {
+      if (this.zoom == "in") {
+        this.vector = this.endSize.mul(this.factor).add(this.startSize.mul(1-this.factor));
+        /*this.vector.x += this.startSize.x * (this.factor) + this.endSize.x * (1-this.factor);
+        this.vector.y += this.startSize.y * (this.factor) + this.endSize.y * (1-this.factor);
+        this.vector.z += this.startSize.z * (this.factor) + this.endSize.z * (1-this.factor);*/
+      }
+      if (this.zoom == "out") {
+        this.vector = this.startSize.mul(this.factor).add(this.endSize.mul(1-this.factor));
+        /*this.vector.x -= 0.001 * deltaT
+        this.vector.y -= 0.001 * deltaT
+        this.vector.z -= 0.001 * deltaT*/
+      }
+      this.groupNode.transform = new Scaling(this.vector);
+    }
+  }
+}
+
+
 /**
  * Class representing a Mover Animation
  * @extends AnimationNode
