@@ -350,17 +350,17 @@ window.addEventListener('load', function loadPage() {
         //     new Vector(lightPositionXCalc, 1,1,1)
         // ];
         // setup for rendering
-        const lightPositionsVisitor = new LightVisitor(gl)
+        const lightPositionsVisitor = new LightVisitor
         let lightPositions = lightPositionsVisitor.visit(sg)
         console.log(lightPositions)
-        const cameraVisitor = new CameraVisitor(gl)
+        const cameraVisitor = new CameraVisitor
         let camera = cameraVisitor.visit(sg)
 
 
     let setupVisitor = new RasterSetupVisitor(gl, lightPositions)
     let rasterVisitor = new RasterVisitor(gl, phongShader, textureShader, setupVisitor.objects)
     let rayVisitor = new RayVisitorSupaFast(ctx, canvas.width, canvas.height)
-    let visitor: RayVisitor|RasterVisitor
+    let visitor: RayVisitorSupaFast|RasterVisitor
 
     const btn1 = document.getElementById('btnradio1') as HTMLInputElement;
     const btn2 = document.getElementById('btnradio2') as HTMLInputElement;

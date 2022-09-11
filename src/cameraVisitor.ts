@@ -1,12 +1,13 @@
 import Visitor from "./visitor";
 import {
+    AABoxButtonNode,
     AABoxNode,
     CameraNode,
     GroupNode,
     LightNode,
     Node,
     PyramidNode,
-    SphereNode,
+    SphereNode, TextureBoxButtonNode,
     TextureBoxNode,
     TexturePyramidNode,
     TextureVideoBoxNode
@@ -25,7 +26,6 @@ export class CameraVisitor implements Visitor {
 
 
     constructor(
-        private gl: WebGL2RenderingContext
     ) {
         this.model = new Array<Matrix>(Matrix.identity())
         this.inverse = new Array<Matrix>(Matrix.identity())
@@ -99,4 +99,9 @@ export class CameraVisitor implements Visitor {
     visitTextureBoxNode(node: TextureBoxNode): void {
     }
 
+    visitTextureBoxButtonNode(node: TextureBoxButtonNode) {
+    }
+
+    visitAABoxButtonNode(node: AABoxButtonNode) {
+    }
 }
