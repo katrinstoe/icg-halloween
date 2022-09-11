@@ -173,13 +173,14 @@ export class RasterVisitor implements Visitor {
     shader.getUniformFloat("kA").set(this.kA)
     shader.getUniformFloat("textureSampleYes").set(0)
     let lightPosArray = []
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < this.lightPosisitions.length; i++) {
       lightPosArray.push(this.lightPosisitions[i].x)
       lightPosArray.push(this.lightPosisitions[i].y)
       lightPosArray.push(this.lightPosisitions[i].z)
     }
     // shader.getUniformVec3("lightPositions").set(this.lightPosisitions[i])
-    this.gl.uniform3fv(shader.getUniformVec3("lightPositions"), lightPosArray)
+    //Quelle: https://stackoverflow.com/questions/4725424/passing-an-array-of-vectors-to-a-uniform
+    this.gl.uniform3fv(shader, lightPosArray)
 
     const V = shader.getUniformMatrix("V");
     if (V && this.lookat) {
