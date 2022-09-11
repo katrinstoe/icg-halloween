@@ -39,7 +39,7 @@ void main(void) {
 //    } else{
 //      texPhongColor = vColor;
 //    }
-
+//Quelle: https://www.youtube.com/watch?v=95WAAYsOifQ
   vec3 ambient = vkA*vColor;
   vec3 totalDiffuse = vec3(0.0);
   vec3 totalSpecular= vec3(0.0);

@@ -1,6 +1,8 @@
 attribute vec3 a_position;
 attribute vec2 a_texCoord;
 attribute vec3 a_normal;
+//attribute vec4 a_light_positions;
+
 
 varying vec2 v_texCoord;
 varying vec3 v_normal;

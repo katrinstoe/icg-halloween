@@ -7,7 +7,7 @@ attribute vec3 a_normal;
 // to the fragment shader
 // TODO
 attribute vec3 a_color;
-attribute vec4 a_light_positions;
+//attribute vec4 a_light_positions[8];
 //attribute vec2 a_texCoord;
 
 
@@ -51,7 +51,7 @@ void main() {
   //  vlightPositions = vec3(a_light_positions);
 //vlightPositions = lightPositions;
   for (int i=0; i<8; i++){
-    vlightPositions[i] = lightPositions[i];
+    vlightPositions[i] = vec3(vlightPositions[i]);
   }
 
   vshininess = shininess;

@@ -17,8 +17,12 @@ void main(void) {
   //gl_FragColor = vec4(0.0, 0.0, 0.5, 1.0);
   // Read fragment color from texture
   // TODO
+// Quelle: https://www.youtube.com/watch?v=95WAAYsOifQ
   vec3 texPhongColor = vec3(texture2D(sampler, v_texCoord.st));
   vec3 ambient = vkA*texPhongColor;
+
+  vec3 totalDiffuse = vec3(0.0);
+  vec3 totalSpecular= vec3(0.0);
   for(int i=0; i<8; i++){
     vec3 l = normalize(vlightPositions[i] - vPosition);
     vec3 v = normalize(-vPosition);

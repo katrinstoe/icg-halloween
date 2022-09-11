@@ -172,23 +172,25 @@ export class RasterVisitor implements Visitor {
     shader.getUniformFloat("kD").set(this.kD)
     shader.getUniformFloat("kA").set(this.kA)
     shader.getUniformFloat("textureSampleYes").set(0)
-    shader.getUniformVec3("lightpositions").set(this.lightPosisitions[0])
+    // shader.getUniformVec3("lightpositions").set(this.lightPosisitions[0])
     let lightPosArray = [8]
-    let lightUniformLocation = [8]
+    // let lightUniformLocation = [8]
     for (let i = 0; i < this.lightPosisitions.length; i++) {
-      lightUniformLocation[i] = shader.getAttributeLocation("lightPositions[" + i + "]")
+      // lightUniformLocation[i] = shader.getAttributeLocation("lightPositions[" + i + "]")
       lightPosArray.push(this.lightPosisitions[i].x)
       lightPosArray.push(this.lightPosisitions[i].y)
       lightPosArray.push(this.lightPosisitions[i].z)
     }
-    for (let i = 0; i < this.lightPosisitions.length; i+=3) {
-      if (i<8){
-        this.gl.uniform3fv(lightUniformLocation[i], [lightPosArray[i], lightPosArray[i+1], lightPosArray[i+2]])
-      }
-    }
+    // for (let i = 0; i < this.lightPosisitions.length; i+=3) {
+    //   if (i<8){
+    //     this.gl.uniform3fv(lightUniformLocation[i], [lightPosArray[i], lightPosArray[i+1], lightPosArray[i+2]])
+    //   }
+    // }
     // shader.getUniformVec3("lightPositions").set(this.lightPosisitions[i])
     //Quelle: https://stackoverflow.com/questions/4725424/passing-an-array-of-vectors-to-a-uniform
-    this.gl.uniform3fv(shader, lightPosArray)
+    // this.gl.uniform3fv(shader, lightPosArray)
+    let positionLocation = this.gl.getUniformLocation(shader, "lightPositions")
+    this.gl.uniform3fv(positionLocation, lightPosArray)
 
     const V = shader.getUniformMatrix("V");
     if (V && this.lookat) {
@@ -233,9 +235,9 @@ export class RasterVisitor implements Visitor {
     shader.getUniformFloat("kD").set(this.kD)
     shader.getUniformFloat("kA").set(this.kA)
     shader.getUniformFloat("textureSampleYes").set(0)
-    for (let i = 0; i < this.lightPosisitions.length; i++) {
-      shader.getUniformVec3("lightPositions").set(this.lightPosisitions[i])
-    }
+    // for (let i = 0; i < this.lightPosisitions.length; i++) {
+    //   shader.getUniformVec3("lightPositions").set(this.lightPosisitions[i])
+    // }
 
 
 
@@ -285,9 +287,9 @@ export class RasterVisitor implements Visitor {
     shader.getUniformFloat("kS").set(this.kS)
     shader.getUniformFloat("kD").set(this.kD)
     shader.getUniformFloat("kA").set(this.kA)
-    for (let i = 0; i < this.lightPosisitions.length; i++) {
-      shader.getUniformVec3("lightPositions").set(this.lightPosisitions[i])
-    }
+    // for (let i = 0; i < this.lightPosisitions.length; i++) {
+    //   shader.getUniformVec3("lightPositions").set(this.lightPosisitions[i])
+    // }
 
     shader.getUniformFloat("textureSampleYes").set(1)
 
@@ -332,9 +334,9 @@ export class RasterVisitor implements Visitor {
     shader.getUniformFloat("kS").set(this.kS)
     shader.getUniformFloat("kD").set(this.kD)
     shader.getUniformFloat("kA").set(this.kA)
-    for (let i = 0; i < this.lightPosisitions.length; i++) {
-      shader.getUniformVec3("lightPositions").set(this.lightPosisitions[i])
-    }
+    // for (let i = 0; i < this.lightPosisitions.length; i++) {
+    //   shader.getUniformVec3("lightPositions").set(this.lightPosisitions[i])
+    // }
 
     shader.getUniformFloat("textureSampleYes").set(1)
 
@@ -373,9 +375,9 @@ export class RasterVisitor implements Visitor {
     shader.getUniformFloat("kS").set(this.kS)
     shader.getUniformFloat("kD").set(this.kD)
     shader.getUniformFloat("kA").set(this.kA)
-    for (let i = 0; i < this.lightPosisitions.length; i++) {
-      shader.getUniformVec3("lightPositions").set(this.lightPosisitions[i])
-    }
+    // for (let i = 0; i < this.lightPosisitions.length; i++) {
+    //   shader.getUniformVec3("lightPositions").set(this.lightPosisitions[i])
+    // }
 
     shader.getUniformFloat("textureSampleYes").set(0)
 
@@ -425,9 +427,9 @@ export class RasterVisitor implements Visitor {
     shader.getUniformFloat("kD").set(this.kD)
     shader.getUniformFloat("kA").set(this.kA)
     shader.getUniformFloat("textureSampleYes").set(1)
-    for (let i = 0; i < this.lightPosisitions.length; i++) {
-      shader.getUniformVec3("lightPositions").set(this.lightPosisitions[i])
-    }
+    // for (let i = 0; i < this.lightPosisitions.length; i++) {
+    //   shader.getUniformVec3("lightPositions").set(this.lightPosisitions[i])
+    // }
 
 
 
@@ -516,7 +518,8 @@ export class RasterSetupVisitor {
       new RasterSphere(
           this.gl,
           new Vector(0, 0, 0, 1), 1,
-          node.color
+          node.color,
+          // this.lightpositions
           )
     );
   }
@@ -532,7 +535,8 @@ export class RasterSetupVisitor {
         this.gl,
         new Vector(-0.5, -0.5, -0.5, 1),
         new Vector(0.5, 0.5, 0.5, 1),
-        node.color
+        node.color,
+          // this.lightpositions
       )
     );
   }
@@ -587,7 +591,8 @@ export class RasterSetupVisitor {
             new Vector(1 , -1, 0, 1),
             new Vector(-1, -1, 1, 1),
             new Vector(-0.25, 1, 0, 1),
-            node.color
+            node.color,
+            // this.lightpositions
         ),
     );
   }
