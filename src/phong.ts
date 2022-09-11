@@ -12,9 +12,8 @@ import Ray from "./ray";
  * @return The resulting colour
  */
 export default function phong(
-  color: Vector, intersection: Intersection,
-  lightPositions: Array<Vector>, shininess: number,
-  cameraPosition: Vector, kS: number, kD: number, kA: number
+  color: Vector, intersection: Intersection, shininess: number,
+  cameraPosition: Vector, kS: number, kD: number, kA: number, lightPositions: Array<Vector>
   // , kD: number, kA: number
 ): Vector {
   const lightColor = new Vector(0.8, 0.8, 0.8, 0);

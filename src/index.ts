@@ -9,7 +9,10 @@ import {
     LightNode,
     PyramidNode,
     TexturePyramidNode,
-    TextureVideoBoxNode, CameraNode
+    TextureVideoBoxNode,
+    CameraNode,
+    AABoxButtonNode,
+    TextureBoxButtonNode
 } from './nodes';
 import {
     RasterVisitor,
@@ -31,7 +34,7 @@ import Sphere from "./sphere";
 import AABox from "./aabox";
 import RayVisitor from "./rayvisitor";
 import phong from "./phong";
-import {DriverNode, RotationNode, ScalerNode} from "./animation-nodes";
+import {DriverNode, MinMaxNode, RotationNode, ScalerNode} from "./animation-nodes";
 import mouseClickVisitor from "./mouse-click-visitor";
 import RasterPyramid from "./raster-pyramid";
 import Pyramid from "./pyramid";
@@ -40,6 +43,7 @@ import TextureVideoBox from "./texture-video-box";
 import {CameraVisitor} from "./cameraVisitor";
 import Camera from "./camera";
 import Visitor from "./visitor";
+import RayVisitorSupaFast from "./rayvisitor-supa-fast";
 
 const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1));
 const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.5, 0.5, 1), new Vector(0, 0, 0, 1));
@@ -158,9 +162,7 @@ window.addEventListener('load', function loadPage() {
     const headerBTextTr2 = new GroupNode(new Translation(new Vector(0.15, 0.394, 0, 0)));
     const headerBTextSc2 = new GroupNode(new Scaling(new Vector(0.16, 0.09, 0.0001, 0)))
 
-    // headerBTextSc2.add(headerBBox)
     headerBTextSc2.add(textureGeistText)
-    // headerBTextSc2.add(textureMinimize)
     headerBTextTr2.add(headerBTextSc2)
     headerBTr2.add(headerBTextTr2)
 
@@ -170,9 +172,7 @@ window.addEventListener('load', function loadPage() {
     const cubeTr = new GroupNode(new Translation(new Vector(0.5, 0, -1, 0)));
     const cubeRt = new GroupNode(new Rotation(new Vector(0, 1, 0, 0), 1));
     const gn3 = new GroupNode(new Translation(new Vector(0, 0, 0, 0)));
-    // const cubeTexture = new TextureBoxNode('hci-logo.png');
 
-    // cubeSc.add(cube);
     //TODO: Texture anzeigen geht nicht?
     cubeSc.add(textureGeist)
     cubeRt.add(cubeSc);
@@ -184,23 +184,22 @@ window.addEventListener('load', function loadPage() {
     const sphere = new SphereNode(new Vector(1, 0.7, 0.7, 1))
     const sphereSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.2, 0)));
     const sphereTr = new GroupNode(new Translation(new Vector(-0.3, 0, -1, 0)));
+    const sphereRt = new GroupNode(new Rotation(new Vector(0, 0, 1, 0), 1));
     sphereSc.add(sphere);
     // sphereSc.add(textureHCILogo)
-    sphereTr.add(sphereSc);
+    sphereRt.add(sphereSc)
+    sphereTr.add(sphereRt);
     sg.add(sphereTr);
 
 
-    // const cubeTest = new AABoxNode(new Vector(0, 0, 1, 0));
-    // const cubeTestSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.5, 0)));
-    // const cubeTestTr = new GroupNode(new Translation(new Vector(-0.01, 0, -1, 0)));
-
     // //TODO: Texture anzeigen geht nicht?
-    // cubeTestSc.add(cubeTest)
-    // cubeTestTr.add(cubeTestSc);
-    // sg.add(cubeTestTr);
-    const cubeTest = new TexturePyramidNode('geist.png');
-    const cubeTestSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.2, 0)));
-    const cubeTestTr = new GroupNode(new Translation(new Vector(-0.01, 0, -1, 0)));
+    const pyramid = new PyramidNode(new Vector(1, 0, 1, 0))
+    const pyramidSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.2, 0)));
+    const pyramidTr = new GroupNode(new Translation(new Vector(-0.2, -0.4, -1, 0)));
+
+    pyramidSc.add(pyramid)
+    pyramidTr.add(pyramidSc)
+    sg.add(pyramidTr)
 
     //muss punkt sein
     const light1 = new LightNode(new Vector(1, 1, 0, 1))
@@ -208,6 +207,8 @@ window.addEventListener('load', function loadPage() {
 
     lightTr.add(light1)
     sg.add(lightTr)
+
+
 
     const sgcamera = new Camera(new Vector(0, 0, 0, 1),
         new Vector(0, 0, 0, 1),
@@ -218,9 +219,12 @@ window.addEventListener('load', function loadPage() {
     const nodeCamera = new CameraNode(sgcamera)
     sg.add(nodeCamera)
 
+    //Video-Box
+
     const videoBox = new TextureVideoBoxNode("icgTestVideo.mp4");
-    //sg.add(textureGeist);
-    sg.add(videoBox);
+    const videoBoxSc = new GroupNode(new Scaling(new Vector(0.3, 0.3, 0.3, 0.3)));
+    videoBoxSc.add(videoBox);
+    sg.add(videoBoxSc);
 
 
     //kleiner driver geist
@@ -238,8 +242,51 @@ window.addEventListener('load', function loadPage() {
     ghostCastleTr.add(ghostCastleSc)
     sg.add(ghostCastleTr)
 
+    /*//TestButton Wieso wird das nicht angezeigt????
+    const testButtonTr = new GroupNode(new Translation(new Vector(-1.0, -1.0, -4.0, 0)))
+    const testButton2Tr = new GroupNode(new Translation(new Vector(0, 0, 0, 0)))
+    const minmax = new MinMaxNode(testButton2Tr,  new Vector(1,0.5,0.5,0),new Vector(0.5,1,0.5,0), 3000)
+    const testButton = new TextureBoxButtonNode("geist.png", () => {
+        minmax.active = true;
+    })
+    minmax.active = false;
+    testButtonTr.add(testButton2Tr);
+    testButton2Tr.add(testButton)
+    sg.add(testButtonTr)*/
+
+
+    //TestButton
+    const redSquare = new AABoxNode(new Vector(1,0,0,1));
+    const redSquareTr = new GroupNode(new Translation(new Vector(-1,-2,-5,0)));
+    const redSquareSc = new GroupNode(new Scaling(new Vector(2,1,1,1)))
+    redSquareTr.add(redSquare);
+    redSquareSc.add(redSquareTr);
+
+
+    const testButtonTr = new GroupNode(new Translation(new Vector(1.0, -1.0, -4.0, 0)))
+    const emptyTranslationTestButton = new GroupNode(new Translation(new Vector(0, 0, 0, 0)))
+    const minmax = new MinMaxNode(emptyTranslationTestButton, new Vector(1,1,1,0),new Vector(0.1,0.1,0.1,0), 500)
+    const testButton = new AABoxButtonNode(new Vector(0, 0, 0, 0), () => {
+        minmax.active = true;
+    })
+    minmax.active = false;
+
+    testButtonTr.add(emptyTranslationTestButton);
+
+    emptyTranslationTestButton.add(testButton)
+
+    emptyTranslationTestButton.add(redSquareSc);
+
+    emptyTranslationTestButton.add(headerBTr);
+
+    sg.add(redSquareSc)
+
+    sg.add(testButtonTr)
+
+
     let animationNodes = [
-        new RotationNode(cubeRt, new Vector(0, 0, 1, 0)),
+        new RotationNode(sphereRt, new Vector(0, 0, 1, 0)),
+        minmax,
         // new DriverNode(lightTr, new Vector(1, 0, 0, 0)),
         // new TranslatorNode(lightTr, new Vector(1, 0, 0, 0), "left")
         new RotationNode(lightTr, new Vector(1, 1, 1, 0)),
@@ -312,7 +359,7 @@ window.addEventListener('load', function loadPage() {
 
     let setupVisitor = new RasterSetupVisitor(gl, lightPositions)
     let rasterVisitor = new RasterVisitor(gl, phongShader, textureShader, setupVisitor.objects)
-    let rayVisitor = new RayVisitor(ctx, canvas.width, canvas.height)
+    let rayVisitor = new RayVisitorSupaFast(ctx, canvas.width, canvas.height)
     let visitor: RayVisitor|RasterVisitor
 
     const btn1 = document.getElementById('btnradio1') as HTMLInputElement;
@@ -364,6 +411,7 @@ window.addEventListener('load', function loadPage() {
         canvas2.style.display = "none"
         canvas.style.display = "block"
         setupVisitor.setup(sg);
+        location.reload()
     }
 
     function rerenderRay(){
@@ -373,7 +421,7 @@ window.addEventListener('load', function loadPage() {
         console.log(visitor)
         canvas.style.display = "none"
         canvas2.style.display = "block"
-
+        location.reload()
     }
 
 
@@ -527,6 +575,7 @@ window.addEventListener('load', function loadPage() {
                     break;
             }
         });
+
         window.addEventListener('keyup', function (event) {
             switch (event.key) {
                 case "ArrowLeft":
@@ -563,8 +612,7 @@ window.addEventListener('load', function loadPage() {
             let mouseVisitor = new mouseClickVisitor(ctx, canvas.width, canvas.height, mousePos);
             mouseVisitor.render(sg, camera, lightPositions);
             setupVisitor.setup(sg);
-            visitor.render(sg, camera, []);
-
+            //visitor.render(sg, camera, camera.lightPositions);
         }, false);
 
         function mouseClickedOn(event: { clientX: number; }) {
@@ -586,7 +634,7 @@ window.addEventListener('load', function loadPage() {
         const lightPositions = [
             new Vector(lightPositionXCalc, 1, 1, 0),
         ];
-       /* const camera = {
+        const camera = {
             origin: new Vector(0, 0, 0, 1),
             width: canvas.width,
             height: canvas.height,
@@ -596,10 +644,9 @@ window.addEventListener('load', function loadPage() {
             kD: kDCalc,
             kA: kACalc,
             lightPositions: lightPositions
-        };*/
+        };
 
-
- /*       const visitor = new RayVisitor(ctx, canvas.width, canvas.height);
+        const visitor = new RayVisitor(ctx, canvas.width, canvas.height);
 
         let animationHandle: number;
 

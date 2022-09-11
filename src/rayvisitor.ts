@@ -7,7 +7,7 @@ import Visitor from './visitor';
 import phong from './phong';
 import {
     Node, GroupNode, SphereNode,
-    AABoxNode, TextureBoxNode, PyramidNode, CameraNode, LightNode, TexturePyramidNode
+    AABoxNode, TextureBoxNode, PyramidNode, CameraNode, LightNode, TexturePyramidNode, AABoxButtonNode, TextureBoxButtonNode
 } from './nodes';
 import AABox from './aabox';
 import Pyramid from "./pyramid";
@@ -241,4 +241,33 @@ export default class RayVisitor implements Visitor {
 
     visitLightNode(node: LightNode) {
     };
+
+    visitAABoxButtonNode(node: AABoxButtonNode): void {
+        let toWorld = Matrix.identity();
+        let fromWorld = Matrix.identity();
+        // TODO assign the model matrix and its inverse
+        for (let i = 0; i < this.model.length; i++) {
+            toWorld = toWorld.mul(this.model[i]);
+            fromWorld = this.inverse[i].mul(fromWorld);
+        }
+        const ray = new Ray(fromWorld.mulVec(this.ray.origin), fromWorld.mulVec(this.ray.direction).normalize());
+        let intersection = UNIT_AABOX.intersect(ray);
+
+        if (intersection) {
+            const intersectionPointWorld = toWorld.mulVec(intersection.point);
+            const intersectionNormalWorld = toWorld.mulVec(intersection.normal).normalize();
+            intersection = new Intersection(
+                (intersectionPointWorld.x - ray.origin.x) / ray.direction.x,
+                intersectionPointWorld,
+                intersectionNormalWorld
+            );
+            if (this.intersection === null || intersection.closerThan(this.intersection)) {
+                this.intersection = intersection;
+                this.intersectionColor = node.color;
+            }
+        }
+    }
+
+    visitTextureBoxButtonNode(node: TextureBoxButtonNode): void {
+    }
 }

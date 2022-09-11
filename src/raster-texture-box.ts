@@ -1,5 +1,6 @@
 import Vector from './vector';
 import Shader from './shader';
+import AABox from "./aabox";
 
 /**
  * A class creating buffers for a textured box to render it with WebGL
@@ -143,3 +144,11 @@ export default class RasterTextureBox {
         this.gl.disableVertexAttribArray(textureCoord)
     }
 }
+
+export class TextureBoxButton extends RasterTextureBox{
+
+    constructor(gl: WebGL2RenderingContext, minPoint: Vector, maxPoint: Vector, texture: string) {
+        super(gl, minPoint, maxPoint, texture);
+    }
+}
+

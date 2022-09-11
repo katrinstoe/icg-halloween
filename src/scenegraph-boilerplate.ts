@@ -28,8 +28,7 @@ window.addEventListener('load', () => {
     gn3.add(new SphereNode(new Vector(0, 0, .3, 1)));
     const shininessElement = document.getElementById("shininess") as HTMLInputElement;
 
-    let shininessCalc = 10;
-    console.log(shininessCalc)
+    let shininessCalc = 0.5;
     shininessElement.onchange = function () {
         shininessCalc = Number(shininessElement.value);
         console.log(shininessCalc)
