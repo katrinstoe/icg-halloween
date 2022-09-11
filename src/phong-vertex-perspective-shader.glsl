@@ -16,7 +16,7 @@ uniform mat4 M;
 uniform mat4 V;
 uniform mat4 P;
 uniform mat4 N; // normal matrix
-uniform vec3 lightPositions;
+uniform vec3 lightPositions[8];
 uniform float shininess;
 uniform float kS;
 uniform float kD;
@@ -27,7 +27,7 @@ uniform float kA;
 varying vec3 v_normal;
 varying vec3 vColor;
 varying vec3 vPosition;
-varying vec3 vlightPositions;
+varying vec3 vlightPositions[8];
 varying float vshininess;
 varying float vkS;
 varying float vkD;
@@ -49,7 +49,10 @@ void main() {
   textureSample = textureSampleYes;
 
   //  vlightPositions = vec3(a_light_positions);
-vlightPositions = lightPositions;
+//vlightPositions = lightPositions;
+  for (int i=0; i<8; i++){
+    vlightPositions[i] = lightPositions[i];
+  }
 
   vshininess = shininess;
   vkS = kS;

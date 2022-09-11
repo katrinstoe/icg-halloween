@@ -36,7 +36,7 @@ interface Renderable {
 }
 
 /**
- * Class representing a Visitor that uses Rasterisation 
+ * Class representing a Visitor that uses Rasterisation
  * to render a Scenegraph
  */
 export class RasterVisitor implements Visitor {
@@ -86,14 +86,14 @@ export class RasterVisitor implements Visitor {
 
   /**
    * The view matrix to transform vertices from
-   * the world coordinate system to the 
+   * the world coordinate system to the
    * view coordinate system
    */
   private lookat: Matrix;
 
   /**
    * The perspective matrix to transform vertices from
-   * the view coordinate system to the 
+   * the view coordinate system to the
    * normalized device coordinate system
    */
   private perspective: Matrix;
@@ -172,11 +172,19 @@ export class RasterVisitor implements Visitor {
     shader.getUniformFloat("kD").set(this.kD)
     shader.getUniformFloat("kA").set(this.kA)
     shader.getUniformFloat("textureSampleYes").set(0)
-    let lightPosArray = []
+    shader.getUniformVec3("lightpositions").set(this.lightPosisitions[0])
+    let lightPosArray = [8]
+    let lightUniformLocation = [8]
     for (let i = 0; i < this.lightPosisitions.length; i++) {
+      lightUniformLocation[i] = shader.getAttributeLocation("lightPositions[" + i + "]")
       lightPosArray.push(this.lightPosisitions[i].x)
       lightPosArray.push(this.lightPosisitions[i].y)
       lightPosArray.push(this.lightPosisitions[i].z)
+    }
+    for (let i = 0; i < this.lightPosisitions.length; i+=3) {
+      if (i<8){
+        this.gl.uniform3fv(lightUniformLocation[i], [lightPosArray[i], lightPosArray[i+1], lightPosArray[i+2]])
+      }
     }
     // shader.getUniformVec3("lightPositions").set(this.lightPosisitions[i])
     //Quelle: https://stackoverflow.com/questions/4725424/passing-an-array-of-vectors-to-a-uniform
@@ -448,9 +456,9 @@ export class RasterVisitor implements Visitor {
   };
 }
 
-/** 
- * Class representing a Visitor that sets up buffers 
- * for use by the RasterVisitor 
+/**
+ * Class representing a Visitor that sets up buffers
+ * for use by the RasterVisitor
  * */
 export class RasterSetupVisitor {
   /**

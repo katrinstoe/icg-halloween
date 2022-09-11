@@ -5,7 +5,7 @@ precision mediump float;
 varying vec3 vColor;
 varying vec3 v_normal;
 varying vec3 vPosition;
-varying vec3 vlightPositions;
+varying vec3 vlightPositions[8];
 varying float vshininess;
 varying float vkS;
 varying float vkD;
@@ -41,15 +41,19 @@ void main(void) {
 //    }
 
   vec3 ambient = vkA*vColor;
+  vec3 totalDiffuse = vec3(0.0);
+  vec3 totalSpecular= vec3(0.0);
 
-  vec3 l = normalize(vlightPositions - vPosition);
+for(int i=0; i<8; i++){
+  vec3 l = normalize(vlightPositions[i] - vPosition);
   vec3 v = normalize(-vPosition);
   vec3 r= normalize(reflect(-l, v_normal));
   vec3 n = normalize(v_normal);
 
-  vec3 diffuse = vColor * max(0.0, dot(n, l))*vkD;
-  vec3 specular = vColor * pow(max(0.0, dot(r, v)), vshininess)* vkS;
-  vec3 phong = diffuse+ specular+ ambient;
+  totalDiffuse += vColor * max(0.0, dot(n, l))*vkD;
+  totalSpecular += vColor * pow(max(0.0, dot(r, v)), vshininess)* vkS;
+}
+  totalDiffuse = max(totalDiffuse, 0.2);
+  vec3 phong = totalDiffuse+ totalSpecular+ ambient;
   gl_FragColor = vec4(phong, 1.0);
-
 }

@@ -25,13 +25,11 @@ void main(void) {
     vec3 r= normalize(reflect(-l, v_normal));
     vec3 n = normalize(v_normal);
 
-    vec3 diffuse = texPhongColor * max(0.0, dot(n, l))*vkD;
-    vec3 specular = texPhongColor * pow(max(0.0, dot(r, v)), vshininess)* vkS;
-    vec3 phong = diffuse+ specular+ ambient;
-    gl_FragColor = vec4(phong, 1.0);
-
-    //  gl_FragColor = texture2D(sampler, v_texCoord.st);
-    //  gl_FragColor.a = 1.0;
-    gl_FragColor = vec4(phong, 1.0);
+    totalDiffuse += texPhongColor * max(0.0, dot(n, l))*vkD;
+    totalSpecular += texPhongColor * pow(max(0.0, dot(r, v)), vshininess)* vkS;
   }
+  totalDiffuse = max(totalDiffuse, 0.2);
+  vec3 phong = totalDiffuse+ totalSpecular+ ambient;
+  gl_FragColor = vec4(phong, 1.0);
+
 }
