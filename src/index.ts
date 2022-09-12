@@ -66,8 +66,6 @@ window.addEventListener('load', function loadPage() {
     const kAElement = document.getElementById("kA") as HTMLInputElement;
     let kACalc = Number(kDElement.value)
 
-    // const lightPositionXElement = document.getElementById("lightPositionX") as HTMLInputElement;
-    // let lightPositionXCalc = Number(lightPositionXElement.value)
 
 
     let renderer = localStorage.getItem("renderer")
