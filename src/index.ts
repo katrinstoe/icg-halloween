@@ -291,7 +291,7 @@ window.addEventListener('load', function loadPage() {
         // new DriverNode(lightTr, new Vector(1, 0, 0, 0)),
         // new TranslatorNode(lightTr, new Vector(1, 0, 0, 0), "left")
         new RotationNode(lightTr, new Vector(1, 1, 1, 0)),
-        new CameraRotationNode(nodeCamera)
+        //new CameraRotationNode(nodeCamera)
     ]
 
     let DriverNodes = [
