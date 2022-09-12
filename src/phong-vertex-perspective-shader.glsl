@@ -7,25 +7,28 @@ attribute vec3 a_normal;
 // to the fragment shader
 // TODO
 attribute vec3 a_color;
-attribute vec4 a_light_positions;
-
+//attribute vec2 a_texCoord;
 
 uniform mat4 M;
 uniform mat4 V;
 uniform mat4 P;
 uniform mat4 N; // normal matrix
-uniform vec3 lightPositions;
+//vec3 lightPositions[3];
+//uniform vec3 lightPositions1;
+//uniform int lightCount;
+//uniform3fv lights[8];
+
 uniform float shininess;
 uniform float kS;
 uniform float kD;
 uniform float kA;
 
 
-
+//varying vec2 v_texCoord;
 varying vec3 v_normal;
 varying vec3 vColor;
 varying vec3 vPosition;
-varying vec3 vlightPositions;
+//varying vec3 vlightPositions[3];
 varying float vshininess;
 varying float vkS;
 varying float vkD;
@@ -42,9 +45,17 @@ void main() {
   // Pass the color and transformed vertex position through
   // TODO
   vColor = a_color;
+//  v_texCoord = a_texCoord;
 
-//  vlightPositions = vec3(a_light_positions);
-vlightPositions = lightPositions;
+  //  vlightPositions = vec3(a_light_positions);
+//vlightPositions = lightPositions;
+//    lightPositions[0] = vec3(lightPositions1);
+//    lightPositions[1] = vec3(lightPositions2);
+//    lightPositions[2] = vec3(lightPositions3);
+
+//  for(int i= 0; i<1; i++){
+//      vlightPositions[i] = vec3(lightPositions[i]);
+//  }
 
   vshininess = shininess;
   vkS = kS;

@@ -7,5 +7,6 @@ uniform mat4 V;
 
 void main() {
   gl_Position = V * M * vec4(a_position, 1.0);
+
   v_texCoord = a_texCoord;
 }

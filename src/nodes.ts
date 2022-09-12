@@ -238,7 +238,8 @@ export class LightNode extends Node {
    * with all edges of length 1
    * @param texture The image filename for the texture
    */
-  constructor(public position: Vector) {
+  public position: Vector=new Vector(0,0,0,1)
+  constructor(public color: Vector) {
     super();
   }
 
