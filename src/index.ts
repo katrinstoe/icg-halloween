@@ -44,6 +44,7 @@ import {CameraVisitor} from "./cameraVisitor";
 import Camera from "./camera";
 import Visitor from "./visitor";
 import RayVisitorSupaFast from "./rayvisitor-supa-fast";
+import {CameraTranslatorNode, CameraRotationNode, CameraDriverNode} from "./camera-animation-nodes";
 
 const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1));
 const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.5, 0.5, 1), new Vector(0, 0, 0, 1));
@@ -213,7 +214,7 @@ window.addEventListener('load', function loadPage() {
     const sgcamera = new Camera(new Vector(0, 0, 0, 1),
         new Vector(0, 0, 0, 1),
         new Vector(0, 0, -1, 1),
-        new Vector(0, 1, 0, 0),
+        new Vector(0, -1, 0, 0),
         60, 0.1, 100, canvas.width, canvas.height, shininessCalc,
         kSCalc, kDCalc, kACalc)
     const nodeCamera = new CameraNode(sgcamera)
@@ -290,6 +291,7 @@ window.addEventListener('load', function loadPage() {
         // new DriverNode(lightTr, new Vector(1, 0, 0, 0)),
         // new TranslatorNode(lightTr, new Vector(1, 0, 0, 0), "left")
         new RotationNode(lightTr, new Vector(1, 1, 1, 0)),
+        //new CameraRotationNode(nodeCamera)
     ]
 
     let DriverNodes = [
@@ -299,6 +301,10 @@ window.addEventListener('load', function loadPage() {
 
     let ScalerNodes = [
         new ScalerNode(driverGhostSc, new Vector(0.1, 0.1, 0.1, 1))
+    ]
+
+    let CameraDriverNodes = [
+        new CameraDriverNode(nodeCamera)
     ]
 
         const gl = canvas.getContext("webgl2");
@@ -407,6 +413,10 @@ window.addEventListener('load', function loadPage() {
             for (let scalerNode of ScalerNodes) {
                 scalerNode.simulate(deltaT);
             }
+
+            for (let cameraDriverNode of CameraDriverNodes){
+                cameraDriverNode.simulate(deltaT);
+            }
         }
 
         let lastTimestamp = performance.now();
@@ -472,6 +482,22 @@ window.addEventListener('load', function loadPage() {
                     ScalerNodes[0].zoom = "out"
                     ScalerNodes[0].active = true;
                     break;
+                case "w":
+                    CameraDriverNodes[0].direction = "up"
+                    CameraDriverNodes[0].active = true;
+                    break;
+                case "a":
+                    CameraDriverNodes[0].direction = "left"
+                    CameraDriverNodes[0].active = true;
+                    break;
+                case "s":
+                    CameraDriverNodes[0].direction = "down"
+                    CameraDriverNodes[0].active = true;
+                    break;
+                case "d":
+                    CameraDriverNodes[0].direction = "right"
+                    CameraDriverNodes[0].active = true;
+                    break;
                 case "1":
                     for (let animationNode of animationNodes) {
                         animationNode.toggleActive();
@@ -499,6 +525,18 @@ window.addEventListener('load', function loadPage() {
                     break;
                 case "-":
                     ScalerNodes[0].active = false;
+                    break;
+                case "w":
+                    CameraDriverNodes[0].active = false;
+                    break;
+                case "a":
+                    CameraDriverNodes[0].active = false;
+                    break;
+                case "s":
+                    CameraDriverNodes[0].active = false;
+                    break;
+                case "d":
+                    CameraDriverNodes[0].active = false;
                     break;
             }
         });
