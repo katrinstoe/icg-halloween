@@ -23,7 +23,6 @@ import phongVertexShaderPerspective from './phong-vertex-perspective-shader.glsl
 import perspectiveVertexShader from './perspective-vertex-shader.glsl';
 import fragmentShader from './basic-fragment-shader.glsl'
 import {Rotation, Scaling, Translation} from './transformation';
-// import textureVertexShader from "./texture-vertex-shader.glsl";
 import textureVertexShader from "./texture-vertex-perspective-shader.glsl";
 import textureFragmentShader from "./texture-fragment-shader.glsl";
 import Ray from "./ray";
