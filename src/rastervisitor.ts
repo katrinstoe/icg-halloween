@@ -171,12 +171,30 @@ export class RasterVisitor implements Visitor {
     shader.getUniformFloat("kS").set(this.kS)
     shader.getUniformFloat("kD").set(this.kD)
     shader.getUniformFloat("kA").set(this.kA)
+    let lightUniformLocation = shader.getUniform3fv("lights")
+    let lights = []
+    for (let i = 0; i < this.lightPosisitions.length; i++) {
+      lights[3*i] = this.lightPosisitions[i].x
+      lights[3*i+1] = this.lightPosisitions[i].y
+      lights[3*i+2] = this.lightPosisitions[i].z
+    }
+    for (let i = this.lightPosisitions.length; i < 8; i++) {
+      lights[3*i] = 0
+      lights[3*i+1] = 0
+      lights[3*i+2] = 0
+    }
+
+    this.gl.uniform3fv(lightUniformLocation, lights)
+    // let lightCountUniformLocation = this.gl.getUniformLocation(this.shader, "lightCount")
+    shader.getUniformInt("lightCount").set(this.lightPosisitions.length)
+
+
     // for (let i = 0; i < this.lightPosisitions.length; i++) {
     //   shader.getUniformVec3("lightpositions" + i).set(this.lightPosisitions[i])
     // }
-    shader.getUniformVec3("lightPositions1").set(this.lightPosisitions[0])
-    shader.getUniformVec3("lightPositions2").set(this.lightPosisitions[1])
-    shader.getUniformVec3("lightPositions3").set(this.lightPosisitions[2])
+    // shader.getUniformVec3("lightPositions1").set(this.lightPosisitions[0])
+    // shader.getUniformVec3("lightPositions2").set(this.lightPosisitions[1])
+    // shader.getUniformVec3("lightPositions3").set(this.lightPosisitions[2])
 
     // shader.getUniformVec3("lightpositions2").set(this.lightPosisitions[2])
     // shader.getUniformVec3("lightpositions2").set(this.lightPosisitions[3])
@@ -191,7 +209,7 @@ export class RasterVisitor implements Visitor {
     // }
     // // for (let i = 0; i < this.lightPosisitions.length; i+=3) {
     // //   if (i<8){
-    // //     this.gl.uniform3fv(lightUniformLocation[i], [lightPosArray[i], lightPosArray[i+1], lightPosArray[i+2]])
+    //      this.gl.uniform3fv(lightUniformLocation[i], [lightPosArray[i], lightPosArray[i+1], lightPosArray[i+2]])
     // //   }
     // // }
     // // shader.getUniformVec3("lightPositions").set(this.lightPosisitions[i])
@@ -242,9 +260,25 @@ export class RasterVisitor implements Visitor {
     shader.getUniformFloat("kS").set(this.kS)
     shader.getUniformFloat("kD").set(this.kD)
     shader.getUniformFloat("kA").set(this.kA)
-    shader.getUniformVec3("lightPositions1").set(this.lightPosisitions[0])
-    shader.getUniformVec3("lightPositions2").set(this.lightPosisitions[1])
-    shader.getUniformVec3("lightPositions3").set(this.lightPosisitions[2])
+    // shader.getUniformVec3("lightPositions1").set(this.lightPosisitions[0])
+    // shader.getUniformVec3("lightPositions2").set(this.lightPosisitions[1])
+    // shader.getUniformVec3("lightPositions3").set(this.lightPosisitions[2])
+    let lightUniformLocation = shader.getUniform3fv("lights")
+    let lights = []
+    for (let i = 0; i < this.lightPosisitions.length; i++) {
+      lights[3*i] = this.lightPosisitions[i].x
+      lights[3*i+1] = this.lightPosisitions[i].y
+      lights[3*i+2] = this.lightPosisitions[i].z
+    }
+    for (let i = this.lightPosisitions.length; i < 8; i++) {
+      lights[3*i] = 0
+      lights[3*i+1] = 0
+      lights[3*i+2] = 0
+    }
+
+    this.gl.uniform3fv(lightUniformLocation, lights)
+    // let lightCountUniformLocation = this.gl.getUniformLocation(this.shader, "lightCount")
+    shader.getUniformInt("lightCount").set(this.lightPosisitions.length)
 
 
     let V = shader.getUniformMatrix("V");
@@ -296,9 +330,25 @@ export class RasterVisitor implements Visitor {
     // for (let i = 0; i < this.lightPosisitions.length; i++) {
     //   shader.getUniformVec3("lightpositions" + i).set(this.lightPosisitions[i])
     // }
-    shader.getUniformVec3("lightPositions1").set(this.lightPosisitions[0])
-    shader.getUniformVec3("lightPositions2").set(this.lightPosisitions[1])
-    shader.getUniformVec3("lightPositions3").set(this.lightPosisitions[2])
+    // shader.getUniformVec3("lightPositions1").set(this.lightPosisitions[0])
+    // shader.getUniformVec3("lightPositions2").set(this.lightPosisitions[1])
+    // shader.getUniformVec3("lightPositions3").set(this.lightPosisitions[2])
+    let lightUniformLocation = shader.getUniform3fv("lights")
+    let lights = []
+    for (let i = 0; i < this.lightPosisitions.length; i++) {
+      lights[3*i] = this.lightPosisitions[i].x
+      lights[3*i+1] = this.lightPosisitions[i].y
+      lights[3*i+2] = this.lightPosisitions[i].z
+    }
+    for (let i = this.lightPosisitions.length; i < 8; i++) {
+      lights[3*i] = 0
+      lights[3*i+1] = 0
+      lights[3*i+2] = 0
+    }
+
+    this.gl.uniform3fv(lightUniformLocation, lights)
+    // let lightCountUniformLocation = this.gl.getUniformLocation(this.shader, "lightCount")
+    shader.getUniformInt("lightCount").set(this.lightPosisitions.length)
 
     let P = shader.getUniformMatrix("P");
     if (P && this.perspective) {
@@ -341,9 +391,25 @@ export class RasterVisitor implements Visitor {
     shader.getUniformFloat("kS").set(this.kS)
     shader.getUniformFloat("kD").set(this.kD)
     shader.getUniformFloat("kA").set(this.kA)
-    shader.getUniformVec3("lightPositions1").set(this.lightPosisitions[0])
-    shader.getUniformVec3("lightPositions2").set(this.lightPosisitions[1])
-    shader.getUniformVec3("lightPositions3").set(this.lightPosisitions[2])
+    // shader.getUniformVec3("lightPositions1").set(this.lightPosisitions[0])
+    // shader.getUniformVec3("lightPositions2").set(this.lightPosisitions[1])
+    // shader.getUniformVec3("lightPositions3").set(this.lightPosisitions[2])
+    let lightUniformLocation = shader.getUniform3fv("lights")
+    let lights = []
+    for (let i = 0; i < this.lightPosisitions.length; i++) {
+      lights[3*i] = this.lightPosisitions[i].x
+      lights[3*i+1] = this.lightPosisitions[i].y
+      lights[3*i+2] = this.lightPosisitions[i].z
+    }
+    for (let i = this.lightPosisitions.length; i < 8; i++) {
+      lights[3*i] = 0
+      lights[3*i+1] = 0
+      lights[3*i+2] = 0
+    }
+
+    this.gl.uniform3fv(lightUniformLocation, lights)
+    // let lightCountUniformLocation = this.gl.getUniformLocation(this.shader, "lightCount")
+    shader.getUniformInt("lightCount").set(this.lightPosisitions.length)
 
     let P = shader.getUniformMatrix("P");
     if (P && this.perspective) {
@@ -380,9 +446,25 @@ export class RasterVisitor implements Visitor {
     shader.getUniformFloat("kS").set(this.kS)
     shader.getUniformFloat("kD").set(this.kD)
     shader.getUniformFloat("kA").set(this.kA)
-    shader.getUniformVec3("lightPositions1").set(this.lightPosisitions[0])
-    shader.getUniformVec3("lightPositions2").set(this.lightPosisitions[1])
-    shader.getUniformVec3("lightPositions3").set(this.lightPosisitions[2])
+    // shader.getUniformVec3("lightPositions1").set(this.lightPosisitions[0])
+    // shader.getUniformVec3("lightPositions2").set(this.lightPosisitions[1])
+    // shader.getUniformVec3("lightPositions3").set(this.lightPosisitions[2])
+    let lightUniformLocation = shader.getUniform3fv("lights")
+    let lights = []
+    for (let i = 0; i < this.lightPosisitions.length; i++) {
+      lights[3*i] = this.lightPosisitions[i].x
+      lights[3*i+1] = this.lightPosisitions[i].y
+      lights[3*i+2] = this.lightPosisitions[i].z
+    }
+    for (let i = this.lightPosisitions.length; i < 8; i++) {
+      lights[3*i] = 0
+      lights[3*i+1] = 0
+      lights[3*i+2] = 0
+    }
+
+    this.gl.uniform3fv(lightUniformLocation, lights)
+    // let lightCountUniformLocation = this.gl.getUniformLocation(this.shader, "lightCount")
+    shader.getUniformInt("lightCount").set(this.lightPosisitions.length)
 
 
     const V = shader.getUniformMatrix("V");
@@ -428,9 +510,25 @@ export class RasterVisitor implements Visitor {
     shader.getUniformFloat("kS").set(this.kS)
     shader.getUniformFloat("kD").set(this.kD)
     shader.getUniformFloat("kA").set(this.kA)
-    shader.getUniformVec3("lightPositions1").set(this.lightPosisitions[0])
-    shader.getUniformVec3("lightPositions2").set(this.lightPosisitions[1])
-    shader.getUniformVec3("lightPositions3").set(this.lightPosisitions[2])
+    // shader.getUniformVec3("lightPositions1").set(this.lightPosisitions[0])
+    // shader.getUniformVec3("lightPositions2").set(this.lightPosisitions[1])
+    // shader.getUniformVec3("lightPositions3").set(this.lightPosisitions[2])
+    let lightUniformLocation = shader.getUniform3fv("lights")
+    let lights = []
+    for (let i = 0; i < this.lightPosisitions.length; i++) {
+      lights[3*i] = this.lightPosisitions[i].x
+      lights[3*i+1] = this.lightPosisitions[i].y
+      lights[3*i+2] = this.lightPosisitions[i].z
+    }
+    for (let i = this.lightPosisitions.length; i < 8; i++) {
+      lights[3*i] = 0
+      lights[3*i+1] = 0
+      lights[3*i+2] = 0
+    }
+
+    this.gl.uniform3fv(lightUniformLocation, lights)
+    // let lightCountUniformLocation = this.gl.getUniformLocation(this.shader, "lightCount")
+    shader.getUniformInt("lightCount").set(this.lightPosisitions.length)
 
 
 

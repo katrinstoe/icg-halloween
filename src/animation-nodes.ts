@@ -62,7 +62,7 @@ export class RotationNode extends AnimationNode {
   simulate(deltaT: number) {
 
     if(this.active){
-        this.angle += 0.001 * deltaT;
+        this.angle += 0.005 * deltaT;
         this.groupNode.transform = new Rotation(this.axis, this.angle);
     }
   }

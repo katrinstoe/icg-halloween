@@ -154,8 +154,9 @@ window.addEventListener('load', function loadPage() {
             animationTime += deltaT;
             for (let animationNode of animationNodes) {
                 animationNode.simulate(deltaT);
-                camera.lightPositions = lightPositionsVisitor.visit(sg);
+                // camera.lightPositions = lightPositionsVisitor.visit(sg);
             }
+            camera.lightPositions = lightPositionsVisitor.visit(sg)
 
             for (let driverNode of driverNodes) {
                 driverNode.simulate(deltaT);
@@ -317,9 +318,9 @@ window.addEventListener('load', function loadPage() {
             animationTime += deltaT;
             for (let animationNode of animationNodes) {
                 animationNode.simulate(deltaT);
-                camera.lightPositions = lightPositions;
+                // camera.lightPositions = lightPositions;
             }
-
+            camera.lightPositions = lightPositionsVisitor.visit(sg)
             for (let driverNode of driverNodes) {
                 driverNode.simulate(deltaT);
             }

@@ -5,12 +5,13 @@ precision mediump float;
 varying vec3 vColor;
 varying vec3 v_normal;
 varying vec3 vPosition;
-varying vec3 vlightPositions[3];
+//varying vec3 vlightPositions[3];
 varying float vshininess;
 varying float vkS;
 varying float vkD;
 varying float vkA;
-//varying vec2 v_texCoord;
+uniform int lightCount;
+uniform vec3 lights[8];
 
 //uniform sampler2D sampler;
 //lichtstrahl => auftreffpunkt
@@ -43,14 +44,16 @@ void main(void) {
   vec3 totalDiffuse = vec3(0.0);
   vec3 totalSpecular= vec3(0.0);
 
-for(int i=0; i<3; i++){
-  vec3 l = normalize(vlightPositions[i] - vPosition);
-  vec3 v = normalize(-vPosition);
-  vec3 r= normalize(reflect(-l, v_normal));
-  vec3 n = normalize(v_normal);
+for(int i=0; i<8; i++){
+  if(i < lightCount){
+    vec3 l = normalize(lights[i]- vPosition);
+    vec3 v = normalize(-vPosition);
+    vec3 r= normalize(reflect(-l, v_normal));
+    vec3 n = normalize(v_normal);
 
-  totalDiffuse += vColor * max(0.0, dot(n, l))*vkD;
-  totalSpecular += vColor * pow(max(0.0, dot(r, v)), vshininess)* vkS;
+    totalDiffuse += vColor * max(0.0, dot(n, l))*vkD;
+    totalSpecular += vColor * pow(max(0.0, dot(r, v)), vshininess)* vkS;
+  }
 }
 //  totalDiffuse = max(totalDiffuse, 0.02);
 //  totalSpecular = max(totalSpecular, 0.02);

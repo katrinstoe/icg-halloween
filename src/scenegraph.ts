@@ -177,31 +177,46 @@ export default class Scenegraph {
         sg.add(pyramidTr)
 
         //muss punkt sein
-        const light1 = new LightNode(new Vector(1, 1, 0, 1))
-        const lightTr = new GroupNode(new Translation(new Vector(-0.3, 0, -1, 0)));
+        const light1 = new LightNode(new Vector(1, 1, 1, 1))
+        const gelbeKugel1 = new SphereNode( new Vector(1,1,0,0));
+        const gelbeKugelSc1 = new GroupNode(new Scaling( new Vector(0.02, 0.02, 0.02, 0)));
+        // const kugelTr = new GroupNode(new Translation(new Vector(0.2, 0.2, -0.9, 0)));
+        const animationNode = new GroupNode(new Translation(new Vector(0, 0, 0, 0)));
+        const lightTr = new GroupNode(new Translation(new Vector(0.2, 0.2, -1, 0)));
 
-        lightTr.add(light1)
+
+        lightTr.add(animationNode)
+        // lightTr.add(gelbeKugelSc1)
+        animationNode.add(light1)
+        gelbeKugelSc1.add(gelbeKugel1)
+        animationNode.add(gelbeKugelSc1)
         sg.add(lightTr)
+        // gelbeKugelSc1.add(gelbeKugel1)
+        // lightTr.add(gelbeKugelSc1)
+        // lightTr.add(light1)
+        // animationNode.add(lightTr)
+        // sg.add(animationNode)
 
-        const light2 = new LightNode(new Vector(-0.5, 0.5, 0, 1))
-        // const gelbeKugel2 = new SphereNode( new Vector(1,1,0,0));
-        // const gelbeKugelSc2 = new GroupNode(new Scaling( new Vector(0.02, 0.02, 0.02, 0)));
-        const lightTr2 = new GroupNode(new Translation(new Vector(-0.5, 0.43, -0.9, 0)));
+        const light2 = new LightNode(new Vector(1, 1, 0, 1))
+        const gelbeKugel2 = new SphereNode( new Vector(1,1,0,0));
+        const gelbeKugelSc2 = new GroupNode(new Scaling( new Vector(0.02, 0.02, 0.02, 0)));
+        const lightTr2 = new GroupNode(new Translation(new Vector(-0.5, 0.5, -1, 0)));
 
+        gelbeKugelSc2.add(gelbeKugel2)
         lightTr2.add(light2)
-        // gelbeKugelSc2.add(gelbeKugel2)
-        // lightTr2.add(gelbeKugelSc2)
-        sg.add(lightTr2)
+        lightTr2.add(gelbeKugelSc2)
+        // sg.add(lightTr2)
 
-        const light3 = new LightNode(new Vector(0, -0.8, -1, 1))
-        // const gelbeKugel3 = new SphereNode( new Vector(1,1,0,0));
-        // const gelbeKugelSc3 = new GroupNode(new Scaling( new Vector(0.02, 0.02, 0.02, 0)));
-        const lightTr3 = new GroupNode(new Translation(new Vector(0, -0.43, -1, 0)));
+        const light3 = new LightNode(new Vector(0, -0.48, -1, 1))
+        const gelbeKugel3 = new SphereNode( new Vector(1,1,0,0));
+        const gelbeKugelSc3 = new GroupNode(new Scaling( new Vector(0.02, 0.02, 0.02, 0)));
+        const lightTr3 = new GroupNode(new Translation(new Vector(0, -0.48, -1, 0)));
 
-        lightTr3.add(light3)
-        // gelbeKugelSc3.add(gelbeKugel3)
-        // lightTr3.add(gelbeKugelSc3)
+        // lightTr3.add(light3)
+        gelbeKugelSc3.add(gelbeKugel3)
+        lightTr3.add(gelbeKugelSc3)
         sg.add(lightTr3)
+        // sg.add(light3)
 
         //
         // const light4 = new LightNode(new Vector(0, 1, 0, 1))
@@ -212,7 +227,7 @@ export default class Scenegraph {
 
         const videoBox = new TextureVideoBoxNode("icgTestVideo.mp4");
         const videoSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.2, 0)));
-        const videoTr = new GroupNode(new Translation(new Vector(0.1, 0, -0.5, 0)));
+        const videoTr = new GroupNode(new Translation(new Vector(0.1, 0, -1, 0)));
 
         videoSc.add(videoBox);
         videoTr.add(videoSc)
@@ -238,8 +253,9 @@ export default class Scenegraph {
 
         let animationNodes = [
             new RotationNode(sphereRt, new Vector(0, 0, 1, 0)),
-            new RotationNode(lightTr, new Vector(1, 1, 1, 0)),
-            new RotationNode(lightTr2, new Vector(1, 1, 1, 0)),
+            new RotationNode(animationNode, new Vector(0, 0, 1, 0)),
+            // new RotationNode(kugelTr2, new Vector(0.2, 0.2, -1, 0)),
+            // new RotationNode(lightTr2, new Vector(1, 1, 1, 0)),
         ]
 
         let driverNodes = [

@@ -10,13 +10,17 @@ varying float vshininess;
 varying float vkS;
 varying float vkD;
 varying float vkA;
-varying vec3 vlightPositions[3];
+//varying vec3 vlightPositions[3];
 varying vec3 vPosition;
 
-vec3 lightPositions[3];
-uniform vec3 lightPositions1;
-uniform vec3 lightPositions2;
-uniform vec3 lightPositions3;
+//vec3 lightPositions[3];
+//uniform vec3 lightPositions1;
+//uniform vec3 lightPositions2;
+//uniform vec3 lightPositions3;
+//uniform3fv lights[8];
+//uniform int lightCount;
+
+
 
 uniform mat4 M;
 uniform mat4 V;
@@ -31,13 +35,13 @@ void main() {
     gl_Position = P * V * M * vec4(a_position, 1.0);
 
     //  vlightPositions = vec3(a_light_positions);
-    lightPositions[0] = vec3(lightPositions1);
-    lightPositions[1] = vec3(lightPositions2);
-    lightPositions[2] = vec3(lightPositions3);
-
-    for (int i= 0; i<3; i++){
-        vlightPositions[i] = vec3(lightPositions[i]);
-    }
+//    lightPositions[0] = vec3(lightPositions1);
+//    lightPositions[1] = vec3(lightPositions2);
+//    lightPositions[2] = vec3(lightPositions3);
+//
+//    for (int i= 0; i<1; i++){
+//        vlightPositions[i] = vec3(lightPositions[i]);
+//    }
 
     vshininess = shininess;
     vkS = kS;
