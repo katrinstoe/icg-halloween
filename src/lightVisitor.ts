@@ -1,12 +1,13 @@
 import Visitor from "./visitor";
 import {
+    AABoxButtonNode,
     AABoxNode,
     CameraNode,
     GroupNode,
     LightNode,
     Node,
     PyramidNode,
-    SphereNode,
+    SphereNode, TextureBoxButtonNode,
     TextureBoxNode,
     TexturePyramidNode,
     TextureVideoBoxNode
@@ -84,6 +85,11 @@ export class LightVisitor implements Visitor {
     }
 
     visitTextureBoxNode(node: TextureBoxNode): void {
+    }
+
+    visitAABoxButtonNode(node: AABoxButtonNode) {
+    }
+    visitTextureBoxButtonNode(node: TextureBoxButtonNode) {
     }
 
 }
