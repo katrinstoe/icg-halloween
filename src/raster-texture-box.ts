@@ -106,17 +106,7 @@ export default class RasterTextureBox {
         gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(uv),
             gl.STATIC_DRAW);
         this.texCoords = uvBuffer;
-        //hier ohne indices weil bei textures nicht reusen der selben indices möglich ist
-        //stattdessen interpolieren der vertices mit dem mittelpunkt des Würfels
-        //
-        //    \           / <--- interpolierte normale von center aus (Linie zwischen Ecke-vertices und center denken und verlängern)
-        //     \ - - - - /
-        //     |         |
-        //     |    x    |
-        //     |         |
-        //     /- - - - -\
-        //    /           \
-
+        //Quelle: so wie raster-box
         let triangles: Vector[] = []
         for (let i = 0; i < vertices.length; i++) {
             triangles.push(new Vector(vertices[i * 3+0], vertices[i * 3+1], vertices[i * 3+2], 1))
@@ -139,6 +129,8 @@ export default class RasterTextureBox {
             normalsTriangles.push(U.cross(V).y)
             normalsTriangles.push(U.cross(V).z)
         }
+
+        console.log(normalsTriangles);
 
         const vertexBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
