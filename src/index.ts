@@ -47,6 +47,7 @@ const UNIT_PYRAMID = new Pyramid(new Vector(-0.5, -0.5, 0.5, 1), new Vector(0.5,
 
 window.addEventListener('load', function loadPage() {
     let {sg, scalerNodes, driverNodes, animationNodes} = Scenegraph.getScenegraph();
+    // let {sg, scalerNodes, driverNodes, animationNodes} = Scenegraph.testLight()
 //Rasterizer und RayTracer Wechseln
     const canvas = document.getElementById("rasteriser") as HTMLCanvasElement;
     const canvas2 = document.getElementById("rayTracer") as HTMLCanvasElement;

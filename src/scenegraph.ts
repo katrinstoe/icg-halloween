@@ -12,6 +12,7 @@ import {Rotation, Scaling, Translation} from "./transformation";
 import Vector from "./vector";
 import {AnimationNode, DriverNode, RotationNode, ScalerNode} from "./animation-nodes";
 import AABox from "./aabox";
+import {LightVisitor} from "./lightVisitor";
 
 export default class Scenegraph {
     static getScenegraph() {
@@ -177,53 +178,66 @@ export default class Scenegraph {
         sg.add(pyramidTr)
 
         //muss punkt sein
-        const light1 = new LightNode(new Vector(1, 1, 1, 1))
-        const gelbeKugel1 = new SphereNode( new Vector(1,1,0,0));
-        const gelbeKugelSc1 = new GroupNode(new Scaling( new Vector(0.02, 0.02, 0.02, 0)));
-        // const kugelTr = new GroupNode(new Translation(new Vector(0.2, 0.2, -0.9, 0)));
-        const animationNode = new GroupNode(new Translation(new Vector(0, 0, 0, 0)));
-        const lightTr = new GroupNode(new Translation(new Vector(0.2, 0.2, -1, 0)));
+        // const light1 = new LightNode(new Vector(1, 1, 1, 1))
+        // const gelbeKugel1 = new SphereNode( new Vector(1,1,0,0));
+        // const gelbeKugelSc1 = new GroupNode(new Scaling( new Vector(0.02, 0.02, 0.02, 0)));
+        // // const kugelTr = new GroupNode(new Translation(new Vector(0.2, 0.2, -0.9, 0)));
+        // const animationNode = new GroupNode(new Translation(new Vector(0, 0, 0, 0)));
+        // const lightTr = new GroupNode(new Translation(new Vector(0.2, 0.2, -1, 0)));
+        // let rightUp = new GroupNode(new Translation(new Vector(1,2,-4,0)));
+        // let left = new GroupNode(new Translation(new Vector(-1,0,-.2,0)));
+        // let back = new GroupNode(new Translation(new Vector(0,0,-3,0)));
+        //
+        // sg.add(animationNode)
+        // animationNode.add(lightTr)
+        // lightTr.add(light1)
+        // rightUp.add(light1)
+        // gelbeKugelSc1.add(gelbeKugel1)
+        // rightUp.add(gelbeKugel1)
+        let light1 = this.getLight(new Vector(0,0,-1,0));
+        let light2 = this.getLight(new Vector(0,.2,1,0));
+        let light3 = this.getLight(new Vector(0.2,.2,-3,0));
+        sg.add(light1)
+        sg.add(light2)
+        sg.add(light3)
 
 
-        lightTr.add(animationNode)
-        // lightTr.add(gelbeKugelSc1)
-        animationNode.add(light1)
-        gelbeKugelSc1.add(gelbeKugel1)
-        animationNode.add(gelbeKugelSc1)
-        sg.add(lightTr)
+
+        // lightTr.add(animationNode)
+        // // lightTr.add(gelbeKugelSc1)
+        // animationNode.add(light1)
+        // gelbeKugelSc1.add(gelbeKugel1)
+        // animationNode.add(gelbeKugelSc1)
+        // sg.add(lightTr)
         // gelbeKugelSc1.add(gelbeKugel1)
         // lightTr.add(gelbeKugelSc1)
         // lightTr.add(light1)
         // animationNode.add(lightTr)
         // sg.add(animationNode)
 
-        const light2 = new LightNode(new Vector(1, 1, 0, 1))
-        const gelbeKugel2 = new SphereNode( new Vector(1,1,0,0));
-        const gelbeKugelSc2 = new GroupNode(new Scaling( new Vector(0.02, 0.02, 0.02, 0)));
-        const lightTr2 = new GroupNode(new Translation(new Vector(-0.5, 0.5, -1, 0)));
-
-        gelbeKugelSc2.add(gelbeKugel2)
-        lightTr2.add(light2)
-        lightTr2.add(gelbeKugelSc2)
-        // sg.add(lightTr2)
-
-        const light3 = new LightNode(new Vector(0, -0.48, -1, 1))
-        const gelbeKugel3 = new SphereNode( new Vector(1,1,0,0));
-        const gelbeKugelSc3 = new GroupNode(new Scaling( new Vector(0.02, 0.02, 0.02, 0)));
-        const lightTr3 = new GroupNode(new Translation(new Vector(0, -0.48, -1, 0)));
-
-        // lightTr3.add(light3)
-        gelbeKugelSc3.add(gelbeKugel3)
-        lightTr3.add(gelbeKugelSc3)
-        sg.add(lightTr3)
-        // sg.add(light3)
-
+        // let forAnimation = new GroupNode(new Translation(new Vector(0,0,0,0)));
+        // // new GroupNode(anima)
+        // let rightUp = new GroupNode(new Translation(new Vector(1,2,-4,0)));
+        // let left = new GroupNode(new Translation(new Vector(-1,0,-.2,0)));
+        // let smaller = new GroupNode(new Scaling(new Vector(.5,.5,.5,0)));
+        // let sphere2 = new SphereNode(new Vector(1,.5,.2,1));
         //
-        // const light4 = new LightNode(new Vector(0, 1, 0, 1))
-        // const lightTr4 = new GroupNode(new Translation(new Vector(0, 0, -1, 0)));
-        //
-        // lightTr2.add(light4)
-        // sg.add(lightTr4)
+        // let light = new LightNode(new Vector(1,1,1,1));
+        // let yellowSphere = new SphereNode(new Vector(1,1,0,1));
+        // sg.add(forAnimation)
+        // forAnimation.add(rightUp)
+        // rightUp.add(light)
+        // rightUp.add(yellowSphere)
+        // // back.add(light);
+        // // back.add(sphere)
+        // back.add(left)
+        // left.add(smaller)
+        // smaller.add(sphere2)
+        // const animationNodes =[
+        //     new RotationNode(forAnimation, new Vector(1,0,0,0))
+        // ]
+
+
 
         const videoBox = new TextureVideoBoxNode("icgTestVideo.mp4");
         const videoSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.2, 0)));
@@ -231,7 +245,7 @@ export default class Scenegraph {
 
         videoSc.add(videoBox);
         videoTr.add(videoSc)
-        sg.add(videoTr)
+        // sg.add(videoTr)
 
 
 
@@ -253,10 +267,13 @@ export default class Scenegraph {
 
         let animationNodes = [
             new RotationNode(sphereRt, new Vector(0, 0, 1, 0)),
-            new RotationNode(animationNode, new Vector(0, 0, 1, 0)),
+            new RotationNode(light1, new Vector(0, 1, 0, 0)),
+            new RotationNode(light2, new Vector(0, 1, 0, 0)),
+            new RotationNode(light3, new Vector(0, 0, 1, 0)),
             // new RotationNode(kugelTr2, new Vector(0.2, 0.2, -1, 0)),
             // new RotationNode(lightTr2, new Vector(1, 1, 1, 0)),
         ]
+
 
         let driverNodes = [
             //new RotationNode(cubeSc, new Vector(0,0,1,0)),
@@ -274,16 +291,69 @@ export default class Scenegraph {
         }
     }
 
+    static testLight():scenegraphObject {
+        const sg = new GroupNode(new Rotation(new Vector(0, 0, 1, 0), 0));
+        let back = new GroupNode(new Translation(new Vector(0,0,-3,0)));
+        let forAnimation = new GroupNode(new Translation(new Vector(0,0,0,0)));
+        // new GroupNode(anima)
+        let rightUp = new GroupNode(new Translation(new Vector(1,2,-4,0)));
+        let left = new GroupNode(new Translation(new Vector(-1,0,-.2,0)));
+        let smaller = new GroupNode(new Scaling(new Vector(.5,.5,.5,0)));
+        let sphere2 = new SphereNode(new Vector(1,.5,.2,1));
+
+        let light = new LightNode(new Vector(1,1,1,1));
+        let yellowSphere = new SphereNode(new Vector(1,1,0,1));
+        sg.add(back);
+        sg.add(forAnimation)
+        forAnimation.add(rightUp)
+        rightUp.add(light)
+        rightUp.add(yellowSphere)
+        // back.add(light);
+        // back.add(sphere)
+        back.add(left)
+        left.add(smaller)
+        smaller.add(sphere2)
+        const animationNodes =[
+            new RotationNode(forAnimation, new Vector(1,0,0,0))
+        ]
+        return {
+            sg,
+            animationNodes: animationNodes,
+            driverNodes: [],
+            scalerNodes:[]
+        }
+
+    }
+
+    static getLight(vec: Vector) {
+        let root = new GroupNode(new Translation(new Vector(0,0,0,0)));
+        let lightBack = new GroupNode(new Translation(vec));
+        root.add(lightBack)
+
+        let light = new LightNode(new Vector(1,1,1,1));
+        let yellowSphere = new SphereNode(new Vector(1, 1, 0, 1));
+        let sphereScaling = new GroupNode(new Scaling(new Vector(.02,.02,.02,0)));
+        sphereScaling.add(yellowSphere)
+        lightBack.add(light);
+        lightBack.add(sphereScaling)
+
+        return root
+    }
+
     static getTestScenegraph(): scenegraphObject {
         const sg = new GroupNode(new Rotation(new Vector(0, 0, 1, 0), 0));
         const gnTr = new GroupNode(new Translation(new Vector(-0.75, -0.75, -3, 0)));
         sg.add(gnTr);
 
-        const pyramid = new AABoxNode(new Vector(1, 0, 1, 0))
+        const pyramid = new SphereNode(new Vector(1, .4, 1, 0))
         const pyramidSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.2, 0)));
         const pyramidRt = new GroupNode(new Rotation(new Vector(0,0,1,0), 1));
 
         const pyramidTr = new GroupNode(new Translation(new Vector(-0.2, -0.4, -1, 0)));
+        let light = new LightNode(new Vector(1,1,1,1));
+        let lightGN = new GroupNode(new Translation(new Vector(.2,-2,-2,0)));
+        sg.add(lightGN)
+        lightGN.add(light)
 
         pyramidSc.add(pyramid)
         pyramidRt.add(pyramidSc)

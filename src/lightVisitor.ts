@@ -70,8 +70,8 @@ export class LightVisitor implements Visitor {
         fromWorld = this.inverse[this.inverse.length - 1];
 
 
-        this.lightPositions.push(fromWorld.mulVec(node.position))
-        console.log(fromWorld.mulVec(node.position))
+        this.lightPositions.push(toWorld.mulVec(node.position))
+        // console.log(fromWorld.mulVec(node.position))
 
     }
 
