@@ -35,6 +35,9 @@ export default class TextureVideoBox {
 
     playing: boolean;
     timeupdate: boolean;
+    private normals: Array<number>;
+    private normalBuffer: WebGLBuffer;
+
 
     /**
      * Creates all WebGL buffers for the textured box
@@ -79,12 +82,12 @@ export default class TextureVideoBox {
             mi.x, mi.y, mi.z, ma.x, mi.y, mi.z, ma.x, mi.y, ma.z,
             ma.x, mi.y, ma.z, mi.x, mi.y, ma.z, mi.x, mi.y, mi.z
         ];
-
-        const vertexBuffer = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
-        this.vertexBuffer = vertexBuffer;
-        this.elements = vertices.length / 3;
+        //
+        // const vertexBuffer = gl.createBuffer();
+        // gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+        // gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+        // this.vertexBuffer = vertexBuffer;
+        // this.elements = vertices.length / 3;
 
         let cubeTexture = this.initTexture(gl);
         this.video = this.setupVideo(url);
@@ -106,14 +109,19 @@ export default class TextureVideoBox {
             // front
             0, 1, 1, 1, 1, 0,
             1, 0, 0, 0, 0, 1,
+            //back
             0, 1, 1, 1, 1, 0,
             1, 0, 0, 0, 0, 1,
+            //right
             0, 1, 1, 1, 1, 0,
             1, 0, 0, 0, 0, 1,
+            //top
             0, 1, 1, 1, 1, 0,
             1, 0, 0, 0, 0, 1,
+            //left
             0, 1, 1, 1, 1, 0,
             1, 0, 0, 0, 0, 1,
+            //bottom
             0, 1, 1, 1, 1, 0,
             1, 0, 0, 0, 0, 1,
         ];
@@ -122,11 +130,46 @@ export default class TextureVideoBox {
         gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(uv),
             gl.STATIC_DRAW);
         this.texCoords = uvBuffer;
+
+        let triangles: Vector[] = []
+        for (let i = 0; i < vertices.length; i++) {
+            triangles.push(new Vector(vertices[i * 3+0], vertices[i * 3+1], vertices[i * 3+2], 1))
+        }
+        let normalsTriangles = []
+        for (let j = 0; j < triangles.length; j+=3) {
+
+            let U = triangles[j+1].sub(triangles[j])
+            let V = triangles[j+2].sub(triangles[j+1])
+
+            normalsTriangles.push(U.cross(V).x)
+            normalsTriangles.push(U.cross(V).y)
+            normalsTriangles.push(U.cross(V).z)
+
+            normalsTriangles.push(U.cross(V).x)
+            normalsTriangles.push(U.cross(V).y)
+            normalsTriangles.push(U.cross(V).z)
+
+            normalsTriangles.push(U.cross(V).x)
+            normalsTriangles.push(U.cross(V).y)
+            normalsTriangles.push(U.cross(V).z)
+        }
+
+        const vertexBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+        this.vertexBuffer = vertexBuffer;
+
+        const normalBuffer = this.gl.createBuffer();
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, normalBuffer);
+        this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(normalsTriangles), this.gl.STATIC_DRAW);
+        this.normalBuffer = normalBuffer;
+        this.elements = vertices.length/3;
     }
 
     /**
      * Renders the textured box
      * @param {Shader} shader - The shader used to render
+     * Quelle: https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial/Animating_textures_in_WebGL?retiredLocale=de
      */
     render(shader: Shader) {
 
@@ -147,6 +190,10 @@ export default class TextureVideoBox {
         this.gl.enableVertexAttribArray(textureCoord);
         this.gl.vertexAttribPointer(textureCoord, 2, this.gl.FLOAT, false, 0, 0);
 
+        const aNormal = shader.getAttributeLocation("a_normal")
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.normalBuffer);
+        this.gl.enableVertexAttribArray(aNormal)
+        this.gl.vertexAttribPointer(aNormal, 3, this.gl.FLOAT, false, 0, 0)
 
         this.gl.activeTexture(this.gl.TEXTURE0);
         this.gl.bindTexture(this.gl.TEXTURE_2D, this.cubeTexture);
@@ -158,6 +205,8 @@ export default class TextureVideoBox {
         this.gl.disableVertexAttribArray(positionLocation);
         // TODO disable texture vertex attrib array
         this.gl.disableVertexAttribArray(textureCoord)
+        this.gl.disableVertexAttribArray(aNormal)
+
     }
 
     updateTexture(gl: any, texture: WebGLTexture, video: HTMLVideoElement) {
