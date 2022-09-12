@@ -315,7 +315,7 @@ export default class Scenegraph {
 
 export type scenegraphObject={
     sg: Node,
-    animationNodes: RotationNode[],
+    animationNodes: AnimationNode[],
     driverNodes: DriverNode[],
     scalerNodes: ScalerNode[],
     gl: HTMLCanvasElement,
