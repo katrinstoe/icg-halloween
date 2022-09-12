@@ -13,9 +13,27 @@ import Vector from "./vector";
 import {AnimationNode, DriverNode, RotationNode, ScalerNode} from "./animation-nodes";
 import AABox from "./aabox";
 import {LightVisitor} from "./lightVisitor";
+import Camera from "./camera";
+import {CameraNode} from "./nodes";
 
 export default class Scenegraph {
     static getScenegraph() {
+        const canvas = document.getElementById("rasteriser") as HTMLCanvasElement;
+        const canvas2 = document.getElementById("rayTracer") as HTMLCanvasElement;
+        const shininessElement = document.getElementById("shininess") as HTMLInputElement;
+        let shininessCalc = Number(shininessElement.value);
+
+        const kSElement = document.getElementById("kS") as HTMLInputElement;
+        let kSCalc = Number(kSElement.value)
+
+        const kDElement = document.getElementById("kD") as HTMLInputElement;
+        let kDCalc = Number(kDElement.value)
+
+        const kAElement = document.getElementById("kA") as HTMLInputElement;
+        let kACalc = Number(kAElement.value)
+
+        const gl = canvas.getContext("webgl2");
+        const ctx = canvas2.getContext("2d");
         // //Texturen
         const textureGeist = new TextureBoxNode('geist.png');
         const textureHCILogo = new TextureBoxNode('hci-logo.png');
@@ -26,6 +44,17 @@ export default class Scenegraph {
         const sg = new GroupNode(new Rotation(new Vector(0, 0, 1, 0), 0));
         const gnTr = new GroupNode(new Translation(new Vector(-0.75, -0.75, -3, 0)));
         sg.add(gnTr);
+
+        //Camera
+        const sgcamera = new Camera(new Vector(0, 0, 0, 1),
+            new Vector(0, 0, 0, 1),
+            new Vector(0, 0, -1, 1),
+            new Vector(0, 1, 0, 0),
+            60, 0.1, 100, canvas.width, canvas.height, shininessCalc,
+            kSCalc, kDCalc, kACalc)
+        const nodeCamera = new CameraNode(sgcamera)
+        sg.add(nodeCamera)
+
 
         //Taskbar
         const TaskBTr = new GroupNode(new Translation(new Vector(0, -.545, -1, 0)));
@@ -190,13 +219,13 @@ export default class Scenegraph {
         const driverGhost = new TextureBoxNode("geist.png")
         const driverGhostSc = new GroupNode(new Scaling(new Vector(0.1, 0.1, 0.1, 1)))
         driverGhostSc.add(driverGhost);
-        const driverGhostTr = new GroupNode(new Translation(new Vector(0.75, -0.8, 0, 0)))
+        const driverGhostTr = new GroupNode(new Translation(new Vector(0.75, -0.4, -1, 0)))
         driverGhostTr.add(driverGhostSc)
         sg.add(driverGhostTr)
 
         const ghostCastle = new TextureBoxNode("ghost_castle.jpg")
         const ghostCastleSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.2, 1)))
-        const ghostCastleTr = new GroupNode(new Translation(new Vector(0.9, -0.75, -0.1, 0)))
+        const ghostCastleTr = new GroupNode(new Translation(new Vector(0.9, -0.4, -1, 0)))
         ghostCastleSc.add(ghostCastle)
         ghostCastleTr.add(ghostCastleSc)
         sg.add(ghostCastleTr)
@@ -223,7 +252,15 @@ export default class Scenegraph {
             sg,
             animationNodes,
             driverNodes,
-            scalerNodes
+            scalerNodes,
+            gl,
+            ctx,
+            kAElement,
+            kSElement,
+            kDElement,
+            shininessElement,
+            canvas,
+            canvas2
         }
     }
 
@@ -243,7 +280,7 @@ export default class Scenegraph {
         return root
     }
 
-    static getTestScenegraph(): scenegraphObject {
+/*    static getTestScenegraph(): scenegraphObject {
         const sg = new GroupNode(new Rotation(new Vector(0, 0, 1, 0), 0));
         const gnTr = new GroupNode(new Translation(new Vector(-0.75, -0.75, -3, 0)));
         sg.add(gnTr);
@@ -273,12 +310,20 @@ export default class Scenegraph {
             driverNodes: [],
             scalerNodes:[]
         }
-    }
+    }*/
 };
 
 export type scenegraphObject={
     sg: Node,
     animationNodes: RotationNode[],
     driverNodes: DriverNode[],
-    scalerNodes: ScalerNode[]
+    scalerNodes: ScalerNode[],
+    gl: HTMLCanvasElement,
+    ctx: HTMLCanvasElement,
+    kAElement: HTMLInputElement,
+    kSElement: HTMLInputElement,
+    kDElement: HTMLInputElement,
+    shininessElement: HTMLInputElement,
+    canvas: HTMLCanvasElement,
+    canvas2: HTMLCanvasElement
 }

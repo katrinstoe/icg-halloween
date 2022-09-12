@@ -51,30 +51,10 @@ const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.
 const UNIT_PYRAMID = new Pyramid(new Vector(-0.5, -0.5, 0.5, 1), new Vector(0.5, -0.5, 0.5, 1), new Vector(0, -0.5, -0.5, 1), new Vector(0, 0.5, 0, 1), new Vector(0, 0, 0, 1))
 
 window.addEventListener('load', function loadPage() {
-    let {sg, scalerNodes, driverNodes, animationNodes} = Scenegraph.getScenegraph();
-//Rasterizer und RayTracer Wechseln
-    const canvas = document.getElementById("rasteriser") as HTMLCanvasElement;
-    const canvas2 = document.getElementById("rayTracer") as HTMLCanvasElement;
+    let {sg, scalerNodes, driverNodes, animationNodes, gl, ctx, kDElement, kSElement, kAElement, shininessElement, canvas, canvas2} = Scenegraph.getScenegraph();
 
     const btn1 = document.getElementById('btnradio1') as HTMLInputElement;
     const btn2 = document.getElementById('btnradio2') as HTMLInputElement;
-
-    const shininessElement = document.getElementById("shininess") as HTMLInputElement;
-    let shininessCalc = Number(shininessElement.value);
-
-    const kSElement = document.getElementById("kS") as HTMLInputElement;
-    let kSCalc = Number(kSElement.value)
-
-    const kDElement = document.getElementById("kD") as HTMLInputElement;
-    let kDCalc = Number(kDElement.value)
-
-    const kAElement = document.getElementById("kA") as HTMLInputElement;
-    let kACalc = Number(kAElement.value)
-
-
-
-    const gl = canvas.getContext("webgl2");
-    const ctx = canvas2.getContext("2d");
 
     const phongShader = new Shader(gl,
         phongVertexShaderPerspective,
