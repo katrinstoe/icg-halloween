@@ -82,12 +82,12 @@ export default class TextureVideoBox {
             mi.x, mi.y, mi.z, ma.x, mi.y, mi.z, ma.x, mi.y, ma.z,
             ma.x, mi.y, ma.z, mi.x, mi.y, ma.z, mi.x, mi.y, mi.z
         ];
-
-        const vertexBuffer = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
-        this.vertexBuffer = vertexBuffer;
-        this.elements = vertices.length / 3;
+        //
+        // const vertexBuffer = gl.createBuffer();
+        // gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+        // gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+        // this.vertexBuffer = vertexBuffer;
+        // this.elements = vertices.length / 3;
 
         let cubeTexture = this.initTexture(gl);
         this.video = this.setupVideo(url);
@@ -131,18 +131,37 @@ export default class TextureVideoBox {
             gl.STATIC_DRAW);
         this.texCoords = uvBuffer;
 
-        this.normals = []
-        let centerCube = new Vector((mi.x + ma.x)/2, (mi.y + ma.y) / 2, (mi.z+ma.z)/2, 1)
-        for (let j = 0; j < vertices.length/3; j++) {
-            let normal = new Vector(vertices[j*3], vertices[j*3+1], vertices[j*3+3], 1).sub(centerCube).normalize()
-            this.normals.push(normal.x)
-            this.normals.push(normal.y)
-            this.normals.push(normal.z)
+        let triangles: Vector[] = []
+        for (let i = 0; i < vertices.length; i++) {
+            triangles.push(new Vector(vertices[i * 3+0], vertices[i * 3+1], vertices[i * 3+2], 1))
         }
-        console.log(this.normals)
+        let normalsTriangles = []
+        for (let j = 0; j < triangles.length; j+=3) {
+
+            let U = triangles[j+1].sub(triangles[j])
+            let V = triangles[j+2].sub(triangles[j+1])
+
+            normalsTriangles.push(U.cross(V).x)
+            normalsTriangles.push(U.cross(V).y)
+            normalsTriangles.push(U.cross(V).z)
+
+            normalsTriangles.push(U.cross(V).x)
+            normalsTriangles.push(U.cross(V).y)
+            normalsTriangles.push(U.cross(V).z)
+
+            normalsTriangles.push(U.cross(V).x)
+            normalsTriangles.push(U.cross(V).y)
+            normalsTriangles.push(U.cross(V).z)
+        }
+
+        const vertexBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+        this.vertexBuffer = vertexBuffer;
+
         const normalBuffer = this.gl.createBuffer();
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, normalBuffer);
-        this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(this.normals), this.gl.STATIC_DRAW);
+        this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(normalsTriangles), this.gl.STATIC_DRAW);
         this.normalBuffer = normalBuffer;
         this.elements = vertices.length/3;
     }

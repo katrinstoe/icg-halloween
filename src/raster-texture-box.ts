@@ -140,12 +140,6 @@ export default class RasterTextureBox {
             normalsTriangles.push(U.cross(V).z)
         }
 
-        vertices = []
-        for (let j = 0; j < triangles.length; j++) {
-            vertices.push(triangles[j].x)
-            vertices.push(triangles[j].y)
-            vertices.push(triangles[j].z)
-        }
         const vertexBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
