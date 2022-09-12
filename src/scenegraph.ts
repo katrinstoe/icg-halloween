@@ -245,7 +245,7 @@ export default class Scenegraph {
 
         videoSc.add(videoBox);
         videoTr.add(videoSc)
-        // sg.add(videoTr)
+        sg.add(videoTr)
 
 
 
