@@ -253,6 +253,7 @@ window.addEventListener('load', function loadPage() {
             };
         }
 
+
         window.addEventListener('dblclick', function (evt) {
             let mousePos = getMousePos(canvas, evt);
             let mouseVisitor = new mouseClickVisitor(ctx, canvas.width, canvas.height, mousePos);
