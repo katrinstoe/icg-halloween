@@ -52,8 +52,7 @@ export default class AABox {
             new Vector(maxPoint.x, maxPoint.y, minPoint.z, 1),
             new Vector(minPoint.x, maxPoint.y, minPoint.z, 1)
         ];
-
-        // this.vertices =[
+      // this.vertices =[
       //   minPoint.x, minPoint.y, maxPoint.z,
       //   maxPoint.x, minPoint.y, maxPoint.z,
       //   maxPoint.x, maxPoint.y, maxPoint.z,
@@ -64,24 +63,12 @@ export default class AABox {
       //   minPoint.x, maxPoint.y, minPoint.z
       // ]
         this.indices = [
-            // front
-            0, 1, 2, 2, 3, 0,
-            // back
-            4, 5, 6, 6, 7, 4,
-            // right
-            1, 4, 7, 7, 2, 1,
-            // top
-            3, 2, 7, 7, 6, 3,
-            // left
-            5, 0, 3, 3, 6, 5,
-            // bottom
-            5, 4, 1, 1, 0, 5
-            // 0, 1, 2, 3,
-            // 1, 5, 6, 2,
-            // 4, 0, 3, 7,
-            // 3, 2, 6, 7,
-            // 5, 4, 7, 6,
-            // 0, 4, 5, 1
+            0, 1, 2, 3,
+            1, 5, 6, 2,
+            4, 0, 3, 7,
+            3, 2, 6, 7,
+            5, 4, 7, 6,
+            0, 4, 5, 1
         ];
         this.color = color;
 

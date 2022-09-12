@@ -272,14 +272,13 @@ window.addEventListener('load', function loadPage() {
             let mouseVisitor = new mouseClickVisitor(ctx, canvas.width, canvas.height, mousePos);
             mouseVisitor.render(sg, rayCamera, camera.lightPositions);
             setupVisitor.setup(sg);
-            visitor.render(sg, camera, camera.lightPositions);
+            //visitor.render(sg, camera, camera.lightPositions);
 
         }, false);
 
         function mouseClickedOn(event: { clientX: number; }) {
             let mx = event.clientX - canvas.getBoundingClientRect().left;
         }
-
     }
     function rayVisitor() {
         canvas.style.display = "none"
@@ -395,10 +394,6 @@ window.addEventListener('load', function loadPage() {
                     break;
             }
         });
-
-
-
-
         //
         // function animate(timestamp: number) {
         //     console.log("ich starte mal")
@@ -432,7 +427,7 @@ window.addEventListener('load', function loadPage() {
         // }
         animate(0);
         shininessElement.onchange = function () {
-            camera.shininess = 50-Number(shininessElement.value);
+            camera.shininess = 50 - Number(shininessElement.value);
             window.requestAnimationFrame(animate)
         }
         kSElement.onchange = function () {

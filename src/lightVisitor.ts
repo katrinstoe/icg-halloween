@@ -21,8 +21,7 @@ export class LightVisitor implements Visitor {
     lightNodes: Array<LightNode>
 
 
-    constructor(
-    ) {
+    constructor() {
         this.model = new Array<Matrix>(Matrix.identity())
         this.inverse = new Array<Matrix>(Matrix.identity())
     }

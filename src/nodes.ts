@@ -109,6 +109,29 @@ export class AABoxNode extends Node {
   }
 }
 
+export class AABoxButtonNode extends Node {
+
+  /**
+   * Creates an axis aligned box.
+   * The box's center is located at the origin
+   * with all edges of length 1
+   * @param color The colour of the cube
+   */
+  constructor(public color: Vector, public animate:()=> void) {
+    super();
+  }
+
+  /**
+   * Accepts a visitor according to the visitor pattern
+   * @param  {Visitor} visitor - The visitor
+   */
+  accept(visitor: Visitor) {
+    // TODO
+    visitor.visitAABoxButtonNode(this);
+  }
+}
+
+
 /**
  * Class representing a Textured Axis Aligned Box in the Scenegraph
  * @extends Node
@@ -133,6 +156,33 @@ export class TextureBoxNode extends Node {
     visitor.visitTextureBoxNode(this)
   }
 }
+
+/**
+ * Class representing a Textured Axis Aligned Box in the Scenegraph
+ * @extends Node
+ */
+export class TextureBoxButtonNode extends Node {
+  /**
+   * Creates an axis aligned box textured box
+   * The box's center is located at the origin
+   * with all edges of length 1
+   * @param texture The image filename for the texture
+   */
+  constructor(public texture: string, public animate:()=> void) {
+    super();
+  }
+
+  /**
+   * Accepts a visitor according to the visitor pattern
+   * @param visitor The visitor
+   */
+  accept(visitor: Visitor) {
+    // TODO
+    visitor.visitTextureBoxButtonNode(this)
+  }
+}
+
+
 
 /**
  * Class representing a Video Textured Axis Aligned Box in the Scenegraph

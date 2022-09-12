@@ -1,11 +1,13 @@
 import Visitor from "./visitor";
 import {
+    AABoxButtonNode,
     AABoxNode,
     CameraNode,
     GroupNode,
     LightNode, Node,
     PyramidNode,
     SphereNode,
+    TextureBoxButtonNode,
     TextureBoxNode,
     TexturePyramidNode,
     TextureVideoBoxNode
@@ -33,12 +35,18 @@ export default class RayVisitorSupaFast implements Visitor {
     private ray: Ray;
     private intersection: Intersection;
     private intersectionColor: Vector;
+
     constructor(
         private context: CanvasRenderingContext2D,
         width: number,
         height: number
     ) {
         this.imageData = context.getImageData(0, 0, width, height);
+    }
+
+    visitAABoxButtonNode(node: AABoxButtonNode): void {
+    }
+    visitTextureBoxButtonNode(node: TextureBoxButtonNode): void {
     }
     //ich habe:
     // Pro Pixel alle Transformations des Szenengraph berechnet

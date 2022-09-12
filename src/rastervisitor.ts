@@ -8,7 +8,7 @@ import {
   Node, GroupNode,
   SphereNode, AABoxNode,
   TextureBoxNode, PyramidNode, CameraNode, LightNode, TexturePyramidNode
-  ,TextureVideoBoxNode
+  , TextureVideoBoxNode, AABoxButtonNode, TextureBoxButtonNode
 } from './nodes';
 import Shader from './shader';
 import RasterPyramid from "./raster-pyramid";
@@ -555,6 +555,48 @@ export class RasterVisitor implements Visitor {
   };
   visitLightNode(node: LightNode) {
   };
+
+  visitAABoxButtonNode(node: AABoxButtonNode): void {
+    this.shader.use();
+    let shader = this.shader;
+    let toWorld = Matrix.identity();
+    // TODO Calculate the model matrix for the box
+    toWorld = this.model[this.model.length-1];
+
+    shader.getUniformMatrix("M").set(toWorld);
+    shader.getUniformFloat("shininess").set(this.shininess)
+    shader.getUniformFloat("kS").set(this.kS)
+    shader.getUniformFloat("kD").set(this.kD)
+    shader.getUniformFloat("kA").set(this.kA)
+
+    let V = shader.getUniformMatrix("V");
+    if (V && this.lookat) {
+      V.set(this.lookat);
+    }
+    let P = shader.getUniformMatrix("P");
+    if (P && this.perspective) {
+      P.set(this.perspective);
+    }
+
+    this.renderables.get(node).render(shader);
+  }
+
+  visitTextureBoxButtonNode(node: TextureBoxButtonNode): void {
+    this.textureshader.use();
+    let shader = this.textureshader;
+
+    let toWorld = Matrix.identity();
+    // TODO calculate the model matrix for the box
+    toWorld = this.model[this.model.length-1];
+
+    shader.getUniformMatrix("M").set(toWorld);
+    shader.getUniformMatrix("V").set(this.lookat);
+    let P = shader.getUniformMatrix("P");
+    if (P && this.perspective) {
+      P.set(this.perspective);
+    }
+    this.renderables.get(node).render(shader);
+  }
 }
 
 /**
@@ -710,6 +752,30 @@ export class RasterSetupVisitor {
             new Vector(1 , -1, 0, 1),
             new Vector(-1, -1, 1, 1),
             node.texture
+        )
+    );
+  }
+
+  visitTextureBoxButtonNode(node: TextureBoxNode) {
+    this.objects.set(
+        node,
+        new RasterTextureBox(
+            this.gl,
+            new Vector(-0.5, -0.5, -0.5, 1),
+            new Vector(0.5, 0.5, 0.5, 1),
+            node.texture
+        )
+    );
+  }
+
+  visitAABoxButtonNode(node: AABoxButtonNode) {
+    this.objects.set(
+        node,
+        new RasterBox(
+            this.gl,
+            new Vector(-0.5, -0.5, -0.5, 1),
+            new Vector(0.5, 0.5, 0.5, 1),
+            node.color
         )
     );
   }
