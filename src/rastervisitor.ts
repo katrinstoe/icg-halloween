@@ -171,7 +171,6 @@ export class RasterVisitor implements Visitor {
     shader.getUniformFloat("kS").set(this.kS)
     shader.getUniformFloat("kD").set(this.kD)
     shader.getUniformFloat("kA").set(this.kA)
-    shader.getUniformFloat("textureSampleYes").set(0)
     // for (let i = 0; i < this.lightPosisitions.length; i++) {
     //   shader.getUniformVec3("lightpositions" + i).set(this.lightPosisitions[i])
     // }
@@ -243,7 +242,6 @@ export class RasterVisitor implements Visitor {
     shader.getUniformFloat("kS").set(this.kS)
     shader.getUniformFloat("kD").set(this.kD)
     shader.getUniformFloat("kA").set(this.kA)
-    shader.getUniformFloat("textureSampleYes").set(0)
     shader.getUniformVec3("lightPositions1").set(this.lightPosisitions[0])
     shader.getUniformVec3("lightPositions2").set(this.lightPosisitions[1])
     shader.getUniformVec3("lightPositions3").set(this.lightPosisitions[2])
@@ -302,9 +300,6 @@ export class RasterVisitor implements Visitor {
     shader.getUniformVec3("lightPositions2").set(this.lightPosisitions[1])
     shader.getUniformVec3("lightPositions3").set(this.lightPosisitions[2])
 
-
-    shader.getUniformFloat("textureSampleYes").set(1)
-
     let P = shader.getUniformMatrix("P");
     if (P && this.perspective) {
       P.set(this.perspective);
@@ -350,8 +345,6 @@ export class RasterVisitor implements Visitor {
     shader.getUniformVec3("lightPositions2").set(this.lightPosisitions[1])
     shader.getUniformVec3("lightPositions3").set(this.lightPosisitions[2])
 
-    shader.getUniformFloat("textureSampleYes").set(1)
-
     let P = shader.getUniformMatrix("P");
     if (P && this.perspective) {
       P.set(this.perspective);
@@ -390,9 +383,6 @@ export class RasterVisitor implements Visitor {
     shader.getUniformVec3("lightPositions1").set(this.lightPosisitions[0])
     shader.getUniformVec3("lightPositions2").set(this.lightPosisitions[1])
     shader.getUniformVec3("lightPositions3").set(this.lightPosisitions[2])
-
-    shader.getUniformFloat("textureSampleYes").set(0)
-
 
 
     const V = shader.getUniformMatrix("V");
@@ -438,7 +428,6 @@ export class RasterVisitor implements Visitor {
     shader.getUniformFloat("kS").set(this.kS)
     shader.getUniformFloat("kD").set(this.kD)
     shader.getUniformFloat("kA").set(this.kA)
-    shader.getUniformFloat("textureSampleYes").set(1)
     shader.getUniformVec3("lightPositions1").set(this.lightPosisitions[0])
     shader.getUniformVec3("lightPositions2").set(this.lightPosisitions[1])
     shader.getUniformVec3("lightPositions3").set(this.lightPosisitions[2])

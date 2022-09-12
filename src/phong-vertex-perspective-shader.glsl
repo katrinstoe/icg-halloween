@@ -7,11 +7,8 @@ attribute vec3 a_normal;
 // to the fragment shader
 // TODO
 attribute vec3 a_color;
-//attribute vec4 a_light_positions[8];
 //attribute vec2 a_texCoord;
 
-
-uniform float textureSampleYes;
 uniform mat4 M;
 uniform mat4 V;
 uniform mat4 P;
@@ -36,7 +33,6 @@ varying float vshininess;
 varying float vkS;
 varying float vkD;
 varying float vkA;
-varying float textureSample;
 
 // Pass the vertex position in view space
 // to the fragment shader
@@ -50,7 +46,6 @@ void main() {
   // TODO
   vColor = a_color;
 //  v_texCoord = a_texCoord;
-  textureSample = textureSampleYes;
 
   //  vlightPositions = vec3(a_light_positions);
 //vlightPositions = lightPositions;

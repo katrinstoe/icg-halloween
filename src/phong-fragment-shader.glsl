@@ -11,7 +11,6 @@ varying float vkS;
 varying float vkD;
 varying float vkA;
 //varying vec2 v_texCoord;
-//varying float textureSample;
 
 //uniform sampler2D sampler;
 //lichtstrahl => auftreffpunkt

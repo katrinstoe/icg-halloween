@@ -10,13 +10,9 @@ varying float vshininess;
 varying float vkS;
 varying float vkD;
 varying float vkA;
-varying float textureSample;
 varying vec3 vlightPositions[3];
 varying vec3 vPosition;
 
-
-
-uniform float textureSampleYes;
 vec3 lightPositions[3];
 uniform vec3 lightPositions1;
 uniform vec3 lightPositions2;
@@ -33,8 +29,6 @@ uniform float kA;
 
 void main() {
     gl_Position = P * V * M * vec4(a_position, 1.0);
-
-    textureSample = textureSampleYes;
 
     //  vlightPositions = vec3(a_light_positions);
     lightPositions[0] = vec3(lightPositions1);
