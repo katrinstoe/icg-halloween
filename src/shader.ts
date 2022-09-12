@@ -50,6 +50,10 @@ export default class Shader {
     this.gl.useProgram(this.shaderProgram);
   }
 
+  getUniform3fv(name: string):  WebGLUniformLocation{
+    return this.gl.getUniformLocation(this.shaderProgram, name)
+  }
+
   /**
    * Returns the attribute location of a variable in the shader program
    * @param  {string} name - The name of the variable

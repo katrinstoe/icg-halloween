@@ -57,7 +57,6 @@ export default class RasterBox {
         // Nx = UyVz - UzVy
         // Ny = UzVx - UxVz
         // Nz = UxVy - UyVx
-        //Quelle: https://www.khronos.org/opengl/wiki/Calculating_a_Surface_Normal & Tino
         let vertices = [
             mi.x, mi.y, ma.z, //0 / 0
             ma.x, mi.y, ma.z, //4 / 1
@@ -82,10 +81,11 @@ export default class RasterBox {
             // bottom
             5, 4, 1, 1, 0, 5
         ];
+        //Quelle: https://www.khronos.org/opengl/wiki/Calculating_a_Surface_Normal & Tino
         //erstellen Triangles mit denen wir normalen später berechenn
         let triangles: Vector[] = []
         for (let i = 0; i < indices.length; i++) {
-            triangles.push(new Vector(vertices[indices[i] * 3+0], vertices[indices[i] * 3+1], vertices[indices[i] * 3+2], 1))
+            triangles.push(new Vector(vertices[indices[i] * 3], vertices[indices[i] * 3+1], vertices[indices[i] * 3+2], 1))
         }
         let normalsTriangles = []
         let colors = []

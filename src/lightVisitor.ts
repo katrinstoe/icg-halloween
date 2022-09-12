@@ -7,8 +7,7 @@ import {
     LightNode,
     Node,
     PyramidNode,
-    SphereNode,
-    TextureBoxButtonNode,
+    SphereNode, TextureBoxButtonNode,
     TextureBoxNode,
     TexturePyramidNode,
     TextureVideoBoxNode
@@ -26,11 +25,6 @@ export class LightVisitor implements Visitor {
     constructor() {
         this.model = new Array<Matrix>(Matrix.identity())
         this.inverse = new Array<Matrix>(Matrix.identity())
-    }
-
-    visitAABoxButtonNode(node: AABoxButtonNode): void {
-    }
-    visitTextureBoxButtonNode(node: TextureBoxButtonNode): void {
     }
 
     visitTextureVideoBoxNode(node: TextureVideoBoxNode): void {
@@ -73,14 +67,12 @@ export class LightVisitor implements Visitor {
 
         // TODO Calculate the model matrix for the sphere
         toWorld = this.model[this.model.length - 1];
-        fromWorld = this.inverse[this.inverse.length - 1]
+        fromWorld = this.inverse[this.inverse.length - 1];
 
 
-        this.lightPositions.push(fromWorld.mulVec(node.position))
+        this.lightPositions.push(toWorld.mulVec(node.position))
+        // console.log(fromWorld.mulVec(node.position))
 
-    }
-
-    lightNodeList(){
     }
 
     visitTexturePyramidNode(node: TexturePyramidNode) {
@@ -93,6 +85,11 @@ export class LightVisitor implements Visitor {
     }
 
     visitTextureBoxNode(node: TextureBoxNode): void {
+    }
+
+    visitAABoxButtonNode(node: AABoxButtonNode) {
+    }
+    visitTextureBoxButtonNode(node: TextureBoxButtonNode) {
     }
 
 }
