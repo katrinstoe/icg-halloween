@@ -214,7 +214,7 @@ window.addEventListener('load', function loadPage() {
     const sgcamera = new Camera(new Vector(0, 0, 0, 1),
         new Vector(0, 0, 0, 1),
         new Vector(0, 0, -1, 1),
-        new Vector(0, -1, 0, 0),
+        new Vector(0, 1, 0, 0),
         60, 0.1, 100, canvas.width, canvas.height, shininessCalc,
         kSCalc, kDCalc, kACalc)
     const nodeCamera = new CameraNode(sgcamera)
@@ -291,7 +291,7 @@ window.addEventListener('load', function loadPage() {
         // new DriverNode(lightTr, new Vector(1, 0, 0, 0)),
         // new TranslatorNode(lightTr, new Vector(1, 0, 0, 0), "left")
         new RotationNode(lightTr, new Vector(1, 1, 1, 0)),
-        //new CameraRotationNode(nodeCamera)
+        new CameraRotationNode(nodeCamera)
     ]
 
     let DriverNodes = [

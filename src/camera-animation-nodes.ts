@@ -53,9 +53,8 @@ export class CameraRotationNode extends CameraAnimationNode{
   simulate(deltaT: number) {
 
     if(this.active){
-        if(this.cameraNode.camera.up.x <= 1 && this.cameraNode.camera.up.y ==1){
-          this.cameraNode.camera.up.x += 0.001 * deltaT
-        }
+        this.cameraNode.camera.up.x += 0.001*deltaT
+        this.cameraNode.camera.up.y -= 0.001*deltaT
     }
   }
 }
