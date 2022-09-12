@@ -19,6 +19,7 @@ import phongFragmentShader from './phong-fragment-shader.glsl';
 import textureVertexShader from './texture-vertex-perspective-shader.glsl';
 import textureFragmentShader from './texture-fragment-shader.glsl';
 import {Rotation, Translation} from './transformation';
+import Camera from "./camera";
 
 window.addEventListener('load', () => {
     const canvas = document.getElementById("rasteriser") as HTMLCanvasElement;
@@ -66,21 +67,12 @@ window.addEventListener('load', () => {
     setupVisitor.setup(sg);
 
 
-    let camera = {
-        eye: new Vector(0, 0, 1, 1),
-        center: new Vector(0, 0, 0, 1),
-        up: new Vector(0, 1, 0, 0),
-        fovy: 60,
-        aspect: canvas.width / canvas.height,
-        near: 0.1,
-        far: 100,
-        shininess: shininessCalc,
-        kS: kSCalc,
-        kD: kDCalc,
-        kA: kACalc,
-        lightPositions: lightPositions
-
-    };
+    const camera = new Camera(new Vector(0, 0, 0, 1),
+        new Vector(0, 0, 0, 1),
+        new Vector(0, 0, -1, 1),
+        new Vector(0, 1, 0, 0),
+        60, 0.1, 100, canvas.width, canvas.height, shininessCalc,
+        kSCalc, kDCalc, kACalc)
 
     shininessElement.onchange = function () {
         camera.shininess = Number(shininessElement.value);
@@ -100,7 +92,7 @@ window.addEventListener('load', () => {
             lightPosition.x = lightPositionX;
         }
         // lightPositions = Number(lightPositionXElement.value);
-        console.log(camera.lightPositions)
+        //console.log(camera.lightPositions)
     }
 
     const phongShader = new Shader(gl,

@@ -14,6 +14,7 @@ import {
 } from './nodes';
 import AABox from './aabox';
 import Pyramid from "./pyramid";
+import Camera from "./camera";
 
 const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1));
 const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.5, 0.5, 1), new Vector(0, 0, 0, 1));
@@ -114,7 +115,7 @@ export default class mouseClickVisitor implements Visitor {
      */
     render(
         rootNode: Node,
-        camera: { origin: Vector, width: number, height: number, alpha: number },
+        camera: Camera,
         lightPositions: Array<Vector>
     ) {
         // clear

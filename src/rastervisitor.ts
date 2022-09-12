@@ -15,8 +15,9 @@ import RasterPyramid from "./raster-pyramid";
 import RasterTexturePyramid from "./raster-texture-pyramid";
 import {LightVisitor} from "./lightVisitor";
 import TextureVideoBox from "./texture-video-box";
+import Camera from "./camera";
 
-interface Camera {
+/*interface Camera {
   eye: Vector,
   center: Vector,
   up: Vector,
@@ -29,7 +30,7 @@ interface Camera {
   kD: number,
   kA: number,
   lightPositions: Array<Vector>
-}
+}*/
 
 interface Renderable {
   render(shader: Shader): void;
@@ -77,7 +78,7 @@ export class RasterVisitor implements Visitor {
 
 
     if (camera) {
-      this.setupCamera(camera);
+      this.setupCamera(camera, lightPositions);
     }
 
     // traverse and render
@@ -110,8 +111,9 @@ export class RasterVisitor implements Visitor {
   /**
    * Helper function to setup camera matrices
    * @param camera The camera used
+   * @param lightPositions the light
    */
-  setupCamera(camera: Camera) {
+  setupCamera(camera: Camera, lightPositions: Array<Vector>) {
     this.lookat = Matrix.lookat(
       camera.eye,
       camera.center,
@@ -126,7 +128,7 @@ export class RasterVisitor implements Visitor {
     this.kS= camera.kS;
     this.kD = camera.kD;
     this.kA = camera.kA;
-    this.lightPosisitions = camera.lightPositions
+    this.lightPosisitions = lightPositions
     // console.log(this.shininess)
   }
 

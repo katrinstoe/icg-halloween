@@ -21,6 +21,7 @@ import geometryObject from "./GeometryObject";
 import Ray from "./ray";
 import phong from "./phong";
 import Intersection from "./intersection";
+import Camera from "./camera";
 
 const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1));
 const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.5, 0.5, 1), new Vector(0, 0, 0, 1));
@@ -60,7 +61,8 @@ export default class RayVisitorSupaFast implements Visitor {
     //
     render(
         rootNode: Node,
-        camera: { origin: Vector, width: number, height: number, alpha: number, shininess: number, kS: number, kD: number, kA: number, lightPositions: Array<Vector> }
+        camera: Camera,
+        lightPositions: Array<Vector>
     ) {
         this.leafNodeAndPositionsList = []
         // clear
@@ -92,7 +94,7 @@ export default class RayVisitorSupaFast implements Visitor {
                         data[4 * (width * y + x) + 2] = 0;
                         data[4 * (width * y + x) + 3] = 255;
                     } else {
-                        let color = phong(this.intersectionColor, this.intersection, camera.shininess, camera.origin, camera.kS, camera.kD, camera.kA, camera.lightPositions);
+                        let color = phong(this.intersectionColor, this.intersection, camera.shininess, camera.origin, camera.kS, camera.kD, camera.kA, lightPositions);
                         data[4 * (width * y + x) + 0] = color.r * 255;
                         data[4 * (width * y + x) + 1] = color.g * 255;
                         data[4 * (width * y + x) + 2] = color.b * 255;

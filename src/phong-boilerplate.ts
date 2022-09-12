@@ -5,6 +5,7 @@ import Sphere from './sphere';
 import Ray from './ray';
 import Intersection from './intersection';
 import phong from './phong';
+import Camera from "./camera";
 
 window.addEventListener('load', () => {
     const canvas = document.getElementById("raytracer") as HTMLCanvasElement;
@@ -22,17 +23,12 @@ window.addEventListener('load', () => {
     let kS = 0.5;
     let kD =0.5;
     let kA = 0.5;
-    const camera = {
-        origin: new Vector(0, 0, 0, 1),
-        width: canvas.width,
-        height: canvas.height,
-        alpha: Math.PI / 3,
-        shininess: shininess,
-        kS: kS,
-        kD: kD,
-        kA: kA,
-        lightPositions: lightPositions
-    }
+    const camera = new Camera(new Vector(0, 0, 0, 1),
+        new Vector(0, 0, 0, 1),
+        new Vector(0, 0, -1, 1),
+        new Vector(0, 1, 0, 0),
+        60, 0.1, 100, canvas.width, canvas.height, shininess,
+        kS, kD, kA)
 
     function setPixel(x: number, y: number, color: Vector) {
         data[4 * (canvas.width * y + x) + 0] = Math.min(255, color.r * 255);
@@ -61,7 +57,7 @@ window.addEventListener('load', () => {
                     } else {
                         let color = phong(
                             Object.assign(Object.create(Vector.prototype), minObj.color),
-                            minIntersection, shininess, camera.origin, camera.kS, camera.kD, camera.kA, camera.lightPositions);
+                            minIntersection, shininess, camera.origin, camera.kS, camera.kD, camera.kA, lightPositions);
                         setPixel(x, y, color);
                     }
 

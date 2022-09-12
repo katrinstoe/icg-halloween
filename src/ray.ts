@@ -1,4 +1,5 @@
 import Vector from './vector';
+import Camera from "./camera";
 
 /**
  * Class representing a ray
@@ -19,7 +20,7 @@ export default class Ray {
    * @return The resulting Ray
    */
   static makeRay(x: number, y: number,
-                           camera: { width: number, height: number, alpha: number }
+                           camera: Camera
   ): Ray {
     // TODO
     let origin = new Vector(0, 0, 0, 1)
