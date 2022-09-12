@@ -280,37 +280,21 @@ export default class Scenegraph {
         return root
     }
 
-/*    static getTestScenegraph(): scenegraphObject {
-        const sg = new GroupNode(new Rotation(new Vector(0, 0, 1, 0), 0));
-        const gnTr = new GroupNode(new Translation(new Vector(-0.75, -0.75, -3, 0)));
-        sg.add(gnTr);
-
-        const pyramid = new SphereNode(new Vector(1, .4, 1, 0))
-        const pyramidSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.2, 0)));
-        const pyramidRt = new GroupNode(new Rotation(new Vector(0,0,1,0), 1));
-
-        const pyramidTr = new GroupNode(new Translation(new Vector(-0.2, -0.4, -1, 0)));
-        let light = new LightNode(new Vector(1,1,1,1));
-        let lightGN = new GroupNode(new Translation(new Vector(.2,-2,-2,0)));
-        sg.add(lightGN)
-        lightGN.add(light)
-
-        pyramidSc.add(pyramid)
-        pyramidRt.add(pyramidSc)
-        pyramidTr.add(pyramidRt)
-        sg.add(pyramidTr)
-
-        let animationNodes = [
-            new RotationNode(pyramidRt, new Vector(0, 0, 1, 0)),
-        ]
-
+    /*static getTestScenegraph(): scenegraphObject {
         return {
             sg,
-            animationNodes: animationNodes,
-            driverNodes: [],
-            scalerNodes:[]
-        }
-    }*/
+            AnimationNodes,
+            DriverNodes,
+            ScalerNodes,
+            gl,
+            ctx,
+            kAElement,
+            kSElement,
+            kDElement,
+            shininessElement,
+            canvas,
+            canvas2
+        }*/
 };
 
 export type scenegraphObject={
