@@ -262,8 +262,8 @@ window.addEventListener('load', function loadPage() {
             mouseVisitor.render(sg, camera, lightPositions);
             setupVisitor.setup(sg);
             //visitor.render(sg, camera, camera.lightPositions);
+            console.log("TextureCount nach listener: "+lastTexture)
         }, false);
-
         function mouseClickedOn(event: { clientX: number; }) {
             let mx = event.clientX - canvas.getBoundingClientRect().left;
         }

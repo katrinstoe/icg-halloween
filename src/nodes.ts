@@ -301,7 +301,7 @@ export class LightNode extends Node {
   }
 }
 export class TicTacToeTextureNode extends Node{
-  public textureArray = ['Icons/emptyTicTacToe.png', 'Icons/Matthias.png', 'Icons/Tino.png']
+  public textureArray = ['Icons/emptyTicTacToe.png', 'Icons/Matthias.png', 'Icons/Tino.png', 'Icons/resetText.png']
   public activeTexture: string
   public amountOfSwitches= 0
 

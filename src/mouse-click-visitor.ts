@@ -15,6 +15,7 @@ import {
 import AABox from './aabox';
 import Pyramid from "./pyramid";
 import Camera from "./camera";
+import Scenegraph from "./scenegraph";
 
 const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1));
 const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.5, 0.5, 1), new Vector(0, 0, 0, 1));
@@ -311,8 +312,8 @@ export default class mouseClickVisitor implements Visitor {
                 intersectionPointWorld,
                 intersectionNormalWorld,
             );
-            console.log(intersection)
-            console.log(node.amountOfSwitches)
+            // console.log(intersection)
+            // console.log(node.amountOfSwitches)
             //wenn noch keine Intersection an stelle hatten oder ne closere intersection haben dann speichern wir die neue Intersection ab
 
             if (this.intersection === null || intersection.closerThan(this.intersection)) {
@@ -322,10 +323,15 @@ export default class mouseClickVisitor implements Visitor {
                         node.activeTexture = node.textureArray[1]
                         node.texture = node.textureArray[1]
                         console.log(this.lastTexture)
-                    } else if (isOdd(this.lastTexture)){
+                    } else if (isOdd(this.lastTexture)&&node.texture == node.textureArray[0]){
                         node.activeTexture = node.textureArray[2]
                         node.texture = node.textureArray[2]
                         console.log(this.lastTexture)
+                    } else if (node.texture == node.textureArray[3]){
+                        node.activeTexture = node.textureArray[3]
+                        for (let ticTacToeTextureNode of Scenegraph.wuerfelArray) {
+                            ticTacToeTextureNode.texture = node.textureArray[0]
+                        }
                     }
                     node.amountOfSwitches += 1
                 }

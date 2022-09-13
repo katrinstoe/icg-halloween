@@ -18,6 +18,8 @@ import Camera from "./camera";
 import {CameraNode} from "./nodes";
 
 export default class Scenegraph {
+    static wuerfelArray: Array<TicTacToeTextureNode> = []
+
     static getScenegraph() {
         const canvas = document.getElementById("rasteriser") as HTMLCanvasElement;
         const canvas2 = document.getElementById("rayTracer") as HTMLCanvasElement;
@@ -319,6 +321,18 @@ export default class Scenegraph {
         let tictactoeCubeRow3Right = this.getTicTacToeWuerfel(new Vector(0.2, -0.4, -1, 0))
         let tictactoeCubeRow3Left = this.getTicTacToeWuerfel(new Vector(-0.2, -0.4, -1, 0))
 
+        console.log(Scenegraph.wuerfelArray)
+
+        let root = new GroupNode(new Translation(new Vector(0,0,0,0)));
+        let cubeBack = new GroupNode(new Translation(new Vector(0.5,-0.52,-1,0)));
+        root.add(cubeBack)
+
+        let resetButton = new TicTacToeTextureNode('Icons/resetText.png');
+
+        let resetSc = new GroupNode(new Scaling(new Vector(0.1, 0.1, 0.001, 0)))
+        resetSc.add(resetButton)
+        cubeBack.add(resetSc)
+        sg.add(cubeBack)
 
         tictactoeTr.add(tictactoeCubeRow1Middle)
         tictactoeTr.add(tictactoeCubeRow1Right)
@@ -384,6 +398,7 @@ export default class Scenegraph {
         root.add(cubeBack)
 
         let tictactoeCube = new TicTacToeTextureNode('Icons/emptyTicTacToe.png');
+        Scenegraph.wuerfelArray.push(tictactoeCube)
 
         let tictactoeCubeSc = new GroupNode(new Scaling(new Vector(0.1, 0.1, 0.001, 0)))
         tictactoeCubeSc.add(tictactoeCube)
