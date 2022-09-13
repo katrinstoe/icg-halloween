@@ -307,17 +307,18 @@ export default class Scenegraph {
 
         //Würfel
         let tictactoeTr = new GroupNode(new Translation(new Vector(0.3, 0, 0, 0)))
-        let tictactoeCubeRow1Middle = this.getTicTacToeWuerfel(new Vector(0, 0, -1, 0), 'Icons/Matthias.png')
-        let tictactoeCubeRow1Right = this.getTicTacToeWuerfel(new Vector(0.2, 0, -1, 0), 'Icons/Tino.png')
-        let tictactoeCubeRow1Left = this.getTicTacToeWuerfel(new Vector(-0.2, 0, -1, 0), 'Icons/exmptyTicTacToe.png')
+        let tictactoeCubeRow1Middle = this.getTicTacToeWuerfel(new Vector(0, 0, -1, 0))
+        let tictactoeCubeRow1Right = this.getTicTacToeWuerfel(new Vector(0.2, 0, -1, 0))
+        let tictactoeCubeRow1Left = this.getTicTacToeWuerfel(new Vector(-0.2, 0, -1, 0))
 
-        let tictactoeCubeRow2Middle = this.getTicTacToeWuerfel(new Vector(0, -0.2, -1, 0), 'Icons/Matthias.png')
-        let tictactoeCubeRow2Right = this.getTicTacToeWuerfel(new Vector(0.2, -0.2, -1, 0), 'Icons/Tino.png')
-        let tictactoeCubeRow2Left = this.getTicTacToeWuerfel(new Vector(-0.2, -0.2, -1, 0), 'Icons/exmptyTicTacToe.png')
+        let tictactoeCubeRow2Middle = this.getTicTacToeWuerfel(new Vector(0, -0.2, -1, 0))
+        let tictactoeCubeRow2Right = this.getTicTacToeWuerfel(new Vector(0.2, -0.2, -1, 0))
+        let tictactoeCubeRow2Left = this.getTicTacToeWuerfel(new Vector(-0.2, -0.2, -1, 0))
 
-        let tictactoeCubeRow3Middle = this.getTicTacToeWuerfel(new Vector(0, -0.4, -1, 0), 'Icons/Matthias.png')
-        let tictactoeCubeRow3Right = this.getTicTacToeWuerfel(new Vector(0.2, -0.4, -1, 0), 'Icons/Tino.png')
-        let tictactoeCubeRow3Left = this.getTicTacToeWuerfel(new Vector(-0.2, -0.4, -1, 0), 'Icons/exmptyTicTacToe.png')
+        let tictactoeCubeRow3Middle = this.getTicTacToeWuerfel(new Vector(0, -0.4, -1, 0))
+        let tictactoeCubeRow3Right = this.getTicTacToeWuerfel(new Vector(0.2, -0.4, -1, 0))
+        let tictactoeCubeRow3Left = this.getTicTacToeWuerfel(new Vector(-0.2, -0.4, -1, 0))
+
 
         tictactoeTr.add(tictactoeCubeRow1Middle)
         tictactoeTr.add(tictactoeCubeRow1Right)
@@ -377,12 +378,13 @@ export default class Scenegraph {
             canvas2
         }
     }
-    static getTicTacToeWuerfel(pos: Vector, texture: string){
+    static getTicTacToeWuerfel(pos: Vector){
         let root = new GroupNode(new Translation(new Vector(0,0,0,0)));
         let cubeBack = new GroupNode(new Translation(pos));
         root.add(cubeBack)
 
-        let tictactoeCube = new TicTacToeTextureNode(texture);
+        let tictactoeCube = new TicTacToeTextureNode('Icons/emptyTicTacToe.png');
+
         let tictactoeCubeSc = new GroupNode(new Scaling(new Vector(0.1, 0.1, 0.001, 0)))
         tictactoeCubeSc.add(tictactoeCube)
         cubeBack.add(tictactoeCubeSc)

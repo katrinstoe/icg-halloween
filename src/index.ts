@@ -253,10 +253,12 @@ window.addEventListener('load', function loadPage() {
             };
         }
 
+        let lastTexture = 0;
 
         window.addEventListener('dblclick', function (evt) {
             let mousePos = getMousePos(canvas, evt);
-            let mouseVisitor = new mouseClickVisitor(ctx, canvas.width, canvas.height, mousePos);
+            let mouseVisitor = new mouseClickVisitor(ctx, canvas.width, canvas.height, mousePos, lastTexture);
+            lastTexture++;
             mouseVisitor.render(sg, camera, lightPositions);
             setupVisitor.setup(sg);
             //visitor.render(sg, camera, camera.lightPositions);

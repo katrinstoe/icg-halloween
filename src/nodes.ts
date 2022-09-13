@@ -301,13 +301,13 @@ export class LightNode extends Node {
   }
 }
 export class TicTacToeTextureNode extends Node{
+  public textureArray = ['Icons/emptyTicTacToe.png', 'Icons/Matthias.png', 'Icons/Tino.png']
   public activeTexture: string
-  public amountOfSwitches: number
+  public amountOfSwitches= 0
 
   constructor(public texture: string) {
     super();
     this.activeTexture = texture;
-    this.amountOfSwitches += 1;
   }
   accept(visitor: Visitor) {
     // TODO
