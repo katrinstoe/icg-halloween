@@ -98,9 +98,9 @@ export default class Scenegraph {
 
 
         //Video-Box kann nicht geadded werden, wieso?
-        const videoBox = new TextureVideoBoxNode("icgTestVideo.mp4");
+        const videoBox = new TextureVideoBoxNode("moon.mp4");
         const videoBoxTr = new GroupNode(new Translation(new Vector(0, 0, -3, 0)));
-        const videoBoxSc = new GroupNode(new Scaling(new Vector(2, 2, 2, 1)));
+        const videoBoxSc = new GroupNode(new Scaling(new Vector(3.7, 2.3, 2, 1)));
         videoBoxSc.add(videoBox);
         videoBoxTr.add(videoBoxSc);
         sg.add(videoBoxTr);
@@ -308,8 +308,6 @@ export default class Scenegraph {
         let tictactoeCubeRow3Middle = this.getTicTacToeWuerfel(new Vector(0, -0.25, -1, 0))
         let tictactoeCubeRow3Right = this.getTicTacToeWuerfel(new Vector(0.05, -0.25, -1, 0))
         let tictactoeCubeRow3Left = this.getTicTacToeWuerfel(new Vector(-0.05, -0.25, -1, 0))
-
-        console.log(Scenegraph.wuerfelArray)
 
         let root = new GroupNode(new Translation(new Vector(0,0,0,0)));
         let cubeBack = new GroupNode(new Translation(new Vector(0.25,-0.3,-1,0)));
@@ -776,7 +774,7 @@ export default class Scenegraph {
 
 
         //Video-Box kann nicht geadded werden, wieso?
-        const videoBox = new TextureVideoBoxNode("icgTestVideo.mp4");
+        const videoBox = new TextureVideoBoxNode("moon.mp4");
         const videoBoxTr = new GroupNode(new Translation(new Vector(0, 0, -3, 0)));
         const videoBoxSc = new GroupNode(new Scaling(new Vector(2, 2, 2, 1)));
         videoBoxSc.add(videoBox);
