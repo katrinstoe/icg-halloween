@@ -19,11 +19,11 @@ import {CameraNode} from "./nodes";
 
 export default class Scenegraph {
 
-
-
     static getScenegraph() {
+
         const canvas = document.getElementById("rasteriser") as HTMLCanvasElement;
         const canvas2 = document.getElementById("rayTracer") as HTMLCanvasElement;
+
         const shininessElement = document.getElementById("shininess") as HTMLInputElement;
         let shininessCalc = Number(shininessElement.value);
 
@@ -39,7 +39,7 @@ export default class Scenegraph {
         const gl = canvas.getContext("webgl2");
         const ctx = canvas2.getContext("2d");
 
-        // //Texturen
+        //Texturen
         const textureGeist = new TextureBoxNode('geist.png');
         const textureHCILogo = new TextureBoxNode('hci-logo.png');
         const textureMinimize = new TextureBoxNode('Icons/minusIcon.jpg');
@@ -49,6 +49,7 @@ export default class Scenegraph {
         const textureGeisterSchloss = new TextureBoxNode('ghost_castle.jpg');
         const sg = new GroupNode(new Rotation(new Vector(0, 0, 1, 0), 0));
         const gnTr = new GroupNode(new Translation(new Vector(-0.75, -0.75, -3, 0)));
+
         sg.add(gnTr);
 
         //Camera
@@ -104,14 +105,17 @@ export default class Scenegraph {
         sg.add(videoBoxTr);
 
         //Driver
-        const driver = new TextureBoxNode("geist.png")
-        const driver_Tr = new GroupNode(new Translation(new Vector(0, 0, 0, 0)))
-        const driver_Sc = new GroupNode(new Scaling(new Vector(1, 1, 0.0, 0)))
+        const driver = new TextureBoxNode("geist.png");
+        const driver_Tr = new GroupNode(new Translation(new Vector(0.55, -0.48, -1, 0)))
+        const driver_Sc = new GroupNode(new Scaling(new Vector(0.05, 0.05, 0.0001, 0)))
         driver_Sc.add(driver)
         driver_Tr.add(driver_Sc)
+        sg.add(driver_Tr);
 
 
         const aabox1 = new AABoxNode(new Vector(0, 0, 1, 1));
+        sg.add(aabox1);
+
         const aabox2 = new AABoxNode(new Vector(1, 0, 1, 1));
         const aabox3 = new AABoxNode(new Vector(1, 1, 0, 1));
         const aabox4 = new AABoxNode(new Vector(1, 0, 0, 1));
@@ -178,7 +182,7 @@ export default class Scenegraph {
 
         let driverNodes = [
             //new RotationNode(cubeSc, new Vector(0,0,1,0)),
-            new DriverNode(driver_Tr, new Vector(0, 0, 0, 0))
+            new DriverNode(driver_Tr, new Vector(0.55, -0.48, -1, 0))
         ]
 
         let scalerNodes = [
