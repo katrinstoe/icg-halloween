@@ -89,9 +89,9 @@ export default class Scenegraph {
         */
 
 
-        let light1 = this.getLight(new Vector(0,0,-1,0));
-        let light2 = this.getLight(new Vector(0,.2,1,0));
-        let light3 = this.getLight(new Vector(0.2,.2,-3,0));
+        let light1 = this.getLight(new Vector(0,0,-0.5,0));
+        let light2 = this.getLight(new Vector(0,.2,-0.8,0));
+        let light3 = this.getLight(new Vector(0.2,.2,-1,0));
         sg.add(light1)
         sg.add(light2)
         sg.add(light3)
