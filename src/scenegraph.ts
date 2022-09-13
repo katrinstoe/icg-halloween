@@ -1,21 +1,20 @@
 import {
     AABoxButtonNode,
     AABoxNode,
+    CameraNode,
     GroupNode,
-    LightNode, Node,
+    LightNode,
+    Node,
     PyramidNode,
-    SphereNode, TextureBoxButtonNode,
+    SphereNode,
+    TextureBoxButtonNode,
     TextureBoxNode,
-    TexturePyramidNode,
     TextureVideoBoxNode
 } from "./nodes";
 import {Rotation, Scaling, Translation} from "./transformation";
 import Vector from "./vector";
 import {AnimationNode, DriverNode, MinMaxNode, RotationNode, ScalerNode} from "./animation-nodes";
-import AABox from "./aabox";
-import {LightVisitor} from "./lightVisitor";
 import Camera from "./camera";
-import {CameraNode} from "./nodes";
 
 export default class Scenegraph {
 
@@ -113,15 +112,11 @@ export default class Scenegraph {
         sg.add(driver_Tr);
 
 
-        const aabox1 = new AABoxNode(new Vector(0, 0, 1, 1));
-        sg.add(aabox1);
 
-        const aabox2 = new AABoxNode(new Vector(1, 0, 1, 1));
-        const aabox3 = new AABoxNode(new Vector(1, 1, 0, 1));
         const aabox4 = new AABoxNode(new Vector(1, 0, 0, 1));
 
         //Spooky Sphere
-        const sphere = new SphereNode(new Vector(1, 0, 0, 1));
+        const sphere = new SphereNode(new Vector(0.3, 0.05, 0.1, 1));
         const sphere_Tr = new GroupNode(new Translation(new Vector(0, -0.1, 0, 0)))
         const sphere_Sc = new GroupNode(new Scaling(new Vector(0.7, 0.7, 0.7, 0)))
         sphere_Sc.add(sphere);
@@ -150,6 +145,8 @@ export default class Scenegraph {
         TaskBarTr.add(TBWindow2Tr);
 
         //Window3
+        //Hier musst du dann eine Node mit dem TicTacToe machen und die aabox3 damit erseten @katrin
+        const aabox3 = new AABoxNode(new Vector(0.9, 0.9, 0.9, 0));
         let window3 = this.getWindow(new Vector(0.3, 0, -1, 0), aabox3);
 
         sg.add(window3.root);
@@ -158,7 +155,15 @@ export default class Scenegraph {
         TaskBarTr.add( TBWindow3Tr);
 
         //Window4
-        let window4 = this.getWindow(new Vector(0.3, 0.5, -1, 0), aabox4);
+        const pyramid = new PyramidNode(new Vector(0.3, 0.05, 0.1, 1));
+        const pyramid_Tr = new GroupNode(new Translation(new Vector(-1,-0.3, 0.6, 0)))
+        const pyramid_Sc = new GroupNode(new Scaling(new Vector(0.6, 0.6, 0.6, 0)))
+        const pyramid_Rt = new GroupNode(new Rotation(new Vector(0, 1, 0, 0),1))
+        pyramid_Sc.add(pyramid)
+        pyramid_Tr.add(pyramid_Sc)
+        pyramid_Rt.add(pyramid_Tr)
+
+        let window4 = this.getWindow(new Vector(0.3, 0.5, -1, 0), pyramid_Rt);
 
         sg.add(window4.root);
         const TBWindow4Tr = new GroupNode(new Translation(new Vector(-0.28,0,0,0)));
@@ -249,6 +254,14 @@ export default class Scenegraph {
         windowHeaderBarSc.add(windowHeaderBar);
         windowHeaderBarTr.add(windowHeaderBarSc);
 
+        //HeaderText
+        const windowHeaderText = new TextureBoxNode("geist.png")
+        const windowHeaderTextSc = new GroupNode(new Scaling(new Vector(0.5,0.12,0.0001,0)));
+        const windowHeaderTextTr = new GroupNode(new Translation(new Vector(-0.3,0.07,0.01,0)));
+        windowHeaderTextSc.add(windowHeaderText);
+        windowHeaderTextTr.add(windowHeaderTextSc);
+
+
         //Window
         const windowPosition = new GroupNode(new Translation(vec));
         const windowSize = new GroupNode(new Scaling(new Vector(0.4, 0.4, 0.4, 1)));
@@ -258,7 +271,7 @@ export default class Scenegraph {
             minmax.active = true;
         })
         minmax.active = false;
-        const ButtonHBTr = new GroupNode(new Translation(new Vector(0, 0.07, 0.01, 0)))
+        const ButtonHBTr = new GroupNode(new Translation(new Vector(0.5, 0.07, 0.01, 0)))
         const ButtonHBSc = new GroupNode(new Scaling(new Vector(0.12, 0.12, 0.0001, 1)))
         ButtonHBSc.add(ButtonHB);
         ButtonHBTr.add(ButtonHBSc);
@@ -269,7 +282,7 @@ export default class Scenegraph {
         ButtonTBSc.add(ButtonHB);
         ButtonTBTr.add(ButtonTBSc);
 
-
+        MinmaxTr.add(windowHeaderTextTr);
         MinmaxTr.add(aabox_Tr);
         MinmaxTr.add(ButtonHBTr);
         MinmaxTr.add(windowHeaderBarTr);
