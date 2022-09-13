@@ -150,31 +150,19 @@ export default class Scenegraph {
         //Hier musst du dann eine Node mit dem TicTacToe machen und die aabox3 damit erseten @katrin
         const aabox3 = new AABoxNode(new Vector(0.9, 0.9, 0.9, 0));
 
-        //Würfel
-        let tictactoeTr = new GroupNode(new Translation(new Vector(0.3, 0, 0, 0)))
-        let tictactoeCubeRow1Middle = this.getTicTacToeWuerfel(new Vector(0, 0, -1, 0))
-        let tictactoeCubeRow1Right = this.getTicTacToeWuerfel(new Vector(0.2, 0, -1, 0))
-        let tictactoeCubeRow1Left = this.getTicTacToeWuerfel(new Vector(-0.2, 0, -1, 0))
+        //TicTacToe
+        let tictactoeTr = new GroupNode(new Translation(new Vector(0.25, -0.055, -1, 0)))
+        let tictactoeCubeRow1Middle = this.getTicTacToeWuerfel(new Vector(0, 0, 0, 0))
+        let tictactoeCubeRow1Right = this.getTicTacToeWuerfel(new Vector(0.12, 0, 0, 0))
+        let tictactoeCubeRow1Left = this.getTicTacToeWuerfel(new Vector(-0.12, 0, 0, 0))
 
-        let tictactoeCubeRow2Middle = this.getTicTacToeWuerfel(new Vector(0, -0.2, -1, 0))
-        let tictactoeCubeRow2Right = this.getTicTacToeWuerfel(new Vector(0.2, -0.2, -1, 0))
-        let tictactoeCubeRow2Left = this.getTicTacToeWuerfel(new Vector(-0.2, -0.2, -1, 0))
-
-        let tictactoeCubeRow3Middle = this.getTicTacToeWuerfel(new Vector(0, -0.4, -1, 0))
-        let tictactoeCubeRow3Right = this.getTicTacToeWuerfel(new Vector(0.2, -0.4, -1, 0))
-        let tictactoeCubeRow3Left = this.getTicTacToeWuerfel(new Vector(-0.2, -0.4, -1, 0))
-
-        let root = new GroupNode(new Translation(new Vector(0,0,0,0)));
-        let cubeBack = new GroupNode(new Translation(new Vector(0.5,-0.52,-1,0)));
-        root.add(cubeBack)
-
-        let resetButton = new TicTacToeTextureNode('Icons/resetText.png');
-
-        let resetSc = new GroupNode(new Scaling(new Vector(0.1, 0.1, 0.001, 0)))
-        resetSc.add(resetButton)
-        cubeBack.add(resetSc)
-
-        let window3 = this.getWindow(new Vector(0.3, 0, -1, 0),cubeBack);
+        let tictactoeCubeRow2Middle = this.getTicTacToeWuerfel(new Vector(0, -0.12, 0, 0))
+        let tictactoeCubeRow2Right = this.getTicTacToeWuerfel(new Vector(0.12, -0.12, 0, 0))
+        let tictactoeCubeRow2Left = this.getTicTacToeWuerfel(new Vector(-0.12, -0.12, 0, 0))
+        //
+        let tictactoeCubeRow3Middle = this.getTicTacToeWuerfel(new Vector(0, -0.24, 0, 0))
+        let tictactoeCubeRow3Right = this.getTicTacToeWuerfel(new Vector(0.12, -0.24, 0, 0))
+        let tictactoeCubeRow3Left = this.getTicTacToeWuerfel(new Vector(-0.12, -0.24, 0, 0))
 
         tictactoeTr.add(tictactoeCubeRow1Middle)
         tictactoeTr.add(tictactoeCubeRow1Right)
@@ -186,7 +174,28 @@ export default class Scenegraph {
         tictactoeTr.add(tictactoeCubeRow3Right)
         tictactoeTr.add(tictactoeCubeRow3Left)
 
-        window3.root.add(tictactoeTr)// = this.getWindow(new Vector(0.3, 0, -1, 0),tictactoeTr);
+        //TODO: Eventuell nochmal leere Tranlation einfügen, sollte animation probleme machen
+        //reset TicTacToe
+        let resetTr = new GroupNode(new Translation(new Vector(0.8,-0.5,1,0)));
+        let resetButton = new TicTacToeTextureNode('Icons/resetText.png');
+
+        let resetSc = new GroupNode(new Scaling(new Vector(.56, .56, 0.001, 0)))
+        resetSc.add(resetButton)
+        resetTr.add(resetSc)
+
+        //explenationTexture
+        let explTr = new GroupNode(new Translation(new Vector(-1.8,-0.16,1,0)));
+        let explTexture = new TextureBoxNode('Icons/memoryExplenationText.png');
+
+        let explSc = new GroupNode(new Scaling(new Vector(1, 0.2, 0.001, 0)))
+        explSc.add(explTexture)
+        explTr.add(explSc)
+        resetTr.add(explTr)
+
+        let window3 = this.getWindow(new Vector(0.3, 0, -1, 0),resetTr);
+        // window3.root.add(explTr)
+        window3.root.add(tictactoeTr)
+
 
         sg.add(window3.root);
         const TBWindow3Tr = new GroupNode(new Translation(new Vector(-0.36,0,0,0)));
