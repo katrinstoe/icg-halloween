@@ -18,6 +18,9 @@ import Camera from "./camera";
 import {CameraNode} from "./nodes";
 
 export default class Scenegraph {
+
+
+
     static getScenegraph() {
         const canvas = document.getElementById("rasteriser") as HTMLCanvasElement;
         const canvas2 = document.getElementById("rayTracer") as HTMLCanvasElement;
@@ -35,6 +38,7 @@ export default class Scenegraph {
 
         const gl = canvas.getContext("webgl2");
         const ctx = canvas2.getContext("2d");
+
         // //Texturen
         const textureGeist = new TextureBoxNode('geist.png');
         const textureHCILogo = new TextureBoxNode('hci-logo.png');
@@ -42,6 +46,7 @@ export default class Scenegraph {
         const textureClose = new TextureBoxNode('Icons/close.png');
         const textureGeistText = new TextureBoxNode('Icons/geistText.png');
         const textureKugelText = new TextureBoxNode('Icons/kugelText.png');
+        const textureGeisterSchloss = new TextureBoxNode('ghost_castle.jpg');
         const sg = new GroupNode(new Rotation(new Vector(0, 0, 1, 0), 0));
         const gnTr = new GroupNode(new Translation(new Vector(-0.75, -0.75, -3, 0)));
         sg.add(gnTr);
@@ -58,75 +63,15 @@ export default class Scenegraph {
 
 
         //Taskbar
-        const TaskBTr = new GroupNode(new Translation(new Vector(0, -.545, -1, 0)));
-        const TaskBSc = new GroupNode(new Scaling(new Vector(1.2, 0.07, 0.0001, 0)))
-        const TaskBBox = new AABoxNode(new Vector(0.7, 0, 0.7, 0));
-        TaskBSc.add(TaskBBox)
-        TaskBTr.add(TaskBSc);
-        sg.add(TaskBTr);
-        //Icons auf Taskbar
-        // //Icon Kreis
-        const TaskBIconSc = new GroupNode(new Scaling(new Vector(0.025, 0.025, 0.025,0)));
-        const TaskBIconTr = new GroupNode(new Translation(new Vector(-0.1, -0.54, -1, 0)));
+        const TaskBarBox = new AABoxNode(new Vector(0.3, 0.05, 0.1, 1));
+        const TaskBarTr = new GroupNode(new Translation(new Vector(0, -0.55, -1, 0)));
+        const TaskBarSc = new GroupNode(new Scaling(new Vector(1.2, 0.08, 0.0001, 0)))
+        TaskBarSc.add(TaskBarBox)
+        TaskBarTr.add(TaskBarSc);
+        sg.add(TaskBarTr);
 
-        const TaskBIconSphere = new SphereNode(new Vector(1, 0.7, 0.7, 1));
-        TaskBIconSc.add(TaskBIconSphere);
-        TaskBIconTr.add(TaskBIconSc);
-        sg.add(TaskBIconTr);
-        // //Icon Viereck
-        const TaskBIconBoxTr = new GroupNode(new Translation(new Vector(0, -0.54, -1, 0)));
-        const TaskBIconBoxSc = new GroupNode(new Scaling(new Vector(0.045, 0.045, 0.0001, 0)));
 
-        const TaskBIconBox = new AABoxNode(new Vector(1, 0, 0.5, 0));
-        TaskBIconBoxSc.add(TaskBIconBox);
-        TaskBIconBoxTr.add(TaskBIconBoxSc)
-        sg.add(TaskBIconBoxTr)
-        //HeaderBoxen
-        // Erster Header
-        const headerBTr = new GroupNode(new Translation(new Vector(-0.3, 1.08, 0, 0)));
-        const headerBSc = new GroupNode(new Scaling(new Vector(0.6, 0.07, 0.0001, 0)))
-
-        const headerBBox = new AABoxNode(new Vector(1, 0.7, 0.7, 1));
-        headerBSc.add(headerBBox)
-        headerBTr.add(headerBSc)
-        TaskBTr.add(headerBTr)
-        //Icons für ersten Header
-        const headerBIconBoxSc = new GroupNode(new Scaling(new Vector(0.07, 0.07, 0.0001, 0)));
-        const headerBIconBoxTr = new GroupNode(new Translation(new Vector(0.15, 0.394, 0, 0)));
-        const headerBIconBoxTr2 = new GroupNode(new Translation(new Vector(0.25, 0.394, 0, 0)));
-        const headerBIconBoxSc2 = new GroupNode(new Scaling(new Vector(0.07, 0.07, 0.0001, 0)));
-        //Header Icons (Vierecke, später Textur drauf)
-        //erste Box
-        // const headerBIconBox = new AABoxNode(new Vector(0, 0, 0, 0));
-        // headerBIconBoxSc.add(headerBIconBox);
-        headerBIconBoxSc.add(textureMinimize);
-        headerBIconBoxTr.add(headerBIconBoxSc)
-        headerBTr.add(headerBIconBoxTr)
-        // //zweite Box
-        // const headerBIconBox2 = new AABoxNode(new Vector(0, 0, 0, 0));
-        // headerBIconBoxSc2.add(headerBIconBox2);
-        headerBIconBoxSc2.add(textureClose);
-        headerBIconBoxTr2.add(headerBIconBoxSc2)
-        headerBTr.add(headerBIconBoxTr2)
-        //Zweiter Header
-        const headerBTr2 = new GroupNode(new Translation(new Vector(0.3, 1.08, 0, 0)));
-        const headerBSc2 = new GroupNode(new Scaling(new Vector(0.55, 0.07, 0.0001, 0)))
-        const headerBBox2 = new AABoxNode(new Vector(1, 0, 1, 0));
-
-        headerBSc2.add(headerBBox2)
-        // headerBarSc2.add(textureGeistText)
-        headerBTr2.add(headerBSc2)
-        TaskBTr.add(headerBTr2)
-        //HeaderBox2 Icons
-        const headerBIconBox2Tr = new GroupNode(new Translation(new Vector(0.55, 0.394, 0, 0)));
-        const headerBIconBox2Tr2 = new GroupNode(new Translation(new Vector(0.65, 0.394, 0, 0)));
-
-        headerBIconBox2Tr.add(headerBIconBoxSc)
-        headerBTr2.add(headerBIconBox2Tr)
-        headerBIconBox2Tr2.add(headerBIconBoxSc2)
-        headerBTr2.add(headerBIconBox2Tr2)
-
-        //HeaderBoxen für Namebeschriftung
+        /*//HeaderBoxen für Namebeschriftung
         //Header1: Beschriftung
         const headerBTextTr = new GroupNode(new Translation(new Vector(-0.3, 0.394, 0, 0)));
         const headerBTextSc = new GroupNode(new Scaling(new Vector(0.16, 0.09, 0.0001, 0)))
@@ -139,63 +84,8 @@ export default class Scenegraph {
         //Header 2: Beschriftung
         const headerBTextTr2 = new GroupNode(new Translation(new Vector(0.15, 0.394, 0, 0)));
         const headerBTextSc2 = new GroupNode(new Scaling(new Vector(0.16, 0.09, 0.0001, 0)))
+        */
 
-        // headerBTextSc2.add(headerBBox)
-        headerBTextSc2.add(textureGeistText)
-        // headerBTextSc2.add(textureMinimize)
-        headerBTextTr2.add(headerBTextSc2)
-        headerBTr2.add(headerBTextTr2)
-
-        //Zeichenflaeche 1
-        // const cube = new AABoxNode(new Vector(0, 0, 0, 0));
-        const cubeSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.2, 0)));
-        const cubeTr = new GroupNode(new Translation(new Vector(-0.2, 0.2, -1, 0)));
-        const cubeRt = new GroupNode(new Rotation(new Vector(0, 1, 0, 0), 1));
-        const gn3 = new GroupNode(new Translation(new Vector(0, 0, 0, 0)));
-        const cubeTexture = new TexturePyramidNode('hci-logo.png');
-
-        // cubeSc.add(cube);
-        //TODO: Texture anzeigen geht nicht?
-        // cubeSc.add(textureGeist)
-        cubeSc.add(cubeTexture)
-        cubeRt.add(cubeSc);
-        cubeTr.add(cubeRt);
-        sg.add(cubeTr);
-
-        // const cube = new AABoxNode(new Vector(0, 0, 0, 0));
-        const cube2Sc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.2, 0)));
-        const cube2Tr = new GroupNode(new Translation(new Vector(0.1, -0.3, -1, 0)));
-        const cube2Rt = new GroupNode(new Rotation(new Vector(0, 1, 0, 0), 1));
-        const gn32 = new GroupNode(new Translation(new Vector(0, 0, 0, 0)));
-        const cubeTexture2 = new TextureBoxNode('hci-logo.png');
-
-        // cubeSc.add(cube);
-        //TODO: Texture anzeigen geht nicht?
-        // cubeSc.add(textureGeist)
-        cube2Sc.add(cubeTexture2)
-        cube2Rt.add(cube2Sc);
-        cube2Tr.add(cube2Rt);
-        sg.add(cube2Tr);
-
-        //Zeichenflaeche2
-        //TODO: rausfinden wieso in raytracer sobald die sphere drin is der hintergrund schwarz wird
-        const sphere = new SphereNode(new Vector(1, 0.7, 0.7, 1))
-        const sphereSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.2, 0)));
-        const sphereTr = new GroupNode(new Translation(new Vector(-0.3, 0, -1, 0)));
-        const sphereRt = new GroupNode(new Rotation(new Vector(0,0,1,0), 1));
-        sphereSc.add(sphere);
-        // sphereSc.add(textureHCILogo)
-        sphereRt.add(sphereSc)
-        sphereTr.add(sphereRt);
-        sg.add(sphereTr);
-
-        const pyramid = new PyramidNode(new Vector(1, 0, 1, 0))
-        const pyramidSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.2, 0)));
-        const pyramidTr = new GroupNode(new Translation(new Vector(-0.2, -0.4, -1, 0)));
-
-        pyramidSc.add(pyramid)
-        pyramidTr.add(pyramidSc)
-        sg.add(pyramidTr)
 
         let light1 = this.getLight(new Vector(0,0,-1,0));
         let light2 = this.getLight(new Vector(0,.2,1,0));
@@ -205,37 +95,82 @@ export default class Scenegraph {
         sg.add(light3)
 
 
+        //Video-Box kann nicht geadded werden, wieso?
         const videoBox = new TextureVideoBoxNode("icgTestVideo.mp4");
-        const videoSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.2, 0)));
-        const videoTr = new GroupNode(new Translation(new Vector(0.1, 0, -1, 0)));
+        const videoBoxTr = new GroupNode(new Translation(new Vector(0, 0, -3, 0)));
+        const videoBoxSc = new GroupNode(new Scaling(new Vector(2, 2, 2, 1)));
+        videoBoxSc.add(videoBox);
+        videoBoxTr.add(videoBoxSc);
+        sg.add(videoBoxTr);
 
-        videoSc.add(videoBox);
-        videoTr.add(videoSc)
-        sg.add(videoTr)
+        //Driver
+        const driver = new TextureBoxNode("geist.png")
+        const driver_Tr = new GroupNode(new Translation(new Vector(0, 0, 0, 0)))
+        const driver_Sc = new GroupNode(new Scaling(new Vector(1, 1, 0.0, 0)))
+        driver_Sc.add(driver)
+        driver_Tr.add(driver_Sc)
 
 
+        const aabox1 = new AABoxNode(new Vector(0, 0, 1, 1));
+        const aabox2 = new AABoxNode(new Vector(1, 0, 1, 1));
+        const aabox3 = new AABoxNode(new Vector(1, 1, 0, 1));
+        const aabox4 = new AABoxNode(new Vector(1, 0, 0, 1));
 
+        //Spooky Sphere
+        const sphere = new SphereNode(new Vector(1, 0, 0, 1));
+        const sphere_Tr = new GroupNode(new Translation(new Vector(0, -0.1, 0, 0)))
+        const sphere_Sc = new GroupNode(new Scaling(new Vector(0.7, 0.7, 0.7, 0)))
+        sphere_Sc.add(sphere);
+        sphere_Tr.add(sphere_Sc);
+        let window1 = this.getWindow(new Vector(-0.3, 0.5, -1, 0), sphere_Tr);
 
-        //kleiner driver geist
-        const driverGhost = new TextureBoxNode("geist.png")
-        const driverGhostSc = new GroupNode(new Scaling(new Vector(0.1, 0.1, 0.1, 1)))
-        driverGhostSc.add(driverGhost);
-        const driverGhostTr = new GroupNode(new Translation(new Vector(0.75, -0.8, 0, 0)))
-        driverGhostTr.add(driverGhostSc)
-        sg.add(driverGhostTr)
+        sg.add(window1.root);
+        const TBWindow1Tr = new GroupNode(new Translation(new Vector(-0.52,0,0,0)));
+        TBWindow1Tr.add(window1.ButtonTBTr);
+        TaskBarTr.add(TBWindow1Tr);
 
-        const ghostCastle = new TextureBoxNode("ghost_castle.jpg")
-        const ghostCastleSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.2, 1)))
-        const ghostCastleTr = new GroupNode(new Translation(new Vector(0.9, -0.75, -0.1, 0)))
-        ghostCastleSc.add(ghostCastle)
-        ghostCastleTr.add(ghostCastleSc)
-        sg.add(ghostCastleTr)
+        //buhuu box
+        const buhuuAABox = new AABoxNode(new Vector(1, 0, 1, 1));
+        const buhuuAABoxTr = new GroupNode(new Translation(new Vector(0,0,0.6,1)));
+        const buhuuAABoxRty = new GroupNode(new Rotation(new Vector(0, 1, 0, 0), 1));
+        const buhuuAABoxRtz = new GroupNode(new Rotation(new Vector(1, 0, 0, 0), 0.5));
+        buhuuAABoxRtz.add(buhuuAABox);
+        buhuuAABoxRtz.add(textureGeisterSchloss);
+        buhuuAABoxRty.add(buhuuAABoxRtz);
+        buhuuAABoxTr.add(buhuuAABoxRty);
+
+        let window2 = this.getWindow(new Vector(-0.3, 0, -1, 0), buhuuAABoxTr);
+        sg.add(window2.root);
+        const TBWindow2Tr = new GroupNode(new Translation(new Vector(-0.44,0,0,0)));
+        TBWindow2Tr.add(window2.ButtonTBTr);
+        TaskBarTr.add(TBWindow2Tr);
+
+        //Window3
+        let window3 = this.getWindow(new Vector(0.3, 0, -1, 0), aabox3);
+
+        sg.add(window3.root);
+        const TBWindow3Tr = new GroupNode(new Translation(new Vector(-0.36,0,0,0)));
+        TBWindow3Tr.add(window3.ButtonTBTr);
+        TaskBarTr.add( TBWindow3Tr);
+
+        //Window4
+        let window4 = this.getWindow(new Vector(0.3, 0.5, -1, 0), aabox4);
+
+        sg.add(window4.root);
+        const TBWindow4Tr = new GroupNode(new Translation(new Vector(-0.28,0,0,0)));
+        TBWindow4Tr.add(window4.ButtonTBTr);
+        TaskBarTr.add( TBWindow4Tr);
+
 
         let animationNodes = [
-            new RotationNode(sphereRt, new Vector(0, 0, 1, 0)),
+            //new RotationNode(sphereRt, new Vector(0, 0, 1, 0)),
             new RotationNode(light1, new Vector(0, 1, 0, 0)),
             new RotationNode(light2, new Vector(0, 1, 0, 0)),
             new RotationNode(light3, new Vector(0, 0, 1, 0)),
+            window1.minmax,
+            window2.minmax,
+            window3.minmax,
+            window4.minmax,
             // new RotationNode(kugelTr2, new Vector(0.2, 0.2, -1, 0)),
             // new RotationNode(lightTr2, new Vector(1, 1, 1, 0)),
         ]
@@ -243,11 +178,11 @@ export default class Scenegraph {
 
         let driverNodes = [
             //new RotationNode(cubeSc, new Vector(0,0,1,0)),
-            new DriverNode(driverGhostTr, new Vector(0.75,-0.8,0,0))
+            new DriverNode(driver_Tr, new Vector(0, 0, 0, 0))
         ]
 
         let scalerNodes = [
-            new ScalerNode(driverGhostSc, new Vector(0.1, 0.1, 0.1, 1))
+            new ScalerNode(driver_Tr, new Vector(0.1, 0.1, 0.1, 1))
         ]
         return {
             sg,
@@ -272,13 +207,76 @@ export default class Scenegraph {
         root.add(lightBack)
 
         let light = new LightNode(new Vector(1,1,1,1));
-        let yellowSphere = new SphereNode(new Vector(1, 1, 0, 1));
+        let yellowSphere = new SphereNode(new Vector(1, 1, 0.5, 1));
         let sphereScaling = new GroupNode(new Scaling(new Vector(.02,.02,.02,0)));
         sphereScaling.add(yellowSphere)
         lightBack.add(light);
         lightBack.add(sphereScaling)
 
         return root
+    }
+
+    static getWindow(vec: Vector, inhalt: Node){
+
+        let root = new GroupNode(new Translation(new Vector(0,0,0,0)));
+
+        //MinMax Node
+        const EmptyTranslation = new GroupNode(new Translation(new Vector(0, 0, 0, 0)));
+        const MinmaxTr = new GroupNode(new Translation(new Vector(0, 0, 0, 0)))
+        const minmax = new MinMaxNode(MinmaxTr, new Vector(1, 1, 1, 0), new Vector(0.00001, 0.00001, 0.00001, 0), 80)
+
+        //Inhalt
+        const aabox_Tr = new GroupNode(new Translation(new Vector(0, -0.45, 0, 0)))
+        const aabox_Sc = new GroupNode(new Scaling(new Vector(0.4, 0.4, 0.3, 0)))
+        aabox_Sc.add(inhalt)
+        aabox_Tr.add(aabox_Sc)
+
+        //Background
+        const windowBacktroundBox = new AABoxNode(new Vector(0.8, 0.8, 0.8, 1));
+        const windowBacktroundBox_Tr = new GroupNode(new Translation(new Vector(0, -0.5, 0, 0)));
+        const windowBacktroundBox_Sc = new GroupNode(new Scaling(new Vector(1.2, 1, 0.0001, 0)));
+        windowBacktroundBox_Sc.add(windowBacktroundBox);
+        windowBacktroundBox_Tr.add(windowBacktroundBox_Sc);
+
+        //Header
+        const windowHeaderBar = new AABoxNode(new Vector(0.3, 0.05, 0.1, 1));
+        const windowHeaderBarTr = new GroupNode(new Translation(new Vector(0, 0, 0, 0, )));
+        const windowHeaderBarSc = new GroupNode(new Scaling(new Vector(1.2, 0.3, 0.0001, 1)));
+        windowHeaderBarSc.add(windowHeaderBar);
+        windowHeaderBarTr.add(windowHeaderBarSc);
+
+        //Window
+        const windowPosition = new GroupNode(new Translation(vec));
+        const windowSize = new GroupNode(new Scaling(new Vector(0.4, 0.4, 0.4, 1)));
+
+        //HB Button
+        const ButtonHB = new TextureBoxButtonNode("geist.png", () => {
+            minmax.active = true;
+        })
+        minmax.active = false;
+        const ButtonHBTr = new GroupNode(new Translation(new Vector(0, 0.07, 0.01, 0)))
+        const ButtonHBSc = new GroupNode(new Scaling(new Vector(0.12, 0.12, 0.0001, 1)))
+        ButtonHBSc.add(ButtonHB);
+        ButtonHBTr.add(ButtonHBSc);
+
+        //TB Button
+        const ButtonTBTr = new GroupNode(new Translation(new Vector(0, 0.005, 0.0001, 0)));
+        const ButtonTBSc = new GroupNode(new Scaling(new Vector(0.047, 0.047, 0.0001, 1)))
+        ButtonTBSc.add(ButtonHB);
+        ButtonTBTr.add(ButtonTBSc);
+
+
+        MinmaxTr.add(aabox_Tr);
+        MinmaxTr.add(ButtonHBTr);
+        MinmaxTr.add(windowHeaderBarTr);
+        MinmaxTr.add(windowBacktroundBox_Tr);
+
+        windowSize.add(MinmaxTr);
+        windowPosition.add(windowSize);
+        root.add(windowPosition);
+
+
+        return {root, minmax, ButtonTBTr};
     }
 
     static getTestScenegraph(): { animationNodes: MinMaxNode[]; canvas: HTMLCanvasElement; kSElement: HTMLInputElement; sg: GroupNode; scalerNodes: ScalerNode[]; kAElement: HTMLInputElement; gl: WebGL2RenderingContext; kDElement: HTMLInputElement; ctx: CanvasRenderingContext2D; driverNodes: DriverNode[]; shininessElement: HTMLInputElement; canvas2: HTMLCanvasElement } {
@@ -299,7 +297,6 @@ export default class Scenegraph {
 
         const gl = canvas.getContext("webgl2");
         const ctx = canvas2.getContext("2d");
-
 
 
         //SG
@@ -616,7 +613,7 @@ export default class Scenegraph {
         let driverNodes = [
             //new RotationNode(cubeSc, new Vector(0,0,1,0)),
             //new DriverNode(driverGhostTr, new Vector(0.75, -0.8, 0, 0))
-            new DriverNode(driver_Tr, new Vector(0.75, -0.8, 0, 0))
+            new DriverNode(driver_Tr, new Vector(0, -0.5, 0, 0))
         ]
 
         let scalerNodes = [
@@ -654,4 +651,10 @@ export type scenegraphObject={
     shininessElement: HTMLInputElement,
     canvas: HTMLCanvasElement,
     canvas2: HTMLCanvasElement
+}
+
+export type windoOwbject={
+    root: Node,
+    minmax: AnimationNode[],
+    ButtonTBTr: Node
 }
