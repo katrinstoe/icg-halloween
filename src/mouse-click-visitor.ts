@@ -183,7 +183,7 @@ export default class mouseClickVisitor implements Visitor {
                 this.intersection = intersection;
                 this.intersectionColor = node.color;
             }
-            node.color = new Vector(Math.floor((Math.random() * 10) + 1)/10,Math.floor((Math.random() * 10) + 1)/10,Math.floor((Math.random() * 10) + 1)/10,1)
+            node.color = new Vector(Math.floor((Math.random() * 5) + 1)/10,Math.floor((Math.random() * 5) + 1)/10,Math.floor((Math.random() * 5) + 1)/10,1)
         }
     }
     /**
