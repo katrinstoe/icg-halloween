@@ -16,7 +16,6 @@ import {
 } from './Nodes/nodes';
 import {
     RasterVisitor,
-    RasterSetupVisitor
 } from './Visitors/rastervisitor';
 import Shader from './Shaders/shader';
 import phongVertexShader from './Shaders/phong-vertex-shader.glsl';
@@ -45,6 +44,7 @@ import Camera from "./camera";
 import Visitor from "./Visitors/visitor";
 import RayVisitorSupaFast from "./Visitors/rayvisitor-supa-fast";
 import Scenegraph from "./scenegraph";
+import {RasterSetupVisitor} from "./Visitors/rasterSetupVisitor";
 
 const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1));
 const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.5, 0.5, 1), new Vector(0, 0, 0, 1));

@@ -7,8 +7,7 @@ import {
     TextureBoxNode
 } from '../Nodes/nodes';
 import {
-    RasterVisitor,
-    RasterSetupVisitor
+    RasterVisitor
 } from '../Visitors/rastervisitor';
 import Shader from '../Shaders/shader';
 import phongVertexShader from '../Shaders/phong-vertex-shader.glsl';
@@ -17,6 +16,7 @@ import textureVertexShader from '../Shaders/texture-vertex-shader.glsl';
 import textureFragmentShader from '../Shaders/texture-fragment-shader.glsl';
 import { Rotation, Scaling, Translation } from '../mathOperations/transformation';
 import Camera from "../camera";
+import {RasterSetupVisitor} from "../Visitors/rasterSetupVisitor";
 
 window.addEventListener('load', () => {
     const canvas = document.getElementById("rasteriser") as HTMLCanvasElement;

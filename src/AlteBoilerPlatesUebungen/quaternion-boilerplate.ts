@@ -8,7 +8,6 @@ import {
 } from '../Nodes/nodes';
 import {
     RasterVisitor,
-    RasterSetupVisitor
 } from '../Visitors/rastervisitor';
 import Shader from '../Shaders/shader';
 import {
@@ -21,6 +20,7 @@ import textureFragmentShader from '../Shaders/texture-fragment-shader.glsl';
 import { SQT } from '../mathOperations/transformation';
 import Quaternion from '../mathOperations/quaternion';
 import Camera from "../camera";
+import {RasterSetupVisitor} from "../Visitors/rasterSetupVisitor";
 
 window.addEventListener('load', () => {
     const canvas = document.getElementById("rasteriser") as HTMLCanvasElement;

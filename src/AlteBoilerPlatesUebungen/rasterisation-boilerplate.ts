@@ -7,8 +7,7 @@ import {
     AABoxNode
 } from '../Nodes/nodes';
 import {
-    RasterVisitor,
-    RasterSetupVisitor
+    RasterVisitor
 } from '../Visitors/rastervisitor';
 import Shader from '../Shaders/shader';
 import vertexShader from '../Shaders/basic-vertex-shader.glsl';
@@ -16,6 +15,7 @@ import fragmentShader from '../Shaders/basic-fragment-shader.glsl';
 import { Scaling, Translation } from '../mathOperations/transformation';
 import RasterPyramid from "../Geometry/RasterGeometry/raster-pyramid";
 import Pyramid from "../Geometry/RayGeometry/pyramid";
+import {RasterSetupVisitor} from "../Visitors/rasterSetupVisitor";
 
 window.addEventListener('load', () => {
     const canvas = document.getElementById("rasteriser") as HTMLCanvasElement;
