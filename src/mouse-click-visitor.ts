@@ -40,7 +40,7 @@ export default class mouseClickVisitor implements Visitor {
     mousePos: { x: number, y: number }
     animation: () => void;
 
-    lastTexture: number
+    lastTexture: {zahl: number}
 
     /**
      * Creates a new RayVisitor
@@ -53,7 +53,7 @@ export default class mouseClickVisitor implements Visitor {
         width: number,
         height: number,
         //übergebener mouseray
-        mousePos: { x: number; y: number }, lastTexture: any) {
+        mousePos: { x: number; y: number }, lastTexture: {zahl: number}) {
         this.imageData = context.getImageData(0, 0, width, height);
         this.mousePos = mousePos;
         this.lastTexture = lastTexture;
@@ -318,14 +318,14 @@ export default class mouseClickVisitor implements Visitor {
             if (this.intersection === null || intersection.closerThan(this.intersection)) {
                 if (node.amountOfSwitches < 1) {
                     this.intersection = intersection;
-                    if (node.texture == node.textureArray[0] && isEven(this.lastTexture)) {
+                    if (node.texture == node.textureArray[0] && isEven(this.lastTexture.zahl)) {
                         node.activeTexture = node.textureArray[1]
                         node.texture = node.textureArray[1]
-                        console.log(this.lastTexture)
-                    } else if (isOdd(this.lastTexture)&&node.texture == node.textureArray[0]){
+                        this.lastTexture.zahl++;
+                    } else if (isOdd(this.lastTexture.zahl)&&node.texture == node.textureArray[0]){
                         node.activeTexture = node.textureArray[2]
                         node.texture = node.textureArray[2]
-                        console.log(this.lastTexture)
+                        this.lastTexture.zahl++;
                     } else if (node.texture == node.textureArray[3]){
                         node.activeTexture = node.textureArray[3]
                         for (let ticTacToeTextureNode of Scenegraph.wuerfelArray) {

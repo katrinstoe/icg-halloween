@@ -51,7 +51,20 @@ const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.
 const UNIT_PYRAMID = new Pyramid(new Vector(-0.5, -0.5, 0.5, 1), new Vector(0.5, -0.5, 0.5, 1), new Vector(0, -0.5, -0.5, 1), new Vector(0, 0.5, 0, 1), new Vector(0, 0, 0, 1))
 
 window.addEventListener('load', function loadPage() {
-    let {sg, scalerNodes, driverNodes, animationNodes, gl, ctx, kDElement, kSElement, kAElement, shininessElement, canvas, canvas2} = Scenegraph.getScenegraph();
+    let {
+        sg,
+        scalerNodes,
+        driverNodes,
+        animationNodes,
+        gl,
+        ctx,
+        kDElement,
+        kSElement,
+        kAElement,
+        shininessElement,
+        canvas,
+        canvas2
+    } = Scenegraph.getScenegraph();
     // let {sg, scalerNodes, driverNodes, animationNodes, gl, ctx, kDElement, kSElement, kAElement, shininessElement, canvas, canvas2} = Scenegraph.getTicTacToe();
     const btn1 = document.getElementById('btnradio1') as HTMLInputElement;
     const btn2 = document.getElementById('btnradio2') as HTMLInputElement;
@@ -74,7 +87,7 @@ window.addEventListener('load', function loadPage() {
     let setupVisitor = new RasterSetupVisitor(gl, lightPositions)
     let rasterVisitor = new RasterVisitor(gl, phongShader, textureShader, setupVisitor.objects)
     let rayVisitor = new RayVisitorSupaFast(ctx, canvas.width, canvas.height)
-    let visitor: RayVisitorSupaFast|RasterVisitor
+    let visitor: RayVisitorSupaFast | RasterVisitor
 
     let renderer = localStorage.getItem("renderer")
     console.log(renderer)
@@ -86,7 +99,7 @@ window.addEventListener('load', function loadPage() {
     console.log(btn1.checked)
     console.log(btn2.checked)
 
-    function render(){
+    function render() {
         console.log("called")
         if (btn1.checked) {
             btn1.checked = true
@@ -109,10 +122,10 @@ window.addEventListener('load', function loadPage() {
 
     render()
 
-    function loadScene(){
-    if (btn1.checked){
-        setupVisitor.setup(sg);
-    }
+    function loadScene() {
+        if (btn1.checked) {
+            setupVisitor.setup(sg);
+        }
 
         shininessElement.onchange = function () {
             camera.shininess = Number(shininessElement.value);
@@ -154,7 +167,7 @@ window.addEventListener('load', function loadPage() {
         let then = 0;
 
         function animate(timestamp: number) {
-            simulate((timestamp - lastTimestamp)/10);
+            simulate((timestamp - lastTimestamp) / 10);
             visitor.render(sg, camera, lightPositions);
             lastTimestamp = timestamp;
             window.requestAnimationFrame(animate);
@@ -253,17 +266,17 @@ window.addEventListener('load', function loadPage() {
             };
         }
 
-        let lastTexture = 0;
-
+        let lastTexture = {zahl: 0};
         window.addEventListener('click', function (evt) {
             let mousePos = getMousePos(canvas, evt);
             let mouseVisitor = new mouseClickVisitor(ctx, canvas.width, canvas.height, mousePos, lastTexture);
-            lastTexture++;
+            // lastTexture++;
             mouseVisitor.render(sg, camera, lightPositions);
             setupVisitor.setup(sg);
             //visitor.render(sg, camera, camera.lightPositions);
-            console.log("TextureCount nach listener: "+lastTexture)
+            console.log("TextureCount nach listener: " + lastTexture)
         }, false);
+
         function mouseClickedOn(event: { clientX: number; }) {
             let mx = event.clientX - canvas.getBoundingClientRect().left;
         }
