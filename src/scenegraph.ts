@@ -149,7 +149,44 @@ export default class Scenegraph {
         //Window3
         //Hier musst du dann eine Node mit dem TicTacToe machen und die aabox3 damit erseten @katrin
         const aabox3 = new AABoxNode(new Vector(0.9, 0.9, 0.9, 0));
-        let window3 = this.getWindow(new Vector(0.3, 0, -1, 0), aabox3);
+
+        //Würfel
+        let tictactoeTr = new GroupNode(new Translation(new Vector(0.3, 0, 0, 0)))
+        let tictactoeCubeRow1Middle = this.getTicTacToeWuerfel(new Vector(0, 0, -1, 0))
+        let tictactoeCubeRow1Right = this.getTicTacToeWuerfel(new Vector(0.2, 0, -1, 0))
+        let tictactoeCubeRow1Left = this.getTicTacToeWuerfel(new Vector(-0.2, 0, -1, 0))
+
+        let tictactoeCubeRow2Middle = this.getTicTacToeWuerfel(new Vector(0, -0.2, -1, 0))
+        let tictactoeCubeRow2Right = this.getTicTacToeWuerfel(new Vector(0.2, -0.2, -1, 0))
+        let tictactoeCubeRow2Left = this.getTicTacToeWuerfel(new Vector(-0.2, -0.2, -1, 0))
+
+        let tictactoeCubeRow3Middle = this.getTicTacToeWuerfel(new Vector(0, -0.4, -1, 0))
+        let tictactoeCubeRow3Right = this.getTicTacToeWuerfel(new Vector(0.2, -0.4, -1, 0))
+        let tictactoeCubeRow3Left = this.getTicTacToeWuerfel(new Vector(-0.2, -0.4, -1, 0))
+
+        let root = new GroupNode(new Translation(new Vector(0,0,0,0)));
+        let cubeBack = new GroupNode(new Translation(new Vector(0.5,-0.52,-1,0)));
+        root.add(cubeBack)
+
+        let resetButton = new TicTacToeTextureNode('Icons/resetText.png');
+
+        let resetSc = new GroupNode(new Scaling(new Vector(0.1, 0.1, 0.001, 0)))
+        resetSc.add(resetButton)
+        cubeBack.add(resetSc)
+
+        let window3 = this.getWindow(new Vector(0.3, 0, -1, 0),cubeBack);
+
+        tictactoeTr.add(tictactoeCubeRow1Middle)
+        tictactoeTr.add(tictactoeCubeRow1Right)
+        tictactoeTr.add(tictactoeCubeRow1Left)
+        tictactoeTr.add(tictactoeCubeRow2Middle)
+        tictactoeTr.add(tictactoeCubeRow2Right)
+        tictactoeTr.add(tictactoeCubeRow2Left)
+        tictactoeTr.add(tictactoeCubeRow3Middle)
+        tictactoeTr.add(tictactoeCubeRow3Right)
+        tictactoeTr.add(tictactoeCubeRow3Left)
+
+        window3.root.add(tictactoeTr)// = this.getWindow(new Vector(0.3, 0, -1, 0),tictactoeTr);
 
         sg.add(window3.root);
         const TBWindow3Tr = new GroupNode(new Translation(new Vector(-0.36,0,0,0)));
@@ -252,21 +289,21 @@ export default class Scenegraph {
         //Würfel
         let tictactoeTr = new GroupNode(new Translation(new Vector(0.3, 0, 0, 0)))
         let tictactoeCubeRow1Middle = this.getTicTacToeWuerfel(new Vector(0, 0, -1, 0))
-        let tictactoeCubeRow1Right = this.getTicTacToeWuerfel(new Vector(0.2, 0, -1, 0))
-        let tictactoeCubeRow1Left = this.getTicTacToeWuerfel(new Vector(-0.2, 0, -1, 0))
+        let tictactoeCubeRow1Right = this.getTicTacToeWuerfel(new Vector(0.05, 0, -1, 0))
+        let tictactoeCubeRow1Left = this.getTicTacToeWuerfel(new Vector(-0.05, 0, -1, 0))
 
-        let tictactoeCubeRow2Middle = this.getTicTacToeWuerfel(new Vector(0, -0.2, -1, 0))
-        let tictactoeCubeRow2Right = this.getTicTacToeWuerfel(new Vector(0.2, -0.2, -1, 0))
-        let tictactoeCubeRow2Left = this.getTicTacToeWuerfel(new Vector(-0.2, -0.2, -1, 0))
+        let tictactoeCubeRow2Middle = this.getTicTacToeWuerfel(new Vector(0, -0.05, -1, 0))
+        let tictactoeCubeRow2Right = this.getTicTacToeWuerfel(new Vector(0.05, -0.05, -1, 0))
+        let tictactoeCubeRow2Left = this.getTicTacToeWuerfel(new Vector(-0.05, -0.05, -1, 0))
 
-        let tictactoeCubeRow3Middle = this.getTicTacToeWuerfel(new Vector(0, -0.4, -1, 0))
-        let tictactoeCubeRow3Right = this.getTicTacToeWuerfel(new Vector(0.2, -0.4, -1, 0))
-        let tictactoeCubeRow3Left = this.getTicTacToeWuerfel(new Vector(-0.2, -0.4, -1, 0))
+        let tictactoeCubeRow3Middle = this.getTicTacToeWuerfel(new Vector(0, -0.25, -1, 0))
+        let tictactoeCubeRow3Right = this.getTicTacToeWuerfel(new Vector(0.05, -0.25, -1, 0))
+        let tictactoeCubeRow3Left = this.getTicTacToeWuerfel(new Vector(-0.05, -0.25, -1, 0))
 
         console.log(Scenegraph.wuerfelArray)
 
         let root = new GroupNode(new Translation(new Vector(0,0,0,0)));
-        let cubeBack = new GroupNode(new Translation(new Vector(0.5,-0.52,-1,0)));
+        let cubeBack = new GroupNode(new Translation(new Vector(0.25,-0.3,-1,0)));
         root.add(cubeBack)
 
         let resetButton = new TicTacToeTextureNode('Icons/resetText.png');
@@ -807,10 +844,4 @@ export type scenegraphObject={
     shininessElement: HTMLInputElement,
     canvas: HTMLCanvasElement,
     canvas2: HTMLCanvasElement
-}
-
-export type windoOwbject={
-    root: Node,
-    minmax: AnimationNode[],
-    ButtonTBTr: Node
 }
