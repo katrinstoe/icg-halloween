@@ -62,14 +62,28 @@ export default class AABox {
       //   maxPoint.x, maxPoint.y, minPoint.z,
       //   minPoint.x, maxPoint.y, minPoint.z
       // ]
+      //   this.indices = [
+      //       0, 1, 2, 3,
+      //       1, 5, 6, 2,
+      //       4, 0, 3, 7,
+      //       3, 2, 6, 7,
+      //       5, 4, 7, 6,
+      //       0, 4, 5, 1
+      //   ];
         this.indices = [
-            0, 1, 2, 3,
-            1, 5, 6, 2,
-            4, 0, 3, 7,
-            3, 2, 6, 7,
-            5, 4, 7, 6,
-            0, 4, 5, 1
-        ];
+            // front
+            0, 1, 2, 2, 3, 0,
+            // back
+            4, 5, 6, 6, 7, 4,
+            // right
+            1, 4, 7, 7, 2, 1,
+            // top
+            3, 2, 7, 7, 6, 3,
+            // left
+            5, 0, 3, 3, 6, 5,
+            // bottom
+            5, 4, 1, 1, 0, 5
+        ]
         this.color = color;
 
     }
@@ -81,7 +95,6 @@ export default class AABox {
      */
     intersect(ray: Ray): Intersection | null {
         let nearestIntersection: Intersection;
-
         let min = Number.MAX_VALUE;
 
         for (let i = 0; i < this.indices.length; i+=3) {
@@ -90,10 +103,8 @@ export default class AABox {
                 if (min === Number.MAX_VALUE || intersection.t < min) {
                     nearestIntersection = intersection;
                     min = intersection.t
-
                 }
             }
-
         }
         if (nearestIntersection) {
             return nearestIntersection;

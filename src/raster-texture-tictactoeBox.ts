@@ -4,7 +4,7 @@ import Shader from './shader';
 /**
  * A class creating buffers for a textured box to render it with WebGL
  */
-export default class RasterTextureBox {
+export default class RasterTextureTictactoeBox {
     /**
      * The buffer containing the box's vertices
      */
@@ -179,10 +179,9 @@ export default class RasterTextureBox {
     }
 }
 
-export class TextureBoxButton extends RasterTextureBox{
+export class TextureBoxButton extends RasterTextureTictactoeBox{
 
     constructor(gl: WebGL2RenderingContext, minPoint: Vector, maxPoint: Vector, texture: string) {
         super(gl, minPoint, maxPoint, texture);
     }
 }
-

@@ -1,6 +1,5 @@
 import Vector from './vector';
 import Intersection from './intersection';
-import Ray from "./ray";
 
 /**
  * Calculate the colour of an object at the intersection point according to the Phong Lighting model.
@@ -38,7 +37,7 @@ export default function phong(
     let mal2 = term.mul(2)
     let r = mal2.sub(l);
 
-    diffuse = diffuse.add(lightColor.mul(Math.max(0.0, n.dot(l))));
+    diffuse =  diffuse.add(lightColor.mul(Math.max(0.0, n.dot(l))));
     specular = specular.add(lightColor.mul(Math.pow(Math.max(0.0, r.dot(v)), shininess)));
   }
   specular = specular.mul(kS)
