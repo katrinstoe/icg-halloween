@@ -151,7 +151,7 @@ export class RasterVisitor implements Visitor {
     this.inverse.pop()
   }
 
-  visitObjectPhongNode(shaderForNode: Shader){
+  visitObjectPhongNode(shaderForNode: Shader, node: Node){
     const shader = shaderForNode;
     shader.use();
     let toWorld = Matrix.identity();
@@ -202,7 +202,7 @@ export class RasterVisitor implements Visitor {
       normalMatrix.setVal(3,2,0);
       N.set(normalMatrix)
     }
-    return shader
+    this.renderables.get(node).render(shader);
   }
 
   /**
@@ -210,8 +210,7 @@ export class RasterVisitor implements Visitor {
    * @param node The node to visit
    */
   visitSphereNode(node: SphereNode) {
-    const shader = this.visitObjectPhongNode(this.shader)
-    this.renderables.get(node).render(shader);
+    this.visitObjectPhongNode(this.shader, node)
   }
 
   /**
@@ -219,8 +218,7 @@ export class RasterVisitor implements Visitor {
    * @param  {AABoxNode} node - The node to visit
    */
   visitAABoxNode(node: AABoxNode) {
-    const shader = this.visitObjectPhongNode(this.shader)
-    this.renderables.get(node).render(shader);
+    this.visitObjectPhongNode(this.shader, node)
   }
 
   /**
@@ -228,8 +226,7 @@ export class RasterVisitor implements Visitor {
    * @param  {TextureBoxNode} node - The node to visit
    */
   visitTextureBoxNode(node: TextureBoxNode) {
-    const shader = this.visitObjectPhongNode(this.textureshader)
-    this.renderables.get(node).render(shader);
+    this.visitObjectPhongNode(this.textureshader, node)
   }
 
   /**
@@ -237,8 +234,7 @@ export class RasterVisitor implements Visitor {
    * @param  {TextureBoxNode} node - The node to visit
    */
   visitTextureVideoBoxNode(node: TextureVideoBoxNode) {
-    const shader = this.visitObjectPhongNode(this.textureshader)
-    this.renderables.get(node).render(shader);
+    this.visitObjectPhongNode(this.textureshader, node)
   }
 
   /**
@@ -246,8 +242,7 @@ export class RasterVisitor implements Visitor {
    * @param node The node to visit
    */
   visitPyramidNode(node: PyramidNode) {
-    const shader = this.visitObjectPhongNode(this.shader)
-    this.renderables.get(node).render(shader);
+    this.visitObjectPhongNode(this.shader, node)
   }
 
   /**
@@ -255,13 +250,12 @@ export class RasterVisitor implements Visitor {
    * @param  {TextureBoxNode} node - The node to visit
    */
   visitTexturePyramidNode(node: TexturePyramidNode) {
-    const shader = this.visitObjectPhongNode(this.textureshader)
-    this.renderables.get(node).render(shader);
+    this.visitObjectPhongNode(this.textureshader, node)
+
   }
 
   visitTicTacToeTextureNode(node: TicTacToeTextureNode): void {
-    const shader = this.visitObjectPhongNode(this.textureshader)
-    this.renderables.get(node).render(shader);
+    this.visitObjectPhongNode(this.textureshader, node)
   }
 
   visitAABoxButtonNode(node: AABoxButtonNode): void {
