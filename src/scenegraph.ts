@@ -98,9 +98,9 @@ export default class Scenegraph {
 
 
         //Video-Box kann nicht geadded werden, wieso?
-        const videoBox = new TextureVideoBoxNode("icgTestVideo.mp4");
+        const videoBox = new TextureVideoBoxNode("moon.mp4");
         const videoBoxTr = new GroupNode(new Translation(new Vector(0, 0, -3, 0)));
-        const videoBoxSc = new GroupNode(new Scaling(new Vector(2, 2, 2, 1)));
+        const videoBoxSc = new GroupNode(new Scaling(new Vector(3.7, 2.3, 2, 1)));
         videoBoxSc.add(videoBox);
         videoBoxTr.add(videoBoxSc);
         sg.add(videoBoxTr);
@@ -151,18 +151,19 @@ export default class Scenegraph {
         const aabox3 = new AABoxNode(new Vector(0.9, 0.9, 0.9, 0));
 
         //Würfel
-        let tictactoeTr = new GroupNode(new Translation(new Vector(0.3, 0, 0, 0)))
-        let tictactoeCubeRow1Middle = this.getTicTacToeWuerfel(new Vector(0, 0, -1, 0))
-        let tictactoeCubeRow1Right = this.getTicTacToeWuerfel(new Vector(0.2, 0, -1, 0))
-        let tictactoeCubeRow1Left = this.getTicTacToeWuerfel(new Vector(-0.2, 0, -1, 0))
+        let tictactoeTr = new GroupNode(new Translation(new Vector(0.3, 0, -0.99, 0)));
 
-        let tictactoeCubeRow2Middle = this.getTicTacToeWuerfel(new Vector(0, -0.2, -1, 0))
-        let tictactoeCubeRow2Right = this.getTicTacToeWuerfel(new Vector(0.2, -0.2, -1, 0))
-        let tictactoeCubeRow2Left = this.getTicTacToeWuerfel(new Vector(-0.2, -0.2, -1, 0))
+        let tictactoeCubeRow1Middle = this.getTicTacToeWuerfel(new Vector(0, 0, 0, 0));
+        let tictactoeCubeRow1Right = this.getTicTacToeWuerfel(new Vector(0.2, 0, 0, 0));
+        let tictactoeCubeRow1Left = this.getTicTacToeWuerfel(new Vector(-0.2, 0, 0, 0));
 
-        let tictactoeCubeRow3Middle = this.getTicTacToeWuerfel(new Vector(0, -0.4, -1, 0))
-        let tictactoeCubeRow3Right = this.getTicTacToeWuerfel(new Vector(0.2, -0.4, -1, 0))
-        let tictactoeCubeRow3Left = this.getTicTacToeWuerfel(new Vector(-0.2, -0.4, -1, 0))
+        let tictactoeCubeRow2Middle = this.getTicTacToeWuerfel(new Vector(0, -0.2, 0, 0));
+        let tictactoeCubeRow2Right = this.getTicTacToeWuerfel(new Vector(0.2, -0.2, 0, 0));
+        let tictactoeCubeRow2Left = this.getTicTacToeWuerfel(new Vector(-0.2, -0.2, 0, 0));
+
+        let tictactoeCubeRow3Middle = this.getTicTacToeWuerfel(new Vector(0, -0.4, 0, 0));
+        let tictactoeCubeRow3Right = this.getTicTacToeWuerfel(new Vector(0.2, -0.4, 0, 0));
+        let tictactoeCubeRow3Left = this.getTicTacToeWuerfel(new Vector(-0.2, -0.4, 0, 0));
 
         let root = new GroupNode(new Translation(new Vector(0,0,0,0)));
         let cubeBack = new GroupNode(new Translation(new Vector(0.5,-0.52,-1,0)));
@@ -174,8 +175,6 @@ export default class Scenegraph {
         resetSc.add(resetButton)
         cubeBack.add(resetSc)
 
-        let window3 = this.getWindow(new Vector(0.3, 0, -1, 0),cubeBack);
-
         tictactoeTr.add(tictactoeCubeRow1Middle)
         tictactoeTr.add(tictactoeCubeRow1Right)
         tictactoeTr.add(tictactoeCubeRow1Left)
@@ -186,7 +185,11 @@ export default class Scenegraph {
         tictactoeTr.add(tictactoeCubeRow3Right)
         tictactoeTr.add(tictactoeCubeRow3Left)
 
-        window3.root.add(tictactoeTr)// = this.getWindow(new Vector(0.3, 0, -1, 0),tictactoeTr);
+
+        let window3 = this.getWindow(new Vector(0.3, 0, -1, 0),tictactoeTr);
+
+
+        //window3.root.add(tictactoeTr)// = this.getWindow(new Vector(0.3, 0, -1, 0),tictactoeTr);
 
         sg.add(window3.root);
         const TBWindow3Tr = new GroupNode(new Translation(new Vector(-0.36,0,0,0)));
@@ -300,8 +303,6 @@ export default class Scenegraph {
         let tictactoeCubeRow3Right = this.getTicTacToeWuerfel(new Vector(0.05, -0.25, -1, 0))
         let tictactoeCubeRow3Left = this.getTicTacToeWuerfel(new Vector(-0.05, -0.25, -1, 0))
 
-        console.log(Scenegraph.wuerfelArray)
-
         let root = new GroupNode(new Translation(new Vector(0,0,0,0)));
         let cubeBack = new GroupNode(new Translation(new Vector(0.25,-0.3,-1,0)));
         root.add(cubeBack)
@@ -371,6 +372,7 @@ export default class Scenegraph {
             canvas2
         }
     }
+
     static getTicTacToeWuerfel(pos: Vector){
         let root = new GroupNode(new Translation(new Vector(0,0,0,0)));
         let cubeBack = new GroupNode(new Translation(pos));
@@ -767,7 +769,7 @@ export default class Scenegraph {
 
 
         //Video-Box kann nicht geadded werden, wieso?
-        const videoBox = new TextureVideoBoxNode("icgTestVideo.mp4");
+        const videoBox = new TextureVideoBoxNode("moon.mp4");
         const videoBoxTr = new GroupNode(new Translation(new Vector(0, 0, -3, 0)));
         const videoBoxSc = new GroupNode(new Scaling(new Vector(2, 2, 2, 1)));
         videoBoxSc.add(videoBox);
