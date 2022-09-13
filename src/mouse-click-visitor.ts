@@ -8,9 +8,9 @@ import phong from './phong';
 import {
     Node, GroupNode, SphereNode,
     AABoxNode, TextureBoxNode, PyramidNode, CameraNode, LightNode, TexturePyramidNode
-   ,TextureVideoBoxNode,
-   AABoxButtonNode,
-   TextureBoxButtonNode
+    , TextureVideoBoxNode,
+    AABoxButtonNode,
+    TextureBoxButtonNode, TicTacToeTextureNode
 } from './nodes';
 import AABox from './aabox';
 import Pyramid from "./pyramid";
@@ -281,4 +281,7 @@ export default class mouseClickVisitor implements Visitor {
     visitCameraNode(node: CameraNode): void{};
 
     visitLightNode(node: LightNode): void{};
+
+    visitTicTacToeTextureNode(node: TicTacToeTextureNode): void {
+    }
 }

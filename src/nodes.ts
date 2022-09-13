@@ -300,3 +300,17 @@ export class LightNode extends Node {
     visitor.visitLightNode(this)
   }
 }
+export class TicTacToeTextureNode extends Node{
+  public activeTexture: string
+  public amountOfSwitches: number
+
+  constructor(public texture: string) {
+    super();
+    this.activeTexture = texture;
+    this.amountOfSwitches += 1;
+  }
+  accept(visitor: Visitor) {
+    // TODO
+    visitor.visitTicTacToeTextureNode(this)
+  }
+}

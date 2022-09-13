@@ -10,7 +10,7 @@ import {
     SphereNode, TextureBoxButtonNode,
     TextureBoxNode,
     TexturePyramidNode,
-    TextureVideoBoxNode
+    TextureVideoBoxNode, TicTacToeTextureNode
 } from "./nodes";
 import Vector from "./vector";
 import Matrix from "./matrix";
@@ -90,6 +90,9 @@ export class LightVisitor implements Visitor {
     visitAABoxButtonNode(node: AABoxButtonNode) {
     }
     visitTextureBoxButtonNode(node: TextureBoxButtonNode) {
+    }
+
+    visitTicTacToeTextureNode(node: TicTacToeTextureNode): void {
     }
 
 }

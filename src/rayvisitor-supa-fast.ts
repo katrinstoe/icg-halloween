@@ -10,7 +10,8 @@ import {
     TextureBoxButtonNode,
     TextureBoxNode,
     TexturePyramidNode,
-    TextureVideoBoxNode
+    TextureVideoBoxNode,
+    TicTacToeTextureNode
 } from "./nodes";
 import Vector from "./vector";
 import Matrix from "./matrix";
@@ -25,7 +26,7 @@ import Camera from "./camera";
 
 const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1));
 const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.5, 0.5, 1), new Vector(0, 0, 0, 1));
-const UNIT_PYRAMID = new Pyramid(new Vector(-1, -1, -1, 1), new Vector(1 , -1, 0, 1), new Vector(-1, -1, 1, 1), new Vector(-0.25, 1, 0, 1), new Vector(1, 0, 0,1))
+const UNIT_PYRAMID = new Pyramid(new Vector(-1, -1, -1, 1), new Vector(1, -1, 0, 1), new Vector(-1, -1, 1, 1), new Vector(-0.25, 1, 0, 1), new Vector(1, 0, 0, 1))
 
 export default class RayVisitorSupaFast implements Visitor {
     traverse: Array<Matrix>
@@ -43,6 +44,9 @@ export default class RayVisitorSupaFast implements Visitor {
         height: number
     ) {
         this.imageData = context.getImageData(0, 0, width, height);
+    }
+
+    visitTicTacToeTextureNode(node: TicTacToeTextureNode): void {
     }
 
     visitAABoxButtonNode(node: AABoxButtonNode): void {

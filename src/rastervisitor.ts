@@ -8,7 +8,7 @@ import {
   Node, GroupNode,
   SphereNode, AABoxNode,
   TextureBoxNode, PyramidNode, CameraNode, LightNode, TexturePyramidNode
-  , TextureVideoBoxNode, AABoxButtonNode, TextureBoxButtonNode
+  , TextureVideoBoxNode, AABoxButtonNode, TextureBoxButtonNode, TicTacToeTextureNode
 } from './nodes';
 import Shader from './shader';
 import RasterPyramid from "./raster-pyramid";
@@ -16,6 +16,7 @@ import RasterTexturePyramid from "./raster-texture-pyramid";
 import {LightVisitor} from "./lightVisitor";
 import TextureVideoBox from "./texture-video-box";
 import Camera from "./camera";
+import RasterTextureTictactoeBox from "./raster-texture-tictactoeBox";
 
 /*interface Camera {
   eye: Vector,
@@ -599,7 +600,62 @@ export class RasterVisitor implements Visitor {
     }
     this.renderables.get(node).render(shader);
   }
+
+  visitTicTacToeTextureNode(node: TicTacToeTextureNode): void {
+    let shader = this.textureshader;
+    this.textureshader.use();
+
+    let toWorld = Matrix.identity();
+    let fromWorld = Matrix.identity();
+    // TODO calculate the model matrix for the box
+    toWorld = this.model[this.model.length-1];
+    fromWorld = this.inverse[this.inverse.length-1];
+
+
+    shader.getUniformMatrix("M").set(toWorld);
+    const V = shader.getUniformMatrix("V");
+    if (V && this.lookat) {
+      V.set(this.lookat);
+    }
+
+    shader.getUniformFloat("shininess").set(this.shininess)
+    shader.getUniformFloat("kS").set(this.kS)
+    shader.getUniformFloat("kD").set(this.kD)
+    shader.getUniformFloat("kA").set(this.kA)
+
+    let lightUniformLocation = shader.getUniform3fv("lights")
+    let lights = []
+    for (let i = 0; i < this.lightPosisitions.length; i++) {
+      lights[3*i] = this.lightPosisitions[i].x
+      lights[3*i+1] = this.lightPosisitions[i].y
+      lights[3*i+2] = this.lightPosisitions[i].z
+    }
+    for (let i = this.lightPosisitions.length; i < 8; i++) {
+      lights[3*i] = 0
+      lights[3*i+1] = 0
+      lights[3*i+2] = 0
+    }
+
+    this.gl.uniform3fv(lightUniformLocation, lights)
+    shader.getUniformInt("lightCount").set(this.lightPosisitions.length)
+
+    let P = shader.getUniformMatrix("P");
+    if (P && this.perspective) {
+      P.set(this.perspective);
+    }
+    const N = shader.getUniformMatrix("N")
+    let normalMatrix = fromWorld.transpose()
+
+    if(N){
+      normalMatrix.setVal(3,0,0);
+      normalMatrix.setVal(3,1,0);
+      normalMatrix.setVal(3,2,0);
+      N.set(normalMatrix)
+    }
+    this.renderables.get(node).render(shader);
+  }
 }
+
 
 /**
  * Class representing a Visitor that sets up buffers
@@ -781,7 +837,17 @@ export class RasterSetupVisitor {
         )
     );
   }
-
+  visitTicTacToeTextureNode(node: TicTacToeTextureNode){
+    this.objects.set(
+        node,
+        new RasterTextureTictactoeBox(
+            this.gl,
+            new Vector(-0.5, -0.5, -0.5, 1),
+            new Vector(0.5, 0.5, 0.5, 1),
+            node.texture
+        )
+    );
+  }
 
   visitCameraNode(node: CameraNode) {
   };

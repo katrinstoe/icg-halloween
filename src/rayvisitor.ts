@@ -6,8 +6,18 @@ import Ray from './ray';
 import Visitor from './visitor';
 import phong from './phong';
 import {
-    Node, GroupNode, SphereNode,
-    AABoxNode, TextureBoxNode, PyramidNode, CameraNode, LightNode, TexturePyramidNode, AABoxButtonNode, TextureBoxButtonNode
+    Node,
+    GroupNode,
+    SphereNode,
+    AABoxNode,
+    TextureBoxNode,
+    PyramidNode,
+    CameraNode,
+    LightNode,
+    TexturePyramidNode,
+    AABoxButtonNode,
+    TextureBoxButtonNode,
+    TicTacToeTextureNode
 } from './nodes';
 import AABox from './aabox';
 import Pyramid from "./pyramid";
@@ -269,5 +279,8 @@ export default class RayVisitor implements Visitor {
     }
 
     visitTextureBoxButtonNode(node: TextureBoxButtonNode): void {
+    }
+
+    visitTicTacToeTextureNode(node: TicTacToeTextureNode): void {
     }
 }
