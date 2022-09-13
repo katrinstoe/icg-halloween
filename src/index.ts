@@ -52,7 +52,7 @@ const UNIT_PYRAMID = new Pyramid(new Vector(-0.5, -0.5, 0.5, 1), new Vector(0.5,
 
 window.addEventListener('load', function loadPage() {
     let {sg, scalerNodes, driverNodes, animationNodes, gl, ctx, kDElement, kSElement, kAElement, shininessElement, canvas, canvas2} = Scenegraph.getScenegraph();
-
+    // let {sg, scalerNodes, driverNodes, animationNodes, gl, ctx, kDElement, kSElement, kAElement, shininessElement, canvas, canvas2} = Scenegraph.getTicTacToe();
     const btn1 = document.getElementById('btnradio1') as HTMLInputElement;
     const btn2 = document.getElementById('btnradio2') as HTMLInputElement;
 
@@ -253,15 +253,17 @@ window.addEventListener('load', function loadPage() {
             };
         }
 
+        let lastTexture = 0;
 
         window.addEventListener('click', function (evt) {
             let mousePos = getMousePos(canvas, evt);
-            let mouseVisitor = new mouseClickVisitor(ctx, canvas.width, canvas.height, mousePos);
+            let mouseVisitor = new mouseClickVisitor(ctx, canvas.width, canvas.height, mousePos, lastTexture);
+            lastTexture++;
             mouseVisitor.render(sg, camera, lightPositions);
             setupVisitor.setup(sg);
             //visitor.render(sg, camera, camera.lightPositions);
+            console.log("TextureCount nach listener: "+lastTexture)
         }, false);
-
         function mouseClickedOn(event: { clientX: number; }) {
             let mx = event.clientX - canvas.getBoundingClientRect().left;
         }

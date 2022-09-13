@@ -8,13 +8,14 @@ import phong from './phong';
 import {
     Node, GroupNode, SphereNode,
     AABoxNode, TextureBoxNode, PyramidNode, CameraNode, LightNode, TexturePyramidNode
-   ,TextureVideoBoxNode,
-   AABoxButtonNode,
-   TextureBoxButtonNode
+    , TextureVideoBoxNode,
+    AABoxButtonNode,
+    TextureBoxButtonNode, TicTacToeTextureNode
 } from './nodes';
 import AABox from './aabox';
 import Pyramid from "./pyramid";
 import Camera from "./camera";
+import Scenegraph from "./scenegraph";
 
 const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1));
 const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.5, 0.5, 1), new Vector(0, 0, 0, 1));
@@ -39,6 +40,8 @@ export default class mouseClickVisitor implements Visitor {
     mousePos: { x: number, y: number }
     animation: () => void;
 
+    lastTexture: number
+
     /**
      * Creates a new RayVisitor
      * @param context The 2D context to render to
@@ -50,9 +53,10 @@ export default class mouseClickVisitor implements Visitor {
         width: number,
         height: number,
         //übergebener mouseray
-        mousePos: { x: number; y: number },) {
+        mousePos: { x: number; y: number }, lastTexture: any) {
         this.imageData = context.getImageData(0, 0, width, height);
         this.mousePos = mousePos;
+        this.lastTexture = lastTexture;
         //added
     }
 
@@ -132,10 +136,11 @@ export default class mouseClickVisitor implements Visitor {
         rootNode.accept(this);
         // this.intersection wird in den visit methoden überschrieben --> nach rootNode.accept(this) ist in this.intersection die gesuchte Intersection gespeichert
         // TODO object manipulation einbauen; Manipulation passiert auch in den visit Methoden
-        if(this.animation){
+        if (this.animation) {
             this.animation();
         }
     }
+
     /**
      * Visits a group node
      * @param node The node to visit
@@ -154,6 +159,7 @@ export default class mouseClickVisitor implements Visitor {
         this.model.pop()
         this.inverse.pop()
     }
+
     /**
      * Visits a sphere node
      * @param node - The node to visit
@@ -214,6 +220,7 @@ export default class mouseClickVisitor implements Visitor {
             }
         }
     }
+
     /**
      * Visits a textured box node
      * @param node The node to visit
@@ -249,7 +256,7 @@ export default class mouseClickVisitor implements Visitor {
     visitTextureVideoBoxNode(node: TextureVideoBoxNode) {
     }
 
-    visitPyramidNode(node: PyramidNode){
+    visitPyramidNode(node: PyramidNode) {
 
         let toWorld = Matrix.identity();
         let fromWorld = Matrix.identity();
@@ -276,9 +283,69 @@ export default class mouseClickVisitor implements Visitor {
     }
 
 
-    visitTexturePyramidNode(node: TexturePyramidNode) {}
+    visitTexturePyramidNode(node: TexturePyramidNode) {
+    }
 
-    visitCameraNode(node: CameraNode): void{};
+    visitCameraNode(node: CameraNode): void {
+    };
 
-    visitLightNode(node: LightNode): void{};
+    visitLightNode(node: LightNode): void {
+    };
+
+    visitTicTacToeTextureNode(node: TicTacToeTextureNode): void {
+        let toWorld = Matrix.identity();
+        let fromWorld = Matrix.identity();
+        // TODO assign the model matrix and its inverse
+        for (let i = 0; i < this.model.length; i++) {
+            toWorld = toWorld.mul(this.model[i]);
+            fromWorld = this.inverse[i].mul(fromWorld);
+        }
+        const ray = new Ray(fromWorld.mulVec(this.ray.origin), fromWorld.mulVec(this.ray.direction).normalize());
+        let intersection = UNIT_AABOX.intersect(ray);
+
+        if (intersection) {
+            const intersectionPointWorld = toWorld.mulVec(intersection.point);
+            const intersectionNormalWorld = toWorld.mulVec(intersection.normal).normalize();
+            intersection = new Intersection(
+                (intersectionPointWorld.x - this.ray.origin.x) / this.ray.direction.x,
+                intersectionPointWorld,
+                intersectionNormalWorld,
+            );
+            // console.log(intersection)
+            // console.log(node.amountOfSwitches)
+            //wenn noch keine Intersection an stelle hatten oder ne closere intersection haben dann speichern wir die neue Intersection ab
+
+            if (this.intersection === null || intersection.closerThan(this.intersection)) {
+                if (node.amountOfSwitches < 1) {
+                    this.intersection = intersection;
+                    if (node.texture == node.textureArray[0] && isEven(this.lastTexture)) {
+                        node.activeTexture = node.textureArray[1]
+                        node.texture = node.textureArray[1]
+                        console.log(this.lastTexture)
+                    } else if (isOdd(this.lastTexture)&&node.texture == node.textureArray[0]){
+                        node.activeTexture = node.textureArray[2]
+                        node.texture = node.textureArray[2]
+                        console.log(this.lastTexture)
+                    } else if (node.texture == node.textureArray[3]){
+                        node.activeTexture = node.textureArray[3]
+                        for (let ticTacToeTextureNode of Scenegraph.wuerfelArray) {
+                            ticTacToeTextureNode.texture = node.textureArray[0]
+                        }
+                    }
+                    node.amountOfSwitches += 1
+                }
+            }
+
+        }
+    }
+
+}
+
+//https://stackoverflow.com/questions/6211613/testing-whether-a-value-is-odd-or-even
+function isEven(n: number) {
+    return n % 2 == 0;
+}
+
+function isOdd(n: number) {
+    return Math.abs(n % 2) == 1;
 }

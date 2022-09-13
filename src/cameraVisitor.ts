@@ -10,7 +10,8 @@ import {
     SphereNode, TextureBoxButtonNode,
     TextureBoxNode,
     TexturePyramidNode,
-    TextureVideoBoxNode
+    TextureVideoBoxNode,
+    TicTacToeTextureNode
 } from "./nodes";
 import Vector from "./vector";
 import Matrix from "./matrix";
@@ -22,13 +23,16 @@ export class CameraVisitor implements Visitor {
     public cameraVectors: Array<Vector>
     public cameraValues: Array<number>
     public lightPositions: Array<Vector>
+
     //cameraNodes: Array<LightNode>
 
 
-    constructor(
-    ) {
+    constructor() {
         this.model = new Array<Matrix>(Matrix.identity())
         this.inverse = new Array<Matrix>(Matrix.identity())
+    }
+
+    visitTicTacToeTextureNode(node: TicTacToeTextureNode): void {
     }
 
     visitTextureVideoBoxNode(node: TextureVideoBoxNode): void {
@@ -84,9 +88,6 @@ export class CameraVisitor implements Visitor {
     visitLightNode(node: LightNode): void {
     }
 
-    lightNodeList(){
-
-    }
     visitTexturePyramidNode(node: TexturePyramidNode) {
     }
 
