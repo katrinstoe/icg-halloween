@@ -1,4 +1,4 @@
-import Vector from "./mathOperations/vector";
+import Vector from "../mathOperations/vector";
 
 
 export default class Camera{

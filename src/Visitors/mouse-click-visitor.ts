@@ -14,7 +14,7 @@ import {
 } from '../Nodes/nodes';
 import AABox from '../Geometry/RayGeometry/aabox';
 import Pyramid from "../Geometry/RayGeometry/pyramid";
-import Camera from "../camera";
+import Camera from "../Camera/camera";
 import Scenegraph from "../scenegraph";
 
 const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1));

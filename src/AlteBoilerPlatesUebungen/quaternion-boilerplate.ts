@@ -19,7 +19,7 @@ import textureVertexShader from '../Shaders/texture-vertex-perspective-shader.gl
 import textureFragmentShader from '../Shaders/texture-fragment-shader.glsl';
 import { SQT } from '../mathOperations/transformation';
 import Quaternion from '../mathOperations/quaternion';
-import Camera from "../camera";
+import Camera from "../Camera/camera";
 import {RasterSetupVisitor} from "../Visitors/rasterSetupVisitor";
 
 window.addEventListener('load', () => {

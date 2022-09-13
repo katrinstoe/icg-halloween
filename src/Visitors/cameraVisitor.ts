@@ -15,7 +15,7 @@ import {
 } from "../Nodes/nodes";
 import Vector from "../mathOperations/vector";
 import Matrix from "../mathOperations/matrix";
-import Camera from "../camera";
+import Camera from "../Camera/camera";
 
 export class CameraVisitor implements Visitor {
     model: Array<Matrix>

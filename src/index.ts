@@ -40,7 +40,7 @@ import Pyramid from "./Geometry/RayGeometry/pyramid";
 import {LightVisitor} from "./Visitors/lightVisitor";
 import TextureVideoBox from "./Geometry/RasterGeometry/texture-video-box";
 import {CameraVisitor} from "./Visitors/cameraVisitor";
-import Camera from "./camera";
+import Camera from "./Camera/camera";
 import Visitor from "./Visitors/visitor";
 import RayVisitorSupaFast from "./Visitors/rayvisitor-supa-fast";
 import Scenegraph from "./scenegraph";
@@ -265,15 +265,13 @@ window.addEventListener('load', function loadPage() {
                 y: evt.clientY - rect.top
             };
         }
-
+        //ist object damit updates in mouseclickvisitor übernommen werden, funktioniert wie pointer auf datenspeicher
         let lastTexture = {zahl: 0};
         window.addEventListener('click', function (evt) {
             let mousePos = getMousePos(canvas, evt);
             let mouseVisitor = new mouseClickVisitor(ctx, canvas.width, canvas.height, mousePos, lastTexture);
-            // lastTexture++;
             mouseVisitor.render(sg, camera, lightPositions);
             setupVisitor.setup(sg);
-            //visitor.render(sg, camera, camera.lightPositions);
             console.log("TextureCount nach listener: " + lastTexture)
         }, false);
 

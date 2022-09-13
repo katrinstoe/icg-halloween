@@ -22,7 +22,7 @@ import {
 import AABox from '../Geometry/RayGeometry/aabox';
 import Pyramid from "../Geometry/RayGeometry/pyramid";
 import RasterTexturePyramid from "../Geometry/RasterGeometry/raster-texture-pyramid";
-import Camera from "../camera";
+import Camera from "../Camera/camera";
 
 const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1));
 const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.5, 0.5, 1), new Vector(0, 0, 0, 1));

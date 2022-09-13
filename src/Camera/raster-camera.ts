@@ -1,5 +1,5 @@
-import Vector from '../../mathOperations/vector';
-import Shader from '../../Shaders/shader';
+import Vector from '../mathOperations/vector';
+import Shader from '../Shaders/shader';
 
 /**
  * A class creating buffers for an axis aligned box to render it with WebGL

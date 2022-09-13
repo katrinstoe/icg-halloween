@@ -13,7 +13,7 @@ import Shader from '../Shaders/shader';
 import perspectiveVertexShader from '../Shaders/perspective-vertex-shader.glsl';
 import fragmentShader from '../Shaders/basic-fragment-shader.glsl'
 import { Scaling, Translation } from '../mathOperations/transformation';
-import Camera from "../camera";
+import Camera from "../Camera/camera";
 import {RasterSetupVisitor} from "../Visitors/rasterSetupVisitor";
 
 window.addEventListener('load', () => {

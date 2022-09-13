@@ -15,7 +15,7 @@ import RasterPyramid from "../Geometry/RasterGeometry/raster-pyramid";
 import RasterTexturePyramid from "../Geometry/RasterGeometry/raster-texture-pyramid";
 import {LightVisitor} from "./lightVisitor";
 import TextureVideoBox from "../Geometry/RasterGeometry/texture-video-box";
-import Camera from "../camera";
+import Camera from "../Camera/camera";
 import RasterTextureTictactoeBox from "../Geometry/RasterGeometry/raster-texture-tictactoeBox";
 
 /*interface Camera {

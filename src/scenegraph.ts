@@ -15,7 +15,7 @@ import {
 import {Rotation, Scaling, Translation} from "./mathOperations/transformation";
 import Vector from "./mathOperations/vector";
 import {AnimationNode, DriverNode, MinMaxNode, RotationNode, ScalerNode} from "./Nodes/animation-nodes";
-import Camera from "./camera";
+import Camera from "./Camera/camera";
 
 export default class Scenegraph {
     static wuerfelArray: Array<TicTacToeTextureNode> = []

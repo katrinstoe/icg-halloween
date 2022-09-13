@@ -18,7 +18,7 @@ import phongFragmentShader from '../Shaders/phong-fragment-shader.glsl';
 import textureVertexShader from '../Shaders/texture-vertex-perspective-shader.glsl';
 import textureFragmentShader from '../Shaders/texture-fragment-shader.glsl';
 import {Rotation, Translation} from '../mathOperations/transformation';
-import Camera from "../camera";
+import Camera from "../Camera/camera";
 import {RasterSetupVisitor} from "../Visitors/rasterSetupVisitor";
 
 window.addEventListener('load', () => {

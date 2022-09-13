@@ -4,7 +4,7 @@ import Vector from '../mathOperations/vector';
 import {GroupNode, SphereNode} from '../Nodes/nodes';
 import RayVisitor from '../Visitors/rayvisitor';
 import { Rotation, Scaling, Translation } from '../mathOperations/transformation';
-import Camera from "../camera";
+import Camera from "../Camera/camera";
 
 window.addEventListener('load', () => {
     const canvas = document.getElementById("raytracer") as HTMLCanvasElement;

@@ -3,7 +3,7 @@ import 'bootstrap/scss/bootstrap.scss';
 import Sphere from '../Geometry/RayGeometry/sphere';
 import Vector from '../mathOperations/vector';
 import Ray from '../RayTracing/ray';
-import Camera from "../camera";
+import Camera from "../Camera/camera";
 
 window.addEventListener('load', evt => {
     const canvas = document.getElementById("raytracer") as HTMLCanvasElement;

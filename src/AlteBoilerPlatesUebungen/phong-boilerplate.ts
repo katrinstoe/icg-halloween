@@ -5,7 +5,7 @@ import Sphere from '../Geometry/RayGeometry/sphere';
 import Ray from '../RayTracing/ray';
 import Intersection from '../RayTracing/intersection';
 import phong from '../RayTracing/phong';
-import Camera from "../camera";
+import Camera from "../Camera/camera";
 
 window.addEventListener('load', () => {
     const canvas = document.getElementById("raytracer") as HTMLCanvasElement;

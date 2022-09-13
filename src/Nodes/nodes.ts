@@ -2,7 +2,7 @@ import Visitor from '../Visitors/visitor';
 import Vector from '../mathOperations/vector';
 import { Transformation } from '../mathOperations/transformation';
 import TextureVideoBox from "../Geometry/RasterGeometry/texture-video-box";
-import Camera from "../camera";
+import Camera from "../Camera/camera";
 
 /**
  * Class representing a Node in a Scenegraph

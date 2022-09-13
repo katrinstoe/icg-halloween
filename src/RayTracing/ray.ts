@@ -1,5 +1,5 @@
 import Vector from '../mathOperations/vector';
-import Camera from "../camera";
+import Camera from "../Camera/camera";
 
 /**
  * Class representing a ray

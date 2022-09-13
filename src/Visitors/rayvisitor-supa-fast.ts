@@ -22,7 +22,7 @@ import geometryObject from "./geometryObject";
 import Ray from "../RayTracing/ray";
 import phong from "../RayTracing/phong";
 import Intersection from "../RayTracing/intersection";
-import Camera from "../camera";
+import Camera from "../Camera/camera";
 
 const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1));
 const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.5, 0.5, 1), new Vector(0, 0, 0, 1));
