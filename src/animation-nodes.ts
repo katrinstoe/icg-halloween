@@ -1,8 +1,9 @@
 import Vector from './vector';
-import { GroupNode } from './nodes';
+import {CameraNode, GroupNode} from './nodes';
 import {Rotation, Scaling, SQT, Translation} from './transformation';
 import Quaternion from './quaternion';
 import Matrix from "./matrix";
+import Camera from "./camera";
 
 /**
  * Class representing an Animation
@@ -311,3 +312,4 @@ export class TranslatorNode extends AnimationNode {
     }
   }
 }
+

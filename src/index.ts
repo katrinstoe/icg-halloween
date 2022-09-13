@@ -45,6 +45,7 @@ import Camera from "./camera";
 import Visitor from "./visitor";
 import RayVisitorSupaFast from "./rayvisitor-supa-fast";
 import Scenegraph from "./scenegraph";
+import {CameraTranslatorNode, CameraRotationNode, CameraDriverNode} from "./camera-animation-nodes";
 
 const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1));
 const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.5, 0.5, 1), new Vector(0, 0, 0, 1));
@@ -87,7 +88,7 @@ window.addEventListener('load', function loadPage() {
     let setupVisitor = new RasterSetupVisitor(gl, lightPositions)
     let rasterVisitor = new RasterVisitor(gl, phongShader, textureShader, setupVisitor.objects)
     let rayVisitor = new RayVisitorSupaFast(ctx, canvas.width, canvas.height)
-    let visitor: RayVisitorSupaFast | RasterVisitor
+    let visitor: RayVisitorSupaFast|RasterVisitor
 
     let renderer = localStorage.getItem("renderer")
     console.log(renderer)
@@ -99,7 +100,7 @@ window.addEventListener('load', function loadPage() {
     console.log(btn1.checked)
     console.log(btn2.checked)
 
-    function render() {
+    function render(){
         console.log("called")
         if (btn1.checked) {
             btn1.checked = true
@@ -122,10 +123,10 @@ window.addEventListener('load', function loadPage() {
 
     render()
 
-    function loadScene() {
-        if (btn1.checked) {
-            setupVisitor.setup(sg);
-        }
+    function loadScene(){
+    if (btn1.checked){
+        setupVisitor.setup(sg);
+    }
 
         shininessElement.onchange = function () {
             camera.shininess = Number(shininessElement.value);
@@ -160,6 +161,10 @@ window.addEventListener('load', function loadPage() {
 
             for (let scalerNode of scalerNodes) {
                 scalerNode.simulate(deltaT);
+            }
+
+            for (let cameraDriverNode of CameraDriverNodes){
+                cameraDriverNode.simulate(deltaT);
             }
         }
 
@@ -227,6 +232,24 @@ window.addEventListener('load', function loadPage() {
                 case "-":
                     scalerNodes[0].zoom = "out"
                     scalerNodes[0].active = true;
+                    ScalerNodes[0].zoom = "out"
+                    ScalerNodes[0].active = true;
+                    break;
+                case "w":
+                    CameraDriverNodes[0].direction = "up"
+                    CameraDriverNodes[0].active = true;
+                    break;
+                case "a":
+                    CameraDriverNodes[0].direction = "left"
+                    CameraDriverNodes[0].active = true;
+                    break;
+                case "s":
+                    CameraDriverNodes[0].direction = "down"
+                    CameraDriverNodes[0].active = true;
+                    break;
+                case "d":
+                    CameraDriverNodes[0].direction = "right"
+                    CameraDriverNodes[0].active = true;
                     break;
                 case "1":
                     for (let animationNode of animationNodes) {
@@ -235,6 +258,7 @@ window.addEventListener('load', function loadPage() {
                     break;
             }
         });
+
         window.addEventListener('keyup', function (event) {
             switch (event.key) {
                 case "ArrowLeft":
@@ -254,6 +278,18 @@ window.addEventListener('load', function loadPage() {
                     break;
                 case "-":
                     scalerNodes[0].active = false;
+                    break;
+                case "w":
+                    CameraDriverNodes[0].active = false;
+                    break;
+                case "a":
+                    CameraDriverNodes[0].active = false;
+                    break;
+                case "s":
+                    CameraDriverNodes[0].active = false;
+                    break;
+                case "d":
+                    CameraDriverNodes[0].active = false;
                     break;
             }
         });
