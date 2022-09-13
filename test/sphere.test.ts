@@ -1,7 +1,7 @@
-import Sphere from "../src/sphere";
-import Vector from "../src/vector";
-import Ray from "../src/ray";
-import Intersection from "../src/intersection";
+import Sphere from "../src/Geometry/RayGeometry/sphere";
+import Vector from "../src/mathOperations/vector";
+import Ray from "../src/RayTracing/ray";
+import Intersection from "../src/RayTracing/intersection";
 import Camera from "../src/camera";
 
 describe(".intersect() calculates intersection with Rays", ()=>{

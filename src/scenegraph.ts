@@ -11,10 +11,10 @@ import {
     TextureBoxNode,
     TexturePyramidNode,
     TextureVideoBoxNode, TicTacToeTextureNode,
-} from "./nodes";
-import {Rotation, Scaling, Translation} from "./transformation";
-import Vector from "./vector";
-import {AnimationNode, DriverNode, MinMaxNode, RotationNode, ScalerNode} from "./animation-nodes";
+} from "./Nodes/nodes";
+import {Rotation, Scaling, Translation} from "./mathOperations/transformation";
+import Vector from "./mathOperations/vector";
+import {AnimationNode, DriverNode, MinMaxNode, RotationNode, ScalerNode} from "./Nodes/animation-nodes";
 import Camera from "./camera";
 
 export default class Scenegraph {

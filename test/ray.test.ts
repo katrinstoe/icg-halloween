@@ -1,5 +1,5 @@
-import Vector from "../src/vector";
-import Ray from "../src/ray";
+import Vector from "../src/mathOperations/vector";
+import Ray from "../src/RayTracing/ray";
 import Camera from "../src/camera";
 
 test("constructor has values", () => {

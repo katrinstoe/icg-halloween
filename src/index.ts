@@ -1,6 +1,6 @@
 import 'bootstrap';
 import 'bootstrap/scss/bootstrap.scss';
-import Vector from './vector';
+import Vector from './mathOperations/vector';
 import {
     GroupNode,
     SphereNode,
@@ -13,37 +13,37 @@ import {
     CameraNode,
     AABoxButtonNode,
     TextureBoxButtonNode
-} from './nodes';
+} from './Nodes/nodes';
 import {
     RasterVisitor,
     RasterSetupVisitor
-} from './rastervisitor';
-import Shader from './shader';
-import phongVertexShader from './phong-vertex-shader.glsl';
-import phongFragmentShader from './phong-fragment-shader.glsl';
-import phongVertexShaderPerspective from './phong-vertex-perspective-shader.glsl';
+} from './Visitors/rastervisitor';
+import Shader from './Shaders/shader';
+import phongVertexShader from './Shaders/phong-vertex-shader.glsl';
+import phongFragmentShader from './Shaders/phong-fragment-shader.glsl';
+import phongVertexShaderPerspective from './Shaders/phong-vertex-perspective-shader.glsl';
 
-import perspectiveVertexShader from './perspective-vertex-shader.glsl';
-import fragmentShader from './basic-fragment-shader.glsl'
-import {Rotation, Scaling, Translation} from './transformation';
-import textureVertexShader from "./texture-vertex-perspective-shader.glsl";
-import textureFragmentShader from "./texture-fragment-shader.glsl";
-import Ray from "./ray";
-import Intersection from "./intersection";
-import Sphere from "./sphere";
-import AABox from "./aabox";
-import RayVisitor from "./rayvisitor";
-import phong from "./phong";
-import {DriverNode, MinMaxNode, RotationNode, ScalerNode} from "./animation-nodes";
-import mouseClickVisitor from "./mouse-click-visitor";
-import RasterPyramid from "./raster-pyramid";
-import Pyramid from "./pyramid";
-import {LightVisitor} from "./lightVisitor";
-import TextureVideoBox from "./texture-video-box";
-import {CameraVisitor} from "./cameraVisitor";
+import perspectiveVertexShader from './Shaders/perspective-vertex-shader.glsl';
+import fragmentShader from './Shaders/basic-fragment-shader.glsl'
+import {Rotation, Scaling, Translation} from './mathOperations/transformation';
+import textureVertexShader from "./Shaders/texture-vertex-perspective-shader.glsl";
+import textureFragmentShader from "./Shaders/texture-fragment-shader.glsl";
+import Ray from "./RayTracing/ray";
+import Intersection from "./RayTracing/intersection";
+import Sphere from "./Geometry/RayGeometry/sphere";
+import AABox from "./Geometry/RayGeometry/aabox";
+import RayVisitor from "./Visitors/rayvisitor";
+import phong from "./RayTracing/phong";
+import {DriverNode, MinMaxNode, RotationNode, ScalerNode} from "./Nodes/animation-nodes";
+import mouseClickVisitor from "./Visitors/mouse-click-visitor";
+import RasterPyramid from "./Geometry/RasterGeometry/raster-pyramid";
+import Pyramid from "./Geometry/RayGeometry/pyramid";
+import {LightVisitor} from "./Visitors/lightVisitor";
+import TextureVideoBox from "./Geometry/RasterGeometry/texture-video-box";
+import {CameraVisitor} from "./Visitors/cameraVisitor";
 import Camera from "./camera";
-import Visitor from "./visitor";
-import RayVisitorSupaFast from "./rayvisitor-supa-fast";
+import Visitor from "./Visitors/visitor";
+import RayVisitorSupaFast from "./Visitors/rayvisitor-supa-fast";
 import Scenegraph from "./scenegraph";
 
 const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1));
