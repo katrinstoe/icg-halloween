@@ -151,18 +151,19 @@ export default class Scenegraph {
         const aabox3 = new AABoxNode(new Vector(0.9, 0.9, 0.9, 0));
 
         //TicTacToe
-        let tictactoeTr = new GroupNode(new Translation(new Vector(0.25, -0.055, -1, 0)))
+        let emptyTr = new GroupNode(new Translation(new Vector(0,0,0,0)))
+        let tictactoeTr = new GroupNode(new Translation(new Vector(-0.4, 0.7, 0.5, 0)))
         let tictactoeCubeRow1Middle = this.getTicTacToeWuerfel(new Vector(0, 0, 0, 0))
-        let tictactoeCubeRow1Right = this.getTicTacToeWuerfel(new Vector(0.12, 0, 0, 0))
-        let tictactoeCubeRow1Left = this.getTicTacToeWuerfel(new Vector(-0.12, 0, 0, 0))
+        let tictactoeCubeRow1Right = this.getTicTacToeWuerfel(new Vector(0.7, 0, 0, 0))
+        let tictactoeCubeRow1Left = this.getTicTacToeWuerfel(new Vector(-0.7, 0, 0, 0))
 
-        let tictactoeCubeRow2Middle = this.getTicTacToeWuerfel(new Vector(0, -0.12, 0, 0))
-        let tictactoeCubeRow2Right = this.getTicTacToeWuerfel(new Vector(0.12, -0.12, 0, 0))
-        let tictactoeCubeRow2Left = this.getTicTacToeWuerfel(new Vector(-0.12, -0.12, 0, 0))
-        //
-        let tictactoeCubeRow3Middle = this.getTicTacToeWuerfel(new Vector(0, -0.24, 0, 0))
-        let tictactoeCubeRow3Right = this.getTicTacToeWuerfel(new Vector(0.12, -0.24, 0, 0))
-        let tictactoeCubeRow3Left = this.getTicTacToeWuerfel(new Vector(-0.12, -0.24, 0, 0))
+        let tictactoeCubeRow2Middle = this.getTicTacToeWuerfel(new Vector(0, -.7, 0, 0))
+        let tictactoeCubeRow2Right = this.getTicTacToeWuerfel(new Vector(0.7, -.7, 0, 0))
+        let tictactoeCubeRow2Left = this.getTicTacToeWuerfel(new Vector(-0.7, -.7, 0, 0))
+
+        let tictactoeCubeRow3Middle = this.getTicTacToeWuerfel(new Vector(0, -1.4, 0, 0))
+        let tictactoeCubeRow3Right = this.getTicTacToeWuerfel(new Vector(0.7, -1.4, 0, 0))
+        let tictactoeCubeRow3Left = this.getTicTacToeWuerfel(new Vector(-0.7, -1.4, 0, 0))
 
         tictactoeTr.add(tictactoeCubeRow1Middle)
         tictactoeTr.add(tictactoeCubeRow1Right)
@@ -181,26 +182,29 @@ export default class Scenegraph {
 
         let resetSc = new GroupNode(new Scaling(new Vector(.56, .56, 0.001, 0)))
         resetSc.add(resetButton)
+        emptyTr.add(resetTr)
         resetTr.add(resetSc)
 
         //explenationTexture
-        let explTr = new GroupNode(new Translation(new Vector(-1.8,-0.16,1,0)));
+        let explTr = new GroupNode(new Translation(new Vector(-.93,-1,1,0)));
         let explTexture = new TextureBoxNode('Icons/memoryExplenationText.png');
 
-        let explSc = new GroupNode(new Scaling(new Vector(1, 0.2, 0.001, 0)))
+        let explSc = new GroupNode(new Scaling(new Vector(1, 0.16, 0.001, 0)))
         explSc.add(explTexture)
+        emptyTr.add(explTr)
         explTr.add(explSc)
-        resetTr.add(explTr)
+        // resetTr.add(explTr)
+        emptyTr.add(tictactoeTr)
 
-        let window3 = this.getWindow(new Vector(0.3, 0, -1, 0),resetTr);
+        let window3 = this.getWindow(new Vector(0.3, 0, -1, 0),emptyTr);
         // window3.root.add(explTr)
-        window3.root.add(tictactoeTr)
+        // window3.root.add(tictactoeTr)
 
 
         sg.add(window3.root);
         const TBWindow3Tr = new GroupNode(new Translation(new Vector(-0.36,0,0,0)));
         TBWindow3Tr.add(window3.ButtonTBTr);
-        TaskBarTr.add( TBWindow3Tr);
+        TaskBarTr.add(TBWindow3Tr);
 
         //Window4
         const pyramid = new PyramidNode(new Vector(0.3, 0.05, 0.1, 1));
@@ -257,127 +261,128 @@ export default class Scenegraph {
         }
     }
 
-    static getTicTacToe(){
-        const canvas = document.getElementById("rasteriser") as HTMLCanvasElement;
-        const canvas2 = document.getElementById("rayTracer") as HTMLCanvasElement;
-        const shininessElement = document.getElementById("shininess") as HTMLInputElement;
-        let shininessCalc = Number(shininessElement.value);
-
-        const kSElement = document.getElementById("kS") as HTMLInputElement;
-        let kSCalc = Number(kSElement.value)
-
-        const kDElement = document.getElementById("kD") as HTMLInputElement;
-        let kDCalc = Number(kDElement.value)
-
-        const kAElement = document.getElementById("kA") as HTMLInputElement;
-        let kACalc = Number(kAElement.value)
-
-        const gl = canvas.getContext("webgl2");
-        const ctx = canvas2.getContext("2d");
-        // //Texturen
-
-        const sg = new GroupNode(new Rotation(new Vector(0, 0, 1, 0), 0));
-        const gnTr = new GroupNode(new Translation(new Vector(-0.75, -0.75, -3, 0)));
-        sg.add(gnTr);
-
-        //Camera
-        const sgcamera = new Camera(new Vector(0, 0, 0, 1),
-            new Vector(0, 0, 0, 1),
-            new Vector(0, 0, -1, 1),
-            new Vector(0, 1, 0, 0),
-            60, 0.1, 100, canvas.width, canvas.height, shininessCalc,
-            kSCalc, kDCalc, kACalc)
-        const nodeCamera = new CameraNode(sgcamera)
-        sg.add(nodeCamera)
-        //Lichter
-        let light1 = this.getLight(new Vector(0,0,-1,0));
-        let light2 = this.getLight(new Vector(0,.2,1,0));
-        sg.add(light1)
-        sg.add(light2)
-
-        //Würfel
-        let tictactoeTr = new GroupNode(new Translation(new Vector(0.3, 0, 0, 0)))
-        let tictactoeCubeRow1Middle = this.getTicTacToeWuerfel(new Vector(0, 0, -1, 0))
-        let tictactoeCubeRow1Right = this.getTicTacToeWuerfel(new Vector(0.05, 0, -1, 0))
-        let tictactoeCubeRow1Left = this.getTicTacToeWuerfel(new Vector(-0.05, 0, -1, 0))
-
-        let tictactoeCubeRow2Middle = this.getTicTacToeWuerfel(new Vector(0, -0.05, -1, 0))
-        let tictactoeCubeRow2Right = this.getTicTacToeWuerfel(new Vector(0.05, -0.05, -1, 0))
-        let tictactoeCubeRow2Left = this.getTicTacToeWuerfel(new Vector(-0.05, -0.05, -1, 0))
-
-        let tictactoeCubeRow3Middle = this.getTicTacToeWuerfel(new Vector(0, -0.25, -1, 0))
-        let tictactoeCubeRow3Right = this.getTicTacToeWuerfel(new Vector(0.05, -0.25, -1, 0))
-        let tictactoeCubeRow3Left = this.getTicTacToeWuerfel(new Vector(-0.05, -0.25, -1, 0))
-
-        let root = new GroupNode(new Translation(new Vector(0,0,0,0)));
-        let cubeBack = new GroupNode(new Translation(new Vector(0.25,-0.3,-1,0)));
-        root.add(cubeBack)
-
-        let resetButton = new TicTacToeTextureNode('Icons/resetText.png');
-
-        let resetSc = new GroupNode(new Scaling(new Vector(0.1, 0.1, 0.001, 0)))
-        resetSc.add(resetButton)
-        cubeBack.add(resetSc)
-        sg.add(cubeBack)
-
-        tictactoeTr.add(tictactoeCubeRow1Middle)
-        tictactoeTr.add(tictactoeCubeRow1Right)
-        tictactoeTr.add(tictactoeCubeRow1Left)
-        tictactoeTr.add(tictactoeCubeRow2Middle)
-        tictactoeTr.add(tictactoeCubeRow2Right)
-        tictactoeTr.add(tictactoeCubeRow2Left)
-        tictactoeTr.add(tictactoeCubeRow3Middle)
-        tictactoeTr.add(tictactoeCubeRow3Right)
-        tictactoeTr.add(tictactoeCubeRow3Left)
-
-        sg.add(tictactoeTr)
-
-
-        //kleiner driver geist
-        const driverGhost = new TextureBoxNode("geist.png")
-        const driverGhostSc = new GroupNode(new Scaling(new Vector(0.1, 0.1, 0.1, 1)))
-        driverGhostSc.add(driverGhost);
-        const driverGhostTr = new GroupNode(new Translation(new Vector(0.75, -0.8, 0, 0)))
-        driverGhostTr.add(driverGhostSc)
-        sg.add(driverGhostTr)
-
-        const ghostCastle = new TextureBoxNode("ghost_castle.jpg")
-        const ghostCastleSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.2, 1)))
-        const ghostCastleTr = new GroupNode(new Translation(new Vector(0.9, -0.75, -0.1, 0)))
-        ghostCastleSc.add(ghostCastle)
-        ghostCastleTr.add(ghostCastleSc)
-        sg.add(ghostCastleTr)
-
-        let animationNodes = [
-            new RotationNode(light1, new Vector(0, 0, 1, 0)),
-            new RotationNode(light2, new Vector(0, 1, 1, 0)),
-
-        ]
-
-
-        let driverNodes = [
-            //new RotationNode(cubeSc, new Vector(0,0,1,0)),
-            new DriverNode(driverGhostTr, new Vector(0.75,-0.8,0,0))
-        ]
-
-        let scalerNodes = [
-            new ScalerNode(driverGhostSc, new Vector(0.1, 0.1, 0.1, 1))
-        ]
-        return {
-            sg,
-            animationNodes,
-            driverNodes,
-            scalerNodes,
-            gl,
-            ctx,
-            kAElement,
-            kSElement,
-            kDElement,
-            shininessElement,
-            canvas,
-            canvas2
-        }
-    }
+    // static getTicTacToe(){
+    //     const canvas = document.getElementById("rasteriser") as HTMLCanvasElement;
+    //     const canvas2 = document.getElementById("rayTracer") as HTMLCanvasElement;
+    //     const shininessElement = document.getElementById("shininess") as HTMLInputElement;
+    //     let shininessCalc = Number(shininessElement.value);
+    //
+    //     const kSElement = document.getElementById("kS") as HTMLInputElement;
+    //     let kSCalc = Number(kSElement.value)
+    //
+    //     const kDElement = document.getElementById("kD") as HTMLInputElement;
+    //     let kDCalc = Number(kDElement.value)
+    //
+    //     const kAElement = document.getElementById("kA") as HTMLInputElement;
+    //     let kACalc = Number(kAElement.value)
+    //
+    //     const gl = canvas.getContext("webgl2");
+    //     const ctx = canvas2.getContext("2d");
+    //     // //Texturen
+    //
+    //     const sg = new GroupNode(new Rotation(new Vector(0, 0, 1, 0), 0));
+    //     const gnTr = new GroupNode(new Translation(new Vector(-0.75, -0.75, -3, 0)));
+    //     sg.add(gnTr);
+    //
+    //     //Camera
+    //     const sgcamera = new Camera(new Vector(0, 0, 0, 1),
+    //         new Vector(0, 0, 0, 1),
+    //         new Vector(0, 0, -1, 1),
+    //         new Vector(0, 1, 0, 0),
+    //         60, 0.1, 100, canvas.width, canvas.height, shininessCalc,
+    //         kSCalc, kDCalc, kACalc)
+    //     const nodeCamera = new CameraNode(sgcamera)
+    //     sg.add(nodeCamera)
+    //     //Lichter
+    //     let light1 = this.getLight(new Vector(0,0,-1,0));
+    //     let light2 = this.getLight(new Vector(0,.2,1,0));
+    //     sg.add(light1)
+    //     sg.add(light2)
+    //
+    //     //Würfel
+    //     let emptyTr = new GroupNode(new Translation(new Vector(0,0,0,0)))
+    //     let tictactoeTr = new GroupNode(new Translation(new Vector(-0.3, 0, 0, 0)))
+    //     let tictactoeCubeRow1Middle = this.getTicTacToeWuerfel(new Vector(0, 0, -1, 0))
+    //     let tictactoeCubeRow1Right = this.getTicTacToeWuerfel(new Vector(0.05, 0, -1, 0))
+    //     let tictactoeCubeRow1Left = this.getTicTacToeWuerfel(new Vector(-0.05, 0, -1, 0))
+    //
+    //     // let tictactoeCubeRow2Middle = this.getTicTacToeWuerfel(new Vector(0, -0.05, -1, 0))
+    //     // let tictactoeCubeRow2Right = this.getTicTacToeWuerfel(new Vector(0.05, -0.05, -1, 0))
+    //     // let tictactoeCubeRow2Left = this.getTicTacToeWuerfel(new Vector(-0.05, -0.05, -1, 0))
+    //     //
+    //     // let tictactoeCubeRow3Middle = this.getTicTacToeWuerfel(new Vector(0, -0.25, -1, 0))
+    //     // let tictactoeCubeRow3Right = this.getTicTacToeWuerfel(new Vector(0.05, -0.25, -1, 0))
+    //     // let tictactoeCubeRow3Left = this.getTicTacToeWuerfel(new Vector(-0.05, -0.25, -1, 0))
+    //
+    //     let root = new GroupNode(new Translation(new Vector(0,0,0,0)));
+    //     let cubeBack = new GroupNode(new Translation(new Vector(0.25,-0.3,-1,0)));
+    //     root.add(cubeBack)
+    //
+    //     let resetButton = new TicTacToeTextureNode('Icons/resetText.png');
+    //
+    //     let resetSc = new GroupNode(new Scaling(new Vector(0.1, 0.1, 0.001, 0)))
+    //     resetSc.add(resetButton)
+    //     cubeBack.add(resetSc)
+    //     sg.add(cubeBack)
+    //
+    //     tictactoeTr.add(tictactoeCubeRow1Middle)
+    //     tictactoeTr.add(tictactoeCubeRow1Right)
+    //     tictactoeTr.add(tictactoeCubeRow1Left)
+    //     // tictactoeTr.add(tictactoeCubeRow2Middle)
+    //     // tictactoeTr.add(tictactoeCubeRow2Right)
+    //     // tictactoeTr.add(tictactoeCubeRow2Left)
+    //     // tictactoeTr.add(tictactoeCubeRow3Middle)
+    //     // tictactoeTr.add(tictactoeCubeRow3Right)
+    //     // tictactoeTr.add(tictactoeCubeRow3Left)
+    //
+    //     sg.add(tictactoeTr)
+    //
+    //
+    //     //kleiner driver geist
+    //     const driverGhost = new TextureBoxNode("geist.png")
+    //     const driverGhostSc = new GroupNode(new Scaling(new Vector(0.1, 0.1, 0.1, 1)))
+    //     driverGhostSc.add(driverGhost);
+    //     const driverGhostTr = new GroupNode(new Translation(new Vector(0.75, -0.8, 0, 0)))
+    //     driverGhostTr.add(driverGhostSc)
+    //     sg.add(driverGhostTr)
+    //
+    //     const ghostCastle = new TextureBoxNode("ghost_castle.jpg")
+    //     const ghostCastleSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.2, 1)))
+    //     const ghostCastleTr = new GroupNode(new Translation(new Vector(0.9, -0.75, -0.1, 0)))
+    //     ghostCastleSc.add(ghostCastle)
+    //     ghostCastleTr.add(ghostCastleSc)
+    //     sg.add(ghostCastleTr)
+    //
+    //     let animationNodes = [
+    //         new RotationNode(light1, new Vector(0, 0, 1, 0)),
+    //         new RotationNode(light2, new Vector(0, 1, 1, 0)),
+    //
+    //     ]
+    //
+    //
+    //     let driverNodes = [
+    //         //new RotationNode(cubeSc, new Vector(0,0,1,0)),
+    //         new DriverNode(driverGhostTr, new Vector(0.75,-0.8,0,0))
+    //     ]
+    //
+    //     let scalerNodes = [
+    //         new ScalerNode(driverGhostSc, new Vector(0.1, 0.1, 0.1, 1))
+    //     ]
+    //     return {
+    //         sg,
+    //         animationNodes,
+    //         driverNodes,
+    //         scalerNodes,
+    //         gl,
+    //         ctx,
+    //         kAElement,
+    //         kSElement,
+    //         kDElement,
+    //         shininessElement,
+    //         canvas,
+    //         canvas2
+    //     }
+    // }
     static getTicTacToeWuerfel(pos: Vector){
         let root = new GroupNode(new Translation(new Vector(0,0,0,0)));
         let cubeBack = new GroupNode(new Translation(pos));
@@ -386,7 +391,7 @@ export default class Scenegraph {
         let tictactoeCube = new TicTacToeTextureNode('Icons/emptyTicTacToe.png');
         Scenegraph.wuerfelArray.push(tictactoeCube)
 
-        let tictactoeCubeSc = new GroupNode(new Scaling(new Vector(0.1, 0.1, 0.001, 0)))
+        let tictactoeCubeSc = new GroupNode(new Scaling(new Vector(0.6, 0.6, 0.001, 0)))
         tictactoeCubeSc.add(tictactoeCube)
         cubeBack.add(tictactoeCubeSc)
         return root
