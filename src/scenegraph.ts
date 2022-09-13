@@ -126,7 +126,7 @@ export default class Scenegraph {
         const sphere_Sc = new GroupNode(new Scaling(new Vector(0.7, 0.7, 0.7, 0)))
         sphere_Sc.add(sphere);
         sphere_Tr.add(sphere_Sc);
-        let window1 = this.getWindow(new Vector(-0.3, 0.5, -1, 0), sphere_Tr, "geist.png");
+        let window1 = this.getWindow(new Vector(-0.3, 0.5, -1, 0), sphere_Tr, "geist.png", 'Icons/sinisterSphere.png');
 
         sg.add(window1.root);
         const TBWindow1Tr = new GroupNode(new Translation(new Vector(-0.52,0,0,0)));
@@ -143,7 +143,7 @@ export default class Scenegraph {
         buhuuAABoxRty.add(buhuuAABoxRtz);
         buhuuAABoxTr.add(buhuuAABoxRty);
 
-        let window2 = this.getWindow(new Vector(-0.3, 0, -1, 0), buhuuAABoxTr, "ghost_castle.jpg");
+        let window2 = this.getWindow(new Vector(-0.3, 0, -1, 0), buhuuAABoxTr, "ghost_castle.jpg", 'Icons/buhuBox.png');
         sg.add(window2.root);
         const TBWindow2Tr = new GroupNode(new Translation(new Vector(-0.44,0,0,0)));
         TBWindow2Tr.add(window2.ButtonTBTr);
@@ -199,7 +199,7 @@ export default class Scenegraph {
         // resetTr.add(explTr)
         emptyTr.add(tictactoeTr)
 
-        let window3 = this.getWindow(new Vector(0.3, 0, -1, 0),emptyTr , "Icons/Matthias.png");
+        let window3 = this.getWindow(new Vector(0.3, 0, -1, 0),emptyTr , "Icons/Matthias.png", 'Icons/transylvaniaTicTacToe.png');
         // window3.root.add(explTr)
         // window3.root.add(tictactoeTr)
 
@@ -218,7 +218,7 @@ export default class Scenegraph {
         pyramid_Tr.add(pyramid_Sc)
         pyramid_Rt.add(pyramid_Tr)
 
-        let window4 = this.getWindow(new Vector(0.3, 0.5, -1, 0), pyramid_Rt, "hci-logo.png");
+        let window4 = this.getWindow(new Vector(0.3, 0.5, -1, 0), pyramid_Rt, "hci-logo.png", 'Icons/posessedPyramid.png');
 
         sg.add(window4.root);
         const TBWindow4Tr = new GroupNode(new Translation(new Vector(-0.28,0,0,0)));
@@ -407,7 +407,7 @@ export default class Scenegraph {
         root.add(lightBack)
 
         let light = new LightNode(new Vector(1,1,1,1));
-        let yellowSphere = new SphereNode(new Vector(1, 1, 0.5, 1));
+        let yellowSphere = new SphereNode(new Vector(1, 1, 0.7, 1));
         let sphereScaling = new GroupNode(new Scaling(new Vector(.02,.02,.02,0)));
         sphereScaling.add(yellowSphere)
         lightBack.add(light);
@@ -416,7 +416,7 @@ export default class Scenegraph {
         return root
     }
 
-    static getWindow(vec: Vector, inhalt: Node, texturButtonTB: string){
+    static getWindow(vec: Vector, inhalt: Node, texturButtonTB: string, headerTextTB: string){
 
         let root = new GroupNode(new Translation(new Vector(0,0,0,0)));
 
@@ -446,7 +446,7 @@ export default class Scenegraph {
         windowHeaderBarTr.add(windowHeaderBarSc);
 
         //HeaderText
-        const windowHeaderText = new TextureBoxNode("geist.png")
+        const windowHeaderText = new TextureBoxNode(headerTextTB)
         const windowHeaderTextSc = new GroupNode(new Scaling(new Vector(0.5,0.12,0.0001,0)));
         const windowHeaderTextTr = new GroupNode(new Translation(new Vector(-0.3,0.07,0.01,0)));
         windowHeaderTextSc.add(windowHeaderText);
