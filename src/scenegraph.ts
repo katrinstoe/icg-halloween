@@ -116,6 +116,9 @@ export default class Scenegraph {
 
 
         const aabox4 = new AABoxNode(new Vector(1, 0, 0, 1));
+        const testButton = new AABoxButtonNode(new Vector(1,0,0,0),() => {
+
+        })
 
         //Spooky Sphere
         const sphere = new SphereNode(new Vector(0.3, 0.05, 0.1, 1));
@@ -123,7 +126,7 @@ export default class Scenegraph {
         const sphere_Sc = new GroupNode(new Scaling(new Vector(0.7, 0.7, 0.7, 0)))
         sphere_Sc.add(sphere);
         sphere_Tr.add(sphere_Sc);
-        let window1 = this.getWindow(new Vector(-0.3, 0.5, -1, 0), sphere_Tr);
+        let window1 = this.getWindow(new Vector(-0.3, 0.5, -1, 0), sphere_Tr, "geist.png");
 
         sg.add(window1.root);
         const TBWindow1Tr = new GroupNode(new Translation(new Vector(-0.52,0,0,0)));
@@ -140,7 +143,7 @@ export default class Scenegraph {
         buhuuAABoxRty.add(buhuuAABoxRtz);
         buhuuAABoxTr.add(buhuuAABoxRty);
 
-        let window2 = this.getWindow(new Vector(-0.3, 0, -1, 0), buhuuAABoxTr);
+        let window2 = this.getWindow(new Vector(-0.3, 0, -1, 0), buhuuAABoxTr, "ghost_castle.jpg");
         sg.add(window2.root);
         const TBWindow2Tr = new GroupNode(new Translation(new Vector(-0.44,0,0,0)));
         TBWindow2Tr.add(window2.ButtonTBTr);
@@ -192,7 +195,7 @@ export default class Scenegraph {
         explTr.add(explSc)
         resetTr.add(explTr)
 
-        let window3 = this.getWindow(new Vector(0.3, 0, -1, 0),resetTr);
+        let window3 = this.getWindow(new Vector(0.3, 0, -1, 0),resetTr , "Icons/Matthias.png");
         // window3.root.add(explTr)
         window3.root.add(tictactoeTr)
 
@@ -211,7 +214,7 @@ export default class Scenegraph {
         pyramid_Tr.add(pyramid_Sc)
         pyramid_Rt.add(pyramid_Tr)
 
-        let window4 = this.getWindow(new Vector(0.3, 0.5, -1, 0), pyramid_Rt);
+        let window4 = this.getWindow(new Vector(0.3, 0.5, -1, 0), pyramid_Rt, "hci-logo.png");
 
         sg.add(window4.root);
         const TBWindow4Tr = new GroupNode(new Translation(new Vector(-0.28,0,0,0)));
@@ -408,7 +411,7 @@ export default class Scenegraph {
         return root
     }
 
-    static getWindow(vec: Vector, inhalt: Node){
+    static getWindow(vec: Vector, inhalt: Node, texturButtonTB: string){
 
         let root = new GroupNode(new Translation(new Vector(0,0,0,0)));
 
@@ -424,7 +427,7 @@ export default class Scenegraph {
         aabox_Tr.add(aabox_Sc)
 
         //Background
-        const windowBacktroundBox = new AABoxNode(new Vector(0.8, 0.8, 0.8, 1));
+        const windowBacktroundBox = new AABoxNode(new Vector(1, 1, 1, 1));
         const windowBacktroundBox_Tr = new GroupNode(new Translation(new Vector(0, -0.5, 0, 0)));
         const windowBacktroundBox_Sc = new GroupNode(new Scaling(new Vector(1.2, 1, 0.0001, 0)));
         windowBacktroundBox_Sc.add(windowBacktroundBox);
@@ -450,7 +453,7 @@ export default class Scenegraph {
         const windowSize = new GroupNode(new Scaling(new Vector(0.4, 0.4, 0.4, 1)));
 
         //HB Button
-        const ButtonHB = new TextureBoxButtonNode("geist.png", () => {
+        const ButtonHB = new TextureBoxButtonNode("Icons/minusIcon.jpg", () => {
             minmax.active = true;
         })
         minmax.active = false;
@@ -460,9 +463,13 @@ export default class Scenegraph {
         ButtonHBTr.add(ButtonHBSc);
 
         //TB Button
+        const ButtonTB = new TextureBoxButtonNode(texturButtonTB, () => {
+            minmax.active = true;
+        })
+        minmax.active = false;
         const ButtonTBTr = new GroupNode(new Translation(new Vector(0, 0.005, 0.0001, 0)));
         const ButtonTBSc = new GroupNode(new Scaling(new Vector(0.047, 0.047, 0.0001, 1)))
-        ButtonTBSc.add(ButtonHB);
+        ButtonTBSc.add(ButtonTB);
         ButtonTBTr.add(ButtonTBSc);
 
         MinmaxTr.add(windowHeaderTextTr);
