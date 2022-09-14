@@ -46,6 +46,7 @@ import RayVisitorSupaFast from "./Visitors/rayvisitor-supa-fast";
 import Scenegraph from "./scenegraph";
 import {RasterSetupVisitor} from "./Visitors/rasterSetupVisitor";
 import {JsonVisitor} from "./Visitors/jsonVisitor";
+import {JsonLoader} from "./jsonLoader";
 
 const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1));
 const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.5, 0.5, 1), new Vector(0, 0, 0, 1));
@@ -108,6 +109,17 @@ window.addEventListener('load', function loadPage() {
     // let jsonVisitor = new JsonVisitor()
     // jsonVisitor.download(sg)
     // console.log(jsonVisitor.jsonStack)
+    let filePicker = document.getElementById("docpicker") as HTMLInputElement;
+    filePicker.addEventListener('change', (e)=>{
+        let target = e.target as HTMLInputElement;
+        let file = target.files[0]
+        file.text().then(text =>{
+            let json = JSON.parse(text)
+            JsonLoader.setFile(json)
+        })
+        // console.log(file)
+    })
+
 
     let renderer = localStorage.getItem("renderer")
     console.log(renderer)
