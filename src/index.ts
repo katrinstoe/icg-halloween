@@ -52,21 +52,21 @@ const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.
 const UNIT_PYRAMID = new Pyramid(new Vector(-0.5, -0.5, 0.5, 1), new Vector(0.5, -0.5, 0.5, 1), new Vector(0, -0.5, -0.5, 1), new Vector(0, 0.5, 0, 1), new Vector(0, 0, 0, 1))
 
 window.addEventListener('load', function loadPage() {
-    let {
-        sg,
-        scalerNodes,
-        driverNodes,
-        animationNodes,
-        gl,
-        ctx,
-        kDElement,
-        kSElement,
-        kAElement,
-        shininessElement,
-        canvas,
-        canvas2
-    } = Scenegraph.getScenegraph();
-    // let {sg, scalerNodes, driverNodes, animationNodes, gl, ctx, kDElement, kSElement, kAElement, shininessElement, canvas, canvas2} = Scenegraph.getTicTacToe();
+    // let {
+    //     sg,
+    //     scalerNodes,
+    //     driverNodes,
+    //     animationNodes,
+    //     gl,
+    //     ctx,
+    //     kDElement,
+    //     kSElement,
+    //     kAElement,
+    //     shininessElement,
+    //     canvas,
+    //     canvas2
+    // } = Scenegraph.getScenegraph();
+    let {sg, scalerNodes, driverNodes, animationNodes, gl, ctx, kDElement, kSElement, kAElement, shininessElement, canvas, canvas2} = Scenegraph.getTicTacToe();
     const btn1 = document.getElementById('btnradio1') as HTMLInputElement;
     const btn2 = document.getElementById('btnradio2') as HTMLInputElement;
 
@@ -81,7 +81,6 @@ window.addEventListener('load', function loadPage() {
 
     const lightPositionsVisitor = new LightVisitor
     let lightPositions = lightPositionsVisitor.visit(sg)
-    console.log(lightPositions)
     const cameraVisitor = new CameraVisitor
     let camera = cameraVisitor.visit(sg)
 
@@ -89,9 +88,10 @@ window.addEventListener('load', function loadPage() {
     let rasterVisitor = new RasterVisitor(gl, phongShader, textureShader, setupVisitor.objects)
     let rayVisitor = new RayVisitorSupaFast(ctx, canvas.width, canvas.height)
     let visitor: RayVisitorSupaFast | RasterVisitor
-    // let jsonVisitor = new JsonVisitor()
-    // jsonVisitor.visit(sg)
-    // console.log(jsonVisitor.jsonStack)
+    let jsonVisitor = new JsonVisitor()
+    jsonVisitor.download(sg)
+    console.log(jsonVisitor.jsonStack)
+    // JSON.stringify(jsonVisitor.jsonStack)
 
     let renderer = localStorage.getItem("renderer")
     console.log(renderer)

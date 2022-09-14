@@ -408,37 +408,14 @@ export default class Scenegraph {
         sg.add(light1)
         // sg.add(light2)
 
-        //Würfel
-        let emptyTr = new GroupNode(new Translation(new Vector(0,0,0,0)))
-        let tictactoeTr = new GroupNode(new Translation(new Vector(-0.3, 0, 0, 0)))
-        let tictactoeCubeRow1Middle = this.getTicTacToeWuerfel(new Vector(0, 0, -1, 0))
-        let tictactoeCubeRow1Right = this.getTicTacToeWuerfel(new Vector(0.05, 0, -1, 0))
-        let tictactoeCubeRow1Left = this.getTicTacToeWuerfel(new Vector(-0.05, 0, -1, 0))
-
-
-        let root = new GroupNode(new Translation(new Vector(0,0,0,0)));
-        let cubeBack = new GroupNode(new Translation(new Vector(0.25,-0.3,-1,0)));
-        root.add(cubeBack)
-
-        // let resetButton = new TicTacToeTextureNode('Icons/resetText.png');
-
-        // let resetSc = new GroupNode(new Scaling(new Vector(0.1, 0.1, 0.001, 0)))
-        // resetSc.add(resetButton)
-        // cubeBack.add(resetSc)
-        // sg.add(cubeBack)
-
-        tictactoeTr.add(tictactoeCubeRow1Middle)
-        // tictactoeTr.add(tictactoeCubeRow1Right)
-        // tictactoeTr.add(tictactoeCubeRow1Left)
-        // tictactoeTr.add(tictactoeCubeRow2Middle)
-        // tictactoeTr.add(tictactoeCubeRow2Right)
-        // tictactoeTr.add(tictactoeCubeRow2Left)
-        // tictactoeTr.add(tictactoeCubeRow3Middle)
-        // tictactoeTr.add(tictactoeCubeRow3Right)
-        // tictactoeTr.add(tictactoeCubeRow3Left)
-
-        sg.add(tictactoeTr)
-
+        let textCube = new AABoxNode(new Vector(1,0,0,0))
+        let testCubeSc = new GroupNode(new Scaling(new Vector(0.5,0.5,0.5,0)))
+        let testCubeTr = new GroupNode(new Translation(new Vector(0,0,-1,0)))
+        let testCubeRt = new GroupNode(new Rotation(new Vector(0,1,1,0), 1))
+        testCubeSc.add(textCube)
+        testCubeRt.add(testCubeSc)
+        testCubeTr.add(testCubeRt)
+        sg.add(testCubeTr)
 
         //kleiner driver geist
         const driverGhost = new TextureBoxNode("geist.png")
@@ -456,11 +433,10 @@ export default class Scenegraph {
         sg.add(ghostCastleTr)
 
         let animationNodes = [
-            new RotationNode(light1, new Vector(0, 0, 1, 0)),
+            new RotationNode(light1, new Vector(0, 1, 1, 0)),
             // new RotationNode(light2, new Vector(0, 1, 1, 0)),
 
         ]
-
 
         let driverNodes = [
             //new RotationNode(cubeSc, new Vector(0,0,1,0)),
@@ -487,17 +463,17 @@ export default class Scenegraph {
     }
 };
 
-export type scenegraphObject={
-    sg: Node,
-    animationNodes: AnimationNode[],
-    driverNodes: DriverNode[],
-    scalerNodes: ScalerNode[],
-    gl: HTMLCanvasElement,
-    ctx: HTMLCanvasElement,
-    kAElement: HTMLInputElement,
-    kSElement: HTMLInputElement,
-    kDElement: HTMLInputElement,
-    shininessElement: HTMLInputElement,
-    canvas: HTMLCanvasElement,
-    canvas2: HTMLCanvasElement
-}
+// export type scenegraphObject={
+//     sg: Node,
+//     animationNodes: AnimationNode[],
+//     driverNodes: DriverNode[],
+//     scalerNodes: ScalerNode[],
+//     gl: HTMLCanvasElement,
+//     ctx: HTMLCanvasElement,
+//     kAElement: HTMLInputElement,
+//     kSElement: HTMLInputElement,
+//     kDElement: HTMLInputElement,
+//     shininessElement: HTMLInputElement,
+//     canvas: HTMLCanvasElement,
+//     canvas2: HTMLCanvasElement
+// };
