@@ -151,7 +151,7 @@ export class RasterVisitor implements Visitor {
     this.inverse.pop()
   }
 
-  visitObjectPhongNode(shaderForNode: Shader, node: Node){
+  visitObjectNode(shaderForNode: Shader, node: Node){
     const shader = shaderForNode;
     shader.use();
     let toWorld = Matrix.identity();
@@ -210,7 +210,7 @@ export class RasterVisitor implements Visitor {
    * @param node The node to visit
    */
   visitSphereNode(node: SphereNode) {
-    this.visitObjectPhongNode(this.shader, node)
+    this.visitObjectNode(this.shader, node)
   }
 
   /**
@@ -218,7 +218,7 @@ export class RasterVisitor implements Visitor {
    * @param  {AABoxNode} node - The node to visit
    */
   visitAABoxNode(node: AABoxNode) {
-    this.visitObjectPhongNode(this.shader, node)
+    this.visitObjectNode(this.shader, node)
   }
 
   /**
@@ -226,7 +226,7 @@ export class RasterVisitor implements Visitor {
    * @param  {TextureBoxNode} node - The node to visit
    */
   visitTextureBoxNode(node: TextureBoxNode) {
-    this.visitObjectPhongNode(this.textureshader, node)
+    this.visitObjectNode(this.textureshader, node)
   }
 
   /**
@@ -234,7 +234,7 @@ export class RasterVisitor implements Visitor {
    * @param  {TextureBoxNode} node - The node to visit
    */
   visitTextureVideoBoxNode(node: TextureVideoBoxNode) {
-    this.visitObjectPhongNode(this.textureshader, node)
+    this.visitObjectNode(this.textureshader, node)
   }
 
   /**
@@ -242,7 +242,7 @@ export class RasterVisitor implements Visitor {
    * @param node The node to visit
    */
   visitPyramidNode(node: PyramidNode) {
-    this.visitObjectPhongNode(this.shader, node)
+    this.visitObjectNode(this.shader, node)
   }
 
   /**
@@ -250,12 +250,12 @@ export class RasterVisitor implements Visitor {
    * @param  {TextureBoxNode} node - The node to visit
    */
   visitTexturePyramidNode(node: TexturePyramidNode) {
-    this.visitObjectPhongNode(this.textureshader, node)
+    this.visitObjectNode(this.textureshader, node)
 
   }
 
   visitTicTacToeTextureNode(node: TicTacToeTextureNode): void {
-    this.visitObjectPhongNode(this.textureshader, node)
+    this.visitObjectNode(this.textureshader, node)
   }
 
   visitAABoxButtonNode(node: AABoxButtonNode): void {

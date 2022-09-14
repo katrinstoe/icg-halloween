@@ -45,6 +45,7 @@ import Visitor from "./Visitors/visitor";
 import RayVisitorSupaFast from "./Visitors/rayvisitor-supa-fast";
 import Scenegraph from "./scenegraph";
 import {RasterSetupVisitor} from "./Visitors/rasterSetupVisitor";
+import {JsonVisitor} from "./Visitors/jsonVisitor";
 
 const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1));
 const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.5, 0.5, 1), new Vector(0, 0, 0, 1));
@@ -88,6 +89,9 @@ window.addEventListener('load', function loadPage() {
     let rasterVisitor = new RasterVisitor(gl, phongShader, textureShader, setupVisitor.objects)
     let rayVisitor = new RayVisitorSupaFast(ctx, canvas.width, canvas.height)
     let visitor: RayVisitorSupaFast | RasterVisitor
+    // let jsonVisitor = new JsonVisitor()
+    // jsonVisitor.visit(sg)
+    // console.log(jsonVisitor.jsonStack)
 
     let renderer = localStorage.getItem("renderer")
     console.log(renderer)
@@ -142,8 +146,6 @@ window.addEventListener('load', function loadPage() {
             camera.kD = Number(kDElement.value);
             console.log(camera.kD)
         }
-
-        console.log(setupVisitor.objects)
 
         let animationTime = 0;
 
