@@ -102,6 +102,12 @@ export default class Pyramid {
 
   intersect(ray: Ray): Intersection | null {
 
+
+    let intersection = this.intersectBoundingSphere(ray);
+    if (!intersection){
+      return null;
+    }
+
     // TODO
     let nearestIntersection: Intersection;
 
@@ -141,6 +147,9 @@ export default class Pyramid {
 
     let r = -Infinity;
     r = centerPyramid.sub(point1).length;
+    if (r<centerPyramid.sub(point2).length){
+      r = centerPyramid.sub(point2).length;
+    }
     if (r<centerPyramid.sub(point3).length){
       r = centerPyramid.sub(point3).length;
     }
@@ -149,12 +158,12 @@ export default class Pyramid {
     }
 
 
-    let boundingSphere = new Sphere(centerPyramid,r, new Vector(0,0,0,0));
+    let boundingSphere = new Sphere(centerPyramid,r*2, new Vector(0,0,0,0));
 
     let intersection = boundingSphere.intersect(ray);
 
     if (intersection){
-      return this.intersect(ray);
+      return intersection;
 
     }
     else{

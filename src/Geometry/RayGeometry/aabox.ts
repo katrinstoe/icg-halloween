@@ -95,6 +95,12 @@ export default class AABox {
      * @return The intersection if there is one, null if there is none
      */
     intersect(ray: Ray): Intersection | null {
+
+        let intersection = this.intersectBoundingSphere(ray);
+        if (!intersection){
+            return null;
+        }
+
         let nearestIntersection: Intersection;
         let min = Number.MAX_VALUE;
 
@@ -126,7 +132,7 @@ export default class AABox {
 
         let intersection = boundingSphere.intersect(ray);
         if (intersection){
-            return this.intersect(ray);
+            return intersection;
 
         }
         else{
