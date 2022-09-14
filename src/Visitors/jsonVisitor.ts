@@ -117,7 +117,7 @@ export class JsonVisitor implements Visitor {
     //Quelle: https://stackoverflow.com/questions/3665115/how-to-create-a-file-in-memory-for-user-to-download-but-not-through-server
     private downloadFile(filename: string, text: string) {
         var element = document.createElement('a');
-        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+        element.setAttribute('href', 'data:json/plain;charset=utf-8,' + encodeURIComponent(text));
         element.setAttribute('download', filename);
 
         element.style.display = 'none';
@@ -131,8 +131,18 @@ export class JsonVisitor implements Visitor {
     public download(sg: Node){
         this.visit(sg)
         console.log(this.jsonStack)
-        let jsonString = JSON.stringify(this.jsonStack);
-        this.downloadFile("SzenengraphDownload.js",jsonString)
+        let str = this.replacer(this.jsonStack);
+        let jsonString = JSON.stringify(str)
+        this.downloadFile("SzenengraphDownload.json",jsonString)
+    }
+    //https://stackoverflow.com/questions/29085197/how-do-you-json-stringify-an-es6-map
+    //https://stackoverflow.com/questions/37437805/convert-map-to-json-object-in-javascript
+    private replacer(jsonStack:  Map<number, any>) {
+        if(jsonStack instanceof Map) {
+            return Object.fromEntries(jsonStack);
+        } else {
+            return jsonStack;
+        }
     }
 }
 
