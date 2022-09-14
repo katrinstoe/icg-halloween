@@ -131,7 +131,7 @@ export default class Scenegraph {
         sg.add(window1.root);
         const TBWindow1Tr = new GroupNode(new Translation(new Vector(-0.52,0,0,0)));
         TBWindow1Tr.add(window1.ButtonTBTr);
-        TaskBarTr.add(TBWindow1Tr);
+        TaskBarTr.add(TBWindow1Tr) ;
 
         //buhuu box
         const buhuuAABox = new AABoxNode(new Vector(1, 0, 1, 1));
