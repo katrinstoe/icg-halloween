@@ -53,15 +53,7 @@ export default class Scenegraph {
 
         sg.add(gnTr);
 
-        //Camera
-        const sgcamera = new Camera(new Vector(0, 0, 0, 1),
-            new Vector(0, 0, 0, 1),
-            new Vector(0, 0, -1, 1),
-            new Vector(0, 1, 0, 0),
-            60, 0.1, 100, canvas.width, canvas.height, shininessCalc,
-            kSCalc, kDCalc, kACalc)
-        const nodeCamera = new CameraNode(sgcamera)
-        sg.add(nodeCamera)
+
 
 
         //Taskbar
@@ -71,22 +63,6 @@ export default class Scenegraph {
         TaskBarSc.add(TaskBarBox)
         TaskBarTr.add(TaskBarSc);
         sg.add(TaskBarTr);
-
-
-        /*//HeaderBoxen für Namebeschriftung
-        //Header1: Beschriftung
-        const headerBTextTr = new GroupNode(new Translation(new Vector(-0.3, 0.394, 0, 0)));
-        const headerBTextSc = new GroupNode(new Scaling(new Vector(0.16, 0.09, 0.0001, 0)))
-
-        // headerBTextSc.add(headerBBox)
-        headerBTextSc.add(textureKugelText)
-        // headerBTextSc.add(textureMinimize)
-        headerBTextTr.add(headerBTextSc)
-        headerBTr.add(headerBTextTr)
-        //Header 2: Beschriftung
-        const headerBTextTr2 = new GroupNode(new Translation(new Vector(0.15, 0.394, 0, 0)));
-        const headerBTextSc2 = new GroupNode(new Scaling(new Vector(0.16, 0.09, 0.0001, 0)))
-        */
 
 
         let light1 = this.getLight(new Vector(0,0,-0.5,0));
@@ -256,9 +232,13 @@ export default class Scenegraph {
             gl,
             ctx,
             kAElement,
+            kACalc,
             kSElement,
+            kSCalc,
             kDElement,
+            kDCalc,
             shininessElement,
+            shininessCalc,
             canvas,
             canvas2
         }
@@ -394,14 +374,14 @@ export default class Scenegraph {
         sg.add(gnTr);
 
         //Camera
-        const sgcamera = new Camera(new Vector(0, 0, 0, 1),
-            new Vector(0, 0, 0, 1),
-            new Vector(0, 0, -1, 1),
-            new Vector(0, 1, 0, 0),
-            60, 0.1, 100, canvas.width, canvas.height, shininessCalc,
-            kSCalc, kDCalc, kACalc)
-        const nodeCamera = new CameraNode(sgcamera)
-        sg.add(nodeCamera)
+        // const sgcamera = new Camera(new Vector(0, 0, 0, 1),
+        //     new Vector(0, 0, 0, 1),
+        //     new Vector(0, 0, -1, 1),
+        //     new Vector(0, 1, 0, 0),
+        //     60, 0.1, 100, canvas.width, canvas.height, shininessCalc,
+        //     kSCalc, kDCalc, kACalc)
+        // const nodeCamera = new CameraNode(sgcamera)
+        // sg.add(nodeCamera)
         //Lichter
         let light1 = this.getLight(new Vector(0,0,-1,0));
         // let light2 = this.getLight(new Vector(0,.2,1,0));

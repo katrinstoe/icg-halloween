@@ -55,7 +55,7 @@ window.addEventListener('load', () => {
         new Vector(0, 0, -1, 1),
         new Vector(0, 1, 0, 0),
         60, 0.1, 100, canvas.width, canvas.height, shininessCalc,
-        kS, kD, kA)
+        kS, kD, kA, lightPositions)
 
     const visitor = new RayVisitor(ctx, canvas.width, canvas.height);
 
@@ -74,7 +74,7 @@ window.addEventListener('load', () => {
         lastTimestamp = timestamp;
         gnRotation.angle = animationTime / 2000;
 
-        visitor.render(sg, camera, lightPositions);
+        visitor.render(sg, camera, camera.lightPositions);
         // animationHandle = window.requestAnimationFrame(animate);
     }
 

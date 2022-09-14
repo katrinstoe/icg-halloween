@@ -15,12 +15,15 @@ window.addEventListener('load', evt => {
         0.8,
         new Vector(0, 0, 0, 1)
     );
+    let lightPositions = [
+        new Vector(1,0,0,0)
+    ]
 
     const camera = new Camera(new Vector(0, 0, 0, 1),
         new Vector(0, 0, 0, 1),
         new Vector(0, 0, -1, 1),
         new Vector(0, 1, 0, 0),
-        60, 0.1, 100, canvas.width, canvas.height, 0, 0, 0, 0)
+        60, 0.1, 100, canvas.width, canvas.height, 0, 0, 0, 0, lightPositions)
     for (let x = 0; x < canvas.width; x++) {
         for (let y = 0; y < canvas.height; y++) {
             const ray = Ray.makeRay(x, y, camera);

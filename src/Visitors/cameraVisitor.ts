@@ -42,9 +42,9 @@ export class CameraVisitor implements Visitor {
         // traverse and render
         this.cameraValues = []
         this.cameraVectors = []
-        this.lightPositions = []
+        this.lightPositions = new Array<Vector>
         rootNode.accept(this);
-        let camera = new Camera(this.cameraVectors[0], this.cameraVectors[1], this.cameraVectors[2], this.cameraVectors[3], this.cameraValues[0], this.cameraValues[1], this.cameraValues[2], this.cameraValues[3], this.cameraValues[4], this.cameraValues[5], this.cameraValues[6], this.cameraValues[7], this.cameraValues[8])
+        let camera = new Camera(this.cameraVectors[0], this.cameraVectors[1], this.cameraVectors[2], this.cameraVectors[3], this.cameraValues[0], this.cameraValues[1], this.cameraValues[2], this.cameraValues[3], this.cameraValues[4], this.cameraValues[5], this.cameraValues[6], this.cameraValues[7], this.cameraValues[8], this.lightPositions)
         return camera
     }
 
@@ -65,6 +65,9 @@ export class CameraVisitor implements Visitor {
         this.cameraValues.push(node.camera.kS)
         this.cameraValues.push(node.camera.kD)
         this.cameraValues.push(node.camera.kA)
+        for (const lightPosition of node.camera.lightPositions) {
+            this.lightPositions.push(lightPosition)
+        }
     }
 
     /**

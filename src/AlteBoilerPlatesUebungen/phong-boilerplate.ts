@@ -28,7 +28,7 @@ window.addEventListener('load', () => {
         new Vector(0, 0, -1, 1),
         new Vector(0, 1, 0, 0),
         60, 0.1, 100, canvas.width, canvas.height, shininess,
-        kS, kD, kA)
+        kS, kD, kA, lightPositions)
 
     function setPixel(x: number, y: number, color: Vector) {
         data[4 * (canvas.width * y + x) + 0] = Math.min(255, color.r * 255);
@@ -57,7 +57,7 @@ window.addEventListener('load', () => {
                     } else {
                         let color = phong(
                             Object.assign(Object.create(Vector.prototype), minObj.color),
-                            minIntersection, shininess, camera.origin, camera.kS, camera.kD, camera.kA, lightPositions);
+                            minIntersection, shininess, camera.origin, camera.kS, camera.kD, camera.kA, camera.lightPositions);
                         setPixel(x, y, color);
                     }
 

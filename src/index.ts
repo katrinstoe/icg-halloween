@@ -52,21 +52,25 @@ const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.
 const UNIT_PYRAMID = new Pyramid(new Vector(-0.5, -0.5, 0.5, 1), new Vector(0.5, -0.5, 0.5, 1), new Vector(0, -0.5, -0.5, 1), new Vector(0, 0.5, 0, 1), new Vector(0, 0, 0, 1))
 
 window.addEventListener('load', function loadPage() {
-    // let {
-    //     sg,
-    //     scalerNodes,
-    //     driverNodes,
-    //     animationNodes,
-    //     gl,
-    //     ctx,
-    //     kDElement,
-    //     kSElement,
-    //     kAElement,
-    //     shininessElement,
-    //     canvas,
-    //     canvas2
-    // } = Scenegraph.getScenegraph();
-    let {sg, scalerNodes, driverNodes, animationNodes, gl, ctx, kDElement, kSElement, kAElement, shininessElement, canvas, canvas2} = Scenegraph.getTicTacToe();
+    let {
+        sg,
+        scalerNodes,
+        driverNodes,
+        animationNodes,
+        gl,
+        ctx,
+        kDElement,
+        kDCalc,
+        kSElement,
+        kSCalc,
+        kAElement,
+        kACalc,
+        shininessElement,
+        shininessCalc,
+        canvas,
+        canvas2
+    } = Scenegraph.getScenegraph();
+    // let {sg, scalerNodes, driverNodes, animationNodes, gl, ctx, kDElement, kSElement, kAElement, shininessElement, canvas, canvas2} = Scenegraph.getTicTacToe();
     const btn1 = document.getElementById('btnradio1') as HTMLInputElement;
     const btn2 = document.getElementById('btnradio2') as HTMLInputElement;
 
@@ -81,17 +85,29 @@ window.addEventListener('load', function loadPage() {
 
     const lightPositionsVisitor = new LightVisitor
     let lightPositions = lightPositionsVisitor.visit(sg)
+
+
+    //Camera
+    const sgcamera = new Camera(new Vector(0, 0, 0, 1),
+        new Vector(0, 0, 0, 1),
+        new Vector(0, 0, -1, 1),
+        new Vector(0, 1, 0, 0),
+        60, 0.1, 100, canvas.width, canvas.height, shininessCalc,
+        kSCalc, kDCalc, kACalc, lightPositions)
+    const nodeCamera = new CameraNode(sgcamera)
+    sg.add(nodeCamera)
+
     const cameraVisitor = new CameraVisitor
     let camera = cameraVisitor.visit(sg)
+    camera.lightPositions = lightPositions
 
-    let setupVisitor = new RasterSetupVisitor(gl, lightPositions)
+    let setupVisitor = new RasterSetupVisitor(gl, camera.lightPositions)
     let rasterVisitor = new RasterVisitor(gl, phongShader, textureShader, setupVisitor.objects)
     let rayVisitor = new RayVisitorSupaFast(ctx, canvas.width, canvas.height)
     let visitor: RayVisitorSupaFast | RasterVisitor
-    let jsonVisitor = new JsonVisitor()
-    jsonVisitor.download(sg)
-    console.log(jsonVisitor.jsonStack)
-    // JSON.stringify(jsonVisitor.jsonStack)
+    // let jsonVisitor = new JsonVisitor()
+    // jsonVisitor.download(sg)
+    // console.log(jsonVisitor.jsonStack)
 
     let renderer = localStorage.getItem("renderer")
     console.log(renderer)
@@ -154,6 +170,7 @@ window.addEventListener('load', function loadPage() {
             for (let animationNode of animationNodes) {
                 animationNode.simulate(deltaT);
                 lightPositions = lightPositionsVisitor.visit(sg);
+                camera.lightPositions = lightPositions
             }
 
             for (let driverNode of driverNodes) {
@@ -170,7 +187,7 @@ window.addEventListener('load', function loadPage() {
 
         function animate(timestamp: number) {
             simulate((timestamp - lastTimestamp) / 10);
-            visitor.render(sg, camera, lightPositions);
+            visitor.render(sg, camera, camera.lightPositions);
             lastTimestamp = timestamp;
             window.requestAnimationFrame(animate);
         }
@@ -188,16 +205,6 @@ window.addEventListener('load', function loadPage() {
         kAElement.onchange = function () {
             camera.kA = Number(kAElement.value);
         }
-        // lightPositionXElement.onchange = function () {
-        //     let lightPositionX = Number(lightPositionXElement.value)
-        //     for (let lightPosition of lightPositions) {
-        //         lightPosition.x = lightPositionX;
-        //     }
-        //     // lightPositions = Number(lightPositionXElement.value);
-        //     console.log(camera.lightPositions)
-        // }
-
-
         Promise.all(
             [phongShader.load(), textureShader.load()]
         ).then(x =>
@@ -272,7 +279,7 @@ window.addEventListener('load', function loadPage() {
         window.addEventListener('click', function (evt) {
             let mousePos = getMousePos(canvas, evt);
             let mouseVisitor = new mouseClickVisitor(ctx, canvas.width, canvas.height, mousePos, lastTexture);
-            mouseVisitor.render(sg, camera, lightPositions);
+            mouseVisitor.render(sg, camera, camera.lightPositions);
             setupVisitor.setup(sg);
             console.log("TextureCount nach listener: " + lastTexture)
         }, false);
