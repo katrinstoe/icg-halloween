@@ -113,6 +113,8 @@ export default class RayVisitorSupaFast implements Visitor {
     //allgemeine Methode zum Intersecten von Objekten
     visitObjectNodeIntersect(node: ObjectNodeWrapper) {
         const ray = new Ray(node.fromWorld.mulVec(this.ray.origin), node.fromWorld.mulVec(this.ray.direction).normalize());
+
+
         let intersection = node.object.intersect(ray);
 
         if (intersection) {

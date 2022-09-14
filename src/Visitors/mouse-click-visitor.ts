@@ -205,6 +205,7 @@ export default class mouseClickVisitor implements Visitor {
             fromWorld = this.inverse[i].mul(fromWorld);
         }
         const ray = new Ray(fromWorld.mulVec(this.ray.origin), fromWorld.mulVec(this.ray.direction).normalize());
+        //let intersection = UNIT_AABOX.intersect(ray);
         let intersection = UNIT_AABOX.intersect(ray);
         if (intersection) {
             const intersectionPointWorld = toWorld.mulVec(intersection.point);
