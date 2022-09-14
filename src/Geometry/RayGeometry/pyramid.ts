@@ -2,6 +2,7 @@ import Vector from '../../mathOperations/vector';
 import Intersection from '../../RayTracing/intersection';
 import Ray from '../../RayTracing/ray';
 import {intersectTriangle} from "../../RayTracing/rayIntersection";
+import Sphere from "./sphere";
 
 /**
  * A class representing a pyramid
@@ -124,5 +125,40 @@ export default class Pyramid {
 
   }
 
+  intersectBoundingSphere(ray: Ray): Intersection | null {
 
+    let point1 = new Vector(-0.5, -0.5, 0.5, 1);
+    let point2 = new Vector(0.5, -0.5, 0.5, 1);
+    let point3 = new Vector(0, -0.5, -0.5, 1);
+    let point4 = new Vector(0, 0.5, 0, 1);
+
+    let averageX = (point1.x+point3.x+point4.x)/3;
+    let averageY = (point1.y+point3.y+point4.y)/3;
+    let averageZ = (point1.z+point3.z+point4.z)/3;
+
+    let baseCenter = new Vector(averageX, averageY,averageZ, 1);
+    let centerPyramid = (point2.sub(baseCenter)).div(2);
+
+    let r = -Infinity;
+    r = centerPyramid.sub(point1).length;
+    if (r<centerPyramid.sub(point3).length){
+      r = centerPyramid.sub(point3).length;
+    }
+    if (r<centerPyramid.sub(point4).length){
+      r = centerPyramid.sub(point4).length;
+    }
+
+
+    let boundingSphere = new Sphere(centerPyramid,r, new Vector(0,0,0,0));
+
+    let intersection = boundingSphere.intersect(ray);
+
+    if (intersection){
+      return this.intersect(ray);
+
+    }
+    else{
+      return null;
+    }
+  }
 }

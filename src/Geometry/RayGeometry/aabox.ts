@@ -2,6 +2,7 @@ import Vector from '../../mathOperations/vector';
 import Ray from '../../RayTracing/ray';
 import Intersection from '../../RayTracing/intersection';
 import {intersectTriangle} from "../../RayTracing/rayIntersection";
+import Sphere from "./sphere";
 
 /**
  * Class representing an axis aligned box
@@ -112,4 +113,24 @@ export default class AABox {
         return null;
     }
 
+    intersectBoundingSphere(ray: Ray): Intersection | null {
+
+        let minPoint = new Vector(-0.5, -0.5, -0.5, 1);
+        let maxPoint = new Vector(0.5, 0.5, 0.5, 1);
+
+        let diagonal = maxPoint.sub(minPoint);
+        let r = diagonal.length/2;
+        let center = new Vector(0, 0, 0, 1);
+
+        let boundingSphere = new Sphere(center,r, new Vector(0,0,0,0));
+
+        let intersection = boundingSphere.intersect(ray);
+        if (intersection){
+            return this.intersect(ray);
+
+        }
+        else{
+            return null;
+        }
+    }
 }
