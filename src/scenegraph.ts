@@ -11,12 +11,11 @@ import {
     TextureBoxNode,
     TexturePyramidNode, TextureTextBoxNode,
     TextureVideoBoxNode, TicTacToeTextureNode,
-} from "./nodes";
-import {Rotation, Scaling, Translation} from "./transformation";
-import Vector from "./vector";
-import {AnimationNode, DriverNode, MinMaxNode, RotationNode, ScalerNode, TranslatorNode} from "./animation-nodes";
-import Camera from "./camera";
 } from "./Nodes/nodes";
+import {Rotation, Scaling, Translation} from "./mathOperations/transformation";
+import Vector from "./mathOperations/vector";
+import {AnimationNode, DriverNode, MinMaxNode, RotationNode, ScalerNode, TranslatorNode} from "./Nodes/animation-nodes";
+import Camera from "./Camera/camera";
 import TextureTextBox from "./Geometry/RasterGeometry/texture-text-box";
 
 export default class Scenegraph {

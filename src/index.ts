@@ -1,47 +1,18 @@
 import 'bootstrap';
 import 'bootstrap/scss/bootstrap.scss';
-import Vector from './vector';
-import {
-    GroupNode,
-    SphereNode,
-    AABoxNode,
-    TextureBoxNode,
-    LightNode,
-    PyramidNode,
-    TexturePyramidNode,
-    TextureVideoBoxNode,
-    CameraNode,
-    AABoxButtonNode,
-    TextureBoxButtonNode
-} from './Nodes/nodes';
-import {
-    RasterVisitor,
-} from './Visitors/rastervisitor';
+import Vector from './mathOperations/vector';
+import {RasterVisitor,} from './Visitors/rastervisitor';
 import Shader from './Shaders/shader';
-import phongVertexShader from './Shaders/phong-vertex-shader.glsl';
 import phongFragmentShader from './Shaders/phong-fragment-shader.glsl';
 import phongVertexShaderPerspective from './Shaders/phong-vertex-perspective-shader.glsl';
-
-import perspectiveVertexShader from './Shaders/perspective-vertex-shader.glsl';
-import fragmentShader from './Shaders/basic-fragment-shader.glsl'
-import {Rotation, Scaling, Translation} from './mathOperations/transformation';
 import textureVertexShader from "./Shaders/texture-vertex-perspective-shader.glsl";
 import textureFragmentShader from "./Shaders/texture-fragment-shader.glsl";
-import Ray from "./RayTracing/ray";
-import Intersection from "./RayTracing/intersection";
 import Sphere from "./Geometry/RayGeometry/sphere";
 import AABox from "./Geometry/RayGeometry/aabox";
-import RayVisitor from "./Visitors/rayvisitor";
-import phong from "./RayTracing/phong";
-import {DriverNode, MinMaxNode, RotationNode, ScalerNode} from "./Nodes/animation-nodes";
 import mouseClickVisitor from "./Visitors/mouse-click-visitor";
-import RasterPyramid from "./Geometry/RasterGeometry/raster-pyramid";
 import Pyramid from "./Geometry/RayGeometry/pyramid";
 import {LightVisitor} from "./Visitors/lightVisitor";
-import TextureVideoBox from "./Geometry/RasterGeometry/texture-video-box";
 import {CameraVisitor} from "./Visitors/cameraVisitor";
-import Camera from "./Camera/camera";
-import Visitor from "./Visitors/visitor";
 import RayVisitorSupaFast from "./Visitors/rayvisitor-supa-fast";
 import Scenegraph from "./scenegraph";
 import {RasterSetupVisitor} from "./Visitors/rasterSetupVisitor";

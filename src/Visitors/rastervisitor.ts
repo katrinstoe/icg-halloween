@@ -42,6 +42,10 @@ export interface Renderable {
  * Class representing a Visitor that uses Rasterisation
  * to render a Scenegraph
  */
+/**
+ * Class representing a Visitor that uses Rasterisation
+ * to render a Scenegraph
+ */
 export class RasterVisitor implements Visitor {
   // TODO declare instance variables here
   model: Array<Matrix>
@@ -54,10 +58,10 @@ export class RasterVisitor implements Visitor {
    * @param textureshader The texture shader to use
    */
   constructor(
-    private gl: WebGL2RenderingContext,
-    private shader: Shader,
-    private textureshader: Shader,
-    private renderables: WeakMap<Node, Renderable>
+      private gl: WebGL2RenderingContext,
+      private shader: Shader,
+      private textureshader: Shader,
+      private renderables: WeakMap<Node, Renderable>
   ) {
     // TODO setup
     this.model = new Array<Matrix>(Matrix.identity())
@@ -71,16 +75,17 @@ export class RasterVisitor implements Visitor {
    * @param lightPositions The light positions
    */
   render(
-    rootNode: Node,
-    camera: Camera | null,
-    lightPositions: Array<Vector>
+      rootNode: Node,
+      camera: Camera | null,
+      lightPositions: Array<Vector>,
+      view: Matrix
   ) {
     // clear
     this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
 
 
     if (camera) {
-      this.setupCamera(camera, lightPositions);
+      this.setupCamera(camera, lightPositions, view);
     }
 
     // traverse and render
@@ -115,16 +120,13 @@ export class RasterVisitor implements Visitor {
    * @param camera The camera used
    * @param lightPositions the light
    */
-  setupCamera(camera: Camera, lightPositions: Array<Vector>) {
-    this.lookat = Matrix.lookat(
-      camera.eye,
-      camera.center,
-      camera.up);
+  setupCamera(camera: Camera, lightPositions: Array<Vector>, view: Matrix) {
+    this.lookat = view;
     this.perspective = Matrix.perspective(
-      camera.fovy,
-      camera.aspect,
-      camera.near,
-      camera.far
+        camera.fovy,
+        camera.aspect,
+        camera.near,
+        camera.far
     );
     this.shininess = camera.shininess;
     this.kS= camera.kS;
@@ -133,6 +135,7 @@ export class RasterVisitor implements Visitor {
     this.lightPosisitions = lightPositions
     // console.log(this.shininess)
   }
+
 
   /**
    * Visits a group node

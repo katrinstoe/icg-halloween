@@ -1,13 +1,12 @@
-import Vector from './vector';
-import {CameraNode, GroupNode} from './nodes';
-import {Rotation, Scaling, SQT, Translation} from './transformation';
-import Quaternion from './quaternion';
-import Matrix from "./matrix";
-import Camera from "./camera";
-
 /**
  * Class representing an Animation
  */
+import {GroupNode} from "./nodes";
+import Vector from "../mathOperations/vector";
+import {Rotation, Scaling, SQT, Translation} from "../mathOperations/transformation";
+import Quaternion from "../mathOperations/quaternion";
+
+
 export class AnimationNode {
   /**
    * Describes if the animation is running
