@@ -14,9 +14,8 @@ import {
 } from "./nodes";
 import {Rotation, Scaling, Translation} from "./transformation";
 import Vector from "./vector";
-import {AnimationNode, DriverNode, MinMaxNode, RotationNode, ScalerNode} from "./animation-nodes";
+import {AnimationNode, DriverNode, MinMaxNode, RotationNode, ScalerNode, TranslatorNode} from "./animation-nodes";
 import Camera from "./camera";
-import {CameraDriverNode, CameraZoomNode} from "./camera-animation-nodes";
 
 export default class Scenegraph {
     static wuerfelArray: Array<TicTacToeTextureNode> = []
@@ -62,7 +61,9 @@ export default class Scenegraph {
             60, 0.1, 100, canvas.width, canvas.height, shininessCalc,
             kSCalc, kDCalc, kACalc)
         const nodeCamera = new CameraNode(sgcamera)
-        sg.add(nodeCamera)
+        const cameraTr = new GroupNode(new Translation(new Vector(0,0,0,0)))
+        cameraTr.add(nodeCamera)
+        sg.add(cameraTr)
 
 
         //Taskbar
@@ -231,13 +232,17 @@ export default class Scenegraph {
             //new RotationNode(sphereRt, new Vector(0, 0, 1, 0)),
             new RotationNode(light1, new Vector(0, 1, 0, 0)),
             new RotationNode(light2, new Vector(0, 1, 0, 0)),
-            new RotationNode(light3, new Vector(0, 0, 1, 0)),
+            new RotationNode(light3, new Vector(0, 0, 1, 0))
+
+            // new RotationNode(kugelTr2, new Vector(0.2, 0.2, -1, 0)),
+            // new RotationNode(lightTr2, new Vector(1, 1, 1, 0)),
+        ]
+
+        let windowAnimationNodes = [
             window1.minmax,
             window2.minmax,
             window3.minmax,
             window4.minmax,
-            // new RotationNode(kugelTr2, new Vector(0.2, 0.2, -1, 0)),
-            // new RotationNode(lightTr2, new Vector(1, 1, 1, 0)),
         ]
 
 
@@ -251,11 +256,7 @@ export default class Scenegraph {
         ]
 
         let cameraDriverNodes = [
-            new CameraDriverNode(nodeCamera)
-        ]
-
-        let cameraZoomNodes = [
-            new CameraZoomNode(nodeCamera)
+            new DriverNode(cameraTr, new Vector(0,0,0,1))
         ]
 
         return {
@@ -264,7 +265,7 @@ export default class Scenegraph {
             driverNodes,
             scalerNodes,
             cameraDriverNodes,
-            cameraZoomNodes,
+            windowAnimationNodes,
             gl,
             ctx,
             kAElement,
@@ -510,8 +511,8 @@ export type scenegraphObject={
     animationNodes: AnimationNode[],
     driverNodes: DriverNode[],
     scalerNodes: ScalerNode[],
-    cameraDriverNodes: CameraDriverNode[],
-    cameraZoomNodes: CameraZoomNode[],
+    cameraDriverNodes: DriverNode[],
+    windowAnimationNodes: MinMaxNode[],
     gl: HTMLCanvasElement,
     ctx: HTMLCanvasElement,
     kAElement: HTMLInputElement,

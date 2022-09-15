@@ -69,7 +69,8 @@ export default class RayVisitor implements Visitor {
     render(
         rootNode: Node,
         camera: Camera,
-        lightPositions: Array<Vector>
+        lightPositions: Array<Vector>,
+        view: Matrix
     ) {
         // clear
         let data = this.imageData.data;

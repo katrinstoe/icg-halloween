@@ -1,4 +1,4 @@
-import Sphere from "../src/sphere";
+/*import Sphere from "../src/sphere";
 import Vector from "../src/vector";
 import Ray from "../src/ray";
 import Intersection from "../src/intersection";
@@ -35,4 +35,4 @@ describe(".intersect() calculates intersection with Rays", ()=>{
 
 
 } )
-
+*/

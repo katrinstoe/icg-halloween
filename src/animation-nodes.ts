@@ -262,6 +262,12 @@ export class DriverNode extends AnimationNode {
       if(this.direction == "right"){
         this.vector.x += 0.001 * deltaT;
       }
+      if(this.direction == "in"){
+        this.vector.z -= 0.001 * deltaT;
+      }
+      if(this.direction == "out"){
+        this.vector.z += 0.001 * deltaT;
+      }
       this.groupNode.transform = new Translation(this.vector);
     }
   }
@@ -307,6 +313,12 @@ export class TranslatorNode extends AnimationNode {
       }
       if(this.direction == "right"){
         this.vector.x -= 0.001 * deltaT;
+      }
+      if(this.direction == "in"){
+        this.vector.z -= 0.001 * deltaT;
+      }
+      if(this.direction == "out"){
+        this.vector.z += 0.001 * deltaT;
       }
       this.groupNode.transform = new Translation(this.vector);
     }

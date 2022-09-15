@@ -1,4 +1,4 @@
-import 'bootstrap';
+/*import 'bootstrap';
 import 'bootstrap/scss/bootstrap.scss';
 import Sphere from './sphere';
 import Vector from './vector';
@@ -30,4 +30,4 @@ window.addEventListener('load', evt => {
         }
     }
     ctx.putImageData(imageData, 0, 0);
-});
+});*/

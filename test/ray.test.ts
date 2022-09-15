@@ -1,4 +1,4 @@
-import Vector from "../src/vector";
+/*import Vector from "../src/vector";
 import Ray from "../src/ray";
 import Camera from "../src/camera";
 
@@ -61,4 +61,4 @@ describe("makeRay makes rays from origin through image pane", () => {
     })
 
 
-})
+})*/

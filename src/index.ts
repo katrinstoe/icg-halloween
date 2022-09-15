@@ -45,7 +45,6 @@ import Camera from "./camera";
 import Visitor from "./visitor";
 import RayVisitorSupaFast from "./rayvisitor-supa-fast";
 import Scenegraph from "./scenegraph";
-import {CameraTranslatorNode, CameraRotationNode, CameraDriverNode} from "./camera-animation-nodes";
 
 const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1));
 const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.5, 0.5, 1), new Vector(0, 0, 0, 1));
@@ -58,7 +57,7 @@ window.addEventListener('load', function loadPage() {
         driverNodes,
         animationNodes,
         cameraDriverNodes,
-        cameraZoomNodes,
+        windowAnimationNodes,
         gl,
         ctx,
         kDElement,
@@ -85,7 +84,8 @@ window.addEventListener('load', function loadPage() {
     let lightPositions = lightPositionsVisitor.visit(sg)
     console.log(lightPositions)
     const cameraVisitor = new CameraVisitor
-    let camera = cameraVisitor.visit(sg)
+    let {camera, view} = cameraVisitor.visit(sg)
+    console.log(origin)
 
     let setupVisitor = new RasterSetupVisitor(gl, lightPositions)
     let rasterVisitor = new RasterVisitor(gl, phongShader, textureShader, setupVisitor.objects)
@@ -169,8 +169,8 @@ window.addEventListener('load', function loadPage() {
                 cameraDriverNode.simulate(deltaT);
             }
 
-            for (let cameraZoomNode of cameraZoomNodes){
-                cameraZoomNode.simulate((deltaT))
+            for (let windowAnimationNode of windowAnimationNodes){
+                windowAnimationNode.simulate(deltaT)
             }
 
         }
@@ -180,7 +180,8 @@ window.addEventListener('load', function loadPage() {
 
         function animate(timestamp: number) {
             simulate((timestamp - lastTimestamp) / 10);
-            visitor.render(sg, camera, lightPositions);
+            let {camera, view} = cameraVisitor.visit(sg)
+            visitor.render(sg, camera, lightPositions, view);
             lastTimestamp = timestamp;
             window.requestAnimationFrame(animate);
         }
@@ -241,19 +242,19 @@ window.addEventListener('load', function loadPage() {
                     scalerNodes[0].active = true;
                     break;
                 case "w":
-                    cameraDriverNodes[0].direction = "up"
-                    cameraDriverNodes[0].active = true;
-                    break;
-                case "a":
-                    cameraDriverNodes[0].direction = "left"
-                    cameraDriverNodes[0].active = true;
-                    break;
-                case "s":
                     cameraDriverNodes[0].direction = "down"
                     cameraDriverNodes[0].active = true;
                     break;
-                case "d":
+                case "a":
                     cameraDriverNodes[0].direction = "right"
+                    cameraDriverNodes[0].active = true;
+                    break;
+                case "s":
+                    cameraDriverNodes[0].direction = "up"
+                    cameraDriverNodes[0].active = true;
+                    break;
+                case "d":
+                    cameraDriverNodes[0].direction = "left"
                     cameraDriverNodes[0].active = true;
                     break;
                 case "y":
@@ -324,9 +325,11 @@ window.addEventListener('load', function loadPage() {
         let lastTexture = {zahl: 0};
         window.addEventListener('click', function (evt) {
             let mousePos = getMousePos(canvas, evt);
-            let mouseVisitor = new mouseClickVisitor(ctx, canvas.width, canvas.height, mousePos, lastTexture);
+            let mouseVisitor = new mouseClickVisitor(ctx, canvas.width, canvas.height, mousePos, lastTexture)
             // lastTexture++;
-            mouseVisitor.render(sg, camera, lightPositions);
+            let {camera, view, inverseView} = cameraVisitor.visit(sg)
+            console.log(origin)
+            mouseVisitor.render(sg, camera, lightPositions, inverseView);
             setupVisitor.setup(sg);
             //visitor.render(sg, camera, camera.lightPositions);
             console.log("TextureCount nach listener: " + lastTexture)
@@ -335,13 +338,6 @@ window.addEventListener('load', function loadPage() {
         function mouseClickedOn(event: { clientX: number; }) {
             let mx = event.clientX - canvas.getBoundingClientRect().left;
         }
-
-        window.addEventListener("dblclick", function(evt){
-            let mousePos = getMousePos(canvas, evt);
-            console.log(mousePos.x, mousePos.y)
-            cameraZoomNodes[0].setXAndY(mousePos.x, mousePos.y)
-            cameraZoomNodes[0].toggleActive()
-        });
     }
 
 

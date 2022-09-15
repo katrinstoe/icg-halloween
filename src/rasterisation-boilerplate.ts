@@ -1,4 +1,4 @@
-import 'bootstrap';
+/*import 'bootstrap';
 import 'bootstrap/scss/bootstrap.scss';
 import Vector from './vector';
 import {
@@ -47,4 +47,4 @@ window.addEventListener('load', () => {
     const visitor = new RasterVisitor(gl, shader, null, setupVisitor.objects);
     shader.load();
     visitor.render(sg, null, []);
-});
+});*/

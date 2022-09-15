@@ -73,14 +73,15 @@ export class RasterVisitor implements Visitor {
   render(
     rootNode: Node,
     camera: Camera | null,
-    lightPositions: Array<Vector>
+    lightPositions: Array<Vector>,
+    view: Matrix
   ) {
     // clear
     this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
 
 
     if (camera) {
-      this.setupCamera(camera, lightPositions);
+      this.setupCamera(camera, lightPositions, view);
     }
 
     // traverse and render
@@ -115,11 +116,8 @@ export class RasterVisitor implements Visitor {
    * @param camera The camera used
    * @param lightPositions the light
    */
-  setupCamera(camera: Camera, lightPositions: Array<Vector>) {
-    this.lookat = Matrix.lookat(
-      camera.eye,
-      camera.center,
-      camera.up);
+  setupCamera(camera: Camera, lightPositions: Array<Vector>, view: Matrix) {
+    this.lookat = view;
     this.perspective = Matrix.perspective(
       camera.fovy,
       camera.aspect,
