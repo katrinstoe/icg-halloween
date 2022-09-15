@@ -17,16 +17,25 @@ import Vector from "../mathOperations/vector";
 import Matrix from "../mathOperations/matrix";
 import Camera from "../Camera/camera";
 
+/**
+ * Klasse, die einen Visitor für die Kamera repräsentiert
+ */
 export class CameraVisitor implements Visitor {
     model: Array<Matrix>
     inverse: Array<Matrix>
     public cameraVectors: Array<Vector>
     public cameraValues: Array<number>
     public lightPositions: Array<Vector>
-    public view: Matrix
-    public inverseView: Matrix
 
-    //cameraNodes: Array<LightNode>
+    /**
+     * Die View Matrix der Kamera
+     */
+    public view: Matrix
+
+    /**
+     * Die Invers Matrix der View Matrix
+     */
+    public inverseView: Matrix
 
 
     constructor() {
@@ -43,6 +52,12 @@ export class CameraVisitor implements Visitor {
     visitTextureVideoBoxNode(node: TextureVideoBoxNode): void {
     }
 
+    /**
+     * Besucht die rootnode und geht dann durch den Szenengraph
+     * @param rootNode die rootnode, die besucht werden soll
+     * @return {camera, view, inverseView} gibt die Kamera, die View Matrix und das Invers
+     * der View Matrix zurück
+     */
     visit(rootNode: Node): {camera: Camera, view: Matrix, inverseView: Matrix}{
         // traverse and render
         this.cameraValues = []
@@ -58,6 +73,11 @@ export class CameraVisitor implements Visitor {
     visitAABoxNode(node: AABoxNode): void {
     }
 
+    /**
+     * besucht eine CameraNode
+     * setzt währenddessen die View Matrix und das Invers der View Matrix
+     * @param node die CameraNode, die besucht werden soll
+     */
     visitCameraNode(node: CameraNode): void {
         let toWorld = Matrix.identity();
         let fromWorld = Matrix.identity();
@@ -85,8 +105,8 @@ export class CameraVisitor implements Visitor {
     }
 
     /**
-     * Visits a group node
-     * @param node The node to visit
+     * Besucht einen Gruppenknoten
+     * @param node der Knoten, der besucht werden soll
      */
     visitGroupNode(node: GroupNode) {
         let children = node.getchildren()

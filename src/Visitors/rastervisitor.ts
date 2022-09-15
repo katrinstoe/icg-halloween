@@ -19,32 +19,13 @@ import Camera from "../Camera/camera";
 import RasterTextureTictactoeBox from "../Geometry/RasterGeometry/raster-texture-tictactoeBox";
 import TextureTextBox from "../Geometry/RasterGeometry/texture-text-box";
 
-/*interface Camera {
-  eye: Vector,
-  center: Vector,
-  up: Vector,
-  fovy: number,
-  aspect: number,
-  near: number,
-  far: number,
-  shininess: number,
-  kS: number,
-  kD: number,
-  kA: number,
-  lightPositions: Array<Vector>
-}*/
-
 export interface Renderable {
   render(shader: Shader): void;
 }
 
 /**
- * Class representing a Visitor that uses Rasterisation
- * to render a Scenegraph
- */
-/**
- * Class representing a Visitor that uses Rasterisation
- * to render a Scenegraph
+ * Klasse, die einen Visitor repräsentiert, der Rasterisation
+ * benutzt um einen Szenengraph zu rendern
  */
 export class RasterVisitor implements Visitor {
   // TODO declare instance variables here
@@ -52,10 +33,11 @@ export class RasterVisitor implements Visitor {
   inverse: Array<Matrix>
 
   /**
-   * Creates a new RasterVisitor
-   * @param gl The 3D context to render to
-   * @param shader The default shader to use
-   * @param textureshader The texture shader to use
+   * Kreiert einen neuen RasterVisitor
+   * @param gl Der 3D Kontext, zu dem gerendert werden soll
+   * @param shader Der default shader, der benutzt werden soll
+   * @param textureshader Der Textur Shader, der benutzt werden soll
+   * @param renderables
    */
   constructor(
       private gl: WebGL2RenderingContext,
@@ -69,10 +51,10 @@ export class RasterVisitor implements Visitor {
   }
 
   /**
-   * Renders the Scenegraph
-   * @param rootNode The root node of the Scenegraph
-   * @param camera The camera used
-   * @param lightPositions The light positions
+   * rendert den Szenengraphen
+   * @param rootNode Die RootNode des Szenengraphen
+   * @param camera Die Kamera, die genutzt wird
+   * @param lightPositions Die Lichtpositionen
    */
   render(
       rootNode: Node,
@@ -93,16 +75,17 @@ export class RasterVisitor implements Visitor {
   }
 
   /**
-   * The view matrix to transform vertices from
-   * the world coordinate system to the
-   * view coordinate system
+   * Die view Matrix die genutzt wird, um die
+   * Eckpunkte vom Welt Koordinatensystem zum
+   * View Koordinatensystem zu transformieren
    */
   private lookat: Matrix;
 
   /**
-   * The perspective matrix to transform vertices from
-   * the view coordinate system to the
-   * normalized device coordinate system
+   * Die perspective Matrix die genutzt wird um die
+   * Eckpunkte vom View Koordinaten System in das
+   * normalisierte device Koordinaten System zu
+   * transformieren
    */
   private perspective: Matrix;
 
@@ -116,9 +99,9 @@ export class RasterVisitor implements Visitor {
 
 
   /**
-   * Helper function to setup camera matrices
-   * @param camera The camera used
-   * @param lightPositions the light
+   * Hilffunktion, um die Kameramatrizen festzulegen
+   * @param camera Die Kamera, die genutzt wird
+   * @param lightPositions Die Lichtpositionen
    */
   setupCamera(camera: Camera, lightPositions: Array<Vector>, view: Matrix) {
     this.lookat = view;
@@ -138,8 +121,8 @@ export class RasterVisitor implements Visitor {
 
 
   /**
-   * Visits a group node
-   * @param node The node to visit
+   * Besucht eine GroupNode
+   * @param node Die Node, die besucht werden soll
    */
   visitGroupNode(node: GroupNode) {
     let children = node.getchildren()
@@ -155,6 +138,11 @@ export class RasterVisitor implements Visitor {
     this.inverse.pop()
   }
 
+  /**
+   * besucht eine ObjectPhongNode
+   * @param shaderForNode der shader, der für die Node genutzt werden soll
+   * @param node die Node, die besucht werden soll
+   */
   visitObjectPhongNode(shaderForNode: Shader, node: Node){
     const shader = shaderForNode;
     shader.use();
@@ -210,58 +198,66 @@ export class RasterVisitor implements Visitor {
   }
 
   /**
-   * Visits a sphere node
-   * @param node The node to visit
+   * Besucht eine SphereNode
+   * @param node Die Node, die besucht werden soll
    */
   visitSphereNode(node: SphereNode) {
     this.visitObjectPhongNode(this.shader, node)
   }
 
   /**
-   * Visits an axis aligned box node
-   * @param  {AABoxNode} node - The node to visit
+   * Besucht eine axis aligned box
+   * @param  {AABoxNode} node Die node, die besucht werden soll
    */
   visitAABoxNode(node: AABoxNode) {
     this.visitObjectPhongNode(this.shader, node)
   }
 
   /**
-   * Visits a textured box node
-   * @param  {TextureBoxNode} node - The node to visit
+   * Besucht eine texturierte Box Node
+   * @param  {TextureBoxNode} node Die Node, die besucht werden soll
    */
   visitTextureBoxNode(node: TextureBoxNode) {
     this.visitObjectPhongNode(this.textureshader, node)
   }
 
   /**
-   * Visits a textured box node
-   * @param  {TextureBoxNode} node - The node to visit
+   * Besucht eine mit einem Video texturierte Box Node
+   * @param  {TextureBoxNode} node Die Node, die besucht werden soll
    */
   visitTextureVideoBoxNode(node: TextureVideoBoxNode) {
     this.visitObjectPhongNode(this.textureshader, node)
   }
 
   /**
-   * Visits a pyramid node
-   * @param node The node to visit
+   * Besucht eine PyramidNode
+   * @param node Die Node, die besucht werden soll
    */
   visitPyramidNode(node: PyramidNode) {
     this.visitObjectPhongNode(this.shader, node)
   }
 
   /**
-   * Visits a textured box node
-   * @param  {TextureBoxNode} node - The node to visit
+   * Besucht eine texturierte PyramidNode
+   * @param  {TextureBoxNode} node die Node, die besucht werden soll
    */
   visitTexturePyramidNode(node: TexturePyramidNode) {
     this.visitObjectPhongNode(this.textureshader, node)
 
   }
 
+  /**
+   * besucht eine mit einem Tic Tac Toe Spiel texturierte Node
+   * @param node die Node, die besucht werden soll
+   */
   visitTicTacToeTextureNode(node: TicTacToeTextureNode): void {
     this.visitObjectPhongNode(this.textureshader, node)
   }
 
+  /**
+   * besucht eine AABox Node, die auf Klick etwas tut
+   * @param node die Node, die besucht werden soll
+   */
   visitAABoxButtonNode(node: AABoxButtonNode): void {
     this.shader.use();
     let shader = this.shader;
@@ -287,6 +283,10 @@ export class RasterVisitor implements Visitor {
     this.renderables.get(node).render(shader);
   }
 
+  /**
+   * besucht eine texturierte Box, die auf Klick etwas tut
+   * @param node die Node, die besucht werden soll
+   */
   visitTextureBoxButtonNode(node: TextureBoxButtonNode): void {
     this.textureshader.use();
     let shader = this.textureshader;
@@ -303,11 +303,29 @@ export class RasterVisitor implements Visitor {
     }
     this.renderables.get(node).render(shader);
   }
+
+  /**
+   * besucht eine CameraNode
+   * hier passiert nichts, da die CameraNode mit dem CameraVisitor
+   * besucht wird
+   * @param node die Node, die besucht werden soll
+   */
   visitCameraNode(node: CameraNode) {
   };
+
+  /**
+   * besucht eine LightNode
+   * hier passiert nichts, da die LightNodes mit dem
+   * LightVisitor besucht werden
+   * @param node die Node, die besucht werden soll
+   */
   visitLightNode(node: LightNode) {
   };
 
+  /**
+   * besucht eine BoxNode, die mit Text texturiert ist
+   * @param node die Node, die besucht werden soll
+   */
   visitTextureTextBoxNode(node: TextureTextBoxNode): void {
     this.visitObjectPhongNode(this.textureshader, node)
   }
