@@ -45,6 +45,7 @@ export class JsonVisitor implements Visitor {
             id: this.nodeId,
             children: childrenArray
         }
+        node.toJSON(object)
         this.jsonStack.set(this.nodeId, object)
         this.nodeId += 1;
 
@@ -64,10 +65,6 @@ export class JsonVisitor implements Visitor {
             type: type,
             id: this.nodeId
         }
-
-        this.jsonStack.set(this.nodeId, object)
-        this.nodeId += 1;
-
         return object
     }
 
@@ -76,43 +73,73 @@ export class JsonVisitor implements Visitor {
     }
 
     visitAABoxNode(node: AABoxNode): void {
-        this.visitObjectNode(node, "AABoxNode")
+        let object = this.visitObjectNode(node, "AABoxNode")
+        node.toJSON(object)
+        this.jsonStack.set(this.nodeId, object)
+        this.nodeId += 1;
     }
 
     visitCameraNode(node: CameraNode): void {
-        this.visitObjectNode(node, "CameraNode")
+        let object = this.visitObjectNode(node, "CameraNode")
+        node.toJSON(object)
+        this.jsonStack.set(this.nodeId, object)
+        this.nodeId += 1;
     }
 
     visitLightNode(node: LightNode): void {
-        this.visitObjectNode(node, "LightNode")
+        let object = this.visitObjectNode(node, "LightNode")
+        node.toJSON(object)
+        this.jsonStack.set(this.nodeId, object)
+        this.nodeId += 1;
     }
 
     visitPyramidNode(node: PyramidNode): void {
-        this.visitObjectNode(node, "PyramidNode")
+        let object = this.visitObjectNode(node, "PyramidNode")
+        node.toJSON(object)
+        this.jsonStack.set(this.nodeId, object)
+        this.nodeId += 1;
     }
 
     visitSphereNode(node: SphereNode): void {
-        this.visitObjectNode(node, "SphereNode")
+        let object = this.visitObjectNode(node, "SphereNode")
+        node.toJSON(object)
+        this.jsonStack.set(this.nodeId, object)
+        this.nodeId += 1;
     }
 
     visitTextureBoxButtonNode(node: TextureBoxButtonNode): void {
-        this.visitObjectNode(node, "TextureBoxButtonNode")
+        let object = this.visitObjectNode(node, "TextureBoxButtonNode")
+        node.toJSON(object)
+        this.jsonStack.set(this.nodeId, object)
+        this.nodeId += 1;
     }
 
     visitTextureBoxNode(node: TextureBoxNode): void {
-        this.visitObjectNode(node, "TextureBoxNode")
+        let object = this.visitObjectNode(node, "TextureBoxNode")
+        node.toJSON(object)
+        this.jsonStack.set(this.nodeId, object)
+        this.nodeId += 1;
     }
 
     visitTexturePyramidNode(node: TexturePyramidNode): void {
-        this.visitObjectNode(node, "TexturePyramidNode")
+        let object = this.visitObjectNode(node, "TexturePyramidNode")
+        node.toJSON(object)
+        this.jsonStack.set(this.nodeId, object)
+        this.nodeId += 1;
     }
 
     visitTextureVideoBoxNode(node: TextureVideoBoxNode): void {
-        this.visitObjectNode(node, "TextureVideoBoxNode")
+        let object = this.visitObjectNode(node, "TextureVideoBoxNode")
+        node.toJSON(object)
+        this.jsonStack.set(this.nodeId, object)
+        this.nodeId += 1;
     }
 
     visitTicTacToeTextureNode(node: TicTacToeTextureNode): void {
-        this.visitObjectNode(node, "TicTacToeTextureNode")
+        let object = this.visitObjectNode(node, "TicTacToeTextureNode")
+        node.toJSON(object)
+        this.jsonStack.set(this.nodeId, object)
+        this.nodeId += 1;
     }
     //Quelle: https://stackoverflow.com/questions/3665115/how-to-create-a-file-in-memory-for-user-to-download-but-not-through-server
     private downloadFile(filename: string, text: string) {

@@ -22,7 +22,7 @@ export default class AABox {
     intersection: Intersection;
 
 
-    // color: Vector;
+     colorForJSON: Vector;
 
     //https://www.scratchapixel.com/lessons/3d-basic-rendering/ray-tracing-rendering-a-triangle/ray-triangle-intersection-geometric-solution
 
@@ -32,6 +32,7 @@ export default class AABox {
      * @param maxPoint The maximum Point
      * @param color The colour of the cube
      */
+
     constructor(public minPoint: Vector, public maxPoint: Vector, public color: Vector) {
         /*
           7----6
@@ -52,6 +53,7 @@ export default class AABox {
             new Vector(maxPoint.x, maxPoint.y, minPoint.z, 1),
             new Vector(minPoint.x, maxPoint.y, minPoint.z, 1)
         ];
+
       // this.vertices =[
       //   minPoint.x, minPoint.y, maxPoint.z,
       //   maxPoint.x, minPoint.y, maxPoint.z,
@@ -85,6 +87,7 @@ export default class AABox {
             4, 5, 1, 1, 0, 4
         ]
         this.color = color;
+        this.colorForJSON = color
 
     }
 
