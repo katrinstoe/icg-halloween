@@ -19,6 +19,7 @@ import Camera from "./Camera/camera";
 import TextureTextBox from "./Geometry/RasterGeometry/texture-text-box";
 
 export default class Scenegraph {
+
     static wuerfelArray: Array<TicTacToeTextureNode> = []
 
 
@@ -50,9 +51,10 @@ export default class Scenegraph {
         const textureGeistText = new TextureBoxNode('Icons/geistText.png');
         const textureKugelText = new TextureBoxNode('Icons/kugelText.png');
         const textureGeisterSchloss = new TextureBoxNode('ghost_castle.jpg');
+
+        //sg
         const sg = new GroupNode(new Rotation(new Vector(0, 0, 1, 0), 0));
         const gnTr = new GroupNode(new Translation(new Vector(-0.75, -0.75, -3, 0)));
-
         sg.add(gnTr);
 
         //Camera
@@ -76,23 +78,7 @@ export default class Scenegraph {
         TaskBarTr.add(TaskBarSc);
         sg.add(TaskBarTr);
 
-
-        /*//HeaderBoxen für Namebeschriftung
-        //Header1: Beschriftung
-        const headerBTextTr = new GroupNode(new Translation(new Vector(-0.3, 0.394, 0, 0)));
-        const headerBTextSc = new GroupNode(new Scaling(new Vector(0.16, 0.09, 0.0001, 0)))
-
-        // headerBTextSc.add(headerBBox)
-        headerBTextSc.add(textureKugelText)
-        // headerBTextSc.add(textureMinimize)
-        headerBTextTr.add(headerBTextSc)
-        headerBTr.add(headerBTextTr)
-        //Header 2: Beschriftung
-        const headerBTextTr2 = new GroupNode(new Translation(new Vector(0.15, 0.394, 0, 0)));
-        const headerBTextSc2 = new GroupNode(new Scaling(new Vector(0.16, 0.09, 0.0001, 0)))
-        */
-
-
+        //Lichter
         let light1 = this.getLight(new Vector(0,0,-0.5,0));
         let light2 = this.getLight(new Vector(0,.2,-0.8,0));
         let light3 = this.getLight(new Vector(0.2,.2,-1,0));
@@ -101,7 +87,7 @@ export default class Scenegraph {
         sg.add(light3)
 
 
-        //Video-Box kann nicht geadded werden, wieso?
+        //Video-Box
         const videoBox = new TextureVideoBoxNode("moon.mp4");
         const videoBoxTr = new GroupNode(new Translation(new Vector(0, 0, -3, 0)));
         const videoBoxSc = new GroupNode(new Scaling(new Vector(3.7, 2.3, 2, 1)));
@@ -117,13 +103,6 @@ export default class Scenegraph {
         driver_Tr.add(driver_Sc)
         sg.add(driver_Tr);
 
-
-
-        const aabox4 = new AABoxNode(new Vector(1, 0, 0, 1));
-        const testButton = new AABoxButtonNode(new Vector(1,0,0,0),() => {
-
-        })
-
         //Spooky Sphere
         const sphere = new SphereNode(new Vector(0.3, 0.05, 0.1, 1));
         const sphere_Tr = new GroupNode(new Translation(new Vector(0, -0.1, 0, 0)))
@@ -138,15 +117,11 @@ export default class Scenegraph {
         TaskBarTr.add(TBWindow1Tr);
 
         //buhuu box
-
-        //test
         const textTextureBox = new TextureTextBoxNode();
-        //const buhuuAABox = new AABoxNode(new Vector(1, 0, 1, 1));
         const buhuuAABoxTr = new GroupNode(new Translation(new Vector(0,0,0.6,1)));
         const buhuuAABoxRty = new GroupNode(new Rotation(new Vector(0, 1, 0, 0), 1));
         const buhuuAABoxRtz = new GroupNode(new Rotation(new Vector(1, 0, 0, 0), 0.5));
         buhuuAABoxRtz.add(textTextureBox);
-        //buhuuAABoxRtz.add(textureGeisterSchloss);
         buhuuAABoxRty.add(buhuuAABoxRtz);
         buhuuAABoxTr.add(buhuuAABoxRty);
 
@@ -156,9 +131,6 @@ export default class Scenegraph {
         TBWindow2Tr.add(window2.ButtonTBTr);
         TaskBarTr.add(TBWindow2Tr);
 
-        //Window3
-        //Hier musst du dann eine Node mit dem TicTacToe machen und die aabox3 damit erseten @katrin
-        const aabox3 = new AABoxNode(new Vector(0.9, 0.9, 0.9, 0));
 
         //TicTacToe
         let emptyTr = new GroupNode(new Translation(new Vector(0,0,0,0)))
@@ -203,27 +175,36 @@ export default class Scenegraph {
         explSc.add(explTexture)
         emptyTr.add(explTr)
         explTr.add(explSc)
-        // resetTr.add(explTr)
         emptyTr.add(tictactoeTr)
 
         let window3 = this.getWindow(new Vector(0.3, 0, -1, 0),emptyTr , "Icons/Matthias.png", 'Icons/transylvaniaTicTacToe.png');
-        // window3.root.add(explTr)
-        // window3.root.add(tictactoeTr)
-
 
         sg.add(window3.root);
         const TBWindow3Tr = new GroupNode(new Translation(new Vector(-0.36,0,0,0)));
         TBWindow3Tr.add(window3.ButtonTBTr);
         TaskBarTr.add(TBWindow3Tr);
 
-        //Window4
+        //Possesed Pyramids
+        //Big Pyramid
         const pyramid = new PyramidNode(new Vector(0.3, 0.05, 0.1, 1));
-        const pyramid_Tr = new GroupNode(new Translation(new Vector(-1,-0.3, 0.6, 0)))
+        const pyramid_Tr = new GroupNode(new Translation(new Vector(-1,-0.3, 0.4, 0)))
         const pyramid_Sc = new GroupNode(new Scaling(new Vector(0.6, 0.6, 0.6, 0)))
         const pyramid_Rt = new GroupNode(new Rotation(new Vector(0, 1, 0, 0),1))
         pyramid_Sc.add(pyramid)
         pyramid_Tr.add(pyramid_Sc)
         pyramid_Rt.add(pyramid_Tr)
+
+        //Small Pyramid
+        const texturePyramid = new TexturePyramidNode('ghost_castle.jpg')
+        const texturePyramid_Tr = new GroupNode(new Translation(new Vector(-1.5,-1, 0.5, 0)))
+        const texturePyramid_Sc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.2, 0)))
+        const texturePyramid_Rt = new GroupNode(new Rotation(new Vector(0, 1, 0, 0),0.3))
+
+        texturePyramid_Sc.add(texturePyramid);
+        texturePyramid_Tr.add(texturePyramid_Sc);
+        texturePyramid_Rt.add(texturePyramid_Tr)
+
+        pyramid_Rt.add(texturePyramid_Rt);
 
         let window4 = this.getWindow(new Vector(0.3, 0.5, -1, 0), pyramid_Rt, "hci-logo.png", 'Icons/posessedPyramid.png');
 
@@ -234,13 +215,9 @@ export default class Scenegraph {
 
 
         let animationNodes = [
-            //new RotationNode(sphereRt, new Vector(0, 0, 1, 0)),
             new RotationNode(light1, new Vector(0, 1, 0, 0)),
             new RotationNode(light2, new Vector(0, 1, 0, 0)),
             new RotationNode(light3, new Vector(0, 0, 1, 0))
-
-            // new RotationNode(kugelTr2, new Vector(0.2, 0.2, -1, 0)),
-            // new RotationNode(lightTr2, new Vector(1, 1, 1, 0)),
         ]
 
         let windowAnimationNodes = [
@@ -250,9 +227,7 @@ export default class Scenegraph {
             window4.minmax,
         ]
 
-
         let driverNodes = [
-            //new RotationNode(cubeSc, new Vector(0,0,1,0)),
             new DriverNode(driver_Tr, new Vector(0.55, -0.48, -1, 0))
         ]
 
@@ -312,6 +287,13 @@ export default class Scenegraph {
         return root
     }
 
+    /**
+     * Returnt eine Window
+     * @param vec Position des Windows
+     * @param inhalt des Windows
+     * @param texturButtonTB Textur des Buttons auf der TaskBar
+     * @param headerTextTB Textur des Headers
+     */
     static getWindow(vec: Vector, inhalt: Node, texturButtonTB: string, headerTextTB: string){
 
         let root = new GroupNode(new Translation(new Vector(0,0,0,0)));
@@ -383,10 +365,8 @@ export default class Scenegraph {
         windowPosition.add(windowSize);
         root.add(windowPosition);
 
-
         return {root, minmax, ButtonTBTr};
     }
-
 };
 
 export type scenegraphObject={
