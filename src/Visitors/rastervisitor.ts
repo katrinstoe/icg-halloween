@@ -1,22 +1,23 @@
-import RasterSphere from '../Geometry/RasterGeometry/raster-sphere';
-import RasterBox from '../Geometry/RasterGeometry/raster-box';
-import RasterTextureBox from '../Geometry/RasterGeometry/raster-texture-box';
 import Vector from '../mathOperations/vector';
 import Matrix from '../mathOperations/matrix';
 import Visitor from './visitor';
 import {
-  Node, GroupNode,
-  SphereNode, AABoxNode,
-  TextureBoxNode, PyramidNode, CameraNode, LightNode, TexturePyramidNode
-  , TextureVideoBoxNode, AABoxButtonNode, TextureBoxButtonNode, TicTacToeTextureNode
+  AABoxButtonNode,
+  AABoxNode, AnimationNode,
+  CameraNode,
+  GroupNode,
+  LightNode,
+  Node,
+  PyramidNode,
+  SphereNode,
+  TextureBoxButtonNode,
+  TextureBoxNode,
+  TexturePyramidNode,
+  TextureVideoBoxNode,
+  TicTacToeTextureNode
 } from '../Nodes/nodes';
 import Shader from '../Shaders/shader';
-import RasterPyramid from "../Geometry/RasterGeometry/raster-pyramid";
-import RasterTexturePyramid from "../Geometry/RasterGeometry/raster-texture-pyramid";
-import {LightVisitor} from "./lightVisitor";
-import TextureVideoBox from "../Geometry/RasterGeometry/texture-video-box";
 import Camera from "../Camera/camera";
-import RasterTextureTictactoeBox from "../Geometry/RasterGeometry/raster-texture-tictactoeBox";
 
 /*interface Camera {
   eye: Vector,
@@ -303,4 +304,6 @@ export class RasterVisitor implements Visitor {
   };
   visitLightNode(node: LightNode) {
   };
+  visitAnimationNode(node: AnimationNode) {
+  }
 }

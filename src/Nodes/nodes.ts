@@ -364,5 +364,18 @@ export class TicTacToeTextureNode extends Node{
 }
 
 export class AnimationNode extends Node{
+  children: Array<Node>;
 
+  constructor(public animationNode: AnimationNode) {
+    super();
+    this.children = new Array<Node>();
+  }
+
+  accept(visitor: Visitor) {
+    visitor.visitAnimationNode(this)
+  }
+
+  public toJSON(object: any){
+    object['node'] = this.animationNode
+  }
 }

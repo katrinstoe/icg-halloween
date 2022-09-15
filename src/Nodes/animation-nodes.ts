@@ -1,5 +1,5 @@
 import Vector from '../mathOperations/vector';
-import { GroupNode } from './nodes';
+import {GroupNode, Node} from './nodes';
 import {Rotation, Scaling, SQT, Translation} from '../mathOperations/transformation';
 import Quaternion from '../mathOperations/quaternion';
 import Matrix from "../mathOperations/matrix";
@@ -7,7 +7,7 @@ import Matrix from "../mathOperations/matrix";
 /**
  * Class representing an Animation
  */
-export class AnimationNode {
+export class AnimationNode extends Node{
   /**
    * Describes if the animation is running
    */
@@ -18,6 +18,7 @@ export class AnimationNode {
    * @param groupNode The GroupNode to attach to
    */
   constructor(public groupNode: GroupNode) {
+    super();
     this.active = true;
   }
 

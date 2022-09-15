@@ -1,7 +1,7 @@
 import Visitor from "./visitor";
 import {
     AABoxButtonNode,
-    AABoxNode,
+    AABoxNode, AnimationNode,
     CameraNode,
     GroupNode,
     LightNode, Node,
@@ -170,6 +170,9 @@ export class JsonVisitor implements Visitor {
         } else {
             return jsonStack;
         }
+    }
+
+    visitAnimationNode(node: AnimationNode): void {
     }
 }
 

@@ -1,6 +1,6 @@
 import {
     AABoxButtonNode,
-    AABoxNode, CameraNode,
+    AABoxNode, AnimationNode, CameraNode,
     GroupNode, LightNode,
     Node,
     PyramidNode,
@@ -215,4 +215,7 @@ export class RasterSetupVisitor {
     };
     visitLightNode(node: LightNode) {
     };
+    visitAnimationNode(node: AnimationNode){
+
+    }
 }

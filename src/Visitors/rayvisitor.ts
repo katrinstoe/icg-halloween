@@ -17,7 +17,8 @@ import {
     TexturePyramidNode,
     AABoxButtonNode,
     TextureBoxButtonNode,
-    TicTacToeTextureNode
+    TicTacToeTextureNode,
+    AnimationNode
 } from '../Nodes/nodes';
 import AABox from '../Geometry/RayGeometry/aabox';
 import Pyramid from "../Geometry/RayGeometry/pyramid";
@@ -26,7 +27,7 @@ import Camera from "../Camera/camera";
 
 const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1));
 const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.5, 0.5, 1), new Vector(0, 0, 0, 1));
-const UNIT_PYRAMID = new Pyramid(new Vector(-1, -1, -1, 1), new Vector(1 , -1, 0, 1), new Vector(-1, -1, 1, 1), new Vector(-0.25, 1, 0, 1), new Vector(1, 0, 0,1))
+const UNIT_PYRAMID = new Pyramid(new Vector(-1, -1, -1, 1), new Vector(1, -1, 0, 1), new Vector(-1, -1, 1, 1), new Vector(-0.25, 1, 0, 1), new Vector(1, 0, 0, 1))
 
 /**
  * Class representing a Visitor that uses
@@ -58,6 +59,9 @@ export default class RayVisitor implements Visitor {
         height: number
     ) {
         this.imageData = context.getImageData(0, 0, width, height);
+    }
+
+    visitAnimationNode(node: AnimationNode): void {
     }
 
     /**

@@ -1,7 +1,7 @@
 import Visitor from "./visitor";
 import {
     AABoxButtonNode,
-    AABoxNode,
+    AABoxNode, AnimationNode,
     CameraNode,
     GroupNode,
     LightNode,
@@ -107,5 +107,8 @@ export class CameraVisitor implements Visitor {
     }
 
     visitAABoxButtonNode(node: AABoxButtonNode) {
+    }
+
+    visitAnimationNode(node: AnimationNode): void {
     }
 }

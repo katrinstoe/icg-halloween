@@ -10,7 +10,7 @@ import {
     AABoxNode, TextureBoxNode, PyramidNode, CameraNode, LightNode, TexturePyramidNode
     , TextureVideoBoxNode,
     AABoxButtonNode,
-    TextureBoxButtonNode, TicTacToeTextureNode
+    TextureBoxButtonNode, TicTacToeTextureNode, AnimationNode
 } from '../Nodes/nodes';
 import AABox from '../Geometry/RayGeometry/aabox';
 import Pyramid from "../Geometry/RayGeometry/pyramid";
@@ -337,6 +337,9 @@ export default class mouseClickVisitor implements Visitor {
             }
 
         }
+    }
+
+    visitAnimationNode(node: AnimationNode): void {
     }
 
 }

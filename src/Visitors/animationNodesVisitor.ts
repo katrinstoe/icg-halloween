@@ -15,6 +15,7 @@ import {
 } from "../Nodes/nodes";
 import Matrix from "../mathOperations/matrix";
 import Vector from "../mathOperations/vector";
+import {AnimationNode} from "../Nodes/animation-nodes";
 
 export class AnimationNodesVisitor implements Visitor{
     traverse: Array<Matrix>
@@ -61,6 +62,10 @@ export class AnimationNodesVisitor implements Visitor{
     }
 
     visitTicTacToeTextureNode(node: TicTacToeTextureNode): void {
+    }
+
+    // @ts-ignore
+    visitAnimationNode(node: AnimationNode): void {
     }
 
 }

@@ -2,6 +2,7 @@ import Visitor from "./visitor";
 import {
     AABoxButtonNode,
     AABoxNode,
+    AnimationNode,
     CameraNode,
     GroupNode,
     LightNode,
@@ -25,6 +26,9 @@ export class LightVisitor implements Visitor {
     constructor() {
         this.model = new Array<Matrix>(Matrix.identity())
         this.inverse = new Array<Matrix>(Matrix.identity())
+    }
+
+    visitAnimationNode(node: AnimationNode): void {
     }
 
     visitTextureVideoBoxNode(node: TextureVideoBoxNode): void {
