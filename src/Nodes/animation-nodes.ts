@@ -9,20 +9,21 @@ import Quaternion from "../mathOperations/quaternion";
 
 export class AnimationNode {
   /**
-   * Describes if the animation is running
+   * Beschreibt, ob die Animation läuft
    */
   active: boolean;
 
   /**
-   * Creates a new AnimationNode
-   * @param groupNode The GroupNode to attach to
+   * Kreiert eine neue AnimationNode
+   * @param groupNode Die GroupNode, an die die
+   * AnimationNode angefügt werden soll
    */
   constructor(public groupNode: GroupNode) {
     this.active = true;
   }
 
   /**
-   * Toggles the active state of the animation node
+   * Ändert den Aktiv-Status der AnimationNode
    */
   toggleActive() {
     this.active = !this.active;
@@ -31,23 +32,25 @@ export class AnimationNode {
 }
 
 /**
- * Class representing a Rotation Animation
+ * Klasse, die eine Rotations Animation repräsentiert
  * @extends AnimationNode
  */
 export class RotationNode extends AnimationNode {
   /**
-   * The absolute angle of the rotation
+   * Der absolute Winkel der Rotation
    */
   angle: number;
   /**
-   * The vector to rotate around
+   * Der Vector, um den herum rotiert werden soll
    */
   axis: Vector;
 
   /**
-   * Creates a new RotationNode
-   * @param groupNode The group node to attach to
-   * @param axis The axis to rotate around
+   * Kreiert eine neue RotationNode
+   * @param groupNode Die GroupNode, an die die
+   * AnimationNode angefügt werden soll
+   * @param axis Die Achse, um die rotiert werden
+   * soll
    */
   constructor(groupNode: GroupNode, axis: Vector) {
     super(groupNode);
@@ -56,8 +59,9 @@ export class RotationNode extends AnimationNode {
   }
 
   /**
-   * Advances the animation by deltaT
-   * @param deltaT The time difference, the animation is advanced by
+   * Treibt die Animation um deltaT voran
+   * @param deltaT Der Zeitunterschied, um den die Animation
+   * vorangetrieben wird
    */
   simulate(deltaT: number) {
 
@@ -69,24 +73,29 @@ export class RotationNode extends AnimationNode {
 }
 
 /**
- * Class representing a Rotation Animation
+ * Klasse, die eine Rotations Animation mithilfe von Slerp
+ * repräsentiert
  * @extends AnimationNode
  */
 export class SlerpNode extends AnimationNode {
   /**
-   * The time
+   * Die Zeit
    */
   t: number;
 
   /**
-   * The rotations to interpolate between
+   * Die Rotationen, zwischen denen interpoliert
+   * werden soll
    */
   rotations: [Quaternion, Quaternion];
 
   /**
-   * Creates a new RotationNode
-   * @param groupNode The group node to attach to
-   * @param axis The axis to rotate around
+   * Kreiert eine neue RotationNode
+   * @param groupNode Die GroupNode, an die die
+   * AnimationNode angefügt werden soll
+   * @param rotation1 die 1. Rotation
+   * soll
+   * @param rotation2 die 2. Rotation
    */
   constructor(groupNode: GroupNode, rotation1: Quaternion, rotation2: Quaternion) {
     super(groupNode);
@@ -94,10 +103,10 @@ export class SlerpNode extends AnimationNode {
     this.t = 0;
   }
 
-  /**
-   * Advances the animation by deltaT
-   * @param deltaT The time difference, the animation is advanced by
-   */
+  /** Treibt die Animation um deltaT voran
+   * @param deltaT Der Zeitunterschied, um den die Animation
+   * vorangetrieben wird
+  */
   simulate(deltaT: number) {
     if (this.active) {
       this.t += 0.001 * deltaT;
@@ -109,20 +118,21 @@ export class SlerpNode extends AnimationNode {
 }
 
 /**
- * Class representing a Scaler Animation
+ * Klasse, die eine ScalerAnimation repräsentiert
  * @extends AnimationNode
  */
 export class ScalerNode extends AnimationNode {
   /**
-   * The vector to scale along
+   * Der Vector, an dem entlang gescalet wird
    */
   vector: Vector;
   zoom: String;
 
   /**
-   * Creates a new ScalerNode
-   * @param groupNode The group node to attach to
-   * @param vector The vector to scale along
+   * Kreiert eine neue ScalerNode
+   * @param groupNode Die GroupNode, an die die
+   * AnimationNode angefügt werden soll
+   * @param vector Der Vector, an dem entlang gescalet wird
    */
   constructor(groupNode: GroupNode, vector: Vector) {
     super(groupNode);
@@ -132,8 +142,9 @@ export class ScalerNode extends AnimationNode {
   }
 
   /**
-   * Advances the animation by deltaT
-   * @param deltaT The time difference, the animation is advanced by
+   * Treibt die Animation um deltaT voran
+   * @param deltaT Der Zeitunterschied, um den die Animation
+   * vorangetrieben wird
    */
   simulate(deltaT: number) {
 
@@ -153,24 +164,37 @@ export class ScalerNode extends AnimationNode {
   }
 }
 
+
+/**
+ * Klasse die eine Scaler Animation mit maximaler
+ * und minimaler Größe repräsentiert
+ */
 export class MinMaxNode extends AnimationNode {
   /**
-   * The vector to scale along
+   * Der Vector, an dem entlang gescalet wird
    */
   vector: Vector;
   zoom: String;
   limit = 3000;
   currentlimit = 0;
+  /**
+   * Die Startgröße
+   */
   startSize = new Vector(0.5,0.5,0.5,0);
+
+  /**
+   * Die Endgröße
+   */
   endSize = new Vector(1,1,1,0);
   factor: number;
 
 
   /**
-   * Creates a new ScalerNode
-   * @param groupNode The group node to attach to
-   * @param startSize
-   * @param endSize
+   * Kreiert eine neue MinMaxNode
+   * @param groupNode Die GroupNode, an die die
+   * AnimationNode angefügt werden soll
+   * @param startSize die Startgröße
+   * @param endSize die Endgröße
    */
   constructor(groupNode: GroupNode, startSize: Vector, endSize: Vector, duration: number) {
     super(groupNode);
@@ -183,8 +207,9 @@ export class MinMaxNode extends AnimationNode {
   }
 
   /**
-   * Advances the animation by deltaT
-   * @param deltaT The time difference, the animation is advanced by
+   * Treibt die Animation um deltaT voran
+   * @param deltaT Der Zeitunterschied, um den die Animation
+   * vorangetrieben wird
    */
   simulate(deltaT: number) {
     if (this.active){
@@ -203,15 +228,9 @@ export class MinMaxNode extends AnimationNode {
     if (this.active) {
       if (this.zoom == "in") {
         this.vector = this.endSize.mul(this.factor).add(this.startSize.mul(1-this.factor));
-        /*this.vector.x += this.startSize.x * (this.factor) + this.endSize.x * (1-this.factor);
-        this.vector.y += this.startSize.y * (this.factor) + this.endSize.y * (1-this.factor);
-        this.vector.z += this.startSize.z * (this.factor) + this.endSize.z * (1-this.factor);*/
       }
       if (this.zoom == "out") {
         this.vector = this.startSize.mul(this.factor).add(this.endSize.mul(1-this.factor));
-        /*this.vector.x -= 0.001 * deltaT
-        this.vector.y -= 0.001 * deltaT
-        this.vector.z -= 0.001 * deltaT*/
       }
       this.groupNode.transform = new Scaling(this.vector);
     }
@@ -220,20 +239,27 @@ export class MinMaxNode extends AnimationNode {
 
 
 /**
- * Class representing a Mover Animation
+ * Klasse, die eine Driver Animation repräsentiert
+ * Die Klasse kann auch als Translator Node genutzt werden,
+ * je nachdem ob und wie man User Input handelt
  * @extends AnimationNode
  */
 export class DriverNode extends AnimationNode {
   /**
-   * The vector to move along
+   * Der Vector, von dem aus bewegt wird
    */
   vector: Vector;
+
+  /**
+   * Die Richtung, in die das Object bewegt werden soll
+   */
   direction: String;
 
   /**
-   * Creates a new MoverNode
-   * @param groupNode The group node to attach to
-   * @param vector The vector to move along
+   * Kreiert eine neue DriverNode
+   * @param groupNode Die GroupNode, an die die
+   * AnimationNode angefügt werden soll
+   * @param vector der Vector, von dem aus bewegt wird
    */
   constructor(groupNode: GroupNode, vector: Vector) {
     super(groupNode);
@@ -243,8 +269,9 @@ export class DriverNode extends AnimationNode {
   }
 
   /**
-   * Advances the animation by deltaT
-   * @param deltaT The time difference, the animation is advanced by
+   * Treibt die Animation um deltaT voran
+   * @param deltaT Der Zeitunterschied, um den die Animation
+   * vorangetrieben wird
    */
   simulate(deltaT: number) {
 
@@ -260,58 +287,6 @@ export class DriverNode extends AnimationNode {
       }
       if(this.direction == "right"){
         this.vector.x += 0.001 * deltaT;
-      }
-      if(this.direction == "in"){
-        this.vector.z -= 0.001 * deltaT;
-      }
-      if(this.direction == "out"){
-        this.vector.z += 0.001 * deltaT;
-      }
-      this.groupNode.transform = new Translation(this.vector);
-    }
-  }
-}
-/**
- * Class representing a Mover Animation
- * @extends AnimationNode
- */
-export class TranslatorNode extends AnimationNode {
-  /**
-   * The vector to move along
-   */
-  vector: Vector;
-  direction: String;
-
-  /**
-   * Creates a new MoverNode
-   * @param groupNode The group node to attach to
-   * @param vector The vector to move along
-   */
-  constructor(groupNode: GroupNode, vector: Vector, direction: String) {
-    super(groupNode);
-    this.vector = vector;
-    this.active = false;
-    this.direction = direction
-  }
-
-  /**
-   * Advances the animation by deltaT
-   * @param deltaT The time difference, the animation is advanced by
-   */
-  simulate(deltaT: number) {
-
-    if(this.active){
-      if(this.direction == "up"){
-        this.vector.y += 0.001 * deltaT;
-      }
-      if(this.direction == "down"){
-        this.vector.y -= 0.001 * deltaT;
-      }
-      if(this.direction == "left"){
-        this.vector.x += 0.001 * deltaT;
-      }
-      if(this.direction == "right"){
-        this.vector.x -= 0.001 * deltaT;
       }
       if(this.direction == "in"){
         this.vector.z -= 0.001 * deltaT;

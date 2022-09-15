@@ -14,13 +14,14 @@ import {
 } from "./Nodes/nodes";
 import {Rotation, Scaling, Translation} from "./mathOperations/transformation";
 import Vector from "./mathOperations/vector";
-import {AnimationNode, DriverNode, MinMaxNode, RotationNode, ScalerNode, TranslatorNode} from "./Nodes/animation-nodes";
+import {AnimationNode, DriverNode, MinMaxNode, RotationNode, ScalerNode} from "./Nodes/animation-nodes";
 import Camera from "./Camera/camera";
 import TextureTextBox from "./Geometry/RasterGeometry/texture-text-box";
 
 export default class Scenegraph {
 
     static wuerfelArray: Array<TicTacToeTextureNode> = []
+
 
     static getScenegraph() {
 
