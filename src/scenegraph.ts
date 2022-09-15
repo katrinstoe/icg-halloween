@@ -116,11 +116,11 @@ export default class Scenegraph {
         TaskBarTr.add(TBWindow1Tr);
 
         //buhuu box
-        const textTextureBox = new TextureTextBoxNode();
+        const buhuuBox = new TextureTextBoxNode();
         const buhuuAABoxTr = new GroupNode(new Translation(new Vector(0,0,0.6,1)));
         const buhuuAABoxRty = new GroupNode(new Rotation(new Vector(0, 1, 0, 0), 1));
         const buhuuAABoxRtz = new GroupNode(new Rotation(new Vector(1, 0, 0, 0), 0.5));
-        buhuuAABoxRtz.add(textTextureBox);
+        buhuuAABoxRtz.add(buhuuBox);
         buhuuAABoxRty.add(buhuuAABoxRtz);
         buhuuAABoxTr.add(buhuuAABoxRty);
 
@@ -214,6 +214,7 @@ export default class Scenegraph {
 
 
         let animationNodes = [
+            new RotationNode(buhuuAABoxRtz, new Vector(1,0,0,0)),
             new RotationNode(light1, new Vector(0, 1, 0, 0)),
             new RotationNode(light2, new Vector(0, 1, 0, 0)),
             new RotationNode(light3, new Vector(0, 0, 1, 0))
