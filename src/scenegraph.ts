@@ -16,6 +16,7 @@ import {Rotation, Scaling, Translation} from "./transformation";
 import Vector from "./vector";
 import {AnimationNode, DriverNode, MinMaxNode, RotationNode, ScalerNode} from "./animation-nodes";
 import Camera from "./camera";
+import {CameraDriverNode, CameraZoomNode} from "./camera-animation-nodes";
 
 export default class Scenegraph {
     static wuerfelArray: Array<TicTacToeTextureNode> = []
@@ -248,11 +249,22 @@ export default class Scenegraph {
         let scalerNodes = [
             new ScalerNode(driver_Tr, new Vector(0.1, 0.1, 0.1, 1))
         ]
+
+        let cameraDriverNodes = [
+            new CameraDriverNode(nodeCamera)
+        ]
+
+        let cameraZoomNodes = [
+            new CameraZoomNode(nodeCamera)
+        ]
+
         return {
             sg,
             animationNodes,
             driverNodes,
             scalerNodes,
+            cameraDriverNodes,
+            cameraZoomNodes,
             gl,
             ctx,
             kAElement,
@@ -498,6 +510,8 @@ export type scenegraphObject={
     animationNodes: AnimationNode[],
     driverNodes: DriverNode[],
     scalerNodes: ScalerNode[],
+    cameraDriverNodes: CameraDriverNode[],
+    cameraZoomNodes: CameraZoomNode[],
     gl: HTMLCanvasElement,
     ctx: HTMLCanvasElement,
     kAElement: HTMLInputElement,

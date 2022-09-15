@@ -23,6 +23,7 @@ export class CameraVisitor implements Visitor {
     public cameraVectors: Array<Vector>
     public cameraValues: Array<number>
     public lightPositions: Array<Vector>
+    cameraPosition: Matrix
 
     //cameraNodes: Array<LightNode>
 

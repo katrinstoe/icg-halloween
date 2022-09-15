@@ -17,6 +17,7 @@ import {LightVisitor} from "./lightVisitor";
 import TextureVideoBox from "./texture-video-box";
 import Camera from "./camera";
 import RasterTextureTictactoeBox from "./raster-texture-tictactoeBox";
+import {CameraVisitor} from "./cameraVisitor";
 
 /*interface Camera {
   eye: Vector,
@@ -555,6 +556,7 @@ export class RasterVisitor implements Visitor {
 
 
   visitCameraNode(node: CameraNode) {
+
   };
   visitLightNode(node: LightNode) {
   };

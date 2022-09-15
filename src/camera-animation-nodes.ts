@@ -103,6 +103,14 @@ export class CameraDriverNode extends CameraAnimationNode {
         this.cameraNode.camera.eye.x += 0.001 * deltaT
         this.cameraNode.camera.center.x += 0.001 * deltaT
       }
+      if(this.direction == "in"){
+        this.cameraNode.camera.eye.z -= 0.001 * deltaT
+        this.cameraNode.camera.center.z -= 0.001 * deltaT
+      }
+      if(this.direction == "out"){
+        this.cameraNode.camera.eye.z += 0.001 * deltaT
+        this.cameraNode.camera.center.z += 0.001 * deltaT
+      }
       //this.groupNode.transform = new Translation(this.vector);
     }
   }
@@ -117,8 +125,58 @@ export class CameraTranslatorNode extends CameraAnimationNode{
   }
 
   simulate(deltaT: number){
-    this.cameraNode.camera.eye.x += 0.001*deltaT
-    this.cameraNode.camera.center.x += 0.001*deltaT
+    if(this.active){
+      this.cameraNode.camera.eye.x += 0.001*deltaT
+      this.cameraNode.camera.center.x += 0.001*deltaT
+    }
+
   }
 
+}
+
+export class CameraZoomNode extends CameraAnimationNode{
+  cameraNode: CameraNode
+  x = 0
+  y = 0
+  constructor(cameraNode: CameraNode){
+    super(cameraNode)
+    this.active = false;
+    this.cameraNode = cameraNode;
+  }
+
+  simulate(deltaT: number){
+    if(this.active){
+      if(this.x < 300){
+        this.cameraNode.camera.eye.x -= 0.001*deltaT
+        this.cameraNode.camera.center.x -= 0.001*deltaT
+      }
+      if(this.x > 300){
+        this.cameraNode.camera.eye.x += 0.001*deltaT
+        this.cameraNode.camera.center.x += 0.001*deltaT
+      }
+      if(this.y < 300){
+        this.cameraNode.camera.eye.y += 0.001*deltaT
+        this.cameraNode.camera.center.y += 0.001*deltaT
+      }
+      if(this.y > 300){
+        this.cameraNode.camera.eye.y -= 0.001*deltaT
+        this.cameraNode.camera.center.y -= 0.001*deltaT
+      }
+
+        this.cameraNode.camera.eye.z -= 0.001 * deltaT
+        this.cameraNode.camera.center.z -= 0.001 * deltaT
+      console.log(this.cameraNode.camera.eye.z)
+      if(this.cameraNode.camera.eye.z  < -0.3){
+        this.active = false;
+      }
+    }
+
+  }
+
+  setXAndY(x: number, y: number){
+    this.x = x
+    console.log(this.x)
+    this.y = y
+    console.log(this.y)
+  }
 }
