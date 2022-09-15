@@ -12,11 +12,9 @@
     <title>ICG Index</title>
     <link rel="icon" type="image/png" href="hci-logo.png">
     <link rel="icon" type="image/png" href="geist.png">
-    <!--    <link rel="icon" type="image/png" href="Icons/minimize.png">-->
 
     <script type="text/javascript" src="index.bundle.js"></script>
 </head>
-<!--<body class="d-flex flex-column min-vh-100">-->
 <body>
 
 <video width="350" height="250" controls>
@@ -26,7 +24,6 @@
 <nav class="navbar navbar-light bg-light px-2 mx-2">
     <a class="navbar-brand" href="/index.html">
         <img src="geist.png" width="30" height="30" class="d-inline-block align-top" alt="">
-        <!--        <img src="Icons/minimize.svg" width="30" height="30" class="d-inline-block align-top" alt="">-->
     </a>
 
 
@@ -35,7 +32,7 @@
             <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
             <label class="btn btn-outline-dark" for="btnradio1">Rasterizer</label>
 
-            <input type="radio" class="btn-check" name="btnradio" id="btnradio2"   autocomplete="off">
+            <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
             <label class="btn btn-outline-dark" for="btnradio2">RayTracer</label>
         </div>
         <div class="dropdown mx-2">
@@ -55,22 +52,11 @@
         </div>
     </div>
 </nav>
-<!--TODO: rechts davon checkboxes für Rasterizer und Rasterisierer-->
-<!--<br>-->
-<!--kinda tacky but it works-->
 <div class="container-fluid">
-    <!--    <div class="bg-light d-flex align-items-center justify-items-center">-->
-    <!--        <div class="me-auto "><h5 class="text-center">This is a cute scenegraph <3</h5></div>-->
-    <!--        <div class="btn-group">-->
-    <!--            <button class="btn btn-minimize d-flex justify-content-center align-items-center" type="button">-->
-    <!--                <img class="text-center" src="/Icons/minimize.svg" alt="min" height="10px" width="20px">-->
-    <!--            </button>-->
-    <!--            <button class="btn btn-close" type="button" aria-label="close"></button>-->
-    <!--        </div>-->
-    <!--    </div>-->
     <div class="zeichenflaeche d-flex justify-content-center">
         <div class="figure justify-content-center align-items-center">
             <figure class="figure d-flex justify-content-center">
+                <canvas id="textureCanvas"></canvas>
                 <canvas id="rasteriser" class="canvas mx-auto d-block rounded"
                         style="position: absolute; left: 900px; z-index: 1; top: 50px;" width="800"
                         height="800"></canvas>
@@ -111,26 +97,5 @@
         <label for="lightPositionX">1</label>
     </div>
 </div>
-
-
-<!--<footer class="mt-auto">-->
-<!--    <div class="navbar navbar-fixed-bottom justify-content-center">-->
-<!--        <div class="btn-group outline-light" role="group" aria-label="Basic checkbox toggle button group">-->
-<!--            <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off">-->
-<!--            <label class="btn btn-outline-light" for="btncheck1"><img src="/Icons/Flaeche1.svg" alt="note1"-->
-<!--                                                                      height="40px" width="40px"></label>-->
-<!--            &lt;!&ndash;            https://fonts.google.com/icons?icon.query=note+add&icon.style=Outlined + Katrin in Illustrator geändert&ndash;&gt;-->
-<!--            <input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off">-->
-<!--            <label class="btn btn-outline-light" for="btncheck2"><img src="/Icons/Flaeche2.svg" alt="note2"-->
-<!--                                                                      height="40px" width="40px"></label>-->
-<!--            &lt;!&ndash;            https://fonts.google.com/icons?icon.query=note+add&icon.style=Outlined + Katrin in Illustrator geändert&ndash;&gt;-->
-<!--            <input type="checkbox" class="btn-check" id="btncheck3" autocomplete="off">-->
-<!--            <label class="btn btn-outline-light" for="btncheck3"><img-->
-<!--                    src="/Icons/noteAdd.svg" alt="addIcon" height="40px" width="40px"></label>-->
-<!--            &lt;!&ndash;            https://fonts.google.com/icons?icon.query=note+add&icon.style=Outlined&ndash;&gt;-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    </div>-->
-<!--</footer>-->
 </body>
 </html>

@@ -78,6 +78,11 @@ window.addEventListener('load', function loadPage() {
         textureFragmentShader
     );
 
+
+
+
+
+
     const lightPositionsVisitor = new LightVisitor
     let lightPositions = lightPositionsVisitor.visit(sg)
     console.log(lightPositions)
@@ -301,3 +306,5 @@ window.addEventListener('load', function loadPage() {
         location.reload()
     });
 });
+
+

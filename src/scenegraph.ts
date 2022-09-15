@@ -40,6 +40,18 @@ export default class Scenegraph {
         const gl = canvas.getContext("webgl2");
         const ctx = canvas2.getContext("2d");
 
+        var textcanvas = document.getElementById('textureCanvas') as HTMLCanvasElement;
+        var textctx = canvas.getContext('2d');
+
+        ctx.fillStyle = "#333333"; 	// This determines the text colour, it can take a hex value or rgba value (e.g. rgba(255,0,0,0.5))
+        ctx.textAlign = "center";	// This determines the alignment of text, e.g. left, center, right
+        ctx.textBaseline = "middle";	// This determines the baseline of the text, e.g. top, middle, bottom
+        ctx.font = "12px monospace";
+
+        textctx.fillText("Hello World", textcanvas.width/2, textcanvas.height/2);
+
+        //const TextTexture = new TextureBoxNode(textcanvas);
+
         //Texturen
         const textureGeist = new TextureBoxNode('geist.png');
         const textureHCILogo = new TextureBoxNode('hci-logo.png');
@@ -492,6 +504,12 @@ export default class Scenegraph {
     }
 
 };
+
+function initTexture(canvas: HTMLCanvasElement) {
+    let gl = canvas.getContext("webgl");
+    let canvasTexture = gl.createTexture();
+    //handleLoadedTexture(canvasTexture, document.getElementById('textureCanvas'));
+}
 
 export type scenegraphObject={
     sg: Node,
