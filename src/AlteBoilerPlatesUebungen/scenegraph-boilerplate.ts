@@ -1,4 +1,4 @@
-import 'bootstrap';
+/*import 'bootstrap';
 import 'bootstrap/scss/bootstrap.scss';
 import Vector from '../mathOperations/vector';
 import {GroupNode, SphereNode} from '../Nodes/nodes';
@@ -50,7 +50,7 @@ window.addEventListener('load', () => {
         kD: kD,
         kA: kA
     }*/
-    const camera = new Camera(new Vector(0, 0, 0, 1),
+ /*   const camera = new Camera(new Vector(0, 0, 0, 1),
         new Vector(0, 0, 0, 1),
         new Vector(0, 0, -1, 1),
         new Vector(0, 1, 0, 0),
@@ -95,4 +95,4 @@ window.addEventListener('load', () => {
         "click", startAnimation);
     document.getElementById("stopAnimationBtn").addEventListener(
         "click", () => cancelAnimationFrame(animationHandle));
-});
+});*/

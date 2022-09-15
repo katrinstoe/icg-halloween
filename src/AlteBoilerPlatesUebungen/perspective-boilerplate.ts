@@ -1,4 +1,4 @@
-import 'bootstrap';
+/*import 'bootstrap';
 import 'bootstrap/scss/bootstrap.scss';
 import Vector from '../mathOperations/vector';
 import {
@@ -97,3 +97,5 @@ window.addEventListener('load', () => {
     shader.load()
     window.requestAnimationFrame(animate);
 });
+
+*/

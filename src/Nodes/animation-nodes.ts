@@ -1,8 +1,9 @@
-import Vector from '../mathOperations/vector';
-import { GroupNode } from './nodes';
-import {Rotation, Scaling, SQT, Translation} from '../mathOperations/transformation';
-import Quaternion from '../mathOperations/quaternion';
-import Matrix from "../mathOperations/matrix";
+import Vector from './vector';
+import {CameraNode, GroupNode} from './nodes';
+import {Rotation, Scaling, SQT, Translation} from './transformation';
+import Quaternion from './quaternion';
+import Matrix from "./matrix";
+import Camera from "./camera";
 
 /**
  * Class representing an Animation
@@ -261,6 +262,12 @@ export class DriverNode extends AnimationNode {
       if(this.direction == "right"){
         this.vector.x += 0.001 * deltaT;
       }
+      if(this.direction == "in"){
+        this.vector.z -= 0.001 * deltaT;
+      }
+      if(this.direction == "out"){
+        this.vector.z += 0.001 * deltaT;
+      }
       this.groupNode.transform = new Translation(this.vector);
     }
   }
@@ -306,6 +313,12 @@ export class TranslatorNode extends AnimationNode {
       }
       if(this.direction == "right"){
         this.vector.x -= 0.001 * deltaT;
+      }
+      if(this.direction == "in"){
+        this.vector.z -= 0.001 * deltaT;
+      }
+      if(this.direction == "out"){
+        this.vector.z += 0.001 * deltaT;
       }
       this.groupNode.transform = new Translation(this.vector);
     }

@@ -1,6 +1,6 @@
 import 'bootstrap';
 import 'bootstrap/scss/bootstrap.scss';
-import Vector from './mathOperations/vector';
+import Vector from './vector';
 import {
     GroupNode,
     SphereNode,
@@ -56,6 +56,8 @@ window.addEventListener('load', function loadPage() {
         scalerNodes,
         driverNodes,
         animationNodes,
+        cameraDriverNodes,
+        windowAnimationNodes,
         gl,
         ctx,
         kDElement,
@@ -78,21 +80,17 @@ window.addEventListener('load', function loadPage() {
         textureFragmentShader
     );
 
-
-
-
-
-
     const lightPositionsVisitor = new LightVisitor
     let lightPositions = lightPositionsVisitor.visit(sg)
     console.log(lightPositions)
     const cameraVisitor = new CameraVisitor
-    let camera = cameraVisitor.visit(sg)
+    let {camera, view} = cameraVisitor.visit(sg)
+    console.log(origin)
 
     let setupVisitor = new RasterSetupVisitor(gl, lightPositions)
     let rasterVisitor = new RasterVisitor(gl, phongShader, textureShader, setupVisitor.objects)
     let rayVisitor = new RayVisitorSupaFast(ctx, canvas.width, canvas.height)
-    let visitor: RayVisitorSupaFast | RasterVisitor
+    let visitor: RayVisitorSupaFast|RasterVisitor
 
     let renderer = localStorage.getItem("renderer")
     console.log(renderer)
@@ -166,6 +164,15 @@ window.addEventListener('load', function loadPage() {
             for (let scalerNode of scalerNodes) {
                 scalerNode.simulate(deltaT);
             }
+
+            for (let cameraDriverNode of cameraDriverNodes){
+                cameraDriverNode.simulate(deltaT);
+            }
+
+            for (let windowAnimationNode of windowAnimationNodes){
+                windowAnimationNode.simulate(deltaT)
+            }
+
         }
 
         let lastTimestamp = performance.now();
@@ -173,7 +180,8 @@ window.addEventListener('load', function loadPage() {
 
         function animate(timestamp: number) {
             simulate((timestamp - lastTimestamp) / 10);
-            visitor.render(sg, camera, lightPositions);
+            let {camera, view} = cameraVisitor.visit(sg)
+            visitor.render(sg, camera, lightPositions, view);
             lastTimestamp = timestamp;
             window.requestAnimationFrame(animate);
         }
@@ -233,6 +241,30 @@ window.addEventListener('load', function loadPage() {
                     scalerNodes[0].zoom = "out"
                     scalerNodes[0].active = true;
                     break;
+                case "w":
+                    cameraDriverNodes[0].direction = "down"
+                    cameraDriverNodes[0].active = true;
+                    break;
+                case "a":
+                    cameraDriverNodes[0].direction = "right"
+                    cameraDriverNodes[0].active = true;
+                    break;
+                case "s":
+                    cameraDriverNodes[0].direction = "up"
+                    cameraDriverNodes[0].active = true;
+                    break;
+                case "d":
+                    cameraDriverNodes[0].direction = "left"
+                    cameraDriverNodes[0].active = true;
+                    break;
+                case "y":
+                    cameraDriverNodes[0].direction = "in"
+                    cameraDriverNodes[0].active = true;
+                    break;
+                case "x":
+                    cameraDriverNodes[0].direction = "out"
+                    cameraDriverNodes[0].active = true;
+                    break;
                 case "1":
                     for (let animationNode of animationNodes) {
                         animationNode.toggleActive();
@@ -240,6 +272,7 @@ window.addEventListener('load', function loadPage() {
                     break;
             }
         });
+
         window.addEventListener('keyup', function (event) {
             switch (event.key) {
                 case "ArrowLeft":
@@ -260,6 +293,24 @@ window.addEventListener('load', function loadPage() {
                 case "-":
                     scalerNodes[0].active = false;
                     break;
+                case "w":
+                    cameraDriverNodes[0].active = false;
+                    break;
+                case "a":
+                    cameraDriverNodes[0].active = false;
+                    break;
+                case "s":
+                    cameraDriverNodes[0].active = false;
+                    break;
+                case "d":
+                    cameraDriverNodes[0].active = false;
+                    break;
+                case "y":
+                    cameraDriverNodes[0].active = false;
+                    break;
+                case "x":
+                    cameraDriverNodes[0].active = false;
+                    break;
             }
         });
 
@@ -274,8 +325,10 @@ window.addEventListener('load', function loadPage() {
         let lastTexture = {zahl: 0};
         window.addEventListener('click', function (evt) {
             let mousePos = getMousePos(canvas, evt);
-            let mouseVisitor = new mouseClickVisitor(ctx, canvas.width, canvas.height, mousePos, lastTexture);
-            mouseVisitor.render(sg, camera, lightPositions);
+            let mouseVisitor = new mouseClickVisitor(ctx, canvas.width, canvas.height, mousePos, lastTexture)
+            let {camera, view, inverseView} = cameraVisitor.visit(sg)
+            console.log(origin)
+            mouseVisitor.render(sg, camera, lightPositions, inverseView);
             setupVisitor.setup(sg);
             console.log("TextureCount nach listener: " + lastTexture)
         }, false);
@@ -306,5 +359,3 @@ window.addEventListener('load', function loadPage() {
         location.reload()
     });
 });
-
-

@@ -23,6 +23,8 @@ export class CameraVisitor implements Visitor {
     public cameraVectors: Array<Vector>
     public cameraValues: Array<number>
     public lightPositions: Array<Vector>
+    public view: Matrix
+    public inverseView: Matrix
 
     //cameraNodes: Array<LightNode>
 
@@ -41,20 +43,32 @@ export class CameraVisitor implements Visitor {
     visitTextureVideoBoxNode(node: TextureVideoBoxNode): void {
     }
 
-    visit(rootNode: Node): Camera {
+    visit(rootNode: Node): {camera: Camera, view: Matrix, inverseView: Matrix}{
         // traverse and render
         this.cameraValues = []
         this.cameraVectors = []
         this.lightPositions = []
         rootNode.accept(this);
         let camera = new Camera(this.cameraVectors[0], this.cameraVectors[1], this.cameraVectors[2], this.cameraVectors[3], this.cameraValues[0], this.cameraValues[1], this.cameraValues[2], this.cameraValues[3], this.cameraValues[4], this.cameraValues[5], this.cameraValues[6], this.cameraValues[7], this.cameraValues[8])
-        return camera
+        let view = this.view
+        let inverseView = this.inverseView
+        return {camera, view, inverseView}
     }
 
     visitAABoxNode(node: AABoxNode): void {
     }
 
     visitCameraNode(node: CameraNode): void {
+        let toWorld = Matrix.identity();
+        let fromWorld = Matrix.identity();
+
+        // TODO Calculate the model matrix for the sphere
+        toWorld = this.model[this.model.length - 1];
+        fromWorld = this.inverse[this.inverse.length - 1];
+
+        this.view = toWorld
+        this.inverseView = fromWorld
+
         this.cameraVectors.push(node.camera.origin)
         this.cameraVectors.push(node.camera.eye)
         this.cameraVectors.push(node.camera.center)

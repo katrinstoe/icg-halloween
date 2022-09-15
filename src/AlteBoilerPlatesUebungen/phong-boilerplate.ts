@@ -1,4 +1,4 @@
-import 'bootstrap';
+/*import 'bootstrap';
 import 'bootstrap/scss/bootstrap.scss';
 import Vector from '../mathOperations/vector';
 import Sphere from '../Geometry/RayGeometry/sphere';
@@ -76,4 +76,4 @@ window.addEventListener('load', () => {
     shininess = Number(shininessElement.value);
 
     window.requestAnimationFrame(animate);
-});
+});*/

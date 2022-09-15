@@ -1,4 +1,4 @@
-import 'bootstrap';
+/*import 'bootstrap';
 import 'bootstrap/scss/bootstrap.scss';
 import Ray from '../RayTracing/ray';
 import phong from '../RayTracing/phong';
@@ -131,4 +131,4 @@ window.addEventListener('load', () => {
             elem.onchange(new Event("click"));
         }
     }
-});
+});*/

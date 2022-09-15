@@ -54,11 +54,24 @@ export default class mouseClickVisitor implements Visitor {
         width: number,
         height: number,
         //übergebener mouseray
-        mousePos: { x: number; y: number }, lastTexture: {zahl: number}) {
+        mousePos: { x: number; y: number },
+        lastTexture: {zahl: number}
+    ) {
         this.imageData = context.getImageData(0, 0, width, height);
-        this.mousePos = mousePos;
-        this.lastTexture = lastTexture;
+        let x = 0
+        let y = 0
+        this.mousePos = mousePos
+        this.lastTexture = lastTexture
+        //this.lastTexture = lastTexture;
         //added
+    }
+
+    setMousePos(mousePos: { x: number; y: number }){
+        this.mousePos = mousePos
+    }
+
+    setLastTexture(lastTexture: {zahl: number}){
+        this.lastTexture = lastTexture
     }
 
     visitAABoxButtonNode(node: AABoxButtonNode): void {
@@ -121,12 +134,14 @@ export default class mouseClickVisitor implements Visitor {
     render(
         rootNode: Node,
         camera: Camera,
-        lightPositions: Array<Vector>
+        lightPositions: Array<Vector>,
+        inverseView: Matrix
     ) {
         // clear
         let data = this.imageData.data;
         data.fill(0);
         // raytrace
+        console.log(origin)
         const width = this.imageData.width;
         const height = this.imageData.height;
         this.ray = Ray.makeRay(this.mousePos.x, this.mousePos.y, camera);
@@ -134,6 +149,8 @@ export default class mouseClickVisitor implements Visitor {
         this.model = new Array<Matrix>(Matrix.identity())
         this.inverse = new Array<Matrix>(Matrix.identity())
         this.intersection = null;
+        this.ray.direction = inverseView.mulVec(this.ray.direction)
+        this.ray.origin = inverseView.mulVec(this.ray.origin)
         rootNode.accept(this);
         // this.intersection wird in den visit methoden überschrieben --> nach rootNode.accept(this) ist in this.intersection die gesuchte Intersection gespeichert
         // TODO object manipulation einbauen; Manipulation passiert auch in den visit Methoden

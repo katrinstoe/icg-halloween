@@ -23,7 +23,7 @@ export default class Ray {
                            camera: Camera
   ): Ray {
     // TODO
-    let origin = new Vector(0, 0, 0, 1)
+    let origin = new Vector(0,0,0,1)
     let x_d = x-((camera.width-1)/2);
     let y_d = ((camera.height-1)/2) - y;
     let z_d = (-((camera.width/2)/Math.tan(camera.alpha/2)));

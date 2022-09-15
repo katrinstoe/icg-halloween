@@ -1,4 +1,4 @@
-import 'bootstrap';
+/*import 'bootstrap';
 import 'bootstrap/scss/bootstrap.scss';
 import Vector from '../mathOperations/vector';
 import {
@@ -123,4 +123,4 @@ window.addEventListener('load', () => {
                 break;
         }
     });
-});
+});*/

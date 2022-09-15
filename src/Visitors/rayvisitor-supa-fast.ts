@@ -66,7 +66,8 @@ export default class RayVisitorSupaFast implements Visitor {
     render(
         rootNode: Node,
         camera: Camera,
-        lightPositions: Array<Vector>
+        lightPositions: Array<Vector>,
+        view: Matrix
     ) {
         this.leafNodeAndPositionsList = []
         // clear
