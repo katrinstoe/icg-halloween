@@ -8,7 +8,7 @@ import {
   Node, GroupNode,
   SphereNode, AABoxNode,
   TextureBoxNode, PyramidNode, CameraNode, LightNode, TexturePyramidNode
-  , TextureVideoBoxNode, AABoxButtonNode, TextureBoxButtonNode, TicTacToeTextureNode
+  , TextureVideoBoxNode, AABoxButtonNode, TextureBoxButtonNode, TicTacToeTextureNode, TextureTextBoxNode
 } from '../Nodes/nodes';
 import Shader from '../Shaders/shader';
 import RasterPyramid from "../Geometry/RasterGeometry/raster-pyramid";
@@ -17,6 +17,7 @@ import {LightVisitor} from "./lightVisitor";
 import TextureVideoBox from "../Geometry/RasterGeometry/texture-video-box";
 import Camera from "../Camera/camera";
 import RasterTextureTictactoeBox from "../Geometry/RasterGeometry/raster-texture-tictactoeBox";
+import TextureTextBox from "../Geometry/RasterGeometry/texture-text-box";
 
 /*interface Camera {
   eye: Vector,
@@ -303,4 +304,8 @@ export class RasterVisitor implements Visitor {
   };
   visitLightNode(node: LightNode) {
   };
+
+  visitTextureTextBoxNode(node: TextureTextBoxNode): void {
+    this.visitObjectPhongNode(this.textureshader, node)
+  }
 }

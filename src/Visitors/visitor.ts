@@ -7,10 +7,11 @@ import {
     LightNode,
     CameraNode,
     TexturePyramidNode,
-    TextureVideoBoxNode, AABoxButtonNode, TextureBoxButtonNode, TicTacToeTextureNode
+    TextureVideoBoxNode, AABoxButtonNode, TextureBoxButtonNode, TicTacToeTextureNode, TextureTextBoxNode
 } from '../Nodes/nodes';
 import RasterTexturePyramid from "../Geometry/RasterGeometry/raster-texture-pyramid";
 import TextureVideoBox from "../Geometry/RasterGeometry/texture-video-box";
+import TextureTextBox from "../Geometry/RasterGeometry/texture-text-box";
 
 export default interface Visitor {
     visitGroupNode(node: GroupNode): void;
@@ -25,4 +26,5 @@ export default interface Visitor {
     visitAABoxButtonNode(node: AABoxButtonNode): void;
     visitTextureBoxButtonNode(node: TextureBoxButtonNode): void;
     visitTicTacToeTextureNode(node: TicTacToeTextureNode): void;
+    visitTextureTextBoxNode(node: TextureTextBoxNode): void;
 }

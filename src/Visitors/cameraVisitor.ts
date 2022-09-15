@@ -9,7 +9,7 @@ import {
     PyramidNode,
     SphereNode, TextureBoxButtonNode,
     TextureBoxNode,
-    TexturePyramidNode,
+    TexturePyramidNode, TextureTextBoxNode,
     TextureVideoBoxNode,
     TicTacToeTextureNode
 } from "../Nodes/nodes";
@@ -30,6 +30,9 @@ export class CameraVisitor implements Visitor {
     constructor() {
         this.model = new Array<Matrix>(Matrix.identity())
         this.inverse = new Array<Matrix>(Matrix.identity())
+    }
+
+    visitTextureTextBoxNode(node: TextureTextBoxNode): void {
     }
 
     visitTicTacToeTextureNode(node: TicTacToeTextureNode): void {

@@ -9,13 +9,14 @@ import {
     SphereNode,
     TextureBoxButtonNode,
     TextureBoxNode,
-    TexturePyramidNode,
+    TexturePyramidNode, TextureTextBoxNode,
     TextureVideoBoxNode, TicTacToeTextureNode,
 } from "./Nodes/nodes";
 import {Rotation, Scaling, Translation} from "./mathOperations/transformation";
 import Vector from "./mathOperations/vector";
 import {AnimationNode, DriverNode, MinMaxNode, RotationNode, ScalerNode} from "./Nodes/animation-nodes";
 import Camera from "./Camera/camera";
+import TextureTextBox from "./Geometry/RasterGeometry/texture-text-box";
 
 export default class Scenegraph {
     static wuerfelArray: Array<TicTacToeTextureNode> = []
@@ -40,17 +41,8 @@ export default class Scenegraph {
         const gl = canvas.getContext("webgl2");
         const ctx = canvas2.getContext("2d");
 
-        var textcanvas = document.getElementById('textureCanvas') as HTMLCanvasElement;
-        var textctx = canvas.getContext('2d');
 
-        ctx.fillStyle = "#333333"; 	// This determines the text colour, it can take a hex value or rgba value (e.g. rgba(255,0,0,0.5))
-        ctx.textAlign = "center";	// This determines the alignment of text, e.g. left, center, right
-        ctx.textBaseline = "middle";	// This determines the baseline of the text, e.g. top, middle, bottom
-        ctx.font = "12px monospace";
 
-        textctx.fillText("Hello World", textcanvas.width/2, textcanvas.height/2);
-
-        //const TextTexture = new TextureBoxNode(textcanvas);
 
         //Texturen
         const textureGeist = new TextureBoxNode('geist.png');
@@ -60,10 +52,13 @@ export default class Scenegraph {
         const textureGeistText = new TextureBoxNode('Icons/geistText.png');
         const textureKugelText = new TextureBoxNode('Icons/kugelText.png');
         const textureGeisterSchloss = new TextureBoxNode('ghost_castle.jpg');
+
         const sg = new GroupNode(new Rotation(new Vector(0, 0, 1, 0), 0));
         const gnTr = new GroupNode(new Translation(new Vector(-0.75, -0.75, -3, 0)));
 
         sg.add(gnTr);
+
+
 
         //Camera
         const sgcamera = new Camera(new Vector(0, 0, 0, 1),
@@ -146,12 +141,15 @@ export default class Scenegraph {
         TaskBarTr.add(TBWindow1Tr) ;
 
         //buhuu box
-        const buhuuAABox = new AABoxNode(new Vector(1, 0, 1, 1));
+
+        //test
+        const textTextureBox = new TextureTextBoxNode();
+        //const buhuuAABox = new AABoxNode(new Vector(1, 0, 1, 1));
         const buhuuAABoxTr = new GroupNode(new Translation(new Vector(0,0,0.6,1)));
         const buhuuAABoxRty = new GroupNode(new Rotation(new Vector(0, 1, 0, 0), 1));
         const buhuuAABoxRtz = new GroupNode(new Rotation(new Vector(1, 0, 0, 0), 0.5));
-        buhuuAABoxRtz.add(buhuuAABox);
-        buhuuAABoxRtz.add(textureGeisterSchloss);
+        buhuuAABoxRtz.add(textTextureBox);
+        //buhuuAABoxRtz.add(textureGeisterSchloss);
         buhuuAABoxRty.add(buhuuAABoxRtz);
         buhuuAABoxTr.add(buhuuAABoxRty);
 

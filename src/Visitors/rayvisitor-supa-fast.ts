@@ -9,7 +9,7 @@ import {
     SphereNode,
     TextureBoxButtonNode,
     TextureBoxNode,
-    TexturePyramidNode,
+    TexturePyramidNode, TextureTextBoxNode,
     TextureVideoBoxNode,
     TicTacToeTextureNode
 } from "../Nodes/nodes";
@@ -185,6 +185,9 @@ export default class RayVisitorSupaFast implements Visitor {
             object: objectGeometry
         }
         this.leafNodeAndPositionsList.push(object)
+    }
+
+    visitTextureTextBoxNode(node: TextureTextBoxNode): void {
     }
 
 };

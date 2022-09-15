@@ -10,12 +10,13 @@ import {
     AABoxNode, TextureBoxNode, PyramidNode, CameraNode, LightNode, TexturePyramidNode
     , TextureVideoBoxNode,
     AABoxButtonNode,
-    TextureBoxButtonNode, TicTacToeTextureNode
+    TextureBoxButtonNode, TicTacToeTextureNode, TextureTextBoxNode
 } from '../Nodes/nodes';
 import AABox from '../Geometry/RayGeometry/aabox';
 import Pyramid from "../Geometry/RayGeometry/pyramid";
 import Camera from "../Camera/camera";
 import Scenegraph from "../scenegraph";
+import TextureTextBox from "../Geometry/RasterGeometry/texture-text-box";
 
 const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1));
 const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.5, 0.5, 1), new Vector(0, 0, 0, 1));
@@ -338,6 +339,9 @@ export default class mouseClickVisitor implements Visitor {
             }
 
         }
+    }
+
+    visitTextureTextBoxNode(node: TextureTextBoxNode): void {
     }
 
 }

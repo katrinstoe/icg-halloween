@@ -17,7 +17,7 @@ import {
     TexturePyramidNode,
     AABoxButtonNode,
     TextureBoxButtonNode,
-    TicTacToeTextureNode
+    TicTacToeTextureNode, TextureTextBoxNode
 } from '../Nodes/nodes';
 import AABox from '../Geometry/RayGeometry/aabox';
 import Pyramid from "../Geometry/RayGeometry/pyramid";
@@ -282,5 +282,8 @@ export default class RayVisitor implements Visitor {
     }
 
     visitTicTacToeTextureNode(node: TicTacToeTextureNode): void {
+    }
+
+    visitTextureTextBoxNode(node: TextureTextBoxNode): void {
     }
 }
