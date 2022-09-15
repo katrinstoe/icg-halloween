@@ -17,13 +17,21 @@ import {
     TexturePyramidNode,
     AABoxButtonNode,
     TextureBoxButtonNode,
-    TicTacToeTextureNode,
-    AnimationNode
+    TicTacToeTextureNode
 } from '../Nodes/nodes';
 import AABox from '../Geometry/RayGeometry/aabox';
 import Pyramid from "../Geometry/RayGeometry/pyramid";
 import RasterTexturePyramid from "../Geometry/RasterGeometry/raster-texture-pyramid";
 import Camera from "../Camera/camera";
+import {
+    RotationNode,
+    SlerpNode,
+    ScalerNode,
+    MinMaxNode,
+    DriverNode,
+    TranslatorNode,
+    AnimationNode
+} from '../Nodes/animation-nodes';
 
 const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1));
 const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.5, 0.5, 1), new Vector(0, 0, 0, 1));
@@ -61,7 +69,27 @@ export default class RayVisitor implements Visitor {
         this.imageData = context.getImageData(0, 0, width, height);
     }
 
+    visitRotationNode(node: RotationNode): void {
+        throw new Error('Method not implemented.');
+    }
+    visitSlerpNode(node: SlerpNode): void {
+        throw new Error('Method not implemented.');
+    }
+    visitScalerNode(node: ScalerNode): void {
+        throw new Error('Method not implemented.');
+    }
+    visitMinMaxNode(node: MinMaxNode): void {
+        throw new Error('Method not implemented.');
+    }
+    visitDriverNode(node: DriverNode): void {
+        throw new Error('Method not implemented.');
+    }
+    visitTranslatorNode(node: TranslatorNode): void {
+        throw new Error('Method not implemented.');
+    }
+
     visitAnimationNode(node: AnimationNode): void {
+        node.groupNode.accept(this)
     }
 
     /**

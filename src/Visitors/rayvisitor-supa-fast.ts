@@ -1,7 +1,7 @@
 import Visitor from "./visitor";
 import {
     AABoxButtonNode,
-    AABoxNode, AnimationNode,
+    AABoxNode,
     CameraNode,
     GroupNode,
     LightNode, Node,
@@ -23,6 +23,15 @@ import Ray from "../RayTracing/ray";
 import phong from "../RayTracing/phong";
 import Intersection from "../RayTracing/intersection";
 import Camera from "../Camera/camera";
+import {
+    AnimationNode,
+    DriverNode,
+    MinMaxNode,
+    RotationNode,
+    ScalerNode,
+    SlerpNode,
+    TranslatorNode
+} from "../Nodes/animation-nodes";
 
 
 const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1));
@@ -187,6 +196,24 @@ export default class RayVisitorSupaFast implements Visitor {
     }
 
     visitAnimationNode(node: AnimationNode): void {
+    }
+
+    visitDriverNode(node: DriverNode): void {
+    }
+
+    visitMinMaxNode(node: MinMaxNode): void {
+    }
+
+    visitRotationNode(node: RotationNode): void {
+    }
+
+    visitScalerNode(node: ScalerNode): void {
+    }
+
+    visitSlerpNode(node: SlerpNode): void {
+    }
+
+    visitTranslatorNode(node: TranslatorNode): void {
     }
 
 };

@@ -2,7 +2,6 @@ import Visitor from "./visitor";
 import {
     AABoxButtonNode,
     AABoxNode,
-    AnimationNode,
     CameraNode,
     GroupNode,
     LightNode,
@@ -15,6 +14,7 @@ import {
 } from "../Nodes/nodes";
 import Vector from "../mathOperations/vector";
 import Matrix from "../mathOperations/matrix";
+import {AnimationNode, DriverNode, MinMaxNode, RotationNode, ScalerNode, SlerpNode, TranslatorNode} from "../Nodes/animation-nodes";
 
 export class LightVisitor implements Visitor {
     model: Array<Matrix>
@@ -26,6 +26,19 @@ export class LightVisitor implements Visitor {
     constructor() {
         this.model = new Array<Matrix>(Matrix.identity())
         this.inverse = new Array<Matrix>(Matrix.identity())
+    }
+
+    visitRotationNode(node: RotationNode): void {
+    }
+    visitSlerpNode(node: SlerpNode): void {
+    }
+    visitScalerNode(node: ScalerNode): void {
+    }
+    visitMinMaxNode(node: MinMaxNode): void {
+    }
+    visitDriverNode(node: DriverNode): void {
+    }
+    visitTranslatorNode(node: TranslatorNode): void {
     }
 
     visitAnimationNode(node: AnimationNode): void {

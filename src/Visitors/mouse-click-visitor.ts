@@ -10,12 +10,21 @@ import {
     AABoxNode, TextureBoxNode, PyramidNode, CameraNode, LightNode, TexturePyramidNode
     , TextureVideoBoxNode,
     AABoxButtonNode,
-    TextureBoxButtonNode, TicTacToeTextureNode, AnimationNode
+    TextureBoxButtonNode, TicTacToeTextureNode
 } from '../Nodes/nodes';
 import AABox from '../Geometry/RayGeometry/aabox';
 import Pyramid from "../Geometry/RayGeometry/pyramid";
 import Camera from "../Camera/camera";
 import Scenegraph from "../scenegraph";
+import {
+    AnimationNode,
+    DriverNode,
+    MinMaxNode,
+    RotationNode,
+    ScalerNode,
+    SlerpNode,
+    TranslatorNode
+} from "../Nodes/animation-nodes";
 
 const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1));
 const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.5, 0.5, 1), new Vector(0, 0, 0, 1));
@@ -342,6 +351,23 @@ export default class mouseClickVisitor implements Visitor {
     visitAnimationNode(node: AnimationNode): void {
     }
 
+    visitDriverNode(node: DriverNode): void {
+    }
+
+    visitMinMaxNode(node: MinMaxNode): void {
+    }
+
+    visitRotationNode(node: RotationNode): void {
+    }
+
+    visitScalerNode(node: ScalerNode): void {
+    }
+
+    visitSlerpNode(node: SlerpNode): void {
+    }
+
+    visitTranslatorNode(node: TranslatorNode): void {
+    }
 }
 
 //https://stackoverflow.com/questions/6211613/testing-whether-a-value-is-odd-or-even

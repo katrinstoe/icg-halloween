@@ -1,6 +1,6 @@
 import {
     AABoxButtonNode,
-    AABoxNode, AnimationNode, CameraNode,
+    AABoxNode, CameraNode,
     GroupNode, LightNode,
     Node,
     PyramidNode,
@@ -18,6 +18,15 @@ import RasterPyramid from "../Geometry/RasterGeometry/raster-pyramid";
 import RasterTexturePyramid from "../Geometry/RasterGeometry/raster-texture-pyramid";
 import RasterTextureTictactoeBox from "../Geometry/RasterGeometry/raster-texture-tictactoeBox";
 import {Renderable} from "./rastervisitor";
+import {
+    AnimationNode,
+    DriverNode,
+    MinMaxNode,
+    RotationNode,
+    ScalerNode,
+    SlerpNode,
+    TranslatorNode
+} from "../Nodes/animation-nodes";
 
 /**
  * Class representing a Visitor that sets up buffers
@@ -215,7 +224,26 @@ export class RasterSetupVisitor {
     };
     visitLightNode(node: LightNode) {
     };
-    visitAnimationNode(node: AnimationNode){
 
+    visitAnimationNode(node: AnimationNode): void {
+        node.groupNode.accept(this)
+    }
+    visitRotationNode(node: RotationNode){
+        this.visitAnimationNode(node)
+    }
+    visitSlerpNode(node: SlerpNode){
+        this.visitAnimationNode(node)
+    }
+    visitScalerNode(node: ScalerNode){
+        this.visitAnimationNode(node)
+    }
+    visitMinMaxNode(node: MinMaxNode){
+        this.visitAnimationNode(node)
+    }
+    visitDriverNode(node: DriverNode){
+        this.visitAnimationNode(node)
+    }
+    visitTranslatorNode(node: TranslatorNode){
+        this.visitAnimationNode(node)
     }
 }

@@ -3,7 +3,7 @@ import Matrix from '../mathOperations/matrix';
 import Visitor from './visitor';
 import {
   AABoxButtonNode,
-  AABoxNode, AnimationNode,
+  AABoxNode,
   CameraNode,
   GroupNode,
   LightNode,
@@ -18,6 +18,15 @@ import {
 } from '../Nodes/nodes';
 import Shader from '../Shaders/shader';
 import Camera from "../Camera/camera";
+import {
+  AnimationNode,
+  DriverNode,
+  MinMaxNode,
+  RotationNode,
+  ScalerNode,
+  SlerpNode,
+  TranslatorNode
+} from "../Nodes/animation-nodes";
 
 /*interface Camera {
   eye: Vector,
@@ -42,7 +51,7 @@ export interface Renderable {
  * Class representing a Visitor that uses Rasterisation
  * to render a Scenegraph
  */
-export class RasterVisitor implements Visitor {
+export class RasterVisitor extends Visitor {
   // TODO declare instance variables here
   model: Array<Matrix>
   inverse: Array<Matrix>
@@ -60,6 +69,7 @@ export class RasterVisitor implements Visitor {
     private renderables: WeakMap<Node, Renderable>
   ) {
     // TODO setup
+    super()
     this.model = new Array<Matrix>(Matrix.identity())
     this.inverse = new Array<Matrix>(Matrix.identity())
   }
@@ -304,6 +314,6 @@ export class RasterVisitor implements Visitor {
   };
   visitLightNode(node: LightNode) {
   };
-  visitAnimationNode(node: AnimationNode) {
-  }
+
+
 }

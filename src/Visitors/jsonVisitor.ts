@@ -1,10 +1,11 @@
 import Visitor from "./visitor";
 import {
     AABoxButtonNode,
-    AABoxNode, AnimationNode,
+    AABoxNode,
     CameraNode,
     GroupNode,
-    LightNode, Node,
+    LightNode,
+    Node,
     PyramidNode,
     SphereNode,
     TextureBoxButtonNode,
@@ -14,22 +15,36 @@ import {
     TicTacToeTextureNode
 } from "../Nodes/nodes";
 import Matrix from "../mathOperations/matrix";
-import Vector from "../mathOperations/vector";
+import {
+    AnimationNode,
+    DriverNode,
+    MinMaxNode,
+    RotationNode,
+    ScalerNode,
+    SlerpNode,
+    TranslatorNode
+} from "../Nodes/animation-nodes";
 
 export class JsonVisitor implements Visitor {
     traverse: Array<Matrix>
     inverse: Array<Matrix>
     jsonStack: Map<number, any>
     relationShipStack: Array<number>
+    // childArray: Array<number>
     nodeId: number
 
     constructor() {
         this.traverse = new Array<Matrix>(Matrix.identity())
         this.inverse = new Array<Matrix>(Matrix.identity())
-        this.nodeId = 0;
+        // this.nodeId = 0;
         this.jsonStack = new Map<number, any>()
-        this.relationShipStack = []
+        this.jsonStack.set(0,{children: []})
+
+        this.relationShipStack = [0]
+        this.nodeId = 0
     }
+
+
 
     visit(rootNode: Node) {
         rootNode.accept(this);
@@ -37,17 +52,22 @@ export class JsonVisitor implements Visitor {
 
 
     visitGroupNode(node: GroupNode) {
-        let children = node.getchildren()
-        this.relationShipStack.push(this.nodeId)
+        const id = this.nextId()
         let childrenArray: number[] = []
+        let children = node.getchildren()
+        const parent = this.relationShipStack[this.relationShipStack.length-1];
+        this.jsonStack.get(parent).children.push(id)
+        this.relationShipStack.push(id)
+
         let object = {
-            type: "GroupNode",
-            id: this.nodeId,
-            children: childrenArray
+            id: id,
+            // @ts-ignore
+            children: []
         }
         node.toJSON(object)
-        this.jsonStack.set(this.nodeId, object)
-        this.nodeId += 1;
+        this.jsonStack.set(id, object)
+        // this.checkForAnimationNode(node, object)
+        // node.id += 1;
 
         for (let child of children) {
             child.accept(this)
@@ -56,91 +76,86 @@ export class JsonVisitor implements Visitor {
 
     }
 
-    visitObjectNode(node: Node, type: string): object {
-
+    visitObjectNode(node: Node) {
+        const id = this.nextId()
         const parent = this.relationShipStack[this.relationShipStack.length-1];
-        this.jsonStack.get(parent).children.push(this.nodeId)
-        let object = {
-            child: "ChildNode",
-            type: type,
-            id: this.nodeId
-        }
-        return object
+        this.jsonStack.get(parent).children.push(id)
+        let object = {}
+        node.toJSON(object)
+        this.jsonStack.set(id, object)
+        return id
     }
 
     visitAABoxButtonNode(node: AABoxButtonNode): void {
-        this.visitObjectNode(node, "AABoxButton")
+        this.visitObjectNode(node)
     }
 
     visitAABoxNode(node: AABoxNode): void {
-        let object = this.visitObjectNode(node, "AABoxNode")
-        node.toJSON(object)
-        this.jsonStack.set(this.nodeId, object)
-        this.nodeId += 1;
+        this.visitObjectNode(node)
     }
 
     visitCameraNode(node: CameraNode): void {
-        let object = this.visitObjectNode(node, "CameraNode")
-        node.toJSON(object)
-        this.jsonStack.set(this.nodeId, object)
-        this.nodeId += 1;
+        this.visitObjectNode(node)
     }
 
     visitLightNode(node: LightNode): void {
-        let object = this.visitObjectNode(node, "LightNode")
-        node.toJSON(object)
-        this.jsonStack.set(this.nodeId, object)
-        this.nodeId += 1;
+        this.visitObjectNode(node)
     }
 
     visitPyramidNode(node: PyramidNode): void {
-        let object = this.visitObjectNode(node, "PyramidNode")
-        node.toJSON(object)
-        this.jsonStack.set(this.nodeId, object)
-        this.nodeId += 1;
+        this.visitObjectNode(node)
     }
 
     visitSphereNode(node: SphereNode): void {
-        let object = this.visitObjectNode(node, "SphereNode")
-        node.toJSON(object)
-        this.jsonStack.set(this.nodeId, object)
-        this.nodeId += 1;
+        this.visitObjectNode(node)
     }
 
     visitTextureBoxButtonNode(node: TextureBoxButtonNode): void {
-        let object = this.visitObjectNode(node, "TextureBoxButtonNode")
-        node.toJSON(object)
-        this.jsonStack.set(this.nodeId, object)
-        this.nodeId += 1;
+        this.visitObjectNode(node)
     }
 
     visitTextureBoxNode(node: TextureBoxNode): void {
-        let object = this.visitObjectNode(node, "TextureBoxNode")
-        node.toJSON(object)
-        this.jsonStack.set(this.nodeId, object)
-        this.nodeId += 1;
+        this.visitObjectNode(node)
     }
 
     visitTexturePyramidNode(node: TexturePyramidNode): void {
-        let object = this.visitObjectNode(node, "TexturePyramidNode")
-        node.toJSON(object)
-        this.jsonStack.set(this.nodeId, object)
-        this.nodeId += 1;
+        this.visitObjectNode(node)
     }
 
     visitTextureVideoBoxNode(node: TextureVideoBoxNode): void {
-        let object = this.visitObjectNode(node, "TextureVideoBoxNode")
-        node.toJSON(object)
-        this.jsonStack.set(this.nodeId, object)
-        this.nodeId += 1;
+        this.visitObjectNode(node)
     }
 
     visitTicTacToeTextureNode(node: TicTacToeTextureNode): void {
-        let object = this.visitObjectNode(node, "TicTacToeTextureNode")
-        node.toJSON(object)
-        this.jsonStack.set(this.nodeId, object)
-        this.nodeId += 1;
+        this.visitObjectNode(node)
     }
+    //AnimationNodes
+    visitRotationNode(node: RotationNode): void {
+        this.visitAnimationNode(node)
+    }
+    visitSlerpNode(node: SlerpNode): void {
+        this.visitAnimationNode(node)
+    }
+    visitScalerNode(node: ScalerNode): void {
+        this.visitAnimationNode(node)
+    }
+    visitMinMaxNode(node: MinMaxNode): void {
+        this.visitAnimationNode(node)
+    }
+    visitDriverNode(node: DriverNode): void {
+        this.visitAnimationNode(node)
+    }
+    visitTranslatorNode(node: TranslatorNode): void {
+        this.visitAnimationNode(node)
+    }
+    visitAnimationNode(node: AnimationNode): void {
+        let id = this.visitObjectNode(node)
+        this.relationShipStack.push(id)
+        node.groupNode.accept(this)
+        this.relationShipStack.pop()
+     }
+
+
     //Quelle: https://stackoverflow.com/questions/3665115/how-to-create-a-file-in-memory-for-user-to-download-but-not-through-server
     private downloadFile(filename: string, text: string) {
         var element = document.createElement('a');
@@ -172,8 +187,37 @@ export class JsonVisitor implements Visitor {
         }
     }
 
-    visitAnimationNode(node: AnimationNode): void {
+    private nextId(){
+        return this.nodeId++;
     }
+
+    // checkForAnimationNode(node: Node, object: any): any {
+    //     let animationNodes = <RotationNode[]> Scenegraph.getScenegraph().animationNodes
+    //     for (let i = 0; i < animationNodes.length; i++) {
+    //         console.log(animationNodes[i])
+    //         console.log(node)
+    //         if (node.id === animationNodes[i].groupNode.id){
+    //             let rotationNode = <RotationNode>animationNodes[i]
+    //             return object['animationNode'] = [node.id ,rotationNode.axis]
+    //         }
+    //     }
+    //     let driverNodes = Scenegraph.getScenegraph().driverNodes
+    //     console.log(driverNodes)
+    //     for (let i = 0; i < driverNodes.length; i++) {
+    //         if (node.id === driverNodes[i].groupNode.id){
+    //             return object['driverNode'] = [node.id, driverNodes[i].vector]
+    //         }
+    //     }
+    //     let scalerNodes = Scenegraph.getScenegraph().scalerNodes
+    //     console.log(scalerNodes)
+    //     for (let i = 0; i < scalerNodes.length; i++) {
+    //         if (node.id === scalerNodes[i].groupNode.id){
+    //             return object['scalerNodes'] = [node.id, scalerNodes[i].vector]
+    //         }
+    //     }
+    // }
+
+
 }
 
 

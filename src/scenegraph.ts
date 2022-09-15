@@ -16,6 +16,7 @@ import {Rotation, Scaling, Translation} from "./mathOperations/transformation";
 import Vector from "./mathOperations/vector";
 import {AnimationNode, DriverNode, MinMaxNode, RotationNode, ScalerNode} from "./Nodes/animation-nodes";
 import Camera from "./Camera/camera";
+import {JsonVisitor} from "./Visitors/jsonVisitor";
 
 export default class Scenegraph {
     static wuerfelArray: Array<TicTacToeTextureNode> = []
@@ -68,9 +69,13 @@ export default class Scenegraph {
         let light1 = this.getLight(new Vector(0,0,-0.5,0));
         let light2 = this.getLight(new Vector(0,.2,-0.8,0));
         let light3 = this.getLight(new Vector(0.2,.2,-1,0));
-        sg.add(light1)
-        sg.add(light2)
-        sg.add(light3)
+
+        let lightAnimation1 = new RotationNode(light1, new Vector(0, 1, 0, 0))
+        let lightAnimation2 = new RotationNode(light2, new Vector(0, 1, 0, 0))
+        let lightAnimation3 = new RotationNode(light3, new Vector(0, 0, 1, 0))
+        sg.add(lightAnimation1)
+        sg.add(lightAnimation2)
+        sg.add(lightAnimation3)
 
 
         //Video-Box kann nicht geadded werden, wieso?
@@ -87,7 +92,10 @@ export default class Scenegraph {
         const driver_Sc = new GroupNode(new Scaling(new Vector(0.05, 0.05, 0.0001, 0)))
         driver_Sc.add(driver)
         driver_Tr.add(driver_Sc)
-        sg.add(driver_Tr);
+        let driverAnimation = new DriverNode(driver_Tr, new Vector(0.55, -0.48, -1, 0))
+        let driverScAnimation = new ScalerNode(driver_Tr, new Vector(0.1, 0.1, 0.1, 1))
+        sg.add(driverAnimation);
+        sg.add(driverScAnimation)
 
 
 
@@ -202,33 +210,33 @@ export default class Scenegraph {
         TaskBarTr.add( TBWindow4Tr);
 
 
-        let animationNodes = [
-            //new RotationNode(sphereRt, new Vector(0, 0, 1, 0)),
-            new RotationNode(light1, new Vector(0, 1, 0, 0)),
-            new RotationNode(light2, new Vector(0, 1, 0, 0)),
-            new RotationNode(light3, new Vector(0, 0, 1, 0)),
-            window1.minmax,
-            window2.minmax,
-            window3.minmax,
-            window4.minmax,
-            // new RotationNode(kugelTr2, new Vector(0.2, 0.2, -1, 0)),
-            // new RotationNode(lightTr2, new Vector(1, 1, 1, 0)),
-        ]
+        // let animationNodes = [
+        //     //new RotationNode(sphereRt, new Vector(0, 0, 1, 0)),
+        //     new RotationNode(light1, new Vector(0, 1, 0, 0)),
+        //     new RotationNode(light2, new Vector(0, 1, 0, 0)),
+        //     new RotationNode(light3, new Vector(0, 0, 1, 0)),
+        //     window1.minmax,
+        //     window2.minmax,
+        //     window3.minmax,
+        //     window4.minmax,
+        //     // new RotationNode(kugelTr2, new Vector(0.2, 0.2, -1, 0)),
+        //     // new RotationNode(lightTr2, new Vector(1, 1, 1, 0)),
+        // ]
 
 
-        let driverNodes = [
-            //new RotationNode(cubeSc, new Vector(0,0,1,0)),
-            new DriverNode(driver_Tr, new Vector(0.55, -0.48, -1, 0))
-        ]
+        // let driverNodes = [
+        //     //new RotationNode(cubeSc, new Vector(0,0,1,0)),
+        //     new DriverNode(driver_Tr, new Vector(0.55, -0.48, -1, 0))
+        // ]
 
-        let scalerNodes = [
-            new ScalerNode(driver_Tr, new Vector(0.1, 0.1, 0.1, 1))
-        ]
+        // let scalerNodes = [
+        //     new ScalerNode(driver_Tr, new Vector(0.1, 0.1, 0.1, 1))
+        // ]
         return {
             sg,
-            animationNodes,
-            driverNodes,
-            scalerNodes,
+            // animationNodes,
+            // driverNodes,
+            // scalerNodes,
             gl,
             ctx,
             kAElement,
@@ -342,7 +350,9 @@ export default class Scenegraph {
         MinmaxTr.add(windowHeaderBarTr);
         MinmaxTr.add(windowBacktroundBox_Tr);
 
-        windowSize.add(MinmaxTr);
+
+
+        windowSize.add(minmax);
         windowPosition.add(windowSize);
         root.add(windowPosition);
 
@@ -385,7 +395,8 @@ export default class Scenegraph {
         //Lichter
         let light1 = this.getLight(new Vector(0,0,-1,0));
         // let light2 = this.getLight(new Vector(0,.2,1,0));
-        sg.add(light1)
+        let animation = new RotationNode(light1,  new Vector(0, 1, 1, 0))
+        sg.add(animation)
         // sg.add(light2)
 
         let textCube = new AABoxNode(new Vector(1,0,0,0))
@@ -402,8 +413,12 @@ export default class Scenegraph {
         const driverGhostSc = new GroupNode(new Scaling(new Vector(0.1, 0.1, 0.1, 1)))
         driverGhostSc.add(driverGhost);
         const driverGhostTr = new GroupNode(new Translation(new Vector(0.75, -0.8, 0, 0)))
+        let driverAnimationTr = new DriverNode(driverGhostTr, new Vector(0.75,-0.8,0,0))
+        let driverAnimationSc = new ScalerNode(driverGhostSc, new Vector(0.1, 0.1, 0.1, 1))
         driverGhostTr.add(driverGhostSc)
-        sg.add(driverGhostTr)
+
+        sg.add(driverAnimationTr)
+        sg.add(driverAnimationSc)
 
         const ghostCastle = new TextureBoxNode("ghost_castle.jpg")
         const ghostCastleSc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.2, 1)))
@@ -412,36 +427,48 @@ export default class Scenegraph {
         ghostCastleTr.add(ghostCastleSc)
         sg.add(ghostCastleTr)
 
-        let animationNodes = [
-            new RotationNode(light1, new Vector(0, 1, 1, 0)),
-            // new RotationNode(light2, new Vector(0, 1, 1, 0)),
+        // let animationNodes = [
+        //     new RotationNode(light1, new Vector(0, 1, 1, 0)),
+        //     // new RotationNode(light2, new Vector(0, 1, 1, 0)),
+        // ]
+        //
+        // let driverNodes = [
+        //     //new RotationNode(cubeSc, new Vector(0,0,1,0)),
+        //     new DriverNode(driverGhostTr, new Vector(0.75,-0.8,0,0))
+        // ]
+        //
+        // let scalerNodes = [
+        //     new ScalerNode(driverGhostSc, new Vector(0.1, 0.1, 0.1, 1))
+        // ]
 
-        ]
 
-        let driverNodes = [
-            //new RotationNode(cubeSc, new Vector(0,0,1,0)),
-            new DriverNode(driverGhostTr, new Vector(0.75,-0.8,0,0))
-        ]
-
-        let scalerNodes = [
-            new ScalerNode(driverGhostSc, new Vector(0.1, 0.1, 0.1, 1))
-        ]
         return {
             sg,
-            animationNodes,
-            driverNodes,
-            scalerNodes,
             gl,
             ctx,
             kAElement,
+            kACalc,
             kSElement,
+            kSCalc,
             kDElement,
+            kDCalc,
             shininessElement,
+            shininessCalc,
             canvas,
             canvas2
         }
     }
+
+    static verySmallGraph() {
+        let sg = new GroupNode(new Translation(new Vector(0,1,0,1)));
+        let aaBoxNode = new AABoxNode(new Vector(1,1,1,1));
+        let sphereNode = new SphereNode(new Vector(1,1,1,1));
+        sg.add(aaBoxNode);
+        sg.add(sphereNode);
+        new JsonVisitor().download(sg)
+    }
 };
+
 
 // export type scenegraphObject={
 //     sg: Node,

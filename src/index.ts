@@ -1,63 +1,36 @@
 import 'bootstrap';
 import 'bootstrap/scss/bootstrap.scss';
 import Vector from './mathOperations/vector';
-import {
-    GroupNode,
-    SphereNode,
-    AABoxNode,
-    TextureBoxNode,
-    LightNode,
-    PyramidNode,
-    TexturePyramidNode,
-    TextureVideoBoxNode,
-    CameraNode,
-    AABoxButtonNode,
-    TextureBoxButtonNode
-} from './Nodes/nodes';
-import {
-    RasterVisitor,
-} from './Visitors/rastervisitor';
+import {CameraNode, GroupNode} from './Nodes/nodes';
+import {RasterVisitor,} from './Visitors/rastervisitor';
 import Shader from './Shaders/shader';
-import phongVertexShader from './Shaders/phong-vertex-shader.glsl';
 import phongFragmentShader from './Shaders/phong-fragment-shader.glsl';
 import phongVertexShaderPerspective from './Shaders/phong-vertex-perspective-shader.glsl';
-
-import perspectiveVertexShader from './Shaders/perspective-vertex-shader.glsl';
-import fragmentShader from './Shaders/basic-fragment-shader.glsl'
-import {Rotation, Scaling, Translation} from './mathOperations/transformation';
 import textureVertexShader from "./Shaders/texture-vertex-perspective-shader.glsl";
 import textureFragmentShader from "./Shaders/texture-fragment-shader.glsl";
-import Ray from "./RayTracing/ray";
-import Intersection from "./RayTracing/intersection";
 import Sphere from "./Geometry/RayGeometry/sphere";
 import AABox from "./Geometry/RayGeometry/aabox";
-import RayVisitor from "./Visitors/rayvisitor";
-import phong from "./RayTracing/phong";
-import {DriverNode, MinMaxNode, RotationNode, ScalerNode} from "./Nodes/animation-nodes";
 import mouseClickVisitor from "./Visitors/mouse-click-visitor";
-import RasterPyramid from "./Geometry/RasterGeometry/raster-pyramid";
 import Pyramid from "./Geometry/RayGeometry/pyramid";
 import {LightVisitor} from "./Visitors/lightVisitor";
-import TextureVideoBox from "./Geometry/RasterGeometry/texture-video-box";
 import {CameraVisitor} from "./Visitors/cameraVisitor";
 import Camera from "./Camera/camera";
-import Visitor from "./Visitors/visitor";
 import RayVisitorSupaFast from "./Visitors/rayvisitor-supa-fast";
 import Scenegraph from "./scenegraph";
 import {RasterSetupVisitor} from "./Visitors/rasterSetupVisitor";
-import {JsonVisitor} from "./Visitors/jsonVisitor";
 import {JsonLoader} from "./Visitors/jsonLoader";
+import {JsonVisitor} from "./Visitors/jsonVisitor";
+import {AnimationVisitor} from "./Visitors/animationVisitor";
+import {RotationNode, ScalerNode} from "./Nodes/animation-nodes";
 
 const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1));
 const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.5, 0.5, 1), new Vector(0, 0, 0, 1));
 const UNIT_PYRAMID = new Pyramid(new Vector(-0.5, -0.5, 0.5, 1), new Vector(0.5, -0.5, 0.5, 1), new Vector(0, -0.5, -0.5, 1), new Vector(0, 0.5, 0, 1), new Vector(0, 0, 0, 1))
 
 window.addEventListener('load', function loadPage() {
+    // Scenegraph.verySmallGraph()
     let {
         sg,
-        scalerNodes,
-        driverNodes,
-        animationNodes,
         gl,
         ctx,
         kDElement,
@@ -71,7 +44,14 @@ window.addEventListener('load', function loadPage() {
         canvas,
         canvas2
     } = Scenegraph.getScenegraph();
-    // let {sg, scalerNodes, driverNodes, animationNodes, gl, ctx, kDElement, kSElement, kAElement, shininessElement, canvas, canvas2} = Scenegraph.getTicTacToe();
+    // let {sg, gl, ctx,  kDElement,
+    //         kDCalc,
+    //         kSElement,
+    //         kSCalc,
+    //         kAElement,
+    //         kACalc,
+    //         shininessElement,
+    //         shininessCalc,canvas, canvas2} = Scenegraph.getTicTacToe();
     const btn1 = document.getElementById('btnradio1') as HTMLInputElement;
     const btn2 = document.getElementById('btnradio2') as HTMLInputElement;
 
@@ -105,18 +85,24 @@ window.addEventListener('load', function loadPage() {
     let setupVisitor = new RasterSetupVisitor(gl, camera.lightPositions)
     let rasterVisitor = new RasterVisitor(gl, phongShader, textureShader, setupVisitor.objects)
     let rayVisitor = new RayVisitorSupaFast(ctx, canvas.width, canvas.height)
+    let animationVisitor = new AnimationVisitor();
+    let {animationNodeArray, minmaxNodeArray, driverNodeArray, scalerArray, rotationArray} = animationVisitor.visit(sg)
+    let scalerNodes = scalerArray;
+    let rotationNodes= rotationArray
+    let driverNodes = driverNodeArray
+
     let visitor: RayVisitorSupaFast | RasterVisitor
-    // let jsonVisitor = new JsonVisitor()
-    // jsonVisitor.download(sg)
-    // console.log(jsonVisitor.jsonStack)
+    let jsonVisitor = new JsonVisitor()
+    jsonVisitor.download(sg)
+    console.log(jsonVisitor.jsonStack)
     //https://stackoverflow.com/questions/16991341/json-parse-file-path
     let filePicker = document.getElementById("docpicker") as HTMLInputElement;
     filePicker.addEventListener('change', (e)=>{
         let target = e.target as HTMLInputElement;
         let file = target.files[0]
         file.text().then(text =>{
-            let json = JSON.parse(text)
-            JsonLoader.setFile(json)
+            let json:GroupNode = <GroupNode> JSON.parse(text)
+            JsonLoader.deconstructFile(json)
         })
         // console.log(file)
     })
@@ -141,7 +127,7 @@ window.addEventListener('load', function loadPage() {
             canvas2.style.display = "none"
             canvas.style.display = "block"
             loadScene()
-            console.log(visitor)
+            // console.log(visitor)
         } else if (btn2.checked) {
             btn1.checked = false
             btn2.checked = true
@@ -149,7 +135,7 @@ window.addEventListener('load', function loadPage() {
             canvas2.style.display = "block"
             canvas.style.display = "none"
             loadScene()
-            console.log(visitor)
+            // console.log(visitor)
         }
     }
 
@@ -180,13 +166,14 @@ window.addEventListener('load', function loadPage() {
 
         function simulate(deltaT: number) {
             animationTime += deltaT;
-            for (let animationNode of animationNodes) {
+            //davpr stand hier animationNodes
+            for (let animationNode of rotationNodes) {
                 animationNode.simulate(deltaT);
                 lightPositions = lightPositionsVisitor.visit(sg);
                 camera.lightPositions = lightPositions
             }
 
-            for (let driverNode of driverNodes) {
+            for (let driverNode of driverNodeArray) {
                 driverNode.simulate(deltaT);
             }
 
@@ -251,7 +238,8 @@ window.addEventListener('load', function loadPage() {
                     scalerNodes[0].active = true;
                     break;
                 case "1":
-                    for (let animationNode of animationNodes) {
+                    //davor stand hier animatioNodes
+                    for (let animationNode of rotationNodes) {
                         animationNode.toggleActive();
                     }
                     break;

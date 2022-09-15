@@ -1,7 +1,7 @@
 import Visitor from "./visitor";
 import {
     AABoxButtonNode,
-    AABoxNode, AnimationNode,
+    AABoxNode,
     CameraNode,
     GroupNode,
     LightNode,
@@ -16,6 +16,15 @@ import {
 import Vector from "../mathOperations/vector";
 import Matrix from "../mathOperations/matrix";
 import Camera from "../Camera/camera";
+import {
+    AnimationNode,
+    DriverNode,
+    MinMaxNode,
+    RotationNode,
+    ScalerNode,
+    SlerpNode,
+    TranslatorNode
+} from "../Nodes/animation-nodes";
 
 export class CameraVisitor implements Visitor {
     model: Array<Matrix>
@@ -110,5 +119,23 @@ export class CameraVisitor implements Visitor {
     }
 
     visitAnimationNode(node: AnimationNode): void {
+    }
+
+    visitDriverNode(node: DriverNode): void {
+    }
+
+    visitMinMaxNode(node: MinMaxNode): void {
+    }
+
+    visitRotationNode(node: RotationNode): void {
+    }
+
+    visitScalerNode(node: ScalerNode): void {
+    }
+
+    visitSlerpNode(node: SlerpNode): void {
+    }
+
+    visitTranslatorNode(node: TranslatorNode): void {
     }
 }
