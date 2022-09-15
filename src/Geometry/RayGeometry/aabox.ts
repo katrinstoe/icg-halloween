@@ -53,24 +53,7 @@ export default class AABox {
             new Vector(maxPoint.x, maxPoint.y, minPoint.z, 1),
             new Vector(minPoint.x, maxPoint.y, minPoint.z, 1)
         ];
-      // this.vertices =[
-      //   minPoint.x, minPoint.y, maxPoint.z,
-      //   maxPoint.x, minPoint.y, maxPoint.z,
-      //   maxPoint.x, maxPoint.y, maxPoint.z,
-      //   minPoint.x, maxPoint.y, maxPoint.z,
-      //   minPoint.x, minPoint.y, minPoint.z,
-      //   maxPoint.x, minPoint.y, minPoint.z,
-      //   maxPoint.x, maxPoint.y, minPoint.z,
-      //   minPoint.x, maxPoint.y, minPoint.z
-      // ]
-      //   this.indices = [
-      //       0, 1, 2, 3,
-      //       1, 5, 6, 2,
-      //       4, 0, 3, 7,
-      //       3, 2, 6, 7,
-      //       5, 4, 7, 6,
-      //       0, 4, 5, 1
-      //   ];
+
         this.indices = [
             // front
             0, 1, 2, 2, 3, 0,
@@ -90,7 +73,7 @@ export default class AABox {
     }
 
     /**
-     * Calculates the intersection of the AAbox with the given ray
+     * Calculates the intersection of the AAbox with the given ray (first with Bounding Sphere)
      * @param ray The ray to intersect with
      * @return The intersection if there is one, null if there is none
      */
@@ -119,6 +102,11 @@ export default class AABox {
         return null;
     }
 
+    /**
+     * Calculates the intersection of a Bounding Sphere with the given ray
+     * @param ray The ray to intersect with
+     * @return The intersection if there is one, null if there is none
+     */
     intersectBoundingSphere(ray: Ray): Intersection | null {
 
         let minPoint = new Vector(-0.5, -0.5, -0.5, 1);
@@ -133,7 +121,6 @@ export default class AABox {
         let intersection = boundingSphere.intersect(ray);
         if (intersection){
             return intersection;
-
         }
         else{
             return null;

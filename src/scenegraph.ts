@@ -311,7 +311,7 @@ export default class Scenegraph {
         aabox_Tr.add(aabox_Sc)
 
         //Background
-        const windowBacktroundBox = new AABoxNode(new Vector(1, 1, 1, 1));
+        const windowBacktroundBox = new AABoxNode(new Vector(0.9, 0.9, 0.9, 1));
         const windowBacktroundBox_Tr = new GroupNode(new Translation(new Vector(0, -0.5, 0, 0)));
         const windowBacktroundBox_Sc = new GroupNode(new Scaling(new Vector(1.2, 1, 0.0001, 0)));
         windowBacktroundBox_Sc.add(windowBacktroundBox);
@@ -330,7 +330,6 @@ export default class Scenegraph {
         const windowHeaderTextTr = new GroupNode(new Translation(new Vector(-0.3,0.07,0.01,0)));
         windowHeaderTextSc.add(windowHeaderText);
         windowHeaderTextTr.add(windowHeaderTextSc);
-
 
         //Window
         const windowPosition = new GroupNode(new Translation(vec));
@@ -351,6 +350,7 @@ export default class Scenegraph {
             minmax.active = true;
         })
         minmax.active = false;
+
         const ButtonTBTr = new GroupNode(new Translation(new Vector(0, 0.005, 0.0001, 0)));
         const ButtonTBSc = new GroupNode(new Scaling(new Vector(0.047, 0.047, 0.0001, 1)))
         ButtonTBSc.add(ButtonTB);

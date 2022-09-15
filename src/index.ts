@@ -38,7 +38,7 @@ window.addEventListener('load', function loadPage() {
         canvas,
         canvas2
     } = Scenegraph.getScenegraph();
-    // let {sg, scalerNodes, driverNodes, animationNodes, gl, ctx, kDElement, kSElement, kAElement, shininessElement, canvas, canvas2} = Scenegraph.getTicTacToe();
+
     const btn1 = document.getElementById('btnradio1') as HTMLInputElement;
     const btn2 = document.getElementById('btnradio2') as HTMLInputElement;
 
@@ -170,17 +170,8 @@ window.addEventListener('load', function loadPage() {
         kAElement.onchange = function () {
             camera.kA = Number(kAElement.value);
         }
-        // lightPositionXElement.onchange = function () {
-        //     let lightPositionX = Number(lightPositionXElement.value)
-        //     for (let lightPosition of lightPositions) {
-        //         lightPosition.x = lightPositionX;
-        //     }
-        //     // lightPositions = Number(lightPositionXElement.value);
-        //     console.log(camera.lightPositions)
-        // }
 
-
-        Promise.all(
+       Promise.all(
             [phongShader.load(), textureShader.load()]
         ).then(x =>
             window.requestAnimationFrame(animate)

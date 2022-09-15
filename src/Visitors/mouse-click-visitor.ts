@@ -23,8 +23,7 @@ const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.
 const UNIT_PYRAMID = new Pyramid(new Vector(-0.5, -0.5, 0.5, 1), new Vector(0.5, -0.5, 0.5, 1), new Vector(0, -0.5, -0.5, 1), new Vector(0, 0.5, 0, 1), new Vector(0, 0, 0, 1));
 
 /**
- * Class representing a Visitor that uses
- * Raytracing to render a Scenegraph
+ * Class representing a Visitor traverses sg on Click
  */
 export default class mouseClickVisitor implements Visitor {
     /**
@@ -44,7 +43,7 @@ export default class mouseClickVisitor implements Visitor {
     lastTexture: {zahl: number}
 
     /**
-     * Creates a new RayVisitor
+     * Creates a new MousclickVisitor
      * @param context The 2D context to render to
      * @param width The width of the canvas
      * @param height The height of the canvas
@@ -62,8 +61,6 @@ export default class mouseClickVisitor implements Visitor {
         let y = 0
         this.mousePos = mousePos
         this.lastTexture = lastTexture
-        //this.lastTexture = lastTexture;
-        //added
     }
 
     setMousePos(mousePos: { x: number; y: number }){
@@ -74,59 +71,8 @@ export default class mouseClickVisitor implements Visitor {
         this.lastTexture = lastTexture
     }
 
-    visitAABoxButtonNode(node: AABoxButtonNode): void {
-        let toWorld = Matrix.identity();
-        let fromWorld = Matrix.identity();
-        // TODO assign the model matrix and its inverse
-        for (let i = 0; i < this.model.length; i++) {
-            toWorld = toWorld.mul(this.model[i]);
-            fromWorld = this.inverse[i].mul(fromWorld);
-        }
-        const ray = new Ray(fromWorld.mulVec(this.ray.origin), fromWorld.mulVec(this.ray.direction).normalize());
-        let intersection = UNIT_AABOX.intersect(ray);
-        if (intersection) {
-            const intersectionPointWorld = toWorld.mulVec(intersection.point);
-            const intersectionNormalWorld = toWorld.mulVec(intersection.normal).normalize();
-            intersection = new Intersection(
-                (intersectionPointWorld.x - this.ray.origin.x) / this.ray.direction.x,
-                intersectionPointWorld,
-                intersectionNormalWorld,
-            );
-            if (this.intersection === null || intersection.closerThan(this.intersection)) {
-                this.intersection = intersection;
-                this.intersectionColor = node.color;
-                this.animation = node.animate;
-            }
-        }
-    }
-
-    visitTextureBoxButtonNode(node: TextureBoxButtonNode): void {
-        let toWorld = Matrix.identity();
-        let fromWorld = Matrix.identity();
-        // TODO assign the model matrix and its inverse
-        for (let i = 0; i < this.model.length; i++) {
-            toWorld = toWorld.mul(this.model[i]);
-            fromWorld = this.inverse[i].mul(fromWorld);
-        }
-        const ray = new Ray(fromWorld.mulVec(this.ray.origin), fromWorld.mulVec(this.ray.direction).normalize());
-        let intersection = UNIT_AABOX.intersect(ray);
-        if (intersection) {
-            const intersectionPointWorld = toWorld.mulVec(intersection.point);
-            const intersectionNormalWorld = toWorld.mulVec(intersection.normal).normalize();
-            intersection = new Intersection(
-                (intersectionPointWorld.x - this.ray.origin.x) / this.ray.direction.x,
-                intersectionPointWorld,
-                intersectionNormalWorld,
-            );
-            if (this.intersection === null || intersection.closerThan(this.intersection)) {
-                this.intersection = intersection;
-                this.animation = node.animate;
-            }
-        }
-    }
-
     /**
-     * Renders the Scenegraph
+     * Renders the sg
      * @param rootNode The root node of the Scenegraph
      * @param camera The camera used
      * @param lightPositions The light light positions
@@ -210,6 +156,7 @@ export default class mouseClickVisitor implements Visitor {
             node.color = new Vector(Math.floor((Math.random() * 5) + 1)/10,Math.floor((Math.random() * 5) + 1)/10,Math.floor((Math.random() * 5) + 1)/10,1)
         }
     }
+
     /**
      * Visits an axis aligned box node
      * @param node The node to visit
@@ -269,12 +216,9 @@ export default class mouseClickVisitor implements Visitor {
     }
 
     /**
-     * Visits a textured box node
+     * Visits a pyramid node
      * @param node The node to visit
      */
-    visitTextureVideoBoxNode(node: TextureVideoBoxNode) {
-    }
-
     visitPyramidNode(node: PyramidNode) {
 
         let toWorld = Matrix.identity();
@@ -301,16 +245,10 @@ export default class mouseClickVisitor implements Visitor {
         }
     }
 
-
-    visitTexturePyramidNode(node: TexturePyramidNode) {
-    }
-
-    visitCameraNode(node: CameraNode): void {
-    };
-
-    visitLightNode(node: LightNode): void {
-    };
-
+    /**
+     * Visits a TicTacTaoTextureNode
+     * @param node The node to visit
+     */
     visitTicTacToeTextureNode(node: TicTacToeTextureNode): void {
         let toWorld = Matrix.identity();
         let fromWorld = Matrix.identity();
@@ -330,9 +268,6 @@ export default class mouseClickVisitor implements Visitor {
                 intersectionPointWorld,
                 intersectionNormalWorld,
             );
-            // console.log(intersection)
-            // console.log(node.amountOfSwitches)
-            //wenn noch keine Intersection an stelle hatten oder ne closere intersection haben dann speichern wir die neue Intersection ab
 
             if (this.intersection === null || intersection.closerThan(this.intersection)) {
                 if (node.amountOfSwitches < 1) {
@@ -358,9 +293,79 @@ export default class mouseClickVisitor implements Visitor {
         }
     }
 
-    visitTextureTextBoxNode(node: TextureTextBoxNode): void {
+    /**
+     * Visits an aaboxButtonNode
+     * @param node The node to visit
+     */
+    visitAABoxButtonNode(node: AABoxButtonNode): void {
+        let toWorld = Matrix.identity();
+        let fromWorld = Matrix.identity();
+        // TODO assign the model matrix and its inverse
+        for (let i = 0; i < this.model.length; i++) {
+            toWorld = toWorld.mul(this.model[i]);
+            fromWorld = this.inverse[i].mul(fromWorld);
+        }
+        const ray = new Ray(fromWorld.mulVec(this.ray.origin), fromWorld.mulVec(this.ray.direction).normalize());
+        let intersection = UNIT_AABOX.intersect(ray);
+        if (intersection) {
+            const intersectionPointWorld = toWorld.mulVec(intersection.point);
+            const intersectionNormalWorld = toWorld.mulVec(intersection.normal).normalize();
+            intersection = new Intersection(
+                (intersectionPointWorld.x - this.ray.origin.x) / this.ray.direction.x,
+                intersectionPointWorld,
+                intersectionNormalWorld,
+            );
+            if (this.intersection === null || intersection.closerThan(this.intersection)) {
+                this.intersection = intersection;
+                this.intersectionColor = node.color;
+                this.animation = node.animate;
+            }
+        }
     }
 
+    /**
+     * Visits a textureBoxButtonNode
+     * @param node The node to visit
+     */
+    visitTextureBoxButtonNode(node: TextureBoxButtonNode): void {
+        let toWorld = Matrix.identity();
+        let fromWorld = Matrix.identity();
+        // TODO assign the model matrix and its inverse
+        for (let i = 0; i < this.model.length; i++) {
+            toWorld = toWorld.mul(this.model[i]);
+            fromWorld = this.inverse[i].mul(fromWorld);
+        }
+        const ray = new Ray(fromWorld.mulVec(this.ray.origin), fromWorld.mulVec(this.ray.direction).normalize());
+        let intersection = UNIT_AABOX.intersect(ray);
+        if (intersection) {
+            const intersectionPointWorld = toWorld.mulVec(intersection.point);
+            const intersectionNormalWorld = toWorld.mulVec(intersection.normal).normalize();
+            intersection = new Intersection(
+                (intersectionPointWorld.x - this.ray.origin.x) / this.ray.direction.x,
+                intersectionPointWorld,
+                intersectionNormalWorld,
+            );
+            if (this.intersection === null || intersection.closerThan(this.intersection)) {
+                this.intersection = intersection;
+                this.animation = node.animate;
+            }
+        }
+    }
+
+    visitTextureTextBoxNode(node: TextureTextBoxNode){
+    };
+
+    visitTexturePyramidNode(node: TexturePyramidNode) {
+    };
+
+    visitCameraNode(node: CameraNode){
+    };
+
+    visitLightNode(node: LightNode){
+    };
+
+    visitTextureVideoBoxNode(node: TextureVideoBoxNode){
+    };
 }
 
 //https://stackoverflow.com/questions/6211613/testing-whether-a-value-is-odd-or-even
