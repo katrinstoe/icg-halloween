@@ -9,13 +9,14 @@ import {
     SphereNode,
     TextureBoxButtonNode,
     TextureBoxNode,
-    TexturePyramidNode,
+    TexturePyramidNode, TextureTextBoxNode,
     TextureVideoBoxNode, TicTacToeTextureNode,
-} from "./nodes";
-import {Rotation, Scaling, Translation} from "./transformation";
-import Vector from "./vector";
-import {AnimationNode, DriverNode, MinMaxNode, RotationNode, ScalerNode} from "./animation-nodes";
-import Camera from "./camera";
+} from "./Nodes/nodes";
+import {Rotation, Scaling, Translation} from "./mathOperations/transformation";
+import Vector from "./mathOperations/vector";
+import {AnimationNode, DriverNode, MinMaxNode, RotationNode, ScalerNode} from "./Nodes/animation-nodes";
+import Camera from "./Camera/camera";
+import TextureTextBox from "./Geometry/RasterGeometry/texture-text-box";
 
 export default class Scenegraph {
     static wuerfelArray: Array<TicTacToeTextureNode> = []
@@ -40,6 +41,9 @@ export default class Scenegraph {
         const gl = canvas.getContext("webgl2");
         const ctx = canvas2.getContext("2d");
 
+
+
+
         //Texturen
         const textureGeist = new TextureBoxNode('geist.png');
         const textureHCILogo = new TextureBoxNode('hci-logo.png');
@@ -48,10 +52,13 @@ export default class Scenegraph {
         const textureGeistText = new TextureBoxNode('Icons/geistText.png');
         const textureKugelText = new TextureBoxNode('Icons/kugelText.png');
         const textureGeisterSchloss = new TextureBoxNode('ghost_castle.jpg');
+
         const sg = new GroupNode(new Rotation(new Vector(0, 0, 1, 0), 0));
         const gnTr = new GroupNode(new Translation(new Vector(-0.75, -0.75, -3, 0)));
 
         sg.add(gnTr);
+
+
 
         //Camera
         const sgcamera = new Camera(new Vector(0, 0, 0, 1),
@@ -131,15 +138,18 @@ export default class Scenegraph {
         sg.add(window1.root);
         const TBWindow1Tr = new GroupNode(new Translation(new Vector(-0.52,0,0,0)));
         TBWindow1Tr.add(window1.ButtonTBTr);
-        TaskBarTr.add(TBWindow1Tr);
+        TaskBarTr.add(TBWindow1Tr) ;
 
         //buhuu box
-        const buhuuAABox = new AABoxNode(new Vector(1, 0, 1, 1));
+
+        //test
+        const textTextureBox = new TextureTextBoxNode();
+        //const buhuuAABox = new AABoxNode(new Vector(1, 0, 1, 1));
         const buhuuAABoxTr = new GroupNode(new Translation(new Vector(0,0,0.6,1)));
         const buhuuAABoxRty = new GroupNode(new Rotation(new Vector(0, 1, 0, 0), 1));
         const buhuuAABoxRtz = new GroupNode(new Rotation(new Vector(1, 0, 0, 0), 0.5));
-        buhuuAABoxRtz.add(buhuuAABox);
-        buhuuAABoxRtz.add(textureGeisterSchloss);
+        buhuuAABoxRtz.add(textTextureBox);
+        //buhuuAABoxRtz.add(textureGeisterSchloss);
         buhuuAABoxRty.add(buhuuAABoxRtz);
         buhuuAABoxTr.add(buhuuAABoxRty);
 
@@ -492,6 +502,12 @@ export default class Scenegraph {
     }
 
 };
+
+function initTexture(canvas: HTMLCanvasElement) {
+    let gl = canvas.getContext("webgl");
+    let canvasTexture = gl.createTexture();
+    //handleLoadedTexture(canvasTexture, document.getElementById('textureCanvas'));
+}
 
 export type scenegraphObject={
     sg: Node,
