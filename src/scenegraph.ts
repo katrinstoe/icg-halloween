@@ -141,7 +141,12 @@ export default class Scenegraph {
         //buhuu box
         const buhuuBox = new TextureTextBoxNode("BuHuu, I'm a Box!");
         const buhuuAABoxTr = new GroupNode(new Translation(new Vector(0,0,0.6,1)));
-        buhuuAABoxTr.add(buhuuBox);
+        const buhuuAABoxRt = new GroupNode(new Rotation(new Vector(0, 1, 0, 0), 1));
+        let buhuuAnimation = new RotationNode(buhuuAABoxRt, new Vector(1,0,0,0));
+        buhuuAABoxRt.add(buhuuBox);
+        buhuuAABoxTr.add(buhuuAABoxRt);
+        buhuuAABoxTr.add(buhuuAnimation)
+
 
         let window2 = this.getWindow(new Vector(-0.3, 0, -1, 0), buhuuAABoxTr, "many_ghosts.jpg", 'Icons/buhuBox.png');
         sg.add(window2.root);
