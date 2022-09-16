@@ -380,3 +380,4 @@ export class MinMaxNode extends AnimationNode {
         object['direction'] = this.direction
     }
 }
+

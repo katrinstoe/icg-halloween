@@ -7,23 +7,17 @@ import {
     LightNode,
     Node,
     PyramidNode,
-    SphereNode, TextureBoxButtonNode,
+    SphereNode,
+    TextureBoxButtonNode,
     TextureBoxNode,
-    TexturePyramidNode, TextureTextBoxNode,
+    TexturePyramidNode,
+    TextureTextBoxNode,
     TextureVideoBoxNode,
     TicTacToeTextureNode
 } from "../Nodes/nodes";
 import Vector from "../mathOperations/vector";
 import Matrix from "../mathOperations/matrix";
 import Camera from "../Camera/camera";
-import {
-    AnimationNode,
-    DriverNode,
-    MinMaxNode,
-    RotationNode,
-    ScalerNode,
-    SlerpNode,
-} from "../Nodes/animation-nodes";
 
 /**
  * Klasse, die einen Visitor für die Kamera repräsentiert

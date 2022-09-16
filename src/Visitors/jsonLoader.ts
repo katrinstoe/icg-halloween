@@ -14,14 +14,7 @@ import {
     TextureVideoBoxNode,
     TicTacToeTextureNode
 } from "../Nodes/nodes";
-import {
-    AnimationNode,
-    DriverNode,
-    MinMaxNode,
-    RotationNode,
-    ScalerNode,
-    SlerpNode,
-} from "../Nodes/animation-nodes";
+import {AnimationNode, DriverNode, MinMaxNode, RotationNode, ScalerNode, SlerpNode,} from "../Nodes/animation-nodes";
 
 export class JsonLoader extends Visitor {
 //GamePlan

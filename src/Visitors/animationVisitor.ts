@@ -15,7 +15,7 @@ import {
     TextureVideoBoxNode,
     TicTacToeTextureNode
 } from "../Nodes/nodes";
-import {AnimationNode, DriverNode, MinMaxNode, RotationNode, ScalerNode, SlerpNode,} from "../Nodes/animation-nodes";
+import {DriverNode, MinMaxNode, RotationNode, ScalerNode} from "../Nodes/animation-nodes";
 import Matrix from "../mathOperations/matrix";
 /**
  * AnimationNode Visitor um über animationNodes in Szenengraphen zu traversen und wieder in Arrays für Rastervisitor zu speichern
@@ -28,8 +28,6 @@ export class AnimationVisitor extends Visitor {
     minmaxNodeArray: Array<MinMaxNode>
     driverNodeArray: Array<DriverNode>
     cameraDriverNodes: Array<DriverNode>
-    // public cameraDriverArray: Array<Vector>
-    //public slerpNodeArray: Array<SlerpNode>
     private scalerArray: Array<ScalerNode>;
     private rotationArray: Array<RotationNode>;
 
