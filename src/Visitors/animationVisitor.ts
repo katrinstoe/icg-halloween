@@ -116,7 +116,7 @@ export class AnimationVisitor extends Visitor {
     }
 
     visitScalerNode(node: ScalerNode): void {
-        this.animationNodeArray.push(node)
+        //this.animationNodeArray.push(node)
         this.scalerArray.push(node)
 
     }
