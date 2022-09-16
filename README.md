@@ -1,7 +1,7 @@
 # ICG Projekt von Gruppe 01
 <!-- Ein Bild der Anwendung muss im Ordner ./img relativ zu dieser Datei liegen -->
 
-<img src="img/Ducktales.webp" width="75%">
+<img src="img/projektPic.jpg" width="75%">
 
 Dieses Repository beinhaltet das Projekt des Kurses  "Interaktive Computergraphik" von < Katrin Stötter, Lias Rieder und Lina Seyfried >. 
 
@@ -20,31 +20,38 @@ Dieses Repository beinhaltet das Projekt des Kurses  "Interaktive Computergraphi
 │   └── screenshot.png
 ├── obj <-- OBJ Dateien
 ├── src
-│   ├── abgabe.ts <-- Boilerplate 
-│   ├── ...
-│   ├── loader  <-- shader loader
-│   ├── math <-- Mathe Bibliothek
-│   ├── parser <-- OBJ Parser
-│   ├── renderers 
-│   ├── saveload.ts <-- Laden / Speichern
-│   └── scene  <-- Szenengraph
-│       ├── ...
-│       ├── camera.ts
-│       ├── ...
-│       ├── interaction.ts
-│       ├── sceneUtils.ts
-│       └── visitors <--  Visitors
+│   ├───AlteBoilerPlatesUebungen
+│   ├───Camera
+│   ├───Geometry
+│   │   ├───RasterGeometry
+│   │   └───RayGeometry
+│   ├───mathOperations
+│   ├───Nodes
+│   ├───RayTracing
+│   ├───Shaders
+│   ├───Visitors
+│   ├───glsl.d.ts
+│   ├───index.ts
+│   └───scenegraph.ts 
+├── test 
+├── tests
 └── ...
 
 ```
 
 Das Projekt ist in mehreren Ordner thematisch aufgeteilt. 
-`dist` beinhaltet Ressourcen die im Browser direkt verwendet werden. In `obj` liegen Beispieldateien, welche durch unseren OBJ Loader in die Szene geladen werden können. 
+`dist` beinhaltet Ressourcen die im Browser direkt verwendet werden.
 Unter `src` sind alle Quelldateien zusammengefasst, welche durch `webgl` transpiliert werden.
 Hierbei haben wir die Pakete entsprechend ihren Funktionen strukturiert:
-- `scene`  umfasst die Datenstrukturen für Szene und deren Interaktion
-- ...
-- ...
+- `AlteBoilerPlatesUebungen` enthält die Boilerplates der verangegangenen Übungen
+- `Camera` enthält die verwendeten Kameras
+- `Geometry` enthält die Grometrie_Objekte aufgeteilt in `RasterGeometry` und `RayGeometry`
+- `mathOperations` enthält die verwendeten mathematischen Operationen
+- `Nodes` enthält die verwendeten Nodes
+- `RayTracing` enthält die für das Raytracing relevante Klassen
+- `Shaders` enthält die verwendeten Shader
+- `Visitor` enthält die verwendeten Visitor
+- `scenegraph` enthält den Szenengraph
 
 # Installation
 
@@ -67,15 +74,25 @@ eingeben und rufen die Website des Servers über to `0.0.0.0:<port>` bzw. `local
 
 Im folgenden wird erklärt wie die Anwendung zu bedienen ist:
 
-## Free Flight Modus
+## Geisterfahrer
 
-Um zwischen Fester Kamera und Free Flight Modus zu wechseln ...
+- Pfeiltasten zur Navigation des Geisterfahrers
+- +/- zur Vergrößerung/Verkleinerung des Geisterfahrers
 
-## Beleuchtungsparameter
+## Kamerafahrt
+- "w", "a", "s", "d", "x" und "y" um die Kamera zu bewegen
 
-Die Slider auf der rechten Seite des Bildes von oben  ... 
+## Animationsknoten 
+- "1" um die Animationen zu starten/stoppen
 
-### Funktionen 
+## transilvanian TicTacToe
+- Klicke auf die Kacheln um die Markierung zu setzen
+- "Reset"-Button für das zurücksetzen des Spiels
+
+## spooky Sphere 
+- Klicke auf die Sphere für ein spooky Suprise!
+
+
 
 <!-- replace  "- [ ]" with "- [X]" when you tackled the topic -->
 | Nummer | Punkte | Beschreibung                                                     | bearbeitet               | Verantwortliche/r                | Bewertung |
@@ -110,12 +127,11 @@ Die Slider auf der rechten Seite des Bildes von oben  ...
 ### Kompatibilität
 Das Projekt wurde mit folgenden Konfigurationen getestet:
 <!-- Nur die Konfigurationen angeben die ihr wirklich getestet habt. Eine gängige Kombination ist hier schon ausreichend-->
-- Windows 10 Build Version <> mit
-  - Firefox Version <>
-  - Chrome Version <> 
-  - Edge Version - nein
-  - Internet Explorer - nein 
-  - node js Version <>
+- Windows 11 Build Version <10.0.22000 Build 22000> mit
+  - Firefox Version <104.0.2 (64-Bit)>
+
+- Windows 10 Home <21H1> mit
+  - Chrome Version <104.0.5112.102> 
 <!--
 - Manjaro Build Version <> mit
   - Firefox Version <>
