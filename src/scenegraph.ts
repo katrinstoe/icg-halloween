@@ -67,6 +67,8 @@ export default class Scenegraph {
         const nodeCamera = new CameraNode(sgcamera)
         const cameraTr = new GroupNode(new Translation(new Vector(0,0,0,0)))
         cameraTr.add(nodeCamera)
+        let cameraAnimation = new DriverNode(cameraTr, new Vector(0, 0, 0, 0), "camera")
+        sg.add(cameraAnimation)
         sg.add(cameraTr)
 
 
@@ -106,7 +108,7 @@ export default class Scenegraph {
         const driver_Sc = new GroupNode(new Scaling(new Vector(0.05, 0.05, 0.0001, 0)))
         driver_Sc.add(driver)
         driver_Tr.add(driver_Sc)
-        let driverAnimation = new DriverNode(driver_Tr, new Vector(0.55, -0.48, -1, 0))
+        let driverAnimation = new DriverNode(driver_Tr, new Vector(0.55, -0.48, -1, 0), "box")
         let driverScAnimation = new ScalerNode(driver_Tr, new Vector(0.1, 0.1, 0.1, 1))
         sg.add(driverAnimation);
         sg.add(driverScAnimation)

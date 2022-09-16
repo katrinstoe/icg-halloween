@@ -79,7 +79,7 @@ export class AnimationVisitor extends Visitor {
     }
 
     visitDriverNode(node: DriverNode): void {
-        if (node.type == "CameraNode"){
+        if (node.driver == "camera"){
             this.cameraDriverNodes.push(node)
         } else {
             this.driverNodeArray.push(node)

@@ -324,6 +324,7 @@ export class MinMaxNode
      * Die Richtung, in die das Object bewegt werden soll
      */
     direction: String;
+    driver: String;
 
     /**
      * Kreiert eine neue DriverNode
@@ -331,11 +332,12 @@ export class MinMaxNode
      * AnimationNode angefügt werden soll
      * @param vector der Vector, von dem aus bewegt wird
      */
-    constructor(groupNode: GroupNode, vector: Vector) {
+    constructor(groupNode: GroupNode, vector: Vector, driver: String) {
         super(groupNode);
         this.vector = vector;
         this.active = false;
         this.direction = "up"
+        this.driver = driver
     }
 
     /**

@@ -69,7 +69,7 @@ window.addEventListener('load', function loadPage() {
     let rasterVisitor = new RasterVisitor(gl, phongShader, textureShader, setupVisitor.objects)
     let rayVisitor = new RayVisitorSupaFast(ctx, canvas.width, canvas.height)
     let animationVisitor = new AnimationVisitor();
-    let {animationNodeArray, minmaxNodeArray, driverNodeArray, scalerArray, rotationArray, cameraDriverNodes, } = animationVisitor.visit(sg)
+    let {animationNodeArray, minmaxNodeArray, driverNodeArray, scalerArray, rotationArray, cameraDriverNodes } = animationVisitor.visit(sg)
     let scalerNodes = scalerArray;
     let animationNodes= rotationArray
     let driverNodes = driverNodeArray
