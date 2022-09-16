@@ -183,24 +183,6 @@ export default class RayVisitorSupaFast extends Visitor {
         this.leafNodeAndPositionsList.push(object)
     }
 
-    visitAnimationNode(node: AnimationNode): void {
-    }
-
-    visitDriverNode(node: DriverNode): void {
-    }
-
-    visitMinMaxNode(node: MinMaxNode): void {
-    }
-
-    visitRotationNode(node: RotationNode): void {
-    }
-
-    visitScalerNode(node: ScalerNode): void {
-    }
-
-    visitSlerpNode(node: SlerpNode): void {
-    }
-
     visitTicTacToeTextureNode(node: TicTacToeTextureNode): void {
     }
 

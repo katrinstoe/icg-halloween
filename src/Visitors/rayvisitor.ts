@@ -296,18 +296,4 @@ export default class RayVisitor extends Visitor {
 
     visitTextureTextBoxNode(node: TextureTextBoxNode): void {
     }
-    visitRotationNode(node: RotationNode): void {
-    }
-    visitSlerpNode(node: SlerpNode): void {
-    }
-    visitScalerNode(node: ScalerNode): void {
-    }
-    visitMinMaxNode(node: MinMaxNode): void {
-    }
-    visitDriverNode(node: DriverNode): void {
-    }
-
-    visitAnimationNode(node: AnimationNode): void {
-        node.groupNode.accept(this)
-    }
 }

@@ -348,24 +348,6 @@ export default class mouseClickVisitor extends Visitor {
         }
     }
 
-    visitAnimationNode(node: AnimationNode): void {
-    }
-
-    visitDriverNode(node: DriverNode): void {
-    }
-
-    visitMinMaxNode(node: MinMaxNode): void {
-    }
-
-    visitRotationNode(node: RotationNode): void {
-    }
-
-    visitScalerNode(node: ScalerNode): void {
-    }
-
-    visitSlerpNode(node: SlerpNode): void {
-    }
-
     visitTextureTextBoxNode(node: TextureTextBoxNode){
     };
 
