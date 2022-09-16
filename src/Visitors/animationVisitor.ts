@@ -109,7 +109,6 @@ export class AnimationVisitor extends Visitor {
     }
 
     visitPyramidNode(node: PyramidNode): void {
-
     }
 
     visitRotationNode(node: RotationNode): void {
