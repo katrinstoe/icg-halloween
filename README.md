@@ -66,7 +66,7 @@ Geben Sie anschließend
 ```bash
 npm start
 ```
-eingeben und rufen die Website des Servers über to `0.0.0.0:<port>` bzw. `localhost:<port>` im Browser aufrufen. Der Port ist hierbei aus der Ausgabe der Konsole zu ersetzen.
+eingeben und rufen Sie die Website des Servers über to `0.0.0.0:<port>` bzw. `localhost:<port>` im Browser auf. Der Port ist hierbei aus der Ausgabe der Konsole zu ersetzen.
 
 
 
@@ -75,9 +75,8 @@ eingeben und rufen die Website des Servers über to `0.0.0.0:<port>` bzw. `local
 Im folgenden wird erklärt wie die Anwendung zu bedienen ist:
 
 ## Geisterfahrer
-
 - Pfeiltasten zur Navigation des Geisterfahrers
-- +/- zur Vergrößerung/Verkleinerung des Geisterfahrers
+
 
 ## Kamerafahrt
 - "w", "a", "s", "d", "x" und "y" um die Kamera zu bewegen
@@ -91,6 +90,7 @@ Im folgenden wird erklärt wie die Anwendung zu bedienen ist:
 
 ## spooky Sphere 
 - Klicke auf die Sphere für ein spooky Suprise!
+- +/- zur Vergrößerung/Verkleinerung des Sphere
 
 
 
