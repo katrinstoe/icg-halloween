@@ -40,10 +40,17 @@ Dieses Repository beinhaltet das Projekt des Kurses  "Interaktive Computergraphi
 ```
 
 Das Projekt ist in mehreren Ordner thematisch aufgeteilt. 
-`dist` beinhaltet Ressourcen die im Browser direkt verwendet werden. In `obj` liegen Beispieldateien, welche durch unseren OBJ Loader in die Szene geladen werden können. 
+`dist` beinhaltet Ressourcen die im Browser direkt verwendet werden.
 Unter `src` sind alle Quelldateien zusammengefasst, welche durch `webgl` transpiliert werden.
 Hierbei haben wir die Pakete entsprechend ihren Funktionen strukturiert:
-- `scene`  umfasst die Datenstrukturen für Szene und deren Interaktion
+- `AlteBoilerPlatesUebungen` enthält die Boilerplates der verangegangenen Übungen
+- `Camera` enthält die verwendeten Kameras
+- `Geometry` enthält die Grometrie_Objekte aufgeteilt in `RasterGeometry` und `RayGeometry`
+- `mathOperations` enthält die verwendeten mathematischen Operationen
+- `Nodes` enthält die verwendeten Nodes
+- `AlteBoilerPlatesUebungen` enthält die Boilerplates der verangegangenen Übungen
+- `AlteBoilerPlatesUebungen` enthält die Boilerplates der verangegangenen Übungen
+
 - ...
 - ...
 
