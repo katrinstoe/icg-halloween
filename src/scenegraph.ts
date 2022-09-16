@@ -90,7 +90,7 @@ export default class Scenegraph {
         sg.add(lightAnimation1)
         sg.add(lightAnimation2)
         sg.add(lightAnimation3)
-
+        // sg.add(light1)
 
         //Video-Box
         const videoBox = new TextureVideoBoxNode("moon.mp4");

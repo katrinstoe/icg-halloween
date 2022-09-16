@@ -13,6 +13,7 @@ export class Node {
    * @param visitor - The visitor
    */
   type: string
+  position: Vector
 
   constructor() {
     this.type = this.constructor.name

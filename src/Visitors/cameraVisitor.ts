@@ -28,7 +28,7 @@ import {
 /**
  * Klasse, die einen Visitor für die Kamera repräsentiert
  */
-export class CameraVisitor implements Visitor {
+export class CameraVisitor extends Visitor {
     model: Array<Matrix>
     inverse: Array<Matrix>
     public cameraVectors: Array<Vector>
@@ -47,6 +47,7 @@ export class CameraVisitor implements Visitor {
 
 
     constructor() {
+        super()
         this.model = new Array<Matrix>(Matrix.identity())
         this.inverse = new Array<Matrix>(Matrix.identity())
     }
@@ -149,24 +150,6 @@ export class CameraVisitor implements Visitor {
     }
 
     visitAABoxButtonNode(node: AABoxButtonNode) {
-    }
-
-    visitAnimationNode(node: AnimationNode): void {
-    }
-
-    visitDriverNode(node: DriverNode): void {
-    }
-
-    visitMinMaxNode(node: MinMaxNode): void {
-    }
-
-    visitRotationNode(node: RotationNode): void {
-    }
-
-    visitScalerNode(node: ScalerNode): void {
-    }
-
-    visitSlerpNode(node: SlerpNode): void {
     }
 
 }

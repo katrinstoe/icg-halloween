@@ -15,14 +15,6 @@ import {
 } from "../Nodes/nodes";
 import Vector from "../mathOperations/vector";
 import Matrix from "../mathOperations/matrix";
-import {
-    AnimationNode,
-    DriverNode,
-    MinMaxNode,
-    RotationNode,
-    ScalerNode,
-    SlerpNode,
-} from "../Nodes/animation-nodes";
 
 export class LightVisitor extends Visitor {
 
@@ -38,20 +30,6 @@ export class LightVisitor extends Visitor {
         this.inverse = new Array<Matrix>(Matrix.identity())
     }
     visitTextureTextBoxNode(node: TextureTextBoxNode): void {
-    }
-
-    visitRotationNode(node: RotationNode): void {
-    }
-    visitSlerpNode(node: SlerpNode): void {
-    }
-    visitScalerNode(node: ScalerNode): void {
-    }
-    visitMinMaxNode(node: MinMaxNode): void {
-    }
-    visitDriverNode(node: DriverNode): void {
-    }
-
-    visitAnimationNode(node: AnimationNode): void {
     }
 
     visitTextureVideoBoxNode(node: TextureVideoBoxNode): void {
@@ -96,10 +74,7 @@ export class LightVisitor extends Visitor {
         toWorld = this.model[this.model.length - 1];
         fromWorld = this.inverse[this.inverse.length - 1];
 
-
         this.lightPositions.push(toWorld.mulVec(node.position))
-        // console.log(fromWorld.mulVec(node.position))
-
     }
 
     visitTexturePyramidNode(node: TexturePyramidNode) {
