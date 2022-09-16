@@ -143,7 +143,7 @@ export default class Scenegraph {
         const buhuuAABoxTr = new GroupNode(new Translation(new Vector(0,0,0.6,1)));
         buhuuAABoxTr.add(buhuuBox);
 
-        let window2 = this.getWindow(new Vector(-0.3, 0, -1, 0), buhuuAABoxTr, "ghost_castle.jpg", 'Icons/buhuBox.png');
+        let window2 = this.getWindow(new Vector(-0.3, 0, -1, 0), buhuuAABoxTr, "many_ghosts.jpg", 'Icons/buhuBox.png');
         sg.add(window2.root);
         const TBWindow2Tr = new GroupNode(new Translation(new Vector(-0.44,0,0,0)));
         TBWindow2Tr.add(window2.ButtonTBTr);
@@ -225,7 +225,7 @@ export default class Scenegraph {
         let pyramidAnimation = new RotationNode(texturePyramid_Rt, new Vector(1,0,0,0));
         sg.add(pyramidAnimation)
 
-        let window4 = this.getWindow(new Vector(0.3, 0.5, -1, 0), pyramid_Rt, "hci-logo.png", 'Icons/posessedPyramid.png');
+        let window4 = this.getWindow(new Vector(0.3, 0.5, -1, 0), pyramid_Rt, "ghost_castle.jpg", 'Icons/posessedPyramid.png');
 
         sg.add(window4.root);
         const TBWindow4Tr = new GroupNode(new Translation(new Vector(-0.28,0,0,0)));
