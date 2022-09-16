@@ -15,15 +15,8 @@ import {
     TextureVideoBoxNode,
     TicTacToeTextureNode
 } from "../Nodes/nodes";
-import Matrix from "../mathOperations/matrix";
-import {
-    AnimationNode,
-    DriverNode,
-    MinMaxNode,
-    RotationNode,
-    ScalerNode,
-    SlerpNode,
-} from "../Nodes/animation-nodes";
+import {AnimationNode, DriverNode, MinMaxNode, RotationNode, ScalerNode, SlerpNode,} from "../Nodes/animation-nodes";
+
 /**
  * Haben JsonVisitor um pro Node entscheiden zu können, welche Daten relevant sind in Json Datei zu speichern, um für späteren Upload parat zu haben
  * Speichern uns Nodes inklusive Json Objekten auf einem Stack

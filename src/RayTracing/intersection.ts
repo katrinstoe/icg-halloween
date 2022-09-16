@@ -1,5 +1,4 @@
 import Vector from '../mathOperations/vector';
-import {Node} from "../Nodes/nodes";
 
 /**
  * Class representing a ray-sphere intersection in 3D space

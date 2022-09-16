@@ -1,7 +1,6 @@
 /**
  * Class representing a vector in 4D space
  */
-import Matrix from "./matrix";
 
 export default class Vector {
   /**

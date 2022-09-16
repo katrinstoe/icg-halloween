@@ -1,6 +1,3 @@
-import RasterSphere from '../Geometry/RasterGeometry/raster-sphere';
-import RasterBox from '../Geometry/RasterGeometry/raster-box';
-import RasterTextureBox from '../Geometry/RasterGeometry/raster-texture-box';
 import Vector from '../mathOperations/vector';
 import Matrix from '../mathOperations/matrix';
 import Visitor from './visitor';
@@ -15,7 +12,8 @@ import {
   SphereNode,
   TextureBoxButtonNode,
   TextureBoxNode,
-  TexturePyramidNode, TextureTextBoxNode,
+  TexturePyramidNode,
+  TextureTextBoxNode,
   TextureVideoBoxNode,
   TicTacToeTextureNode
 } from '../Nodes/nodes';

@@ -1,7 +1,6 @@
 import Visitor from '../Visitors/visitor';
 import Vector from '../mathOperations/vector';
-import { Transformation } from '../mathOperations/transformation';
-import TextureVideoBox from "../Geometry/RasterGeometry/texture-video-box";
+import {Transformation} from '../mathOperations/transformation';
 import Camera from "../Camera/camera";
 
 /**
@@ -21,7 +20,12 @@ export class Node {
   constructor() {
     this.type = this.constructor.name
   }
-
+/**
+ * Ist wie Interface
+ * wird in jeweiligem visitor aufgerufen
+ * dann entscheidet node selber wer sie ist und welche spezielle visitNode sie daraufhin aufruft
+ * spezielle implementierung von visitNodes kommt auf visitor an
+ * */
   accept(visitor: Visitor) { }
 
   /**

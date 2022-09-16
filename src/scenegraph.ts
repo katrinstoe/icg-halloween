@@ -1,5 +1,4 @@
 import {
-    AABoxButtonNode,
     AABoxNode,
     CameraNode,
     GroupNode,
@@ -9,17 +8,15 @@ import {
     SphereNode,
     TextureBoxButtonNode,
     TextureBoxNode,
-    TexturePyramidNode, TextureTextBoxNode,
-    TextureVideoBoxNode, TicTacToeTextureNode,
+    TexturePyramidNode,
+    TextureTextBoxNode,
+    TextureVideoBoxNode,
+    TicTacToeTextureNode,
 } from "./Nodes/nodes";
 import {Rotation, Scaling, Translation} from "./mathOperations/transformation";
 import Vector from "./mathOperations/vector";
-import {AnimationNode, DriverNode, MinMaxNode, RotationNode, ScalerNode} from "./Nodes/animation-nodes";
+import {DriverNode, MinMaxNode, RotationNode} from "./Nodes/animation-nodes";
 import Camera from "./Camera/camera";
-import {JsonVisitor} from "./Visitors/jsonVisitor";
-import TextureTextBox from "./Geometry/RasterGeometry/texture-text-box";
-import RayVisitorSupaFast from "./Visitors/rayvisitor-supa-fast";
-import {RasterVisitor} from "./Visitors/rastervisitor";
 
 export default class Scenegraph {
     static wuerfelArray: Array<TicTacToeTextureNode> = []

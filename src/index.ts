@@ -1,7 +1,7 @@
 import 'bootstrap';
 import 'bootstrap/scss/bootstrap.scss';
 import Vector from './mathOperations/vector';
-import {CameraNode, GroupNode} from './Nodes/nodes';
+import {GroupNode} from './Nodes/nodes';
 import {RasterVisitor,} from './Visitors/rastervisitor';
 import Shader from './Shaders/shader';
 import phongFragmentShader from './Shaders/phong-fragment-shader.glsl';
@@ -14,15 +14,12 @@ import mouseClickVisitor from "./Visitors/mouse-click-visitor";
 import Pyramid from "./Geometry/RayGeometry/pyramid";
 import {LightVisitor} from "./Visitors/lightVisitor";
 import {CameraVisitor} from "./Visitors/cameraVisitor";
-import Camera from "./Camera/camera";
-import Visitor from "./Visitors/visitor";
 import RayVisitorSupaFast from "./Visitors/rayvisitor-supa-fast";
 import Scenegraph from "./scenegraph";
 import {RasterSetupVisitor} from "./Visitors/rasterSetupVisitor";
 import {JsonLoader} from "./Visitors/jsonLoader";
 import {JsonVisitor} from "./Visitors/jsonVisitor";
 import {AnimationVisitor} from "./Visitors/animationVisitor";
-import {RotationNode, ScalerNode} from "./Nodes/animation-nodes";
 
 const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1));
 const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.5, 0.5, 1), new Vector(0, 0, 0, 1));
