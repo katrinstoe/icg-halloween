@@ -76,9 +76,9 @@ window.addEventListener('load', function loadPage() {
     let windowAnimationNodes = minmaxNodeArray
 
     let visitor: RayVisitorSupaFast | RasterVisitor
-    // let jsonVisitor = new JsonVisitor()
-    // jsonVisitor.download(sg)
-    // console.log(jsonVisitor.jsonStack)
+    let jsonVisitor = new JsonVisitor()
+    jsonVisitor.download(sg)
+    console.log(jsonVisitor.jsonStack)
     //https://stackoverflow.com/questions/16991341/json-parse-file-path
     let filePicker = document.getElementById("docpicker") as HTMLInputElement;
     filePicker.addEventListener('change', (e)=>{
