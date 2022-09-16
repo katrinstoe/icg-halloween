@@ -67,10 +67,6 @@ export class AnimationVisitor extends Visitor {
 
     visitAABoxNode(node: AABoxNode): void {
     }
-//TODO: Jacob Fragen ob raus muss
-    visitAnimationNode(node: AnimationNode): void {
-        // this.animationNodeArray.push(node)
-    }
 
     visitCameraNode(node: CameraNode): void {
         // this.cameraDriverArray.push(node)
@@ -82,6 +78,7 @@ export class AnimationVisitor extends Visitor {
         } else {
             this.driverNodeArray.push(node)
         }
+        node.groupNode.accept(this)
     }
 
     visitGroupNode(node: GroupNode): void {
@@ -103,7 +100,7 @@ export class AnimationVisitor extends Visitor {
 
     visitMinMaxNode(node: MinMaxNode): void {
         this.minmaxNodeArray.push(node)
-
+        node.groupNode.accept(this)
     }
 
     visitPyramidNode(node: PyramidNode): void {
@@ -112,16 +109,13 @@ export class AnimationVisitor extends Visitor {
     visitRotationNode(node: RotationNode): void {
         this.animationNodeArray.push(node)
         this.rotationArray.push(node)
+        node.groupNode.accept(this)
     }
 
     visitScalerNode(node: ScalerNode): void {
         this.animationNodeArray.push(node)
         this.scalerArray.push(node)
-
-    }
-
-    visitSlerpNode(node: SlerpNode): void {
-        // this.slerpNodeArray.push(node)
+        node.groupNode.accept(this)
     }
 
     visitSphereNode(node: SphereNode): void {

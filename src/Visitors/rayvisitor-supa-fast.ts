@@ -33,12 +33,10 @@ const UNIT_PYRAMID = new Pyramid(new Vector(-1, -1, -1, 1), new Vector(1, -1, 0,
 
 /**
  * The supafast version of the rayvisitor
- * Difference to normal Rayvisitor:
- * speichert Nodes und deren Positions in Array nach ersten traversen der children in addToNodesList mit:
- *              toWorld: toWorld,
- *             fromWorld: fromWorld,
- *             object: objectGeometry
- * ruft dann intersect für die Objekte auf nicht ganze Szene jedes Pixel, spart zeit
+ * Jedes mal beim Rendern geht rayvisitor durch und schaut sich für jedes Pixel ganzen Szenengraph und dessen translations, etc.
+ * Sparen jetzt rechenleistung indem wir nur einmal machen bis zum nächsten renderaufruf und in Liste speichern
+ * Danach gehen wir mit liste den Rayvisitor durch
+ * Bis zum nächsten rendern ändert sich die position der Objekte nämlich eh nicht
  * */
 export default class RayVisitorSupaFast extends Visitor {
 
