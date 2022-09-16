@@ -34,7 +34,11 @@ const UNIT_PYRAMID = new Pyramid(new Vector(-1, -1, -1, 1), new Vector(1, -1, 0,
 /**
  * The supafast version of the rayvisitor
  * Difference to normal Rayvisitor:
- *
+ * speichert Nodes und deren Positions in Array nach ersten traversen der children in addToNodesList mit:
+ *              toWorld: toWorld,
+ *             fromWorld: fromWorld,
+ *             object: objectGeometry
+ * ruft dann intersect für die Objekte auf nicht ganze Szene jedes Pixel, spart zeit
  * */
 export default class RayVisitorSupaFast extends Visitor {
 
@@ -164,12 +168,12 @@ export default class RayVisitorSupaFast extends Visitor {
     }
 
     visitTexturePyramidNode(node: TexturePyramidNode): void {
-
     }
 
     visitTextureVideoBoxNode(node: TextureVideoBoxNode): void {
     }
     //erstellt wichtige Werte für einzelne Objekte und added sie zur Liste
+    //geometryObject ist interface mit intersect methode und node color um Code Quality besser zu haben
     private addToNodesList(objectGeometry: geometryObject) {
         let toWorld = this.traverse[this.traverse.length-1];
         let fromWorld = this.inverse[this.inverse.length-1];

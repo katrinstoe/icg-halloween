@@ -3,6 +3,7 @@ import Intersection from './intersection';
 
 /**
  * Calculate the colour of an object at the intersection point according to the Phong Lighting model.
+ * Parameter werden reingegeben nicht hardgecoded um pro node individuell anpasspar raytracen zu können
  * @param color The colour of the intersected object
  * @param intersection The intersection information
  * @param kS the kS parameter of the phong model
@@ -18,7 +19,6 @@ export default function phong(
   cameraPosition: Vector, kS: number, kD: number, kA: number, lightPositions: Array<Vector>
 ): Vector {
   const lightColor =color;
-  const white = new Vector(1, 1, 1, 0)
   let p = intersection.point;
   let n = intersection.normal.normalize();
   let v = cameraPosition.sub(p).normalize();
@@ -42,6 +42,5 @@ export default function phong(
   specular = specular.mul(kS)
   diffuse = diffuse.mul(kD)
 
-  let phong = ambient.add(diffuse).add(specular);
-  return phong;
+  return ambient.add(diffuse).add(specular);
 }

@@ -17,9 +17,7 @@ export default class Camera{
     kD: number
     kA: number
     alpha: number
-    //lightPositions: Array<Vector>
-    //lookat Matrix
-    // lightPositions: Array<Vector>;
+
     constructor(origin: Vector, eye: Vector, center: Vector, up: Vector, fovy: number, near: number, far: number, width: number, height: number, shininess:number, kS: number, kD: number, kA: number) {
         this.aspect = width/height;
         this.origin = origin

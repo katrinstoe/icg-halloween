@@ -109,7 +109,11 @@ export default class RasterTexturePyramid {
         gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(uv),
             gl.STATIC_DRAW);
         this.texCoords = uvBuffer;
-        //Quelle: https://www.cuemath.com/centroid-formula/ &David
+        /**Quelle: https://www.cuemath.com/centroid-formula/ &David
+         * Berechnen interpolierte Normalen
+         * normale ist Abstand zwischen center und jeweiligem Punkt normalisiert
+         * pushen dann auf normals
+        */
         this.normals = []
         let centerBottom = new Vector((l.x + r.x+b.x)/3, (l.y + r.y+b.y)/3, (l.z+r.z+b.z)/3, 1)
         let abstand = (to.y-r.y)/3
@@ -155,9 +159,6 @@ export default class RasterTexturePyramid {
         this.gl.bindTexture(this.gl.TEXTURE_2D, this.texBuffer);
         shader.getUniformInt("sampler").set(0);
         this.gl.drawArrays(this.gl.TRIANGLES, 0, this.elements);
-        //added
-
-
 
         this.gl.disableVertexAttribArray(positionLocation);
         // TODO disable texture vertex attrib array

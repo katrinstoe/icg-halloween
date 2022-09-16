@@ -49,7 +49,10 @@ export default class Shader {
   use() {
     this.gl.useProgram(this.shaderProgram);
   }
-
+/**
+ * Mit Matthias geschrieben
+ * Holt shaderLocation, brauchen das um in rastervisitor ein Array in shader geben zu können
+ * */
   getUniform3fv(name: string):  WebGLUniformLocation{
     return this.gl.getUniformLocation(this.shaderProgram, name)
   }

@@ -5,23 +5,22 @@ import {
     CameraNode,
     GroupNode,
     LightNode,
+    Node,
     PyramidNode,
     SphereNode,
-    TextureBoxButtonNode, TextureBoxNode, TexturePyramidNode, TextureVideoBoxNode, TicTacToeTextureNode,
-    Node,
-    TextureTextBoxNode
+    TextureBoxButtonNode,
+    TextureBoxNode,
+    TexturePyramidNode,
+    TextureTextBoxNode,
+    TextureVideoBoxNode,
+    TicTacToeTextureNode
 } from "../Nodes/nodes";
-import {
-    AnimationNode,
-    DriverNode,
-    MinMaxNode,
-    RotationNode,
-    ScalerNode,
-    SlerpNode,
-} from "../Nodes/animation-nodes";
+import {AnimationNode, DriverNode, MinMaxNode, RotationNode, ScalerNode, SlerpNode,} from "../Nodes/animation-nodes";
 import Matrix from "../mathOperations/matrix";
-import Vector from "../mathOperations/vector";
-
+/**
+ * AnimationNode Visitor um über animationNodes in Szenengraphen zu traversen und wieder in Arrays für Rastervisitor zu speichern
+ *
+ * */
 export class AnimationVisitor extends Visitor {
     model: Array<Matrix>
     inverse: Array<Matrix>
@@ -68,7 +67,7 @@ export class AnimationVisitor extends Visitor {
 
     visitAABoxNode(node: AABoxNode): void {
     }
-
+//TODO: Jacob Fragen ob raus muss
     visitAnimationNode(node: AnimationNode): void {
         // this.animationNodeArray.push(node)
     }

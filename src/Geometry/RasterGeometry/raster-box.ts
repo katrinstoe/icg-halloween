@@ -51,12 +51,6 @@ export default class RasterBox {
         const mi = minPoint;
         const ma = maxPoint;
 
-//So for a triangle p1, p2, p3,
-        // if the vector U = p2 - p1 and the vector V = p3 - p1 then the
-        // normal N = U X V and can be calculated by:
-        // Nx = UyVz - UzVy
-        // Ny = UzVx - UxVz
-        // Nz = UxVy - UyVx
         let vertices = [
             mi.x, mi.y, ma.z, //0 / 0
             ma.x, mi.y, ma.z, //4 / 1
@@ -81,18 +75,24 @@ export default class RasterBox {
             // bottom
             5, 4, 1, 1, 0, 5
         ];
-        //Quelle: https://www.khronos.org/opengl/wiki/Calculating_a_Surface_Normal & Tino
-        //erstellen Triangles mit denen wir normalen später berechenn
+        /**
+         * erstellen Triangles aus den vertices-Koordinaten mithilfe der indices (Quelle: Tino)
+         * mit denen wir normalen später berechen
+         * Für Normalenberechnung nicht selber ausgedacht:
+         * Quelle: https://www.khronos.org/opengl/wiki/Calculating_a_Surface_Normal
+         * Pushen auch colors pro Triangle vertices
+         * */
+
         let triangles: Vector[] = []
         for (let i = 0; i < indices.length; i++) {
-            triangles.push(new Vector(vertices[indices[i] * 3], vertices[indices[i] * 3+1], vertices[indices[i] * 3+2], 1))
+            triangles.push(new Vector(vertices[indices[i] * 3], vertices[indices[i] * 3 + 1], vertices[indices[i] * 3 + 2], 1))
         }
         let normalsTriangles = []
         let colors = []
-        for (let j = 0; j < triangles.length; j+=3) {
+        for (let j = 0; j < triangles.length; j += 3) {
 
-            let U = triangles[j+1].sub(triangles[j])
-            let V = triangles[j+2].sub(triangles[j+1])
+            let U = triangles[j + 1].sub(triangles[j])
+            let V = triangles[j + 2].sub(triangles[j + 1])
 
             normalsTriangles.push(U.cross(V).x)
             normalsTriangles.push(U.cross(V).y)
@@ -121,7 +121,9 @@ export default class RasterBox {
             colors.push(color.z)
             colors.push(color.a)
         }
-
+        /**
+         * don't understand this part
+         * */
         vertices = []
         for (let j = 0; j < triangles.length; j++) {
             vertices.push(triangles[j].x)
@@ -129,7 +131,7 @@ export default class RasterBox {
             vertices.push(triangles[j].z)
         }
         indices = []
-        for (let j = 0; j < vertices.length; j+=1) {
+        for (let j = 0; j < vertices.length; j += 1) {
             indices.push(j)
         }
 
@@ -149,7 +151,9 @@ export default class RasterBox {
         gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
         this.colorBuffer = colorBuffer;
-
+        /**
+         * Erstellen normalBuffer, wie in Übung
+         * */
         const normalBuffer = this.gl.createBuffer();
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, normalBuffer);
         this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(normalsTriangles), this.gl.STATIC_DRAW);
@@ -168,7 +172,7 @@ export default class RasterBox {
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.vertexBuffer);
         const positionLocation = shader.getAttributeLocation("a_position");
         this.gl.enableVertexAttribArray(positionLocation);
-        this.gl.vertexAttribPointer(positionLocation,3, this.gl.FLOAT, false, 0, 0);
+        this.gl.vertexAttribPointer(positionLocation, 3, this.gl.FLOAT, false, 0, 0);
 
         // TODO bind colour buffer
         //aus Scene Graph die Color und vertices kriegen und ich shader geben
