@@ -18,6 +18,16 @@ import RasterPyramid from "../Geometry/RasterGeometry/raster-pyramid";
 import RasterTexturePyramid from "../Geometry/RasterGeometry/raster-texture-pyramid";
 import RasterTextureTictactoeBox from "../Geometry/RasterGeometry/raster-texture-tictactoeBox";
 import {Renderable} from "./rastervisitor";
+import {
+    AnimationNode,
+    DriverNode,
+    MinMaxNode,
+    RotationNode,
+    ScalerNode,
+    SlerpNode,
+    TranslatorNode
+} from "../Nodes/animation-nodes";
+import RasterTextureTextBox from "../Geometry/RasterGeometry/raster-texture-text-box";
 import TextureTextBox from "../Geometry/RasterGeometry/texture-text-box";
 
 /**
@@ -120,22 +130,6 @@ export class RasterSetupVisitor {
         );
     }
 
-    /**
-     * Visits a textured box node. Loads the texture
-     * and creates a uv coordinate buffer
-     * @param  {TextureBoxNode} node - The node to visit
-     */
-    visitTextureTextBoxNode(node: TextureTextBoxNode) {
-        this.objects.set(
-            node,
-            new TextureTextBox(
-                this.gl,
-                new Vector(-0.5, -0.5, -0.5, 1),
-                new Vector(0.5, 0.5, 0.5, 1),
-            )
-        );
-    }
-
 
     /**
      * Visits a textured box node. Loads the texture
@@ -227,9 +221,49 @@ export class RasterSetupVisitor {
             )
         );
     }
+    /**
+     * Visits a textured box node. Loads the texture
+     * and creates a uv coordinate buffer
+     * @param  {TextureBoxNode} node - The node to visit
+     */
+    visitTextureTextBoxNode(node: TextureTextBoxNode) {
+        this.objects.set(
+            node,
+            new RasterTextureTextBox(
+                this.gl,
+                new Vector(-0.5, -0.5, -0.5, 1),
+                new Vector(0.5, 0.5, 0.5, 1),
+            )
+        );
+    }
+
 
     visitCameraNode(node: CameraNode) {
     };
     visitLightNode(node: LightNode) {
     };
+
+
+
+    visitAnimationNode(node: AnimationNode): void {
+        node.groupNode.accept(this)
+    }
+    visitRotationNode(node: RotationNode){
+        this.visitAnimationNode(node)
+    }
+    visitSlerpNode(node: SlerpNode){
+        this.visitAnimationNode(node)
+    }
+    visitScalerNode(node: ScalerNode){
+        this.visitAnimationNode(node)
+    }
+    visitMinMaxNode(node: MinMaxNode){
+        this.visitAnimationNode(node)
+    }
+    visitDriverNode(node: DriverNode){
+        this.visitAnimationNode(node)
+    }
+    visitTranslatorNode(node: TranslatorNode){
+        this.visitAnimationNode(node)
+    }
 }

@@ -16,6 +16,15 @@ import {
 import Vector from "../mathOperations/vector";
 import Matrix from "../mathOperations/matrix";
 import Camera from "../Camera/camera";
+import {
+    AnimationNode,
+    DriverNode,
+    MinMaxNode,
+    RotationNode,
+    ScalerNode,
+    SlerpNode,
+    TranslatorNode
+} from "../Nodes/animation-nodes";
 
 /**
  * Klasse, die einen Visitor für die Kamera repräsentiert
@@ -141,5 +150,26 @@ export class CameraVisitor implements Visitor {
     }
 
     visitAABoxButtonNode(node: AABoxButtonNode) {
+    }
+
+    visitAnimationNode(node: AnimationNode): void {
+    }
+
+    visitDriverNode(node: DriverNode): void {
+    }
+
+    visitMinMaxNode(node: MinMaxNode): void {
+    }
+
+    visitRotationNode(node: RotationNode): void {
+    }
+
+    visitScalerNode(node: ScalerNode): void {
+    }
+
+    visitSlerpNode(node: SlerpNode): void {
+    }
+
+    visitTranslatorNode(node: TranslatorNode): void {
     }
 }

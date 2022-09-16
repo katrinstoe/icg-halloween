@@ -53,16 +53,19 @@ window.addEventListener('load', () => {
         // new Vector(1, 1, 1, 1)
         new Vector(lightPositionXCalc, 1,1,1)
     ];
-    // setup for rendering
-    const setupVisitor = new RasterSetupVisitor(gl, lightPositions);
-    setupVisitor.setup(sg);
+
 
     let camera = new Camera(new Vector(0, 0, 0, 1),
         new Vector(0, 0, 0, 1),
         new Vector(0, 0, -1, 1),
         new Vector(0, 1, 0, 0),
         60, 0.1, 100, canvas.width, canvas.height, shininessCalc,
-        kSCalc, kDCalc, kACalc)
+        kSCalc, kDCalc, kACalc, lightPositions)
+
+    // setup for rendering
+    const setupVisitor = new RasterSetupVisitor(gl, camera.lightPositions);
+    setupVisitor.setup(sg);
+
     shininessElement.onchange = function () {
         camera.shininess = Number(shininessElement.value);
     }
@@ -80,7 +83,7 @@ window.addEventListener('load', () => {
     }
     lightPositionXElement.onchange = function () {
         let lightPositionX = Number(lightPositionXElement.value)
-        for (let lightPosition of lightPositions) {
+        for (let lightPosition of camera.lightPositions) {
             lightPosition.x = lightPositionX;
         }
         // lightPositions = Number(lightPositionXElement.value);

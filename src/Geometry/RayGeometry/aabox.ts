@@ -23,7 +23,7 @@ export default class AABox {
     intersection: Intersection;
 
 
-    // color: Vector;
+     colorForJSON: Vector;
 
     //https://www.scratchapixel.com/lessons/3d-basic-rendering/ray-tracing-rendering-a-triangle/ray-triangle-intersection-geometric-solution
 
@@ -69,11 +69,12 @@ export default class AABox {
             4, 5, 1, 1, 0, 4
         ]
         this.color = color;
+        this.colorForJSON = color
 
     }
 
     /**
-     * Calculates the intersection of the AAbox with the given ray (first with Bounding Sphere)
+     * Calculates the intersection of the AAbox with the given ray
      * @param ray The ray to intersect with
      * @return The intersection if there is one, null if there is none
      */

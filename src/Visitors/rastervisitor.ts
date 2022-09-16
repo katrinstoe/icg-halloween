@@ -5,19 +5,33 @@ import Vector from '../mathOperations/vector';
 import Matrix from '../mathOperations/matrix';
 import Visitor from './visitor';
 import {
-  Node, GroupNode,
-  SphereNode, AABoxNode,
-  TextureBoxNode, PyramidNode, CameraNode, LightNode, TexturePyramidNode
-  , TextureVideoBoxNode, AABoxButtonNode, TextureBoxButtonNode, TicTacToeTextureNode, TextureTextBoxNode
+  AABoxButtonNode,
+  AABoxNode,
+  CameraNode,
+  GroupNode,
+  LightNode,
+  Node,
+  PyramidNode,
+  SphereNode,
+  TextureBoxButtonNode,
+  TextureBoxNode,
+  TexturePyramidNode, TextureTextBoxNode,
+  TextureVideoBoxNode,
+  TicTacToeTextureNode
 } from '../Nodes/nodes';
 import Shader from '../Shaders/shader';
-import RasterPyramid from "../Geometry/RasterGeometry/raster-pyramid";
-import RasterTexturePyramid from "../Geometry/RasterGeometry/raster-texture-pyramid";
-import {LightVisitor} from "./lightVisitor";
-import TextureVideoBox from "../Geometry/RasterGeometry/texture-video-box";
 import Camera from "../Camera/camera";
 import RasterTextureTictactoeBox from "../Geometry/RasterGeometry/raster-texture-tictactoeBox";
 import TextureTextBox from "../Geometry/RasterGeometry/texture-text-box";
+import {
+  AnimationNode,
+  DriverNode,
+  MinMaxNode,
+  RotationNode,
+  ScalerNode,
+  SlerpNode,
+  TranslatorNode
+} from "../Nodes/animation-nodes";
 
 export interface Renderable {
   render(shader: Shader): void;
@@ -27,7 +41,7 @@ export interface Renderable {
  * Klasse, die einen Visitor repräsentiert, der Rasterisation
  * benutzt um einen Szenengraph zu rendern
  */
-export class RasterVisitor implements Visitor {
+export class RasterVisitor extends Visitor {
   // TODO declare instance variables here
   model: Array<Matrix>
   inverse: Array<Matrix>
@@ -40,12 +54,13 @@ export class RasterVisitor implements Visitor {
    * @param renderables
    */
   constructor(
-      private gl: WebGL2RenderingContext,
-      private shader: Shader,
-      private textureshader: Shader,
-      private renderables: WeakMap<Node, Renderable>
+    private gl: WebGL2RenderingContext,
+    private shader: Shader,
+    private textureshader: Shader,
+    private renderables: WeakMap<Node, Renderable>
   ) {
     // TODO setup
+    super()
     this.model = new Array<Matrix>(Matrix.identity())
     this.inverse = new Array<Matrix>(Matrix.identity())
   }
@@ -119,7 +134,6 @@ export class RasterVisitor implements Visitor {
     // console.log(this.shininess)
   }
 
-
   /**
    * Besucht eine GroupNode
    * @param node Die Node, die besucht werden soll
@@ -143,7 +157,7 @@ export class RasterVisitor implements Visitor {
    * @param shaderForNode der shader, der für die Node genutzt werden soll
    * @param node die Node, die besucht werden soll
    */
-  visitObjectPhongNode(shaderForNode: Shader, node: Node){
+  visitObjectNode(shaderForNode: Shader, node: Node){
     const shader = shaderForNode;
     shader.use();
     let toWorld = Matrix.identity();
@@ -202,7 +216,7 @@ export class RasterVisitor implements Visitor {
    * @param node Die Node, die besucht werden soll
    */
   visitSphereNode(node: SphereNode) {
-    this.visitObjectPhongNode(this.shader, node)
+    this.visitObjectNode(this.shader, node)
   }
 
   /**
@@ -210,7 +224,7 @@ export class RasterVisitor implements Visitor {
    * @param  {AABoxNode} node Die node, die besucht werden soll
    */
   visitAABoxNode(node: AABoxNode) {
-    this.visitObjectPhongNode(this.shader, node)
+    this.visitObjectNode(this.shader, node)
   }
 
   /**
@@ -218,7 +232,14 @@ export class RasterVisitor implements Visitor {
    * @param  {TextureBoxNode} node Die Node, die besucht werden soll
    */
   visitTextureBoxNode(node: TextureBoxNode) {
-    this.visitObjectPhongNode(this.textureshader, node)
+    this.visitObjectNode(this.textureshader, node)
+  }
+  /**
+   * besucht eine BoxNode, die mit Text texturiert ist
+   * @param node die Node, die besucht werden soll
+   */
+  visitTextureTextBoxNode(node: TextureTextBoxNode): void {
+    this.visitObjectNode(this.textureshader, node)
   }
 
   /**
@@ -226,7 +247,7 @@ export class RasterVisitor implements Visitor {
    * @param  {TextureBoxNode} node Die Node, die besucht werden soll
    */
   visitTextureVideoBoxNode(node: TextureVideoBoxNode) {
-    this.visitObjectPhongNode(this.textureshader, node)
+    this.visitObjectNode(this.textureshader, node)
   }
 
   /**
@@ -234,7 +255,7 @@ export class RasterVisitor implements Visitor {
    * @param node Die Node, die besucht werden soll
    */
   visitPyramidNode(node: PyramidNode) {
-    this.visitObjectPhongNode(this.shader, node)
+    this.visitObjectNode(this.shader, node)
   }
 
   /**
@@ -242,7 +263,7 @@ export class RasterVisitor implements Visitor {
    * @param  {TextureBoxNode} node die Node, die besucht werden soll
    */
   visitTexturePyramidNode(node: TexturePyramidNode) {
-    this.visitObjectPhongNode(this.textureshader, node)
+    this.visitObjectNode(this.textureshader, node)
 
   }
 
@@ -251,7 +272,7 @@ export class RasterVisitor implements Visitor {
    * @param node die Node, die besucht werden soll
    */
   visitTicTacToeTextureNode(node: TicTacToeTextureNode): void {
-    this.visitObjectPhongNode(this.textureshader, node)
+    this.visitObjectNode(this.textureshader, node)
   }
 
   /**
@@ -327,6 +348,6 @@ export class RasterVisitor implements Visitor {
    * @param node die Node, die besucht werden soll
    */
   visitTextureTextBoxNode(node: TextureTextBoxNode): void {
-    this.visitObjectPhongNode(this.textureshader, node)
+    this.visitObjectNode(this.textureshader, node)
   }
 }

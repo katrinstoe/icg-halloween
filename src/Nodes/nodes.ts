@@ -12,7 +12,16 @@ export class Node {
    * Accepts a visitor according to the visitor pattern
    * @param visitor - The visitor
    */
+  type: string
+
+  constructor() {
+    this.type = this.constructor.name
+  }
+
   accept(visitor: Visitor) { }
+  toJSON(object: any){
+    object['type'] = this.type
+  }
 }
 
 /**
@@ -24,7 +33,8 @@ export class Node {
 export class GroupNode extends Node {
   // TODO declare instance variables
   children: Array<Node>;
-
+  static idCounter: number = 0;
+  id: number;
   /**
    * Constructor
    * @param transform The node's transformation
@@ -32,6 +42,8 @@ export class GroupNode extends Node {
   constructor(public transform : Transformation) {
     super();
     this.children = new Array<Node>();
+    this.id = GroupNode.idCounter++;
+
   }
 
   getchildren(){
@@ -54,6 +66,12 @@ export class GroupNode extends Node {
   add(childNode: Node) {
     this.children.push(childNode)
   }
+  public toJSON(object: any){
+    object['children'] = []
+    object['type'] = this.type
+    object['traverseMatrix'] = [this.transform.getMatrix().data]
+    object['inverseMatrix'] = [this.transform.getInverseMatrix().data]
+  }
 }
 
 /**
@@ -64,12 +82,12 @@ export class SphereNode extends Node {
 
   /**
    * Creates a new Sphere.
-   * The sphere is defined around the origin 
+   * The sphere is defined around the origin
    * with radius 1.
    * @param color The colour of the Sphere
    */
   constructor(
-    public color: Vector
+      public color: Vector
   ) {
     super();
   }
@@ -81,6 +99,10 @@ export class SphereNode extends Node {
   accept(visitor: Visitor) {
     // TODO
     visitor.visitSphereNode(this);
+  }
+  public toJSON(object: any){
+    object['type'] = this.type
+    object['color'] = [this.color.x, this.color.y, this.color.z, this.color.a]
   }
 }
 
@@ -96,8 +118,11 @@ export class AABoxNode extends Node {
    * with all edges of length 1
    * @param color The colour of the cube
    */
+  public colorForJSON: Vector
+
   constructor(public color: Vector) {
     super();
+    this.colorForJSON = color
   }
 
   /**
@@ -107,6 +132,11 @@ export class AABoxNode extends Node {
   accept(visitor: Visitor) {
     // TODO
     visitor.visitAABoxNode(this);
+  }
+  //Quelle Notation: https://stackoverflow.com/questions/1168807/how-can-i-add-a-key-value-pair-to-a-javascript-object
+  public toJSON(object: any){
+    object['type'] = this.type
+    object['color'] = [this.colorForJSON.x, this.colorForJSON.y, this.colorForJSON.z, this.colorForJSON.a]
   }
 }
 
@@ -129,6 +159,12 @@ export class AABoxButtonNode extends Node {
   accept(visitor: Visitor) {
     // TODO
     visitor.visitAABoxButtonNode(this);
+  }
+  public toJSON(object: any){
+    object['type'] = this.type
+    object['color'] = [this.color.x, this.color.y, this.color.z, this.color.a]
+    object['animate'] = this.animate
+
   }
 }
 
@@ -155,6 +191,10 @@ export class TextureBoxNode extends Node {
   accept(visitor: Visitor) {
     // TODO
     visitor.visitTextureBoxNode(this)
+  }
+  public toJSON(object: any){
+    object['type'] = this.type
+    object['texture'] = this.texture
   }
 }
 
@@ -206,6 +246,11 @@ export class TextureBoxButtonNode extends Node {
     // TODO
     visitor.visitTextureBoxButtonNode(this)
   }
+  public toJSON(object: any){
+    object['type'] = this.type
+    object['texture'] = this.texture;
+    object['animate'] = this.animate
+  }
 }
 
 
@@ -233,6 +278,10 @@ export class TextureVideoBoxNode extends Node {
     // TODO
     visitor.visitTextureVideoBoxNode(this)
   }
+  public toJSON(object: any){
+    object['type'] = this.type
+    object['texture'] = this.texture
+  }
 }
 
 /**
@@ -259,6 +308,10 @@ export class PyramidNode extends Node {
     // TODO
     visitor.visitPyramidNode(this);
   }
+  public toJSON(object: any){
+    object['type'] = this.type
+    object['color'] = [this.color.x, this.color.y, this.color.z, this.color.a]
+  }
 }
 
 /**
@@ -284,12 +337,33 @@ export class TexturePyramidNode extends Node {
     // TODO
     visitor.visitTexturePyramidNode(this)
   }
+  public toJSON(object: any){
+    object['type'] = this.type
+    object['texture'] = this.texture
+  }
 }
 
 export class CameraNode extends Node {
   /**
    * @param camera The camera
    */
+
+  aspect: number
+  origin: Vector
+  eye: Vector
+  center: Vector
+  up: Vector
+  fovy: number
+  near: number
+  far: number
+  width: number
+  height: number
+  shininess: number
+  kS: number
+  kD: number
+  kA: number
+  alpha: number
+
   constructor(public camera: Camera) {
     super();
   }
@@ -301,6 +375,25 @@ export class CameraNode extends Node {
   accept(visitor: Visitor) {
     // TODO
     visitor.visitCameraNode(this)
+  }
+  public toJSON(object: any){
+    object['type'] = this.type
+    object['camera'] = this.camera
+    object['aspect'] = this.aspect
+    object['origin'] = this.origin
+    object['eye'] = this.eye
+    object['center'] = this.center
+    object['up'] = this.up
+    object['fovy'] = this.fovy
+    object['near'] = this.near
+    object['far'] = this.far
+    object['width'] = this.width
+    object['height'] = this.height
+    object['shininess'] = this.shininess
+    object['kS'] = this.kS
+    object['kD'] = this.kD
+    object['kA'] = this.kA
+    object['alpha'] = this.alpha
   }
 }
 
@@ -324,6 +417,11 @@ export class LightNode extends Node {
     // TODO
     visitor.visitLightNode(this)
   }
+  public toJSON(object: any){
+    object['type'] = this.type
+    object['color'] = [this.color.x, this.color.y, this.color.z, this.color.a]
+    object['position'] = [this.position.x, this.position.y, this.position.z, this.position.a]
+  }
 }
 export class TicTacToeTextureNode extends Node{
   public textureArray = ['Icons/emptyTicTacToe.png', 'Icons/Matthias.png', 'Icons/Tino.png', 'Icons/resetText.png']
@@ -338,4 +436,57 @@ export class TicTacToeTextureNode extends Node{
     // TODO
     visitor.visitTicTacToeTextureNode(this)
   }
+  public toJSON(object: any){
+    object['type'] = this.type
+    object['texture'] = this.texture
+    object['activeTexture'] = this.activeTexture
+    object['amountOfSwitches'] = this.amountOfSwitches
+
+  }
 }
+/**
+ * Class representing a Textured Axis Aligned Box in the Scenegraph
+ * @extends Node
+ */
+export class TextureTextBoxNode extends Node {
+  /**
+   * Creates an axis aligned box textured box
+   * The box's center is located at the origin
+   * with all edges of length 1
+   * @param texture The image filename for the texture
+   */
+  constructor(public texture: string) {
+    super();
+  }
+
+  /**
+   * Accepts a visitor according to the visitor pattern
+   * @param visitor The visitor
+   */
+  accept(visitor: Visitor) {
+    // TODO
+    visitor.visitTextureTextBoxNode(this)
+  }
+  public toJSON(object: any){
+    object['type'] = this.type
+    object['texture'] = this.texture
+  }
+}
+
+
+// export class AnimationNode extends Node{
+//   children: Array<Node>;
+//
+//   constructor(public animationNode: AnimationNode) {
+//     super();
+//     this.children = new Array<Node>();
+//   }
+//
+//   accept(visitor: Visitor) {
+//     visitor.visitAnimationNode(this)
+//   }
+//
+//   public toJSON(object: any){
+//     object['node'] = this.animationNode
+//   }
+// }

@@ -1,17 +1,17 @@
+import Vector from '../mathOperations/vector';
+import {GroupNode, Node} from './nodes';
+import {Rotation, Scaling, SQT, Translation} from '../mathOperations/transformation';
+import Quaternion from '../mathOperations/quaternion';
+import Visitor from "../Visitors/visitor";
+
 /**
  * Class representing an Animation
  */
-import {GroupNode} from "./nodes";
-import Vector from "../mathOperations/vector";
-import {Rotation, Scaling, SQT, Translation} from "../mathOperations/transformation";
-import Quaternion from "../mathOperations/quaternion";
-
-
-export class AnimationNode {
-  /**
-   * Beschreibt, ob die Animation läuft
-   */
-  active: boolean;
+export class AnimationNode extends Node {
+    /**
+     * Describes if the animation is running
+     */
+    active: boolean;
 
   /**
    * Kreiert eine neue AnimationNode
@@ -19,6 +19,7 @@ export class AnimationNode {
    * AnimationNode angefügt werden soll
    */
   constructor(public groupNode: GroupNode) {
+    super()
     this.active = true;
   }
 
@@ -28,6 +29,18 @@ export class AnimationNode {
   toggleActive() {
     this.active = !this.active;
   }
+
+    accept(visitor: Visitor) {
+        visitor.visitAnimationNode(this)
+    }
+
+    public toJSON(object: any) {
+        object['children'] = []
+        object['type'] = this.type
+        object['node'] = this.groupNode
+        object['active'] = this.active
+
+    }
 
 }
 
@@ -69,7 +82,17 @@ export class RotationNode extends AnimationNode {
         this.angle += 0.001 * deltaT;
         this.groupNode.transform = new Rotation(this.axis, this.angle);
     }
-  }
+
+    accept(visitor: Visitor) {
+        visitor.visitRotationNode(this)
+    }
+
+    public toJSON(object: any) {
+        object['children'] = []
+        object['type'] = this.type
+        object['axis'] = [this.axis.x, this.axis.y, this.axis.z, this.axis.a]
+        object['angle'] = this.angle
+    }
 }
 
 /**
@@ -114,6 +137,17 @@ export class SlerpNode extends AnimationNode {
       (this.groupNode.transform as SQT).rotation = rot;
     }
   }
+
+    accept(visitor: Visitor) {
+        visitor.visitSlerpNode(this)
+    }
+
+    public toJSON(object: any) {
+        object['children'] = []
+        object['type'] = this.type
+        object['t'] = this.t
+        object['rotations'] = [this.rotations[0], this.rotations[1]]
+    }
 
 }
 
@@ -161,7 +195,18 @@ export class ScalerNode extends AnimationNode {
       }
       this.groupNode.transform = new Scaling(this.vector);
     }
-  }
+
+    accept(visitor: Visitor) {
+        visitor.visitScalerNode(this)
+    }
+
+    public toJSON(object: any) {
+        object['children'] = []
+        object['type'] = this.type
+        object['active'] = this.active
+        object['zoom'] = this.zoom
+        object['vector'] =[this.vector.x, this.vector.y, this.vector.z, this.vector.a];
+    }
 }
 
 
@@ -234,7 +279,21 @@ export class MinMaxNode extends AnimationNode {
       }
       this.groupNode.transform = new Scaling(this.vector);
     }
-  }
+
+    accept(visitor: Visitor) {
+        visitor.visitMinMaxNode(this)
+    }
+
+    public toJSON(object: any) {
+        object['children'] = []
+        object['type'] = this.type
+        object['startSize'] = [this.startSize.x, this.startSize.y, this.startSize.z, this.startSize.a]
+        object['endSize'] = [this.endSize.x, this.startSize.y, this.startSize.z, this.startSize.a]
+        object['active'] = this.active;
+        object['zoom'] = this.zoom;
+        object['transform'] = this.groupNode.transform
+        object['limit'] = this.limit;
+    }
 }
 
 
@@ -296,5 +355,16 @@ export class DriverNode extends AnimationNode {
       }
       this.groupNode.transform = new Translation(this.vector);
     }
+  }
+  accept(visitor: Visitor) {
+    visitor.visitDriverNode(this)
+  }
+
+  public toJSON(object: any) {
+    object['children'] = []
+    object['type'] = this.type
+    object['vector'] =[this.vector.x, this.vector.y, this.vector.z, this.vector.a];
+    object['active'] = this.active;
+    object['direction'] = this.direction
   }
 }

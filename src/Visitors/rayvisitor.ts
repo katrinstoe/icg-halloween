@@ -23,16 +23,25 @@ import AABox from '../Geometry/RayGeometry/aabox';
 import Pyramid from "../Geometry/RayGeometry/pyramid";
 import RasterTexturePyramid from "../Geometry/RasterGeometry/raster-texture-pyramid";
 import Camera from "../Camera/camera";
+import {
+    RotationNode,
+    SlerpNode,
+    ScalerNode,
+    MinMaxNode,
+    DriverNode,
+    TranslatorNode,
+    AnimationNode
+} from '../Nodes/animation-nodes';
 
 const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1));
 const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.5, 0.5, 1), new Vector(0, 0, 0, 1));
-const UNIT_PYRAMID = new Pyramid(new Vector(-1, -1, -1, 1), new Vector(1 , -1, 0, 1), new Vector(-1, -1, 1, 1), new Vector(-0.25, 1, 0, 1), new Vector(1, 0, 0,1))
+const UNIT_PYRAMID = new Pyramid(new Vector(-1, -1, -1, 1), new Vector(1, -1, 0, 1), new Vector(-1, -1, 1, 1), new Vector(-0.25, 1, 0, 1), new Vector(1, 0, 0, 1))
 
 /**
  * Class representing a Visitor that uses
  * Raytracing to render a Scenegraph
  */
-export default class RayVisitor implements Visitor {
+export default class RayVisitor extends Visitor {
     /**
      * The image data of the context to
      * set individual pixels
@@ -57,6 +66,7 @@ export default class RayVisitor implements Visitor {
         width: number,
         height: number
     ) {
+        super()
         this.imageData = context.getImageData(0, 0, width, height);
     }
 
@@ -286,5 +296,21 @@ export default class RayVisitor implements Visitor {
     }
 
     visitTextureTextBoxNode(node: TextureTextBoxNode): void {
+    }
+    visitRotationNode(node: RotationNode): void {
+    }
+    visitSlerpNode(node: SlerpNode): void {
+    }
+    visitScalerNode(node: ScalerNode): void {
+    }
+    visitMinMaxNode(node: MinMaxNode): void {
+    }
+    visitDriverNode(node: DriverNode): void {
+    }
+    visitTranslatorNode(node: TranslatorNode): void {
+    }
+
+    visitAnimationNode(node: AnimationNode): void {
+        node.groupNode.accept(this)
     }
 }

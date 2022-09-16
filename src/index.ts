@@ -1,6 +1,7 @@
 import 'bootstrap';
 import 'bootstrap/scss/bootstrap.scss';
 import Vector from './mathOperations/vector';
+import {CameraNode, GroupNode} from './Nodes/nodes';
 import {RasterVisitor,} from './Visitors/rastervisitor';
 import Shader from './Shaders/shader';
 import phongFragmentShader from './Shaders/phong-fragment-shader.glsl';
@@ -13,28 +14,34 @@ import mouseClickVisitor from "./Visitors/mouse-click-visitor";
 import Pyramid from "./Geometry/RayGeometry/pyramid";
 import {LightVisitor} from "./Visitors/lightVisitor";
 import {CameraVisitor} from "./Visitors/cameraVisitor";
+import Camera from "./Camera/camera";
+import Visitor from "./Visitors/visitor";
 import RayVisitorSupaFast from "./Visitors/rayvisitor-supa-fast";
 import Scenegraph from "./scenegraph";
 import {RasterSetupVisitor} from "./Visitors/rasterSetupVisitor";
+import {JsonLoader} from "./Visitors/jsonLoader";
+import {JsonVisitor} from "./Visitors/jsonVisitor";
+import {AnimationVisitor} from "./Visitors/animationVisitor";
+import {RotationNode, ScalerNode} from "./Nodes/animation-nodes";
 
 const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1));
 const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.5, 0.5, 1), new Vector(0, 0, 0, 1));
 const UNIT_PYRAMID = new Pyramid(new Vector(-0.5, -0.5, 0.5, 1), new Vector(0.5, -0.5, 0.5, 1), new Vector(0, -0.5, -0.5, 1), new Vector(0, 0.5, 0, 1), new Vector(0, 0, 0, 1))
 
 window.addEventListener('load', function loadPage() {
+    // Scenegraph.verySmallGraph()
     let {
         sg,
-        scalerNodes,
-        driverNodes,
-        animationNodes,
-        cameraDriverNodes,
-        windowAnimationNodes,
         gl,
         ctx,
         kDElement,
+        kDCalc,
         kSElement,
+        kSCalc,
         kAElement,
+        kACalc,
         shininessElement,
+        shininessCalc,
         canvas,
         canvas2
     } = Scenegraph.getScenegraph();
@@ -61,7 +68,28 @@ window.addEventListener('load', function loadPage() {
     let setupVisitor = new RasterSetupVisitor(gl, lightPositions)
     let rasterVisitor = new RasterVisitor(gl, phongShader, textureShader, setupVisitor.objects)
     let rayVisitor = new RayVisitorSupaFast(ctx, canvas.width, canvas.height)
-    let visitor: RayVisitorSupaFast|RasterVisitor
+    let animationVisitor = new AnimationVisitor();
+    let {animationNodeArray, minmaxNodeArray, driverNodeArray, scalerArray, rotationArray} = animationVisitor.visit(sg)
+    let scalerNodes = scalerArray;
+    let rotationNodes= rotationArray
+    let driverNodes = driverNodeArray
+
+    let visitor: RayVisitorSupaFast | RasterVisitor
+    let jsonVisitor = new JsonVisitor()
+    jsonVisitor.download(sg)
+    console.log(jsonVisitor.jsonStack)
+    //https://stackoverflow.com/questions/16991341/json-parse-file-path
+    let filePicker = document.getElementById("docpicker") as HTMLInputElement;
+    filePicker.addEventListener('change', (e)=>{
+        let target = e.target as HTMLInputElement;
+        let file = target.files[0]
+        file.text().then(text =>{
+            let json:GroupNode = <GroupNode> JSON.parse(text)
+            JsonLoader.deconstructFile(json)
+        })
+        // console.log(file)
+    })
+
 
     let renderer = localStorage.getItem("renderer")
     console.log(renderer)
@@ -82,7 +110,7 @@ window.addEventListener('load', function loadPage() {
             canvas2.style.display = "none"
             canvas.style.display = "block"
             loadScene()
-            console.log(visitor)
+            // console.log(visitor)
         } else if (btn2.checked) {
             btn1.checked = false
             btn2.checked = true
@@ -90,7 +118,7 @@ window.addEventListener('load', function loadPage() {
             canvas2.style.display = "block"
             canvas.style.display = "none"
             loadScene()
-            console.log(visitor)
+            // console.log(visitor)
         }
     }
 
@@ -116,8 +144,6 @@ window.addEventListener('load', function loadPage() {
             camera.kD = Number(kDElement.value);
             console.log(camera.kD)
         }
-
-        console.log(setupVisitor.objects)
 
         let animationTime = 0;
 
@@ -170,8 +196,7 @@ window.addEventListener('load', function loadPage() {
         kAElement.onchange = function () {
             camera.kA = Number(kAElement.value);
         }
-
-       Promise.all(
+        Promise.all(
             [phongShader.load(), textureShader.load()]
         ).then(x =>
             window.requestAnimationFrame(animate)

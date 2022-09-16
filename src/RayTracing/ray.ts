@@ -19,9 +19,7 @@ export default class Ray {
    * @param camera The Camera
    * @return The resulting Ray
    */
-  static makeRay(x: number, y: number,
-                           camera: Camera
-  ): Ray {
+  static makeRay(x: number, y: number,camera: Camera): Ray {
     // TODO
     let origin = new Vector(0,0,0,1)
     let x_d = x-((camera.width-1)/2);
