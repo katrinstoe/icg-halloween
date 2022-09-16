@@ -45,6 +45,8 @@ export default class mouseClickVisitor extends Visitor {
      * @param context The 2D context to render to
      * @param width The width of the canvas
      * @param height The height of the canvas
+     * @param mousePos The position of the mouse
+     * @param lastTexture the last texture
      */
     constructor(
         private context: CanvasRenderingContext2D,
@@ -59,62 +61,12 @@ export default class mouseClickVisitor extends Visitor {
         //added
     }
 
-    visitAABoxButtonNode(node: AABoxButtonNode): void {
-        let toWorld = Matrix.identity();
-        let fromWorld = Matrix.identity();
-        // TODO assign the model matrix and its inverse
-        for (let i = 0; i < this.model.length; i++) {
-            toWorld = toWorld.mul(this.model[i]);
-            fromWorld = this.inverse[i].mul(fromWorld);
-        }
-        const ray = new Ray(fromWorld.mulVec(this.ray.origin), fromWorld.mulVec(this.ray.direction).normalize());
-        let intersection = UNIT_AABOX.intersect(ray);
-        if (intersection) {
-            const intersectionPointWorld = toWorld.mulVec(intersection.point);
-            const intersectionNormalWorld = toWorld.mulVec(intersection.normal).normalize();
-            intersection = new Intersection(
-                (intersectionPointWorld.x - this.ray.origin.x) / this.ray.direction.x,
-                intersectionPointWorld,
-                intersectionNormalWorld,
-            );
-            if (this.intersection === null || intersection.closerThan(this.intersection)) {
-                this.intersection = intersection;
-                this.intersectionColor = node.color;
-                this.animation = node.animate;
-            }
-        }
-    }
-
-    visitTextureBoxButtonNode(node: TextureBoxButtonNode): void {
-        let toWorld = Matrix.identity();
-        let fromWorld = Matrix.identity();
-        // TODO assign the model matrix and its inverse
-        for (let i = 0; i < this.model.length; i++) {
-            toWorld = toWorld.mul(this.model[i]);
-            fromWorld = this.inverse[i].mul(fromWorld);
-        }
-        const ray = new Ray(fromWorld.mulVec(this.ray.origin), fromWorld.mulVec(this.ray.direction).normalize());
-        let intersection = UNIT_AABOX.intersect(ray);
-        if (intersection) {
-            const intersectionPointWorld = toWorld.mulVec(intersection.point);
-            const intersectionNormalWorld = toWorld.mulVec(intersection.normal).normalize();
-            intersection = new Intersection(
-                (intersectionPointWorld.x - this.ray.origin.x) / this.ray.direction.x,
-                intersectionPointWorld,
-                intersectionNormalWorld,
-            );
-            if (this.intersection === null || intersection.closerThan(this.intersection)) {
-                this.intersection = intersection;
-                this.animation = node.animate;
-            }
-        }
-    }
-
     /**
      * Renders the Scenegraph
      * @param rootNode The root node of the Scenegraph
      * @param camera The camera used
      * @param lightPositions The light light positions
+     * @param inverseView The inverse of the view matrix
      */
     render(
         rootNode: Node,
@@ -142,6 +94,68 @@ export default class mouseClickVisitor extends Visitor {
             this.animation();
         }
     }
+
+    /**
+     * Visits an aabox button node
+     * @param node The node to visit
+     */
+    visitAABoxButtonNode(node: AABoxButtonNode): void {
+        let toWorld = Matrix.identity();
+        let fromWorld = Matrix.identity();
+        // TODO assign the model matrix and its inverse
+        for (let i = 0; i < this.model.length; i++) {
+            toWorld = toWorld.mul(this.model[i]);
+            fromWorld = this.inverse[i].mul(fromWorld);
+        }
+        const ray = new Ray(fromWorld.mulVec(this.ray.origin), fromWorld.mulVec(this.ray.direction).normalize());
+        let intersection = UNIT_AABOX.intersect(ray);
+        if (intersection) {
+            const intersectionPointWorld = toWorld.mulVec(intersection.point);
+            const intersectionNormalWorld = toWorld.mulVec(intersection.normal).normalize();
+            intersection = new Intersection(
+                (intersectionPointWorld.x - this.ray.origin.x) / this.ray.direction.x,
+                intersectionPointWorld,
+                intersectionNormalWorld,
+            );
+            if (this.intersection === null || intersection.closerThan(this.intersection)) {
+                this.intersection = intersection;
+                this.intersectionColor = node.color;
+                this.animation = node.animate;
+            }
+        }
+    }
+
+
+    /**
+     * Visits a texture box button node
+     * @param node The node to visit
+     */
+    visitTextureBoxButtonNode(node: TextureBoxButtonNode): void {
+        let toWorld = Matrix.identity();
+        let fromWorld = Matrix.identity();
+        // TODO assign the model matrix and its inverse
+        for (let i = 0; i < this.model.length; i++) {
+            toWorld = toWorld.mul(this.model[i]);
+            fromWorld = this.inverse[i].mul(fromWorld);
+        }
+        const ray = new Ray(fromWorld.mulVec(this.ray.origin), fromWorld.mulVec(this.ray.direction).normalize());
+        let intersection = UNIT_AABOX.intersect(ray);
+        if (intersection) {
+            const intersectionPointWorld = toWorld.mulVec(intersection.point);
+            const intersectionNormalWorld = toWorld.mulVec(intersection.normal).normalize();
+            intersection = new Intersection(
+                (intersectionPointWorld.x - this.ray.origin.x) / this.ray.direction.x,
+                intersectionPointWorld,
+                intersectionNormalWorld,
+            );
+            if (this.intersection === null || intersection.closerThan(this.intersection)) {
+                this.intersection = intersection;
+                this.animation = node.animate;
+            }
+        }
+    }
+
+
 
     /**
      * Visits a group node
@@ -294,6 +308,10 @@ export default class mouseClickVisitor extends Visitor {
     visitLightNode(node: LightNode): void {
     };
 
+    /**
+     * Visits a tic tac toe texture node
+     * @param node The node to visit
+     */
     visitTicTacToeTextureNode(node: TicTacToeTextureNode): void {
         let toWorld = Matrix.identity();
         let fromWorld = Matrix.identity();

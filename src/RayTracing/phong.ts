@@ -5,6 +5,9 @@ import Intersection from './intersection';
  * Calculate the colour of an object at the intersection point according to the Phong Lighting model.
  * @param color The colour of the intersected object
  * @param intersection The intersection information
+ * @param kS the kS parameter of the phong model
+ * @param kD the kD parameter of the phong model
+ * @param kA the kA parameter of the phong model
  * @param lightPositions The light positions
  * @param shininess The shininess parameter of the Phong model
  * @param cameraPosition The position of the camera
@@ -13,13 +16,9 @@ import Intersection from './intersection';
 export default function phong(
   color: Vector, intersection: Intersection, shininess: number,
   cameraPosition: Vector, kS: number, kD: number, kA: number, lightPositions: Array<Vector>
-  // , kD: number, kA: number
 ): Vector {
   const lightColor = new Vector(0.8, 0.8, 0.8, 0);
   const white = new Vector(1, 1, 1, 0)
-  // const kA = 0.8;
-  // const kD = 0.5;
-  // const kS = 0.5;
   let p = intersection.point;
   let n = intersection.normal.normalize();
   let v = cameraPosition.sub(p).normalize();
