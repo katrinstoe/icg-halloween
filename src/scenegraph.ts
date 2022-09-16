@@ -165,7 +165,7 @@ export default class Scenegraph {
         const buhuuBox = new TextureTextBoxNode("BuHuu, I'm a Box!");
         const buhuuAABoxTr = new GroupNode(new Translation(new Vector(0,0,0.6,1)));
         const buhuuAABoxRt = new GroupNode(new Rotation(new Vector(0, 1, 0, 0), 1));
-        let buhuuAnimation = new RotationNode(buhuuAABoxRt, new Vector(1,0,0,0));
+        let buhuuAnimation = new RotationNode(buhuuAABoxRt, new Vector(0,1,0,0));
         buhuuAABoxRt.add(buhuuBox);
         buhuuAABoxTr.add(buhuuAABoxRt);
         buhuuAABoxTr.add(buhuuAnimation)
