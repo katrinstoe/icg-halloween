@@ -140,9 +140,9 @@ export default class Scenegraph {
         driver_Sc.add(driver)
         driver_Tr.add(driver_Sc)
         let driverAnimation = new DriverNode(driver_Tr, new Vector(0.55, -0.48, -1, 0), "box")
-        let driverScaler = new ScalerNode(driver_Sc, new Vector(0.05, 0.05, 0.001, 0))
-        sg.add(driverScaler)
-        sg.add(driverAnimation);
+        // let driverScaler = new ScalerNode(driver_Sc, new Vector(0.05, 0.05, 0.001, 0))
+        // driver_Sc.add(driverAnimation);
+        sg.add(driver_Tr)
 
         /**
          * Spooky Sphere
@@ -165,7 +165,7 @@ export default class Scenegraph {
         const buhuuBox = new TextureTextBoxNode("BuHuu, I'm a Box!");
         const buhuuAABoxTr = new GroupNode(new Translation(new Vector(0,0,0.6,1)));
         const buhuuAABoxRt = new GroupNode(new Rotation(new Vector(0, 1, 0, 0), 1));
-        let buhuuAnimation = new RotationNode(buhuuAABoxRt, new Vector(1,0,0,0));
+        let buhuuAnimation = new RotationNode(buhuuAABoxRt, new Vector(0,1,0,0));
         buhuuAABoxRt.add(buhuuBox);
         buhuuAABoxTr.add(buhuuAABoxRt);
         buhuuAABoxTr.add(buhuuAnimation)
