@@ -137,9 +137,7 @@ export default class Scenegraph {
         driver_Sc.add(driver)
         driver_Tr.add(driver_Sc)
         let driverAnimation = new DriverNode(driver_Tr, new Vector(0.55, -0.48, -1, 0), "box")
-        // let driverScaler = new ScalerNode(driver_Sc, new Vector(0.05, 0.05, 0.001, 0))
-        // driver_Sc.add(driverAnimation);
-        sg.add(driver_Tr)
+        sg.add(driverAnimation);
 
         /**
          * Spooky Sphere
@@ -147,8 +145,10 @@ export default class Scenegraph {
         const sphere = new SphereNode(new Vector(0.3, 0.05, 0.1, 1));
         const sphere_Tr = new GroupNode(new Translation(new Vector(0, -0.1, 0, 0)))
         const sphere_Sc = new GroupNode(new Scaling(new Vector(0.7, 0.7, 0.7, 0)))
+        let sphereAnimation = new ScalerNode(sphere_Sc, new Vector(0.7, 0.7, 0.7, 0))
         sphere_Sc.add(sphere);
         sphere_Tr.add(sphere_Sc);
+        sphere_Tr.add(sphereAnimation)
         let window1 = this.getWindow(new Vector(-0.3, 0.5, -1, 0), sphere_Tr, "geist.png", 'Icons/sinisterSphere.png');
 
         sg.add(window1.root);
