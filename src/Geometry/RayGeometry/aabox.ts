@@ -80,6 +80,7 @@ export default class AABox {
      */
     intersect(ray: Ray): Intersection | null {
 
+        //Wir intersecten erst mit der BoundingSphere, wenn intersection testen wir weiter, wenn nicht returnen wir null
         let intersection = this.intersectBoundingSphere(ray);
         if (!intersection){
             return null;
@@ -88,6 +89,7 @@ export default class AABox {
         let nearestIntersection: Intersection;
         let min = Number.MAX_VALUE;
 
+        //Hier testen wir mit den einzelnen Vertices der Box
         for (let i = 0; i < this.indices.length; i+=3) {
             let intersection = intersectTriangle(ray, this.vertices[this.indices[i]], this.vertices[this.indices[i+1]], this.vertices[this.indices[i+2]])
             if (intersection) {
@@ -97,6 +99,7 @@ export default class AABox {
                 }
             }
         }
+
         if (nearestIntersection) {
             return nearestIntersection;
         }
@@ -110,15 +113,17 @@ export default class AABox {
      */
     intersectBoundingSphere(ray: Ray): Intersection | null {
 
+        //berchnen des Mittelpunktes des Sqares
         let minPoint = new Vector(-0.5, -0.5, -0.5, 1);
         let maxPoint = new Vector(0.5, 0.5, 0.5, 1);
-
         let diagonal = maxPoint.sub(minPoint);
         let r = diagonal.length/2;
         let center = new Vector(0, 0, 0, 1);
 
+        //Erstellen der bounding Sphere mit berechneten Werten
         let boundingSphere = new Sphere(center,r, new Vector(0,0,0,0));
 
+        //Intersecten mit der Bounding Sphere, returnt intersection wenn gibt, null wenn nicht
         let intersection = boundingSphere.intersect(ray);
         if (intersection){
             return intersection;

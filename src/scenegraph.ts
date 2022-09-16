@@ -375,8 +375,6 @@ export default class Scenegraph {
         MinmaxTr.add(windowHeaderBarTr);
         MinmaxTr.add(windowBacktroundBox_Tr);
 
-
-
         windowSize.add(minmax);
         windowPosition.add(windowSize);
         root.add(windowPosition);
