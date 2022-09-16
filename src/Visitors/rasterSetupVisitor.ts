@@ -20,7 +20,6 @@ import RasterTextureBox from "../Geometry/RasterGeometry/raster-texture-box";
 import TextureVideoBox from "../Geometry/RasterGeometry/texture-video-box";
 import RasterPyramid from "../Geometry/RasterGeometry/raster-pyramid";
 import RasterTexturePyramid from "../Geometry/RasterGeometry/raster-texture-pyramid";
-import RasterTextureTictactoeBox from "../Geometry/RasterGeometry/raster-texture-tictactoeBox";
 import {Renderable} from "./rastervisitor";
 import {AnimationNode, DriverNode, MinMaxNode, RotationNode, ScalerNode, SlerpNode,} from "../Nodes/animation-nodes";
 import RasterTextureTextBox from "../Geometry/RasterGeometry/raster-texture-text-box";
@@ -164,8 +163,8 @@ export class RasterSetupVisitor {
         );
     }
     /**
-     * Visits a textured box node. Loads the texture
-     * and creates a uv coordinate buffer
+     * Visits a textured pyramid node. Loads the texture
+     * and creates a uv coordinate buffer and a normal buffer
      * @param  {TextureBoxNode} node - The node to visit
      */
     visitTexturePyramidNode(node: TexturePyramidNode) {
@@ -205,10 +204,14 @@ export class RasterSetupVisitor {
             )
         );
     }
+    /**
+     * Basically das gleiche wie TextureBoxNode
+     * Gibt zweite Node aber weil wir in den Nodes hier noch zusätzliche Memory info speichern
+     * */
     visitTicTacToeTextureNode(node: TicTacToeTextureNode){
         this.objects.set(
             node,
-            new RasterTextureTictactoeBox(
+            new RasterTextureBox(
                 this.gl,
                 new Vector(-0.5, -0.5, -0.5, 1),
                 new Vector(0.5, 0.5, 0.5, 1),
@@ -217,7 +220,7 @@ export class RasterSetupVisitor {
         );
     }
     /**
-     * Visits a textured box node. Loads the texture
+     * Visits a textured text box node. Loads the texture
      * and creates a uv coordinate buffer
      * @param  {TextureBoxNode} node - The node to visit
      */

@@ -31,6 +31,13 @@ const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1)
 const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.5, 0.5, 1), new Vector(0, 0, 0, 1));
 const UNIT_PYRAMID = new Pyramid(new Vector(-1, -1, -1, 1), new Vector(1, -1, 0, 1), new Vector(-1, -1, 1, 1), new Vector(-0.25, 1, 0, 1), new Vector(1, 0, 0, 1))
 
+/**
+ * The supafast version of the rayvisitor
+ * Jedes mal beim Rendern geht rayvisitor durch und schaut sich für jedes Pixel ganzen Szenengraph und dessen translations, etc.
+ * Sparen jetzt rechenleistung indem wir nur einmal machen bis zum nächsten renderaufruf und in Liste speichern
+ * Danach gehen wir mit liste den Rayvisitor durch
+ * Bis zum nächsten rendern ändert sich die position der Objekte nämlich eh nicht
+ * */
 export default class RayVisitorSupaFast extends Visitor {
 
     traverse: Array<Matrix>
@@ -159,12 +166,12 @@ export default class RayVisitorSupaFast extends Visitor {
     }
 
     visitTexturePyramidNode(node: TexturePyramidNode): void {
-
     }
 
     visitTextureVideoBoxNode(node: TextureVideoBoxNode): void {
     }
     //erstellt wichtige Werte für einzelne Objekte und added sie zur Liste
+    //geometryObject ist interface mit intersect methode und node color um Code Quality besser zu haben
     private addToNodesList(objectGeometry: geometryObject) {
         let toWorld = this.traverse[this.traverse.length-1];
         let fromWorld = this.inverse[this.inverse.length-1];

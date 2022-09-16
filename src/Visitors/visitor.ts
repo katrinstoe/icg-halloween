@@ -1,25 +1,23 @@
 import {
-    GroupNode,
-    SphereNode,
+    AABoxButtonNode,
     AABoxNode,
-    TextureBoxNode,
-    PyramidNode,
-    LightNode,
     CameraNode,
+    GroupNode,
+    LightNode,
+    PyramidNode,
+    SphereNode,
+    TextureBoxButtonNode,
+    TextureBoxNode,
     TexturePyramidNode,
-    TextureVideoBoxNode, AABoxButtonNode, TextureBoxButtonNode, TicTacToeTextureNode, TextureTextBoxNode
+    TextureTextBoxNode,
+    TextureVideoBoxNode,
+    TicTacToeTextureNode
 } from '../Nodes/nodes';
-import RasterTexturePyramid from "../Geometry/RasterGeometry/raster-texture-pyramid";
-import TextureVideoBox from "../Geometry/RasterGeometry/texture-video-box";
-import {
-    AnimationNode,
-    DriverNode,
-    MinMaxNode,
-    RotationNode,
-    ScalerNode,
-    SlerpNode
-} from "../Nodes/animation-nodes";
-
+import {AnimationNode, DriverNode, MinMaxNode, RotationNode, ScalerNode, SlerpNode} from "../Nodes/animation-nodes";
+/**
+ * abstract class damit man nicht überall implementieren muss wenn man methode hinzufügt
+ * besonders für animationnode visitor praktisch für JSON Loader, weil animationnodes von hier aus schon alle children accepten
+ * */
 export default abstract class Visitor {
     abstract visitGroupNode(node: GroupNode): void;
     abstract visitSphereNode(node: SphereNode): void;

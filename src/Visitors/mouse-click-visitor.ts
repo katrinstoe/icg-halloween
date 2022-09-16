@@ -331,7 +331,14 @@ export default class mouseClickVisitor extends Visitor {
                 intersectionPointWorld,
                 intersectionNormalWorld,
             );
-
+/**
+ * Bis hier noch normale TextureBox
+ * Jetzt checken wir hier ob auf die Box schonmal gedrückt wurde
+ * wenn ja wird keine neue Texture gesetted
+ * Falls nein schauen wir welche Texture zuletzt gesetzt wurde und setzen jenachdem Vampir-Tino oder Zauberer-Matthias
+ * sollte die Box die Texture des Reset buttons haben werden alle im Scenengraph ins Würfel-Array gespeicherten Würfel wieder auf die Ausgangstextur gesetzt
+ * lastTexture wird in index hochgezählt
+ * */
             if (this.intersection === null || intersection.closerThan(this.intersection)) {
                 if (node.amountOfSwitches < 1) {
                     this.intersection = intersection;
@@ -360,7 +367,9 @@ export default class mouseClickVisitor extends Visitor {
     };
 
 }
-
+/**
+ * um zu schauen ob der lastIndex gerade Zahl oder ungerade war um jetzt andere Textur zu setzen
+ * */
 //https://stackoverflow.com/questions/6211613/testing-whether-a-value-is-odd-or-even
 function isEven(n: number) {
     return n % 2 == 0;

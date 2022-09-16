@@ -21,16 +21,6 @@ import {
 } from '../Nodes/nodes';
 import Shader from '../Shaders/shader';
 import Camera from "../Camera/camera";
-import RasterTextureTictactoeBox from "../Geometry/RasterGeometry/raster-texture-tictactoeBox";
-import TextureTextBox from "../Geometry/RasterGeometry/texture-text-box";
-import {
-  AnimationNode,
-  DriverNode,
-  MinMaxNode,
-  RotationNode,
-  ScalerNode,
-  SlerpNode,
-} from "../Nodes/animation-nodes";
 
 export interface Renderable {
   render(shader: Shader): void;
@@ -102,7 +92,9 @@ export class RasterVisitor extends Visitor {
    * transformieren
    */
   private perspective: Matrix;
-
+/**
+ * Parameter für Shader Lighting
+ * */
   private shininess: number;
 
   private kS: number;
@@ -130,11 +122,12 @@ export class RasterVisitor extends Visitor {
     this.kD = camera.kD;
     this.kA = camera.kA;
     this.lightPosisitions = lightPositions
-    // console.log(this.shininess)
   }
 
   /**
    * Besucht eine GroupNode
+   * besucht children
+   * baut pusht dann position auf zwei Stacks, einen für traversal einen für inverse traversal des Szenengraph (model, inverse)
    * @param node Die Node, die besucht werden soll
    */
   visitGroupNode(node: GroupNode) {
@@ -152,7 +145,9 @@ export class RasterVisitor extends Visitor {
   }
 
   /**
-   * besucht eine ObjectPhongNode
+   * besucht eine ObjectNode
+   * für jede Node werden die From und ToWorld Matrizen berechnet
+   * Dann werden licht Parameter an den FragmentShader gegeben und die Matrizen (Model, View, Normal, Perspective)
    * @param shaderForNode der shader, der für die Node genutzt werden soll
    * @param node die Node, die besucht werden soll
    */
@@ -212,6 +207,7 @@ export class RasterVisitor extends Visitor {
 
   /**
    * Besucht eine SphereNode
+   * ruft wieder visitObjectNode auf, weil hier überall das gleiche passiert
    * @param node Die Node, die besucht werden soll
    */
   visitSphereNode(node: SphereNode) {
@@ -220,6 +216,7 @@ export class RasterVisitor extends Visitor {
 
   /**
    * Besucht eine axis aligned box
+   * ruft wieder visitObjectNode auf, weil hier überall das gleiche passiert
    * @param  {AABoxNode} node Die node, die besucht werden soll
    */
   visitAABoxNode(node: AABoxNode) {
@@ -228,6 +225,7 @@ export class RasterVisitor extends Visitor {
 
   /**
    * Besucht eine texturierte Box Node
+   * ruft wieder visitObjectNode auf, weil hier überall das gleiche passiert
    * @param  {TextureBoxNode} node Die Node, die besucht werden soll
    */
   visitTextureBoxNode(node: TextureBoxNode) {
@@ -236,6 +234,7 @@ export class RasterVisitor extends Visitor {
 
   /**
    * Besucht eine mit einem Video texturierte Box Node
+   * ruft wieder visitObjectNode auf, weil hier überall das gleiche passiert
    * @param  {TextureBoxNode} node Die Node, die besucht werden soll
    */
   visitTextureVideoBoxNode(node: TextureVideoBoxNode) {
@@ -244,6 +243,7 @@ export class RasterVisitor extends Visitor {
 
   /**
    * Besucht eine PyramidNode
+   * ruft wieder visitObjectNode auf, weil hier überall das gleiche passiert
    * @param node Die Node, die besucht werden soll
    */
   visitPyramidNode(node: PyramidNode) {
@@ -252,6 +252,7 @@ export class RasterVisitor extends Visitor {
 
   /**
    * Besucht eine texturierte PyramidNode
+   * ruft wieder visitObjectNode auf, weil hier überall das gleiche passiert
    * @param  {TextureBoxNode} node die Node, die besucht werden soll
    */
   visitTexturePyramidNode(node: TexturePyramidNode) {
@@ -261,6 +262,7 @@ export class RasterVisitor extends Visitor {
 
   /**
    * besucht eine mit einem Tic Tac Toe Spiel texturierte Node
+   * ruft wieder visitObjectNode auf, weil hier überall das gleiche passiert
    * @param node die Node, die besucht werden soll
    */
   visitTicTacToeTextureNode(node: TicTacToeTextureNode): void {
@@ -272,28 +274,7 @@ export class RasterVisitor extends Visitor {
    * @param node die Node, die besucht werden soll
    */
   visitAABoxButtonNode(node: AABoxButtonNode): void {
-    this.shader.use();
-    let shader = this.shader;
-    let toWorld = Matrix.identity();
-    // TODO Calculate the model matrix for the box
-    toWorld = this.model[this.model.length-1];
-
-    shader.getUniformMatrix("M").set(toWorld);
-    shader.getUniformFloat("shininess").set(this.shininess)
-    shader.getUniformFloat("kS").set(this.kS)
-    shader.getUniformFloat("kD").set(this.kD)
-    shader.getUniformFloat("kA").set(this.kA)
-
-    let V = shader.getUniformMatrix("V");
-    if (V && this.lookat) {
-      V.set(this.lookat);
-    }
-    let P = shader.getUniformMatrix("P");
-    if (P && this.perspective) {
-      P.set(this.perspective);
-    }
-
-    this.renderables.get(node).render(shader);
+    this.visitObjectNode(this.shader, node)
   }
 
   /**
@@ -301,20 +282,7 @@ export class RasterVisitor extends Visitor {
    * @param node die Node, die besucht werden soll
    */
   visitTextureBoxButtonNode(node: TextureBoxButtonNode): void {
-    this.textureshader.use();
-    let shader = this.textureshader;
-
-    let toWorld = Matrix.identity();
-    // TODO calculate the model matrix for the box
-    toWorld = this.model[this.model.length-1];
-
-    shader.getUniformMatrix("M").set(toWorld);
-    shader.getUniformMatrix("V").set(this.lookat);
-    let P = shader.getUniformMatrix("P");
-    if (P && this.perspective) {
-      P.set(this.perspective);
-    }
-    this.renderables.get(node).render(shader);
+    this.visitObjectNode(this.textureshader, node)
   }
 
   /**

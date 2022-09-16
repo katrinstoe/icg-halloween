@@ -252,7 +252,7 @@ export default class Scenegraph {
         texturePyramid_Rt.add(texturePyramid_Tr)
         pyramid_Rt.add(texturePyramid_Rt);
         let pyramidAnimation = new RotationNode(texturePyramid_Rt, new Vector(1,0,0,0));
-        sg.add(pyramidAnimation)
+        pyramid_Rt.add(pyramidAnimation)
 
         let window4 = this.getWindow(new Vector(0.3, 0.5, -1, 0), pyramid_Rt, "ghost_castle.jpg", 'Icons/posessedPyramid.png');
 
@@ -260,6 +260,8 @@ export default class Scenegraph {
         const TBWindow4Tr = new GroupNode(new Translation(new Vector(-0.28,0,0,0)));
         TBWindow4Tr.add(window4.ButtonTBTr);
         TaskBarTr.add( TBWindow4Tr);
+
+
 
         return {
             sg,
@@ -316,7 +318,6 @@ export default class Scenegraph {
         let root = new GroupNode(new Translation(new Vector(0,0,0,0)));
 
         //MinMax Node
-        const EmptyTranslation = new GroupNode(new Translation(new Vector(0, 0, 0, 0)));
         const MinmaxTr = new GroupNode(new Translation(new Vector(0, 0, 0, 0)))
         const minmax = new MinMaxNode(MinmaxTr, new Vector(1, 1, 1, 0), new Vector(0.00001, 0.00001, 0.00001, 0), 1000)
 

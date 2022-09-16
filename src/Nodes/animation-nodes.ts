@@ -6,6 +6,9 @@ import Visitor from "../Visitors/visitor";
 
 /**
  * Class representing an Animation
+ * extended Node für den JSON Downloader
+ * hat damit auch accept und toJSON methoden
+ * kann in Szenengraph geadded werden
  */
 export class AnimationNode extends Node {
     /**

@@ -106,7 +106,7 @@ export default class RasterTextureBox {
         gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(uv),
             gl.STATIC_DRAW);
         this.texCoords = uvBuffer;
-        //Quelle: so wie raster-box
+        //Quelle: so wie raster-box nur ohne indices
         let triangles: Vector[] = []
         for (let i = 0; i < vertices.length; i++) {
             triangles.push(new Vector(vertices[i * 3+0], vertices[i * 3+1], vertices[i * 3+2], 1))

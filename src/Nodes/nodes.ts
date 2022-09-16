@@ -6,6 +6,9 @@ import Camera from "../Camera/camera";
 
 /**
  * Class representing a Node in a Scenegraph
+ * Speichert Typ (für JSON Visitor und position)
+ * Sie ist der Parent aller anderer Nodes und enthält eine accept Methode und ein toJSon Methode für alle Nodes
+ * Alle Nodes speichern zusätzliche wichtige Infos die für JSON Download relevant sind in JSON Methode in Objekt
  */
 export class Node {
   /**
@@ -408,6 +411,8 @@ export class TexturePyramidNode extends Node {
 
 /**
  * Class representing a CameraNode in the scenegraph
+ * Speichert für JSON zusätzliche wichtige Infos, wie alles was zum erstellen der Camera wichtig ist aber auch:
+ * Lichtparameter
  */
 export class CameraNode extends Node {
   /**
@@ -504,6 +509,9 @@ export class LightNode extends Node {
 /**
  * Class representing a textured node that is used for
  * the tic tac toe game
+ * Speichert textureArray mit allen möglichen Textures um zu entscheiden welche nach click gewählt werden soll
+ * Speichert die aktuell angezeigte texture
+ * speichert die amountofswitches um zu schauen ob nochmal texture geswitched werden darf
  */
 export class TicTacToeTextureNode extends Node{
   public textureArray = ['Icons/emptyTicTacToe.png', 'Icons/Matthias.png', 'Icons/Tino.png', 'Icons/resetText.png']

@@ -77,7 +77,11 @@ export default class Pyramid {
 
         let min = Number.MAX_VALUE;
 
-        //Hier testen wir mit den einzelnen Vertices der Pyramiede
+        /**
+         * Hier testen wir mit den einzelnen Vertices der Pyramide
+         * Erstellen uns dreiecke aus vertices und führen für alle dreiecksintersection durch inkl. Normalenberechnung, etc.
+         * schauen, wenn es eine Intersection gab dann ob diese näher als die zuletzt gespeicherte an der Stelle war und ersetzen sie gegebenenfalls
+         * */
         for (let i = 0; i < this.vertices.length; i += 3) {
             let intersection = intersectTriangle(ray, this.vertices[i], this.vertices[i + 1], this.vertices[i + 2])
             if (intersection) {

@@ -89,7 +89,11 @@ export default class AABox {
         let nearestIntersection: Intersection;
         let min = Number.MAX_VALUE;
 
-        //Hier testen wir mit den einzelnen Vertices der Box
+        /**
+            * Hier testen wir mit den einzelnen Vertices der Box
+            * Erstellen uns Dreiecke aus vertices und führen für alle Dreiecksintersection durch inkl. Normalenberechnung, etc.
+            * schauen, wenn es eine Intersection gab dann ob diese näher als die zuletzt gespeicherte an der Stelle war und ersetzen sie gegebenenfalls
+         */
         for (let i = 0; i < this.indices.length; i+=3) {
             let intersection = intersectTriangle(ray, this.vertices[this.indices[i]], this.vertices[this.indices[i+1]], this.vertices[this.indices[i+2]])
             if (intersection) {

@@ -54,6 +54,7 @@ export class JsonVisitor extends Visitor {
      * setzen unsere Id
      * wir speichern uns auf dem relationshipStack als Parent ab, sodass wenn children aufgerufen werden, dort nach letztem Eintrag schauen können und sich dem parent zuweisen
      * dann werden alle children für den parent auf den Stack gepushed
+     * jedes Object bekommt eine Id gespeichert und seine Children
      * */
 
     visitGroupNode(node: GroupNode) {
@@ -77,7 +78,14 @@ export class JsonVisitor extends Visitor {
         this.relationShipStack.pop()
 
     }
-
+/**
+ * Wird für jedes Objekt aufgerufen
+ * Speichert wer sein parent ist bzw. dass es ein child zu dem parent mit id... ist
+ * Erstellt neues objekt
+ * Objekt inhalt werden in einzelnen Nodes gesetzt
+ * setzt object auf stack mit id und objekt mit JSON Werten
+ * returned id
+ * */
     visitObjectNode(node: Node) {
         const id = this.nextId()
         const parent = this.relationShipStack[this.relationShipStack.length-1];
@@ -133,7 +141,9 @@ export class JsonVisitor extends Visitor {
     visitTicTacToeTextureNode(node: TicTacToeTextureNode): void {
         this.visitObjectNode(node)
     }
-    //AnimationNodes
+    /**AnimationNodes
+     * Parent AnimationNode called einzelne ObjectNodes und legt fest, dass auch für die visitObjectNode gesetzt wird
+     * */
     visitRotationNode(node: RotationNode): void {
         this.visitAnimationNode(node)
     }
@@ -156,8 +166,11 @@ export class JsonVisitor extends Visitor {
         this.relationShipStack.pop()
     }
 
+/**
+ * Ermöglicht Download des JSON Files innerhalb Visitors
+ * Quelle: https://stackoverflow.com/questions/3665115/how-to-create-a-file-in-memory-for-user-to-download-but-not-through-server
+ * */
 
-    //Quelle: https://stackoverflow.com/questions/3665115/how-to-create-a-file-in-memory-for-user-to-download-but-not-through-server
     private downloadFile(filename: string, text: string) {
         var element = document.createElement('a');
         element.setAttribute('href', 'data:json/plain;charset=utf-8,' + encodeURIComponent(text));
@@ -170,7 +183,11 @@ export class JsonVisitor extends Visitor {
 
         document.body.removeChild(element);
     }
-
+/**
+ * Erlaubt Zugriff von außen im index.ts auf download des JSON Files
+ * //https://stackoverflow.com/questions/29085197/how-do-you-json-stringify-an-es6-map
+ * //https://stackoverflow.com/questions/37437805/convert-map-to-json-object-in-javascript
+ * */
     public download(sg: Node){
         this.visit(sg)
         console.log(this.jsonStack)
@@ -178,8 +195,7 @@ export class JsonVisitor extends Visitor {
         let jsonString = JSON.stringify(str)
         this.downloadFile("SzenengraphDownload.json",jsonString)
     }
-    //https://stackoverflow.com/questions/29085197/how-do-you-json-stringify-an-es6-map
-    //https://stackoverflow.com/questions/37437805/convert-map-to-json-object-in-javascript
+
     private replacer(jsonStack:  Map<number, any>) {
         if(jsonStack instanceof Map) {
             return Object.fromEntries(jsonStack);
