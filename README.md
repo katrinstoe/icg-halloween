@@ -122,6 +122,9 @@ Im folgenden wird erklärt wie die Anwendung zu bedienen ist:
 | O12    | 5      | Anwendung in den 3D Anwendungsfenstern                           | <ul><li>- [X] </li></ul> | Katrin                           |           |
 
 
+## Link zum Wiki:
+https://gitlab2.informatik.uni-wuerzburg.de/hci/teaching/courses/interactive-computer-graphics/student-material/22ss/group-01/-/wikis/home
+
 
 
 ### Kompatibilität
