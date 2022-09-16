@@ -123,9 +123,9 @@ export default class Scenegraph {
         driver_Sc.add(driver)
         driver_Tr.add(driver_Sc)
         let driverAnimation = new DriverNode(driver_Tr, new Vector(0.55, -0.48, -1, 0), "box")
-        let driverScAnimation = new ScalerNode(driver_Sc, new Vector(0.1, 0.1, 0.1, 1))
+        // let driverScAnimation = new ScalerNode(driver_Sc, new Vector(0.1, 0.1, 0.1, 1))
         sg.add(driverAnimation);
-        sg.add(driverScAnimation)
+        // sg.add(driverScAnimation)
 
         //Spooky Sphere
         const sphere = new SphereNode(new Vector(0.3, 0.05, 0.1, 1));
@@ -141,15 +141,19 @@ export default class Scenegraph {
         TaskBarTr.add(TBWindow1Tr);
 
         //buhuu box
+        // const buhuuBox = new TextureTextBoxNode("BuHuu, I'm a Box!");
+        // const buhuuAABoxTr = new GroupNode(new Translation(new Vector(0,0,0.6,1)));
+        // const buhuuAABoxRty = new GroupNode(new Rotation(new Vector(0, 1, 0, 0), 1));
+        // const buhuuAABoxRtz = new GroupNode(new Rotation(new Vector(1, 0, 0, 0), 0.5));
+        // let buhuuAnimation = new RotationNode(buhuuAABoxRtz, new Vector(1,0,0,0));
+        // buhuuAABoxRtz.add(buhuuBox);
+        // buhuuAABoxRty.add(buhuuAABoxRtz);
+        // buhuuAABoxTr.add(buhuuAABoxRty);
+        // sg.add(buhuuAnimation)
+        //buhuu box
         const buhuuBox = new TextureTextBoxNode("BuHuu, I'm a Box!");
         const buhuuAABoxTr = new GroupNode(new Translation(new Vector(0,0,0.6,1)));
-        const buhuuAABoxRty = new GroupNode(new Rotation(new Vector(0, 1, 0, 0), 1));
-        const buhuuAABoxRtz = new GroupNode(new Rotation(new Vector(1, 0, 0, 0), 0.5));
-        let buhuuAnimation = new RotationNode(buhuuAABoxRtz, new Vector(1,0,0,0));
-        buhuuAABoxRtz.add(buhuuBox);
-        buhuuAABoxRty.add(buhuuAABoxRtz);
-        buhuuAABoxTr.add(buhuuAABoxRty);
-        sg.add(buhuuAnimation)
+        buhuuAABoxTr.add(buhuuBox);
 
         let window2 = this.getWindow(new Vector(-0.3, 0, -1, 0), buhuuAABoxTr, "ghost_castle.jpg", 'Icons/buhuBox.png');
         sg.add(window2.root);

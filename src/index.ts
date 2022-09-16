@@ -155,7 +155,7 @@ window.addEventListener('load', function loadPage() {
         let then = 0;
 
         function animate(timestamp: number) {
-            simulate((timestamp - lastTimestamp) / 10);
+            simulate((timestamp - lastTimestamp));
             let {camera, view} = cameraVisitor.visit(sg)
             visitor.render(sg, camera, lightPositions, view);
             lastTimestamp = timestamp;
