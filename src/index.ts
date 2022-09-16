@@ -35,13 +35,9 @@ window.addEventListener('load', function loadPage() {
         gl,
         ctx,
         kDElement,
-        kDCalc,
         kSElement,
-        kSCalc,
         kAElement,
-        kACalc,
         shininessElement,
-        shininessCalc,
         canvas,
         canvas2
     } = Scenegraph.getScenegraph();
@@ -60,10 +56,8 @@ window.addEventListener('load', function loadPage() {
 
     const lightPositionsVisitor = new LightVisitor
     let lightPositions = lightPositionsVisitor.visit(sg)
-    console.log(lightPositions)
     const cameraVisitor = new CameraVisitor
     let {camera, view} = cameraVisitor.visit(sg)
-    console.log(origin)
 
     let setupVisitor = new RasterSetupVisitor(gl, lightPositions)
     let rasterVisitor = new RasterVisitor(gl, phongShader, textureShader, setupVisitor.objects)
