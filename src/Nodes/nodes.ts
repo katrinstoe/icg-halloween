@@ -82,12 +82,12 @@ export class SphereNode extends Node {
 
   /**
    * Creates a new Sphere.
-   * The sphere is defined around the origin 
+   * The sphere is defined around the origin
    * with radius 1.
    * @param color The colour of the Sphere
    */
   constructor(
-    public color: Vector
+      public color: Vector
   ) {
     super();
   }
@@ -322,6 +322,23 @@ export class CameraNode extends Node {
   /**
    * @param camera The camera
    */
+
+  aspect: number
+  origin: Vector
+  eye: Vector
+  center: Vector
+  up: Vector
+  fovy: number
+  near: number
+  far: number
+  width: number
+  height: number
+  shininess: number
+  kS: number
+  kD: number
+  kA: number
+  alpha: number
+
   constructor(public camera: Camera) {
     super();
   }
@@ -337,6 +354,21 @@ export class CameraNode extends Node {
   public toJSON(object: any){
     object['type'] = this.type
     object['camera'] = this.camera
+    object['aspect'] = this.aspect
+    object['origin'] = this.origin
+    object['eye'] = this.eye
+    object['center'] = this.center
+    object['up'] = this.up
+    object['fovy'] = this.fovy
+    object['near'] = this.near
+    object['far'] = this.far
+    object['width'] = this.width
+    object['height'] = this.height
+    object['shininess'] = this.shininess
+    object['kS'] = this.kS
+    object['kD'] = this.kD
+    object['kA'] = this.kA
+    object['alpha'] = this.alpha
   }
 }
 

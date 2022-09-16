@@ -36,8 +36,8 @@ export default abstract class Visitor {
     abstract visitTicTacToeTextureNode(node: TicTacToeTextureNode): void;
     abstract visitTextureTextBoxNode(node: TextureTextBoxNode): void
     visitAnimationNode(node: AnimationNode): void {
-    node.groupNode.accept(this)
-}
+        node.groupNode.accept(this)
+    }
     visitRotationNode(node: RotationNode){
         this.visitAnimationNode(node)
     }

@@ -155,7 +155,7 @@ export class JsonVisitor extends Visitor {
         this.relationShipStack.push(id)
         node.groupNode.accept(this)
         this.relationShipStack.pop()
-     }
+    }
 
 
     //Quelle: https://stackoverflow.com/questions/3665115/how-to-create-a-file-in-memory-for-user-to-download-but-not-through-server
@@ -192,34 +192,6 @@ export class JsonVisitor extends Visitor {
     private nextId(){
         return this.nodeId++;
     }
-
-    // checkForAnimationNode(node: Node, object: any): any {
-    //     let animationNodes = <RotationNode[]> Scenegraph.getScenegraph().animationNodes
-    //     for (let i = 0; i < animationNodes.length; i++) {
-    //         console.log(animationNodes[i])
-    //         console.log(node)
-    //         if (node.id === animationNodes[i].groupNode.id){
-    //             let rotationNode = <RotationNode>animationNodes[i]
-    //             return object['animationNode'] = [node.id ,rotationNode.axis]
-    //         }
-    //     }
-    //     let driverNodes = Scenegraph.getScenegraph().driverNodes
-    //     console.log(driverNodes)
-    //     for (let i = 0; i < driverNodes.length; i++) {
-    //         if (node.id === driverNodes[i].groupNode.id){
-    //             return object['driverNode'] = [node.id, driverNodes[i].vector]
-    //         }
-    //     }
-    //     let scalerNodes = Scenegraph.getScenegraph().scalerNodes
-    //     console.log(scalerNodes)
-    //     for (let i = 0; i < scalerNodes.length; i++) {
-    //         if (node.id === scalerNodes[i].groupNode.id){
-    //             return object['scalerNodes'] = [node.id, scalerNodes[i].vector]
-    //         }
-    //     }
-    // }
-
-
 }
 
 
