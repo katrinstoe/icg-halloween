@@ -123,7 +123,7 @@ export default class Scenegraph {
         driver_Sc.add(driver)
         driver_Tr.add(driver_Sc)
         let driverAnimation = new DriverNode(driver_Tr, new Vector(0.55, -0.48, -1, 0), "box")
-        let driverScAnimation = new ScalerNode(driver_Tr, new Vector(0.1, 0.1, 0.1, 1))
+        let driverScAnimation = new ScalerNode(driver_Sc, new Vector(0.1, 0.1, 0.1, 1))
         sg.add(driverAnimation);
         sg.add(driverScAnimation)
 
