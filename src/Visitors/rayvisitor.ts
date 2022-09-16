@@ -6,31 +6,23 @@ import Ray from '../RayTracing/ray';
 import Visitor from './visitor';
 import phong from '../RayTracing/phong';
 import {
-    Node,
-    GroupNode,
-    SphereNode,
-    AABoxNode,
-    TextureBoxNode,
-    PyramidNode,
-    CameraNode,
-    LightNode,
-    TexturePyramidNode,
     AABoxButtonNode,
+    AABoxNode,
+    CameraNode,
+    GroupNode,
+    LightNode,
+    Node,
+    PyramidNode,
+    SphereNode,
     TextureBoxButtonNode,
-    TicTacToeTextureNode, TextureTextBoxNode
+    TextureBoxNode,
+    TexturePyramidNode,
+    TextureTextBoxNode,
+    TicTacToeTextureNode
 } from '../Nodes/nodes';
 import AABox from '../Geometry/RayGeometry/aabox';
 import Pyramid from "../Geometry/RayGeometry/pyramid";
-import RasterTexturePyramid from "../Geometry/RasterGeometry/raster-texture-pyramid";
 import Camera from "../Camera/camera";
-import {
-    RotationNode,
-    SlerpNode,
-    ScalerNode,
-    MinMaxNode,
-    DriverNode,
-    AnimationNode
-} from '../Nodes/animation-nodes';
 
 const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1));
 const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.5, 0.5, 1), new Vector(0, 0, 0, 1));

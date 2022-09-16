@@ -211,8 +211,8 @@ export default class Scenegraph {
         texturePyramid_Sc.add(texturePyramid);
         texturePyramid_Tr.add(texturePyramid_Sc);
         texturePyramid_Rt.add(texturePyramid_Tr)
-
         pyramid_Rt.add(texturePyramid_Rt);
+        let pyramidAnimation = new RotationNode(pyramid_Rt, new Vector(1,0,0,0));
 
         let window4 = this.getWindow(new Vector(0.3, 0.5, -1, 0), pyramid_Rt, "hci-logo.png", 'Icons/posessedPyramid.png');
 
@@ -227,6 +227,8 @@ export default class Scenegraph {
         //     new RotationNode(light1, new Vector(0, 1, 0, 0)),
         //     new RotationNode(light2, new Vector(0, 1, 0, 0)),
         //     new RotationNode(light3, new Vector(0, 0, 1, 0)),
+        // new RotationNode(texturePyramid_Rt, new Vector(1,0,0,0)),
+
         //     window1.minmax,
         //     window2.minmax,
         //     window3.minmax,

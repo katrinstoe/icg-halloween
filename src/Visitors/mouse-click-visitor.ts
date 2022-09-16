@@ -4,7 +4,6 @@ import Sphere from '../Geometry/RayGeometry/sphere';
 import Intersection from '../RayTracing/intersection';
 import Ray from '../RayTracing/ray';
 import Visitor from './visitor';
-import phong from '../RayTracing/phong';
 import {
     Node, GroupNode, SphereNode,
     AABoxNode, TextureBoxNode, PyramidNode, CameraNode, LightNode, TexturePyramidNode
@@ -16,15 +15,6 @@ import AABox from '../Geometry/RayGeometry/aabox';
 import Pyramid from "../Geometry/RayGeometry/pyramid";
 import Camera from "../Camera/camera";
 import Scenegraph from "../scenegraph";
-import {
-    AnimationNode,
-    DriverNode,
-    MinMaxNode,
-    RotationNode,
-    ScalerNode,
-    SlerpNode,
-} from "../Nodes/animation-nodes";
-import TextureTextBox from "../Geometry/RasterGeometry/texture-text-box";
 
 const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1));
 const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.5, 0.5, 1), new Vector(0, 0, 0, 1));
