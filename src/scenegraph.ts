@@ -232,6 +232,8 @@ export default class Scenegraph {
         TBWindow4Tr.add(window4.ButtonTBTr);
         TaskBarTr.add( TBWindow4Tr);
 
+
+
         return {
             sg,
             gl,
