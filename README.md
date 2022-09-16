@@ -48,11 +48,10 @@ Hierbei haben wir die Pakete entsprechend ihren Funktionen strukturiert:
 - `Geometry` enthält die Grometrie_Objekte aufgeteilt in `RasterGeometry` und `RayGeometry`
 - `mathOperations` enthält die verwendeten mathematischen Operationen
 - `Nodes` enthält die verwendeten Nodes
-- `AlteBoilerPlatesUebungen` enthält die Boilerplates der verangegangenen Übungen
-- `AlteBoilerPlatesUebungen` enthält die Boilerplates der verangegangenen Übungen
-
-- ...
-- ...
+- `RayTracing` enthält die für das Raytracing relevante Klassen
+- `Shaders` enthält die verwendeten Shader
+- `Visitor` enthält die verwendeten Visitor
+- `scenegraph` enthält den Szenengraph
 
 # Installation
 
