@@ -53,7 +53,16 @@
     </div>
 </nav>
 <div class="container-fluid">
-    <input type="file" id="docpicker" accept=".json">
+    <div>
+        <label for="btnForJsonDownload">Download JSON:</label>
+        <input type="button" id="btnForJsonDownload" value="Download Json">
+    </div>
+    <div>
+        <label for="docpicker">Upload JSON:</label>
+        <input type="file" id="docpicker" accept=".json" value="Upload Json" data-text="Upload JSON">
+    </div>
+
+
     <div class="zeichenflaeche d-flex justify-content-center">
         <div class="figure justify-content-center align-items-center">
             <figure class="figure d-flex justify-content-center">
