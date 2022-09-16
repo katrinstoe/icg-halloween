@@ -20,20 +20,21 @@ Dieses Repository beinhaltet das Projekt des Kurses  "Interaktive Computergraphi
 │   └── screenshot.png
 ├── obj <-- OBJ Dateien
 ├── src
-│   ├── abgabe.ts <-- Boilerplate 
-│   ├── ...
-│   ├── loader  <-- shader loader
-│   ├── math <-- Mathe Bibliothek
-│   ├── parser <-- OBJ Parser
-│   ├── renderers 
-│   ├── saveload.ts <-- Laden / Speichern
-│   └── scene  <-- Szenengraph
-│       ├── ...
-│       ├── camera.ts
-│       ├── ...
-│       ├── interaction.ts
-│       ├── sceneUtils.ts
-│       └── visitors <--  Visitors
+│   ├───AlteBoilerPlatesUebungen
+│   ├───Camera
+│   ├───Geometry
+│   │   ├───RasterGeometry
+│   │   └───RayGeometry
+│   ├───mathOperations
+│   ├───Nodes
+│   ├───RayTracing
+│   ├───Shaders
+│   ├───Visitors
+│   ├───glsl.d.ts
+│   ├───index.ts
+│   └───scenegraph.ts 
+├── test 
+├── tests
 └── ...
 
 ```
