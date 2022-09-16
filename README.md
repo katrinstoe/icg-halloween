@@ -92,6 +92,9 @@ Im folgenden wird erklärt wie die Anwendung zu bedienen ist:
 - Klicke auf die Sphere für ein spooky Suprise!
 - +/- zur Vergrößerung/Verkleinerung des Sphere
 
+## Verbesserung des Raytracers: RayVisitorSupaFast
+- Jedes mal beim Rendern geht rayvisitor durch und schaut sich für jedes Pixel ganzen Szenengraph und dessen translations, etc an. Sparen jetzt rechenleistung indem wir nur einmal machen bis zum nächsten renderaufruf und in Liste speichern. Danach gehen wir mit liste den Rayvisitor durch bis zum nächsten rendern ändert sich die position der Objekte nämlich eh nicht
+
 
 
 <!-- replace  "- [ ]" with "- [X]" when you tackled the topic -->
