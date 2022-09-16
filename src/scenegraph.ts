@@ -15,7 +15,7 @@ import {
 } from "./Nodes/nodes";
 import {Rotation, Scaling, Translation} from "./mathOperations/transformation";
 import Vector from "./mathOperations/vector";
-import {DriverNode, MinMaxNode, RotationNode} from "./Nodes/animation-nodes";
+import {DriverNode, MinMaxNode, RotationNode, ScalerNode} from "./Nodes/animation-nodes";
 import Camera from "./Camera/camera";
 
 export default class Scenegraph {
