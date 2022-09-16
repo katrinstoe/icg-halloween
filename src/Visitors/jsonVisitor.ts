@@ -24,10 +24,14 @@ import {
     ScalerNode,
     SlerpNode,
 } from "../Nodes/animation-nodes";
+/**
+ * Haben JsonVisitor um pro Node entscheiden zu können, welche Daten relevant sind in Json Datei zu speichern, um für späteren Upload parat zu haben
+ * Speichern uns Nodes inklusive Json Objekten auf einem Stack
+ * Um speichern zu können welche GroupNodes welche Children haben gibt es relationShip Stack
+ * nodeId wird hier hochgezählt nicht in nodes, da sonst nirgends benötigt wird
+ * */
 
 export class JsonVisitor extends Visitor {
-    traverse: Array<Matrix>
-    inverse: Array<Matrix>
     jsonStack: Map<number, any>
     relationShipStack: Array<number>
     // childArray: Array<number>
@@ -35,9 +39,6 @@ export class JsonVisitor extends Visitor {
 
     constructor() {
         super()
-        this.traverse = new Array<Matrix>(Matrix.identity())
-        this.inverse = new Array<Matrix>(Matrix.identity())
-        // this.nodeId = 0;
         this.jsonStack = new Map<number, any>()
         this.jsonStack.set(0, {children: []})
 
@@ -49,6 +50,11 @@ export class JsonVisitor extends Visitor {
         rootNode.accept(this);
     }
 
+    /**
+     * setzen unsere Id
+     * wir speichern uns auf dem relationshipStack als Parent ab, sodass wenn children aufgerufen werden, dort nach letztem Eintrag schauen können und sich dem parent zuweisen
+     * dann werden alle children für den parent auf den Stack gepushed
+     * */
 
     visitGroupNode(node: GroupNode) {
         const id = this.nextId()
@@ -65,9 +71,6 @@ export class JsonVisitor extends Visitor {
         }
         node.toJSON(object)
         this.jsonStack.set(id, object)
-        // this.checkForAnimationNode(node, object)
-        // node.id += 1;
-
         for (let child of children) {
             child.accept(this)
         }

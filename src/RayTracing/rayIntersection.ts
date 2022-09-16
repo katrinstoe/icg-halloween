@@ -4,6 +4,7 @@ import Intersection from "./intersection";
 //https://www.scratchapixel.com/lessons/3d-basic-rendering/ray-tracing-rendering-a-triangle/ray-triangle-intersection-geometric-solution
 
 export function intersectTriangle(ray: Ray, v0: Vector, v1: Vector, v2: Vector): Intersection | null {
+
     let v0v1 = v1.sub(v0);
     let v0v2 = v2.sub(v1);
 
@@ -43,7 +44,6 @@ export function intersectTriangle(ray: Ray, v0: Vector, v1: Vector, v2: Vector):
     }
 
     //edge1
-
     let edge1 = v2.sub(v1);
     let vp1 = P.sub(v1);
 
@@ -63,5 +63,4 @@ export function intersectTriangle(ray: Ray, v0: Vector, v1: Vector, v2: Vector):
     }
 
     return new Intersection(t, P, N);
-
 }

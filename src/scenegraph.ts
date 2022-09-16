@@ -39,6 +39,8 @@ export default class Scenegraph {
         const kAElement = document.getElementById("kA") as HTMLInputElement;
         let kACalc = Number(kAElement.value)
 
+
+
         const gl = canvas.getContext("webgl2");
         const ctx = canvas2.getContext("2d");
 
@@ -71,6 +73,18 @@ export default class Scenegraph {
         sg.add(cameraAnimation)
         sg.add(cameraTr)
 
+        shininessElement.onchange = function () {
+            sgcamera.shininess = Number(shininessElement.value);
+        }
+        kSElement.onchange = function () {
+            sgcamera.kS = Number(kSElement.value);
+        }
+        kDElement.onchange = function () {
+            sgcamera.kD = Number(kDElement.value);
+        }
+        kAElement.onchange = function () {
+            sgcamera.kD = Number(kDElement.value);
+        }
 
         //Taskbar
         const TaskBarBox = new AABoxNode(new Vector(0.3, 0.05, 0.1, 1));
@@ -109,9 +123,7 @@ export default class Scenegraph {
         driver_Sc.add(driver)
         driver_Tr.add(driver_Sc)
         let driverAnimation = new DriverNode(driver_Tr, new Vector(0.55, -0.48, -1, 0), "box")
-        let driverScAnimation = new ScalerNode(driver_Sc, new Vector(0.1, 0.1, 0, 1))
         sg.add(driverAnimation);
-        sg.add(driverScAnimation)
 
         //Spooky Sphere
         const sphere = new SphereNode(new Vector(0.3, 0.05, 0.1, 1));
@@ -129,13 +141,7 @@ export default class Scenegraph {
         //buhuu box
         const buhuuBox = new TextureTextBoxNode("BuHuu, I'm a Box!");
         const buhuuAABoxTr = new GroupNode(new Translation(new Vector(0,0,0.6,1)));
-        const buhuuAABoxRty = new GroupNode(new Rotation(new Vector(0, 1, 0, 0), 1));
-        const buhuuAABoxRtz = new GroupNode(new Rotation(new Vector(1, 0, 0, 0), 0.5));
-        let buhuuAnimation = new RotationNode(buhuuAABoxRtz, new Vector(1,0,0,0));
-        buhuuAABoxRtz.add(buhuuBox);
-        buhuuAABoxRty.add(buhuuAABoxRtz);
-        buhuuAABoxTr.add(buhuuAABoxRty);
-        sg.add(buhuuAnimation)
+        buhuuAABoxTr.add(buhuuBox);
 
         let window2 = this.getWindow(new Vector(-0.3, 0, -1, 0), buhuuAABoxTr, "ghost_castle.jpg", 'Icons/buhuBox.png');
         sg.add(window2.root);
@@ -231,13 +237,9 @@ export default class Scenegraph {
             gl,
             ctx,
             kAElement,
-            kACalc,
             kSElement,
-            kSCalc,
             kDElement,
-            kDCalc,
             shininessElement,
-            shininessCalc,
             canvas,
             canvas2
         }
@@ -287,7 +289,7 @@ export default class Scenegraph {
         //MinMax Node
         const EmptyTranslation = new GroupNode(new Translation(new Vector(0, 0, 0, 0)));
         const MinmaxTr = new GroupNode(new Translation(new Vector(0, 0, 0, 0)))
-        const minmax = new MinMaxNode(MinmaxTr, new Vector(1, 1, 1, 0), new Vector(0.00001, 0.00001, 0.00001, 0), 80)
+        const minmax = new MinMaxNode(MinmaxTr, new Vector(1, 1, 1, 0), new Vector(0.00001, 0.00001, 0.00001, 0), 1000)
 
         //Inhalt
         const aabox_Tr = new GroupNode(new Translation(new Vector(0, -0.45, 0, 0)))
@@ -346,8 +348,6 @@ export default class Scenegraph {
         MinmaxTr.add(ButtonHBTr);
         MinmaxTr.add(windowHeaderBarTr);
         MinmaxTr.add(windowBacktroundBox_Tr);
-
-
 
         windowSize.add(minmax);
         windowPosition.add(windowSize);

@@ -1,6 +1,8 @@
 import Vector from '../../mathOperations/vector';
 import Shader from '../../Shaders/shader';
 
+//https://www.delphic.me.uk/tutorials/webgl-text
+
 /**
  * A class creating buffers for a textured box to render it with WebGL
  */
@@ -83,25 +85,15 @@ export default class TextureTextBox {
 
         const ctx = this.canvas.getContext('2d');
 
+        //https://www.delphic.me.uk/tutorials/webgl-text
         ctx.fillStyle = "#7e0016"; 	// This determines the text colour, it can take a hex value or rgba value (e.g. rgba(255,0,0,0.5))
         ctx.textAlign = "center";	// This determines the alignment of text, e.g. left, center, right
         ctx.textBaseline = "middle";	// This determines the baseline of the text, e.g. top, middle, bottom
         ctx.font = "40px monospace";	// This determines the size of the text and the font family used
-
         ctx.fillText("BuHuu, I'm a Box!", this.canvas.width/2, this.canvas.height/2);
 
         this.initTexture()
 
-        /*let cubeImage = new Image();
-        cubeImage.onload = function () {
-            gl.bindTexture(gl.TEXTURE_2D, cubeTexture);
-            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, cubeImage);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-            gl.bindTexture(gl.TEXTURE_2D, null);
-        }
-        cubeImage.src = texture;*/
         this.texBuffer = this.canvasTexture;
 
         let uv = [
@@ -156,7 +148,6 @@ export default class TextureTextBox {
         gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
         this.vertexBuffer = vertexBuffer;
-        // this.elements = vertices.length / 3;
 
         const normalBuffer = this.gl.createBuffer();
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, normalBuffer);
@@ -177,7 +168,6 @@ export default class TextureTextBox {
 
         // Bind the texture coordinates in this.texCoords
         // to their attribute in the shader
-        // TODO
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.texCoords);
         const textureCoord = shader.getAttributeLocation("a_texCoord")
         this.gl.enableVertexAttribArray(textureCoord);
@@ -192,8 +182,6 @@ export default class TextureTextBox {
         this.gl.bindTexture(this.gl.TEXTURE_2D, this.texBuffer);
         shader.getUniformInt("sampler").set(0);
         this.gl.drawArrays(this.gl.TRIANGLES, 0, this.elements);
-        //added
-
 
         this.gl.disableVertexAttribArray(positionLocation);
         // TODO disable texture vertex attrib array
@@ -201,11 +189,13 @@ export default class TextureTextBox {
         this.gl.disableVertexAttribArray(aNormal)
     }
 
+    //https://www.delphic.me.uk/tutorials/webgl-text
     initTexture() {
         this.canvasTexture = this.gl.createTexture();
         this.handleLoadedTexture(this.canvasTexture, this.canvas);
     }
 
+    //https://www.delphic.me.uk/tutorials/webgl-text
     handleLoadedTexture(texture: any, textureCanvas: HTMLElement) {
         this.gl.pixelStorei(this.gl.UNPACK_FLIP_Y_WEBGL, false);
         this.gl.bindTexture(this.gl.TEXTURE_2D, texture);
@@ -213,7 +203,6 @@ export default class TextureTextBox {
         this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MAG_FILTER, this.gl.LINEAR);
         this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MIN_FILTER, this.gl.LINEAR_MIPMAP_NEAREST);
         this.gl.generateMipmap(this.gl.TEXTURE_2D);
-
         this.gl.bindTexture(this.gl.TEXTURE_2D, null);
     }
 }
