@@ -17,7 +17,7 @@ export default function phong(
   color: Vector, intersection: Intersection, shininess: number,
   cameraPosition: Vector, kS: number, kD: number, kA: number, lightPositions: Array<Vector>
 ): Vector {
-  const lightColor = new Vector(0.8, 0.8, 0.8, 0);
+  const lightColor =color;
   const white = new Vector(1, 1, 1, 0)
   let p = intersection.point;
   let n = intersection.normal.normalize();
