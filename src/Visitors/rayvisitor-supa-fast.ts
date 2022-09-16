@@ -10,6 +10,7 @@ import {
     TextureBoxButtonNode,
     TextureBoxNode,
     TexturePyramidNode,
+    TextureTextBoxNode,
     TextureVideoBoxNode,
     TicTacToeTextureNode
 } from "../Nodes/nodes";
@@ -38,7 +39,8 @@ const UNIT_SPHERE = new Sphere(new Vector(0, 0, 0, 1), 1, new Vector(0, 0, 0, 1)
 const UNIT_AABOX = new AABox(new Vector(-0.5, -0.5, -0.5, 1), new Vector(0.5, 0.5, 0.5, 1), new Vector(0, 0, 0, 1));
 const UNIT_PYRAMID = new Pyramid(new Vector(-1, -1, -1, 1), new Vector(1, -1, 0, 1), new Vector(-1, -1, 1, 1), new Vector(-0.25, 1, 0, 1), new Vector(1, 0, 0, 1))
 
-export default class RayVisitorSupaFast implements Visitor {
+export default class RayVisitorSupaFast extends Visitor {
+
     traverse: Array<Matrix>
     inverse: Array<Matrix>
 
@@ -53,26 +55,12 @@ export default class RayVisitorSupaFast implements Visitor {
         width: number,
         height: number
     ) {
+        super()
         this.imageData = context.getImageData(0, 0, width, height);
     }
 
-    visitTicTacToeTextureNode(node: TicTacToeTextureNode): void {
-    }
 
-    visitAABoxButtonNode(node: AABoxButtonNode): void {
-    }
-    visitTextureBoxButtonNode(node: TextureBoxButtonNode): void {
-    }
-    //ich habe:
-    // Pro Pixel alle Transformations des Szenengraph berechnet
-    // ich will:
-    // pro renderaufruf alle Transformations des Szenengraph berechnen
-    // ich brauche:
-    // 1 szenengraphaufruf per render nich per pixel
-    //Daher haben wir jetzt LeadNodeAndPositionList in der die Objekte inklusive aller wichtiger Daten gespeichert werden
-    //Dann kann der szenengraph einmal per render (nachdem die animation sich geändert hat) durchlaufen und sich die Endpositionen für die Objekte speichern, braucht
-    //so nicht pro Pixel jeweils ganzen Szenengraph traversieren, sondern kann einmal endposition mit matrix kriegen und anwenden
-    //
+
     render(
         rootNode: Node,
         camera: Camera,
@@ -214,6 +202,15 @@ export default class RayVisitorSupaFast implements Visitor {
     }
 
     visitTranslatorNode(node: TranslatorNode): void {
+    }
+    visitTicTacToeTextureNode(node: TicTacToeTextureNode): void {
+    }
+
+    visitAABoxButtonNode(node: AABoxButtonNode): void {
+    }
+    visitTextureBoxButtonNode(node: TextureBoxButtonNode): void {
+    }
+    visitTextureTextBoxNode(node: TextureTextBoxNode): void {
     }
 
 };

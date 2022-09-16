@@ -17,7 +17,7 @@ import {
     TexturePyramidNode,
     AABoxButtonNode,
     TextureBoxButtonNode,
-    TicTacToeTextureNode
+    TicTacToeTextureNode, TextureTextBoxNode
 } from '../Nodes/nodes';
 import AABox from '../Geometry/RayGeometry/aabox';
 import Pyramid from "../Geometry/RayGeometry/pyramid";
@@ -41,7 +41,7 @@ const UNIT_PYRAMID = new Pyramid(new Vector(-1, -1, -1, 1), new Vector(1, -1, 0,
  * Class representing a Visitor that uses
  * Raytracing to render a Scenegraph
  */
-export default class RayVisitor implements Visitor {
+export default class RayVisitor extends Visitor {
     /**
      * The image data of the context to
      * set individual pixels
@@ -66,30 +66,8 @@ export default class RayVisitor implements Visitor {
         width: number,
         height: number
     ) {
+        super()
         this.imageData = context.getImageData(0, 0, width, height);
-    }
-
-    visitRotationNode(node: RotationNode): void {
-        throw new Error('Method not implemented.');
-    }
-    visitSlerpNode(node: SlerpNode): void {
-        throw new Error('Method not implemented.');
-    }
-    visitScalerNode(node: ScalerNode): void {
-        throw new Error('Method not implemented.');
-    }
-    visitMinMaxNode(node: MinMaxNode): void {
-        throw new Error('Method not implemented.');
-    }
-    visitDriverNode(node: DriverNode): void {
-        throw new Error('Method not implemented.');
-    }
-    visitTranslatorNode(node: TranslatorNode): void {
-        throw new Error('Method not implemented.');
-    }
-
-    visitAnimationNode(node: AnimationNode): void {
-        node.groupNode.accept(this)
     }
 
     /**
@@ -314,5 +292,24 @@ export default class RayVisitor implements Visitor {
     }
 
     visitTicTacToeTextureNode(node: TicTacToeTextureNode): void {
+    }
+
+    visitTextureTextBoxNode(node: TextureTextBoxNode): void {
+    }
+    visitRotationNode(node: RotationNode): void {
+    }
+    visitSlerpNode(node: SlerpNode): void {
+    }
+    visitScalerNode(node: ScalerNode): void {
+    }
+    visitMinMaxNode(node: MinMaxNode): void {
+    }
+    visitDriverNode(node: DriverNode): void {
+    }
+    visitTranslatorNode(node: TranslatorNode): void {
+    }
+
+    visitAnimationNode(node: AnimationNode): void {
+        node.groupNode.accept(this)
     }
 }

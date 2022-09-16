@@ -6,7 +6,7 @@ import {
     PyramidNode,
     SphereNode,
     TextureBoxNode,
-    TexturePyramidNode,
+    TexturePyramidNode, TextureTextBoxNode,
     TextureVideoBoxNode, TicTacToeTextureNode
 } from "../Nodes/nodes";
 import Vector from "../mathOperations/vector";
@@ -27,6 +27,7 @@ import {
     SlerpNode,
     TranslatorNode
 } from "../Nodes/animation-nodes";
+import RasterTextureTextBox from "../Geometry/RasterGeometry/raster-texture-text-box";
 
 /**
  * Class representing a Visitor that sets up buffers
@@ -219,11 +220,29 @@ export class RasterSetupVisitor {
             )
         );
     }
+    /**
+     * Visits a textured box node. Loads the texture
+     * and creates a uv coordinate buffer
+     * @param  {TextureBoxNode} node - The node to visit
+     */
+    visitTextureTextBoxNode(node: TextureTextBoxNode) {
+        this.objects.set(
+            node,
+            new RasterTextureTextBox(
+                this.gl,
+                new Vector(-0.5, -0.5, -0.5, 1),
+                new Vector(0.5, 0.5, 0.5, 1),
+            )
+        );
+    }
+
 
     visitCameraNode(node: CameraNode) {
     };
     visitLightNode(node: LightNode) {
     };
+
+
 
     visitAnimationNode(node: AnimationNode): void {
         node.groupNode.accept(this)

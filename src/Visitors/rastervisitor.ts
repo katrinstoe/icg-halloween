@@ -12,7 +12,7 @@ import {
   SphereNode,
   TextureBoxButtonNode,
   TextureBoxNode,
-  TexturePyramidNode,
+  TexturePyramidNode, TextureTextBoxNode,
   TextureVideoBoxNode,
   TicTacToeTextureNode
 } from '../Nodes/nodes';
@@ -237,6 +237,13 @@ export class RasterVisitor extends Visitor {
    * @param  {TextureBoxNode} node - The node to visit
    */
   visitTextureBoxNode(node: TextureBoxNode) {
+    this.visitObjectNode(this.textureshader, node)
+  }
+  /**
+   * besucht eine BoxNode, die mit Text texturiert ist
+   * @param node die Node, die besucht werden soll
+   */
+  visitTextureTextBoxNode(node: TextureTextBoxNode): void {
     this.visitObjectNode(this.textureshader, node)
   }
 

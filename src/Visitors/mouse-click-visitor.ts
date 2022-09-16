@@ -10,7 +10,7 @@ import {
     AABoxNode, TextureBoxNode, PyramidNode, CameraNode, LightNode, TexturePyramidNode
     , TextureVideoBoxNode,
     AABoxButtonNode,
-    TextureBoxButtonNode, TicTacToeTextureNode
+    TextureBoxButtonNode, TicTacToeTextureNode, TextureTextBoxNode
 } from '../Nodes/nodes';
 import AABox from '../Geometry/RayGeometry/aabox';
 import Pyramid from "../Geometry/RayGeometry/pyramid";
@@ -34,7 +34,7 @@ const UNIT_PYRAMID = new Pyramid(new Vector(-0.5, -0.5, 0.5, 1), new Vector(0.5,
  * Class representing a Visitor that uses
  * Raytracing to render a Scenegraph
  */
-export default class mouseClickVisitor implements Visitor {
+export default class mouseClickVisitor extends Visitor {
     /**
      * The image data of the context to
      * set individual pixels
@@ -63,6 +63,7 @@ export default class mouseClickVisitor implements Visitor {
         height: number,
         //übergebener mouseray
         mousePos: { x: number; y: number }, lastTexture: {zahl: number}) {
+        super()
         this.imageData = context.getImageData(0, 0, width, height);
         this.mousePos = mousePos;
         this.lastTexture = lastTexture;
@@ -367,6 +368,9 @@ export default class mouseClickVisitor implements Visitor {
     }
 
     visitTranslatorNode(node: TranslatorNode): void {
+    }
+
+    visitTextureTextBoxNode(node: TextureTextBoxNode): void {
     }
 }
 

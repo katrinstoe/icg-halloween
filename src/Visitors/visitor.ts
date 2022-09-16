@@ -7,7 +7,7 @@ import {
     LightNode,
     CameraNode,
     TexturePyramidNode,
-    TextureVideoBoxNode, AABoxButtonNode, TextureBoxButtonNode, TicTacToeTextureNode
+    TextureVideoBoxNode, AABoxButtonNode, TextureBoxButtonNode, TicTacToeTextureNode, TextureTextBoxNode
 } from '../Nodes/nodes';
 import RasterTexturePyramid from "../Geometry/RasterGeometry/raster-texture-pyramid";
 import TextureVideoBox from "../Geometry/RasterGeometry/texture-video-box";
@@ -34,6 +34,7 @@ export default abstract class Visitor {
     abstract visitAABoxButtonNode(node: AABoxButtonNode): void;
     abstract visitTextureBoxButtonNode(node: TextureBoxButtonNode): void;
     abstract visitTicTacToeTextureNode(node: TicTacToeTextureNode): void;
+    abstract visitTextureTextBoxNode(node: TextureTextBoxNode): void
     visitAnimationNode(node: AnimationNode): void {
     node.groupNode.accept(this)
 }

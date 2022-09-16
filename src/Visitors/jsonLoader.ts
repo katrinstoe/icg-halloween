@@ -6,7 +6,13 @@ import {
     GroupNode,
     LightNode,
     PyramidNode,
-    SphereNode, TextureBoxButtonNode, TextureBoxNode, TexturePyramidNode, TextureVideoBoxNode, TicTacToeTextureNode
+    SphereNode,
+    TextureBoxButtonNode,
+    TextureBoxNode,
+    TexturePyramidNode,
+    TextureTextBoxNode,
+    TextureVideoBoxNode,
+    TicTacToeTextureNode
 } from "../Nodes/nodes";
 import {
     AnimationNode,
@@ -18,7 +24,7 @@ import {
     TranslatorNode
 } from "../Nodes/animation-nodes";
 
-export class JsonLoader implements Visitor {
+export class JsonLoader extends Visitor {
 //GamePlan
     /*
     1. Objekte aus JSON Datei laden ✓
@@ -32,6 +38,7 @@ export class JsonLoader implements Visitor {
     4. Scenengraph an indexDatei geben
     */
     constructor() {
+        super()
     }
 
     static deconstructFile(jsonObject: any) {
@@ -98,6 +105,9 @@ export class JsonLoader implements Visitor {
     }
 
     visitTranslatorNode(node: TranslatorNode): void {
+    }
+
+    visitTextureTextBoxNode(node: TextureTextBoxNode): void {
     }
 }
 

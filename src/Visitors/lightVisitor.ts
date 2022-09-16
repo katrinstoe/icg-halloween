@@ -10,13 +10,23 @@ import {
     SphereNode, TextureBoxButtonNode,
     TextureBoxNode,
     TexturePyramidNode,
+    TextureTextBoxNode,
     TextureVideoBoxNode, TicTacToeTextureNode
 } from "../Nodes/nodes";
 import Vector from "../mathOperations/vector";
 import Matrix from "../mathOperations/matrix";
-import {AnimationNode, DriverNode, MinMaxNode, RotationNode, ScalerNode, SlerpNode, TranslatorNode} from "../Nodes/animation-nodes";
+import {
+    AnimationNode,
+    DriverNode,
+    MinMaxNode,
+    RotationNode,
+    ScalerNode,
+    SlerpNode,
+    TranslatorNode
+} from "../Nodes/animation-nodes";
 
-export class LightVisitor implements Visitor {
+export class LightVisitor extends Visitor {
+
     model: Array<Matrix>
     inverse: Array<Matrix>
     public lightPositions: Array<Vector>
@@ -24,8 +34,11 @@ export class LightVisitor implements Visitor {
 
 
     constructor() {
+        super()
         this.model = new Array<Matrix>(Matrix.identity())
         this.inverse = new Array<Matrix>(Matrix.identity())
+    }
+    visitTextureTextBoxNode(node: TextureTextBoxNode): void {
     }
 
     visitRotationNode(node: RotationNode): void {

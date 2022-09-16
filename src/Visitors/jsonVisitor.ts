@@ -11,6 +11,7 @@ import {
     TextureBoxButtonNode,
     TextureBoxNode,
     TexturePyramidNode,
+    TextureTextBoxNode,
     TextureVideoBoxNode,
     TicTacToeTextureNode
 } from "../Nodes/nodes";
@@ -25,7 +26,7 @@ import {
     TranslatorNode
 } from "../Nodes/animation-nodes";
 
-export class JsonVisitor implements Visitor {
+export class JsonVisitor extends Visitor {
     traverse: Array<Matrix>
     inverse: Array<Matrix>
     jsonStack: Map<number, any>
@@ -34,17 +35,16 @@ export class JsonVisitor implements Visitor {
     nodeId: number
 
     constructor() {
+        super()
         this.traverse = new Array<Matrix>(Matrix.identity())
         this.inverse = new Array<Matrix>(Matrix.identity())
         // this.nodeId = 0;
         this.jsonStack = new Map<number, any>()
-        this.jsonStack.set(0,{children: []})
+        this.jsonStack.set(0, {children: []})
 
         this.relationShipStack = [0]
         this.nodeId = 0
     }
-
-
 
     visit(rootNode: Node) {
         rootNode.accept(this);
@@ -93,7 +93,9 @@ export class JsonVisitor implements Visitor {
     visitAABoxNode(node: AABoxNode): void {
         this.visitObjectNode(node)
     }
-
+    visitTextureTextBoxNode(node: TextureTextBoxNode): void {
+        this.visitObjectNode(node)
+    }
     visitCameraNode(node: CameraNode): void {
         this.visitObjectNode(node)
     }
