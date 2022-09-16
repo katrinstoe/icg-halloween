@@ -42,7 +42,6 @@ export class AnimationVisitor extends Visitor {
     }
 
     visitTextureTextBoxNode(node: TextureTextBoxNode): void {
-        throw new Error("Method not implemented.");
     }
 
     visit(rootNode: Node){
