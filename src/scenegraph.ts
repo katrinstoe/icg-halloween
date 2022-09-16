@@ -131,9 +131,11 @@ export default class Scenegraph {
         const buhuuAABoxTr = new GroupNode(new Translation(new Vector(0,0,0.6,1)));
         const buhuuAABoxRty = new GroupNode(new Rotation(new Vector(0, 1, 0, 0), 1));
         const buhuuAABoxRtz = new GroupNode(new Rotation(new Vector(1, 0, 0, 0), 0.5));
+        let buhuuAnimation = new RotationNode(buhuuAABoxRtz, new Vector(1,0,0,0));
         buhuuAABoxRtz.add(buhuuBox);
         buhuuAABoxRty.add(buhuuAABoxRtz);
         buhuuAABoxTr.add(buhuuAABoxRty);
+        sg.add(buhuuAnimation)
 
         let window2 = this.getWindow(new Vector(-0.3, 0, -1, 0), buhuuAABoxTr, "ghost_castle.jpg", 'Icons/buhuBox.png');
         sg.add(window2.root);
@@ -214,6 +216,8 @@ export default class Scenegraph {
         texturePyramid_Tr.add(texturePyramid_Sc);
         texturePyramid_Rt.add(texturePyramid_Tr)
         pyramid_Rt.add(texturePyramid_Rt);
+        let pyramidAnimation = new RotationNode(texturePyramid_Rt, new Vector(1,0,0,0));
+        sg.add(pyramidAnimation)
 
         let window4 = this.getWindow(new Vector(0.3, 0.5, -1, 0), pyramid_Rt, "hci-logo.png", 'Icons/posessedPyramid.png');
 
@@ -222,36 +226,8 @@ export default class Scenegraph {
         TBWindow4Tr.add(window4.ButtonTBTr);
         TaskBarTr.add( TBWindow4Tr);
 
-
-        // let animationNodes = [
-        //     //new RotationNode(sphereRt, new Vector(0, 0, 1, 0)),
-        //     new RotationNode(light1, new Vector(0, 1, 0, 0)),
-        //     new RotationNode(light2, new Vector(0, 1, 0, 0)),
-        //     new RotationNode(light3, new Vector(0, 0, 1, 0)),
-        // new RotationNode(texturePyramid_Rt, new Vector(1,0,0,0)),
-
-        //     window1.minmax,
-        //     window2.minmax,
-        //     window3.minmax,
-        //     window4.minmax,
-        //     // new RotationNode(kugelTr2, new Vector(0.2, 0.2, -1, 0)),
-        //     // new RotationNode(lightTr2, new Vector(1, 1, 1, 0)),
-        // ]
-
-
-        // let driverNodes = [
-        //     //new RotationNode(cubeSc, new Vector(0,0,1,0)),
-        //     new DriverNode(driver_Tr, new Vector(0.55, -0.48, -1, 0))
-        // ]
-
-        // let scalerNodes = [
-        //     new ScalerNode(driver_Tr, new Vector(0.1, 0.1, 0.1, 1))
-        // ]
         return {
             sg,
-            // animationNodes,
-            // driverNodes,
-            // scalerNodes,
             gl,
             ctx,
             kAElement,
