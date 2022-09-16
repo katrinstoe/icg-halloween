@@ -31,7 +31,6 @@ import {
     RotationNode,
     ScalerNode,
     SlerpNode,
-    TranslatorNode
 } from "../Nodes/animation-nodes";
 
 
@@ -202,8 +201,6 @@ export default class RayVisitorSupaFast extends Visitor {
     visitSlerpNode(node: SlerpNode): void {
     }
 
-    visitTranslatorNode(node: TranslatorNode): void {
-    }
     visitTicTacToeTextureNode(node: TicTacToeTextureNode): void {
     }
 

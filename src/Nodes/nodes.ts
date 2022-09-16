@@ -209,7 +209,8 @@ export class TextureTextBoxNode extends Node {
    * with all edges of length 1
    * @param texture The image filename for the texture
    */
-  constructor() {
+
+  constructor(public texture: string) {
     super();
   }
 
@@ -220,6 +221,10 @@ export class TextureTextBoxNode extends Node {
   accept(visitor: Visitor) {
     // TODO
     visitor.visitTextureTextBoxNode(this)
+  }
+  public toJSON(object: any){
+    object['type'] = this.type
+    object['texture'] = this.texture;
   }
 }
 
@@ -444,49 +449,3 @@ export class TicTacToeTextureNode extends Node{
 
   }
 }
-/**
- * Class representing a Textured Axis Aligned Box in the Scenegraph
- * @extends Node
- */
-export class TextureTextBoxNode extends Node {
-  /**
-   * Creates an axis aligned box textured box
-   * The box's center is located at the origin
-   * with all edges of length 1
-   * @param texture The image filename for the texture
-   */
-  constructor(public texture: string) {
-    super();
-  }
-
-  /**
-   * Accepts a visitor according to the visitor pattern
-   * @param visitor The visitor
-   */
-  accept(visitor: Visitor) {
-    // TODO
-    visitor.visitTextureTextBoxNode(this)
-  }
-  public toJSON(object: any){
-    object['type'] = this.type
-    object['texture'] = this.texture
-  }
-}
-
-
-// export class AnimationNode extends Node{
-//   children: Array<Node>;
-//
-//   constructor(public animationNode: AnimationNode) {
-//     super();
-//     this.children = new Array<Node>();
-//   }
-//
-//   accept(visitor: Visitor) {
-//     visitor.visitAnimationNode(this)
-//   }
-//
-//   public toJSON(object: any){
-//     object['node'] = this.animationNode
-//   }
-// }

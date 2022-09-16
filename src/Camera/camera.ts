@@ -19,8 +19,8 @@ export default class Camera{
     alpha: number
     //lightPositions: Array<Vector>
     //lookat Matrix
-    lightPositions: Array<Vector>;
-    constructor(origin: Vector, eye: Vector, center: Vector, up: Vector, fovy: number, near: number, far: number, width: number, height: number, shininess:number, kS: number, kD: number, kA: number, lightPositions: Array<Vector>) {
+    // lightPositions: Array<Vector>;
+    constructor(origin: Vector, eye: Vector, center: Vector, up: Vector, fovy: number, near: number, far: number, width: number, height: number, shininess:number, kS: number, kD: number, kA: number) {
         this.aspect = width/height;
         this.origin = origin
         this.eye = eye
@@ -36,7 +36,6 @@ export default class Camera{
         this.kD = kD
         this.kA = kA
         this.alpha = Math.PI / 3
-        this.lightPositions = lightPositions
 
     }
 }

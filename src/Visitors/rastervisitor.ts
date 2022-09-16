@@ -30,7 +30,6 @@ import {
   RotationNode,
   ScalerNode,
   SlerpNode,
-  TranslatorNode
 } from "../Nodes/animation-nodes";
 
 export interface Renderable {
@@ -232,13 +231,6 @@ export class RasterVisitor extends Visitor {
    * @param  {TextureBoxNode} node Die Node, die besucht werden soll
    */
   visitTextureBoxNode(node: TextureBoxNode) {
-    this.visitObjectNode(this.textureshader, node)
-  }
-  /**
-   * besucht eine BoxNode, die mit Text texturiert ist
-   * @param node die Node, die besucht werden soll
-   */
-  visitTextureTextBoxNode(node: TextureTextBoxNode): void {
     this.visitObjectNode(this.textureshader, node)
   }
 

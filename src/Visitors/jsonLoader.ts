@@ -21,7 +21,6 @@ import {
     RotationNode,
     ScalerNode,
     SlerpNode,
-    TranslatorNode
 } from "../Nodes/animation-nodes";
 
 export class JsonLoader extends Visitor {
@@ -44,6 +43,13 @@ export class JsonLoader extends Visitor {
     static deconstructFile(jsonObject: any) {
         // console.log(jsonObject["0"].type)
         console.error("Sorry, i didn't manage to do the loader in time :'(")
+        let number = 0;
+        // for (let i = 0; i < jsonObject.length; i++) {
+        //     if (jsonObject[''+i+''].type == "AABox"){
+        //         this.visitAABoxNode(jsonObject['number'])
+        //     }
+        // }
+
     }
 
     visitAABoxButtonNode(node: AABoxButtonNode): void {
@@ -102,9 +108,6 @@ export class JsonLoader extends Visitor {
     }
 
     visitSlerpNode(node: SlerpNode): void {
-    }
-
-    visitTranslatorNode(node: TranslatorNode): void {
     }
 
     visitTextureTextBoxNode(node: TextureTextBoxNode): void {

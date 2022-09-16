@@ -17,8 +17,7 @@ import {
     MinMaxNode,
     RotationNode,
     ScalerNode,
-    SlerpNode,
-    TranslatorNode
+    SlerpNode
 } from "../Nodes/animation-nodes";
 
 export default abstract class Visitor {
@@ -51,9 +50,6 @@ export default abstract class Visitor {
         this.visitAnimationNode(node)
     }
     visitDriverNode(node: DriverNode){
-        this.visitAnimationNode(node)
-    }
-    visitTranslatorNode(node: TranslatorNode){
         this.visitAnimationNode(node)
     }
 }

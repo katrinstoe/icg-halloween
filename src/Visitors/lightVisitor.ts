@@ -22,7 +22,6 @@ import {
     RotationNode,
     ScalerNode,
     SlerpNode,
-    TranslatorNode
 } from "../Nodes/animation-nodes";
 
 export class LightVisitor extends Visitor {
@@ -50,8 +49,6 @@ export class LightVisitor extends Visitor {
     visitMinMaxNode(node: MinMaxNode): void {
     }
     visitDriverNode(node: DriverNode): void {
-    }
-    visitTranslatorNode(node: TranslatorNode): void {
     }
 
     visitAnimationNode(node: AnimationNode): void {

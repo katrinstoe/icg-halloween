@@ -1,13 +1,17 @@
 import {
     AABoxButtonNode,
-    AABoxNode, CameraNode,
-    GroupNode, LightNode,
+    AABoxNode,
+    CameraNode,
+    GroupNode,
+    LightNode,
     Node,
     PyramidNode,
     SphereNode,
     TextureBoxNode,
-    TexturePyramidNode, TextureTextBoxNode,
-    TextureVideoBoxNode, TicTacToeTextureNode
+    TexturePyramidNode,
+    TextureTextBoxNode,
+    TextureVideoBoxNode,
+    TicTacToeTextureNode
 } from "../Nodes/nodes";
 import Vector from "../mathOperations/vector";
 import RasterSphere from "../Geometry/RasterGeometry/raster-sphere";
@@ -18,17 +22,8 @@ import RasterPyramid from "../Geometry/RasterGeometry/raster-pyramid";
 import RasterTexturePyramid from "../Geometry/RasterGeometry/raster-texture-pyramid";
 import RasterTextureTictactoeBox from "../Geometry/RasterGeometry/raster-texture-tictactoeBox";
 import {Renderable} from "./rastervisitor";
-import {
-    AnimationNode,
-    DriverNode,
-    MinMaxNode,
-    RotationNode,
-    ScalerNode,
-    SlerpNode,
-    TranslatorNode
-} from "../Nodes/animation-nodes";
+import {AnimationNode, DriverNode, MinMaxNode, RotationNode, ScalerNode, SlerpNode,} from "../Nodes/animation-nodes";
 import RasterTextureTextBox from "../Geometry/RasterGeometry/raster-texture-text-box";
-import TextureTextBox from "../Geometry/RasterGeometry/texture-text-box";
 
 /**
  * Class representing a Visitor that sets up buffers
@@ -233,6 +228,7 @@ export class RasterSetupVisitor {
                 this.gl,
                 new Vector(-0.5, -0.5, -0.5, 1),
                 new Vector(0.5, 0.5, 0.5, 1),
+                node.texture
             )
         );
     }
@@ -261,9 +257,6 @@ export class RasterSetupVisitor {
         this.visitAnimationNode(node)
     }
     visitDriverNode(node: DriverNode){
-        this.visitAnimationNode(node)
-    }
-    visitTranslatorNode(node: TranslatorNode){
         this.visitAnimationNode(node)
     }
 }

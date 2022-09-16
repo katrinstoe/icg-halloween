@@ -23,7 +23,6 @@ import {
     RotationNode,
     ScalerNode,
     SlerpNode,
-    TranslatorNode
 } from "../Nodes/animation-nodes";
 import TextureTextBox from "../Geometry/RasterGeometry/texture-text-box";
 
@@ -367,84 +366,9 @@ export default class mouseClickVisitor extends Visitor {
     visitSlerpNode(node: SlerpNode): void {
     }
 
-    visitTranslatorNode(node: TranslatorNode): void {
-    }
-
-    visitTextureTextBoxNode(node: TextureTextBoxNode): void {
-    }
-    /**
-     * Visits an aaboxButtonNode
-     * @param node The node to visit
-     */
-    visitAABoxButtonNode(node: AABoxButtonNode): void {
-        let toWorld = Matrix.identity();
-        let fromWorld = Matrix.identity();
-        // TODO assign the model matrix and its inverse
-        for (let i = 0; i < this.model.length; i++) {
-            toWorld = toWorld.mul(this.model[i]);
-            fromWorld = this.inverse[i].mul(fromWorld);
-        }
-        const ray = new Ray(fromWorld.mulVec(this.ray.origin), fromWorld.mulVec(this.ray.direction).normalize());
-        let intersection = UNIT_AABOX.intersect(ray);
-        if (intersection) {
-            const intersectionPointWorld = toWorld.mulVec(intersection.point);
-            const intersectionNormalWorld = toWorld.mulVec(intersection.normal).normalize();
-            intersection = new Intersection(
-                (intersectionPointWorld.x - this.ray.origin.x) / this.ray.direction.x,
-                intersectionPointWorld,
-                intersectionNormalWorld,
-            );
-            if (this.intersection === null || intersection.closerThan(this.intersection)) {
-                this.intersection = intersection;
-                this.intersectionColor = node.color;
-                this.animation = node.animate;
-            }
-        }
-    }
-
-    /**
-     * Visits a textureBoxButtonNode
-     * @param node The node to visit
-     */
-    visitTextureBoxButtonNode(node: TextureBoxButtonNode): void {
-        let toWorld = Matrix.identity();
-        let fromWorld = Matrix.identity();
-        // TODO assign the model matrix and its inverse
-        for (let i = 0; i < this.model.length; i++) {
-            toWorld = toWorld.mul(this.model[i]);
-            fromWorld = this.inverse[i].mul(fromWorld);
-        }
-        const ray = new Ray(fromWorld.mulVec(this.ray.origin), fromWorld.mulVec(this.ray.direction).normalize());
-        let intersection = UNIT_AABOX.intersect(ray);
-        if (intersection) {
-            const intersectionPointWorld = toWorld.mulVec(intersection.point);
-            const intersectionNormalWorld = toWorld.mulVec(intersection.normal).normalize();
-            intersection = new Intersection(
-                (intersectionPointWorld.x - this.ray.origin.x) / this.ray.direction.x,
-                intersectionPointWorld,
-                intersectionNormalWorld,
-            );
-            if (this.intersection === null || intersection.closerThan(this.intersection)) {
-                this.intersection = intersection;
-                this.animation = node.animate;
-            }
-        }
-    }
-
     visitTextureTextBoxNode(node: TextureTextBoxNode){
     };
 
-    visitTexturePyramidNode(node: TexturePyramidNode) {
-    };
-
-    visitCameraNode(node: CameraNode){
-    };
-
-    visitLightNode(node: LightNode){
-    };
-
-    visitTextureVideoBoxNode(node: TextureVideoBoxNode){
-    };
 }
 
 //https://stackoverflow.com/questions/6211613/testing-whether-a-value-is-odd-or-even

@@ -29,7 +29,6 @@ import {
     ScalerNode,
     MinMaxNode,
     DriverNode,
-    TranslatorNode,
     AnimationNode
 } from '../Nodes/animation-nodes';
 
@@ -306,8 +305,6 @@ export default class RayVisitor extends Visitor {
     visitMinMaxNode(node: MinMaxNode): void {
     }
     visitDriverNode(node: DriverNode): void {
-    }
-    visitTranslatorNode(node: TranslatorNode): void {
     }
 
     visitAnimationNode(node: AnimationNode): void {

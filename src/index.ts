@@ -69,15 +69,16 @@ window.addEventListener('load', function loadPage() {
     let rasterVisitor = new RasterVisitor(gl, phongShader, textureShader, setupVisitor.objects)
     let rayVisitor = new RayVisitorSupaFast(ctx, canvas.width, canvas.height)
     let animationVisitor = new AnimationVisitor();
-    let {animationNodeArray, minmaxNodeArray, driverNodeArray, scalerArray, rotationArray} = animationVisitor.visit(sg)
+    let {animationNodeArray, minmaxNodeArray, driverNodeArray, scalerArray, rotationArray, cameraDriverNodes, } = animationVisitor.visit(sg)
     let scalerNodes = scalerArray;
-    let rotationNodes= rotationArray
+    let animationNodes= rotationArray
     let driverNodes = driverNodeArray
+    let windowAnimationNodes = minmaxNodeArray
 
     let visitor: RayVisitorSupaFast | RasterVisitor
-    let jsonVisitor = new JsonVisitor()
-    jsonVisitor.download(sg)
-    console.log(jsonVisitor.jsonStack)
+    // let jsonVisitor = new JsonVisitor()
+    // jsonVisitor.download(sg)
+    // console.log(jsonVisitor.jsonStack)
     //https://stackoverflow.com/questions/16991341/json-parse-file-path
     let filePicker = document.getElementById("docpicker") as HTMLInputElement;
     filePicker.addEventListener('change', (e)=>{

@@ -8,7 +8,8 @@ import {
     PyramidNode,
     SphereNode,
     TextureBoxButtonNode, TextureBoxNode, TexturePyramidNode, TextureVideoBoxNode, TicTacToeTextureNode,
-    Node
+    Node,
+    TextureTextBoxNode
 } from "../Nodes/nodes";
 import {
     AnimationNode,
@@ -17,25 +18,31 @@ import {
     RotationNode,
     ScalerNode,
     SlerpNode,
-    TranslatorNode
 } from "../Nodes/animation-nodes";
 import Matrix from "../mathOperations/matrix";
 import Vector from "../mathOperations/vector";
 
-export class AnimationVisitor implements Visitor{
+export class AnimationVisitor extends Visitor {
     model: Array<Matrix>
     inverse: Array<Matrix>
     animationNodeArray: Array<ScalerNode | RotationNode>
     minmaxNodeArray: Array<MinMaxNode>
     driverNodeArray: Array<DriverNode>
+    cameraDriverNodes: Array<DriverNode>
     // public cameraDriverArray: Array<Vector>
     //public slerpNodeArray: Array<SlerpNode>
     private scalerArray: Array<ScalerNode>;
     private rotationArray: Array<RotationNode>;
 
+
     constructor() {
+        super()
         this.model = new Array<Matrix>(Matrix.identity())
         this.inverse = new Array<Matrix>(Matrix.identity())
+    }
+
+    visitTextureTextBoxNode(node: TextureTextBoxNode): void {
+        throw new Error("Method not implemented.");
     }
 
     visit(rootNode: Node){
@@ -44,13 +51,15 @@ export class AnimationVisitor implements Visitor{
         this.driverNodeArray = []
         this.scalerArray = []
         this.rotationArray =[]
+        this.cameraDriverNodes = []
         rootNode.accept(this)
         let object = {
             animationNodeArray: this.animationNodeArray,
             minmaxNodeArray: this.minmaxNodeArray,
             driverNodeArray: this.driverNodeArray,
             scalerArray: this.scalerArray,
-            rotationArray: this.rotationArray
+            rotationArray: this.rotationArray,
+            cameraDriverNodes: this.cameraDriverNodes
         }
         return object
     }
@@ -70,7 +79,11 @@ export class AnimationVisitor implements Visitor{
     }
 
     visitDriverNode(node: DriverNode): void {
-        this.driverNodeArray.push(node)
+        if (node.type == "CameraNode"){
+            this.cameraDriverNodes.push(node)
+        } else {
+            this.driverNodeArray.push(node)
+        }
     }
 
     visitGroupNode(node: GroupNode): void {
@@ -130,9 +143,6 @@ export class AnimationVisitor implements Visitor{
     }
 
     visitTicTacToeTextureNode(node: TicTacToeTextureNode): void {
-    }
-
-    visitTranslatorNode(node: TranslatorNode): void {
     }
 
 }

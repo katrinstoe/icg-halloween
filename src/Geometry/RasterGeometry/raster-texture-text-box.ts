@@ -49,6 +49,7 @@ export default class RasterTextureTextBox {
         private gl: WebGL2RenderingContext,
         minPoint: Vector,
         maxPoint: Vector,
+        texture: string
         //added
         //canvas?: HTMLCanvasElement
     ) {
@@ -88,7 +89,7 @@ export default class RasterTextureTextBox {
         ctx.textBaseline = "middle";	// This determines the baseline of the text, e.g. top, middle, bottom
         ctx.font = "40px monospace";	// This determines the size of the text and the font family used
 
-        ctx.fillText("BuHuu, I'm a Box!", this.canvas.width/2, this.canvas.height/2);
+        ctx.fillText(texture, this.canvas.width/2, this.canvas.height/2);
 
         this.initTexture()
 

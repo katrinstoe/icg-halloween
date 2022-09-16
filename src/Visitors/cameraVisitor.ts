@@ -23,7 +23,6 @@ import {
     RotationNode,
     ScalerNode,
     SlerpNode,
-    TranslatorNode
 } from "../Nodes/animation-nodes";
 
 /**
@@ -170,6 +169,4 @@ export class CameraVisitor implements Visitor {
     visitSlerpNode(node: SlerpNode): void {
     }
 
-    visitTranslatorNode(node: TranslatorNode): void {
-    }
 }

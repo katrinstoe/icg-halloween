@@ -125,7 +125,7 @@ export default class Scenegraph {
         TaskBarTr.add(TBWindow1Tr);
 
         //buhuu box
-        const buhuuBox = new TextureTextBoxNode();
+        const buhuuBox = new TextureTextBoxNode("BuHuu, I'm a Box!");
         const buhuuAABoxTr = new GroupNode(new Translation(new Vector(0,0,0.6,1)));
         const buhuuAABoxRty = new GroupNode(new Rotation(new Vector(0, 1, 0, 0), 1));
         const buhuuAABoxRtz = new GroupNode(new Rotation(new Vector(1, 0, 0, 0), 0.5));
@@ -380,12 +380,12 @@ export default class Scenegraph {
 
 };
 
-    static verySmallGraph() {
-        let sg = new GroupNode(new Translation(new Vector(0,1,0,1)));
-        let aaBoxNode = new AABoxNode(new Vector(1,1,1,1));
-        let sphereNode = new SphereNode(new Vector(1,1,1,1));
-        sg.add(aaBoxNode);
-        sg.add(sphereNode);
-        new JsonVisitor().download(sg)
-    }
-};
+    // static verySmallGraph() {
+    //     let sg = new GroupNode(new Translation(new Vector(0,1,0,1)));
+    //     let aaBoxNode = new AABoxNode(new Vector(1,1,1,1));
+    //     let sphereNode = new SphereNode(new Vector(1,1,1,1));
+    //     sg.add(aaBoxNode);
+    //     sg.add(sphereNode);
+    //     new JsonVisitor().download(sg)
+    // }
+// };

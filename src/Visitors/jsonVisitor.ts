@@ -23,7 +23,6 @@ import {
     RotationNode,
     ScalerNode,
     SlerpNode,
-    TranslatorNode
 } from "../Nodes/animation-nodes";
 
 export class JsonVisitor extends Visitor {
@@ -145,9 +144,6 @@ export class JsonVisitor extends Visitor {
         this.visitAnimationNode(node)
     }
     visitDriverNode(node: DriverNode): void {
-        this.visitAnimationNode(node)
-    }
-    visitTranslatorNode(node: TranslatorNode): void {
         this.visitAnimationNode(node)
     }
     visitAnimationNode(node: AnimationNode): void {
