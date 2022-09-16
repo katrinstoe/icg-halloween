@@ -91,17 +91,17 @@ Die Slider auf der rechten Seite des Bildes von oben  ...
 | M9     | 4      | Taskleiste                                                       | <ul><li>- [X] </li></ul> | Lina, Katrin                     |           |
 | M10    | 5      | Mausklick mit Manipulation                                       | <ul><li>- [X] </li></ul> | Lina                             |           |
 |        |        |                                                                  |                          |                                  |           |
-| O1     | 7      | weitere Texturen zur beeinflussung der Beleuchtung / Transparenz | <ul><li>- [] </li></ul>  |                                  |           |
+| O1     | 7      | weitere Texturen zur beeinflussung der Beleuchtung / Transparenz | <ul><li>- [ ] </li></ul> |                                  |           |
 | O2     | 3      | Videos und Text als Textur                                       | <ul><li>- [X] </li></ul> | Lina                             |           |
 | O3     | 8      | Laden von 3D Modellen                                            | <ul><li>- [ ] </li></ul> |                                  |           |
 | O4     | 4      | mehrere Lichtquellen                                             | <ul><li>- [X] </li></ul> | Katrin                           |           |
-| O5     | 6      | Lupeneffekt                                                      | <ul><li>- [] </li></ul>  |                                  |           |
+| O5     | 6      | Lupeneffekt                                                      | <ul><li>- [ ] </li></ul> |                                  |           |
 | O6     | 4      | Animation bei Klick                                              | <ul><li>- [X] </li></ul> | Lina                             |           |
-| O7     | 8      | Kamera Knoten                                                    | <ul><li>- [] </li></ul>  | Lisa                             |           |
+| O7     | 8      | Kamera Knoten                                                    | <ul><li>- [X] </li></ul> | Lisa                             |           |
 | O8     | 5      | Beschleunigung des Raytracing                                    | <ul><li>- [X] </li></ul> | Lina                             |           |
 | O9     | 8      | Laden & Speichern                                                | <ul><li>- [X] </li></ul> | Katrin                           |           |
 | O10    | 7      | Raytracing aller Dreiecksnetze                                   | <ul><li>- [X] </li></ul> | Katrin                           |           |
-| O11    | 10     | Dynamische Texturen                                              | <ul><li>- [] </li></ul>  |                                  |           |
+| O11    | 10     | Dynamische Texturen                                              | <ul><li>- [ ] </li></ul> |                                  |           |
 | O12    | 5      | Anwendung in den 3D Anwendungsfenstern                           | <ul><li>- [X] </li></ul> | Katrin                           |           |
 
 
