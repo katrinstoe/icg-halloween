@@ -74,15 +74,25 @@ eingeben und rufen die Website des Servers über to `0.0.0.0:<port>` bzw. `local
 
 Im folgenden wird erklärt wie die Anwendung zu bedienen ist:
 
-## Free Flight Modus
+## Geisterfahrer
 
-Um zwischen Fester Kamera und Free Flight Modus zu wechseln ...
+- Pfeiltasten zur Navigation des Geisterfahrers
+- +/- zur Vergrößerung/Verkleinerung des Geisterfahrers
 
-## Beleuchtungsparameter
+## Kamerafahrt
+- "w", "a", "s", "d", "x" und "y" um die Kamera zu bewegen
 
-Die Slider auf der rechten Seite des Bildes von oben  ... 
+## Animationsknoten 
+- "1" um die Animationen zu starten/stoppen
 
-### Funktionen 
+## transilvanian TicTacToe
+- Klicke auf die Kacheln um die Markierung zu setzen
+- "Reset"-Button für das zurücksetzen des Spiels
+
+## spooky Sphere 
+- Klicke auf die Sphere für ein spooky Suprise!
+
+
 
 <!-- replace  "- [ ]" with "- [X]" when you tackled the topic -->
 | Nummer | Punkte | Beschreibung                                                     | bearbeitet               | Verantwortliche/r                | Bewertung |
@@ -117,12 +127,11 @@ Die Slider auf der rechten Seite des Bildes von oben  ...
 ### Kompatibilität
 Das Projekt wurde mit folgenden Konfigurationen getestet:
 <!-- Nur die Konfigurationen angeben die ihr wirklich getestet habt. Eine gängige Kombination ist hier schon ausreichend-->
-- Windows 10 Build Version <> mit
-  - Firefox Version <>
-  - Chrome Version <> 
-  - Edge Version - nein
-  - Internet Explorer - nein 
-  - node js Version <>
+- Windows 11 Build Version <10.0.22000 Build 22000> mit
+  - Firefox Version <104.0.2 (64-Bit)>
+
+- Windows 10 Home <21H1> mit
+  - Chrome Version <104.0.5112.102> 
 <!--
 - Manjaro Build Version <> mit
   - Firefox Version <>
