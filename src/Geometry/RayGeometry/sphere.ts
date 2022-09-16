@@ -61,6 +61,5 @@ export default class Sphere implements geometryObject{
     let normal = intersectionPoint.sub(this.center).normalize()
     return new Intersection(shorterT, intersectionPoint, normal)
   }
-
 }
 

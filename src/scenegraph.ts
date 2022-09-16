@@ -196,7 +196,7 @@ export default class Scenegraph {
 
         //Small Pyramid
         const texturePyramid = new TexturePyramidNode('ghost_castle.jpg')
-        const texturePyramid_Tr = new GroupNode(new Translation(new Vector(-1.5,-1, 0.5, 0)))
+        const texturePyramid_Tr = new GroupNode(new Translation(new Vector(-1,-1, 0.5, 0)))
         const texturePyramid_Sc = new GroupNode(new Scaling(new Vector(0.2, 0.2, 0.2, 0)))
         const texturePyramid_Rt = new GroupNode(new Rotation(new Vector(0, 1, 0, 0),0.3))
 
@@ -215,6 +215,7 @@ export default class Scenegraph {
 
 
         let animationNodes = [
+            new RotationNode(texturePyramid_Rt, new Vector(1,0,0,0)),
             new RotationNode(buhuuAABoxRtz, new Vector(1,0,0,0)),
             new RotationNode(light1, new Vector(0, 1, 0, 0)),
             new RotationNode(light2, new Vector(0, 1, 0, 0)),
