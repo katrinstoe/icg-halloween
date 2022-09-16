@@ -301,7 +301,7 @@ export default class Scenegraph {
         //MinMax Node
         const EmptyTranslation = new GroupNode(new Translation(new Vector(0, 0, 0, 0)));
         const MinmaxTr = new GroupNode(new Translation(new Vector(0, 0, 0, 0)))
-        const minmax = new MinMaxNode(MinmaxTr, new Vector(1, 1, 1, 0), new Vector(0.00001, 0.00001, 0.00001, 0), 80)
+        const minmax = new MinMaxNode(MinmaxTr, new Vector(1, 1, 1, 0), new Vector(0.00001, 0.00001, 0.00001, 0), 1000)
 
         //Inhalt
         const aabox_Tr = new GroupNode(new Translation(new Vector(0, -0.45, 0, 0)))
