@@ -61,7 +61,9 @@ export default class RasterPyramid {
             // bottom
             0, 2, 1
         ];
-        //erstellen Triangles mit denen wir
+        /**
+         * wie AABox
+         * */
         let triangles: Vector[] = []
         for (let i = 0; i < indices.length; i++) {
             triangles.push(new Vector(vertices[indices[i] * 3+0], vertices[indices[i] * 3+1], vertices[indices[i] * 3+2], 1))

@@ -5,23 +5,22 @@ import {
     CameraNode,
     GroupNode,
     LightNode,
+    Node,
     PyramidNode,
     SphereNode,
-    TextureBoxButtonNode, TextureBoxNode, TexturePyramidNode, TextureVideoBoxNode, TicTacToeTextureNode,
-    Node,
-    TextureTextBoxNode
+    TextureBoxButtonNode,
+    TextureBoxNode,
+    TexturePyramidNode,
+    TextureTextBoxNode,
+    TextureVideoBoxNode,
+    TicTacToeTextureNode
 } from "../Nodes/nodes";
-import {
-    AnimationNode,
-    DriverNode,
-    MinMaxNode,
-    RotationNode,
-    ScalerNode,
-    SlerpNode,
-} from "../Nodes/animation-nodes";
+import {AnimationNode, DriverNode, MinMaxNode, RotationNode, ScalerNode, SlerpNode,} from "../Nodes/animation-nodes";
 import Matrix from "../mathOperations/matrix";
-import Vector from "../mathOperations/vector";
-
+/**
+ * AnimationNode Visitor um über animationNodes in Szenengraphen zu traversen und wieder in Arrays für Rastervisitor zu speichern
+ *
+ * */
 export class AnimationVisitor extends Visitor {
     model: Array<Matrix>
     inverse: Array<Matrix>
@@ -69,10 +68,6 @@ export class AnimationVisitor extends Visitor {
     visitAABoxNode(node: AABoxNode): void {
     }
 
-    visitAnimationNode(node: AnimationNode): void {
-        // this.animationNodeArray.push(node)
-    }
-
     visitCameraNode(node: CameraNode): void {
         // this.cameraDriverArray.push(node)
     }
@@ -83,6 +78,7 @@ export class AnimationVisitor extends Visitor {
         } else {
             this.driverNodeArray.push(node)
         }
+        node.groupNode.accept(this)
     }
 
     visitGroupNode(node: GroupNode): void {
@@ -104,7 +100,7 @@ export class AnimationVisitor extends Visitor {
 
     visitMinMaxNode(node: MinMaxNode): void {
         this.minmaxNodeArray.push(node)
-
+        node.groupNode.accept(this)
     }
 
     visitPyramidNode(node: PyramidNode): void {
@@ -113,16 +109,13 @@ export class AnimationVisitor extends Visitor {
     visitRotationNode(node: RotationNode): void {
         this.animationNodeArray.push(node)
         this.rotationArray.push(node)
+        node.groupNode.accept(this)
     }
 
     visitScalerNode(node: ScalerNode): void {
         this.animationNodeArray.push(node)
         this.scalerArray.push(node)
-
-    }
-
-    visitSlerpNode(node: SlerpNode): void {
-        // this.slerpNodeArray.push(node)
+        node.groupNode.accept(this)
     }
 
     visitSphereNode(node: SphereNode): void {

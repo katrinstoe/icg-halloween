@@ -39,9 +39,12 @@ export class JsonLoader extends Visitor {
     constructor() {
         super()
     }
-
+/**
+ * Holt JSON Objekt in Klasse
+ * nicht mehr geschafft zu machen in der Zeit
+ * */
     static deconstructFile(jsonObject: any) {
-        // console.log(jsonObject["0"].type)
+        console.log(jsonObject)
         console.error("Sorry, i didn't manage to do the loader in time :'(")
         let number = 0;
         // for (let i = 0; i < jsonObject.length; i++) {

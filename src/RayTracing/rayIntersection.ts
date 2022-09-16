@@ -1,7 +1,13 @@
 import Ray from "./ray";
 import Vector from "../mathOperations/vector";
 import Intersection from "./intersection";
-//https://www.scratchapixel.com/lessons/3d-basic-rendering/ray-tracing-rendering-a-triangle/ray-triangle-intersection-geometric-solution
+
+/**
+ * Calculates the raytraced intersection of a triangle
+ * Extra exported function um zu reusen in aabox und pyramid
+ * returned eine neue Intersection mit Normale N, Schnittpunkt mit Ebene P und t (=Abstand von Schnittpunkt zu Ray Origin)
+ * //https://www.scratchapixel.com/lessons/3d-basic-rendering/ray-tracing-rendering-a-triangle/ray-triangle-intersection-geometric-solution
+ * */
 
 export function intersectTriangle(ray: Ray, v0: Vector, v1: Vector, v2: Vector): Intersection | null {
 
@@ -24,7 +30,6 @@ export function intersectTriangle(ray: Ray, v0: Vector, v1: Vector, v2: Vector):
     let t = -((addedVec+d)/(N.dot(ray.direction)));
 
     //check ob das Dreieck hinter dem Ray ist
-
     if (t < 0) {
         return null;
     }
