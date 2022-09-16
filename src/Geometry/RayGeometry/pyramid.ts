@@ -22,10 +22,10 @@ export default class Pyramid {
 
     /**
      * Creates a new Pyramid
-     * @param top The top corner
-     * @param backPoint The back corner
-     * @param rightPoint The right corner
-     * @param leftPoint the left corner
+     * @param top The top vertex
+     * @param backPoint The back vertex
+     * @param rightPoint The right vertex
+     * @param leftPoint the left vertex
      * @param color The color of the Pyramid
      */
 

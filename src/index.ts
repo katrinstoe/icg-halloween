@@ -54,25 +54,38 @@ window.addEventListener('load', function loadPage() {
         textureFragmentShader
     );
 
+    /**
+     * LightPositions mit Visitor holen
+     */
     const lightPositionsVisitor = new LightVisitor
     let lightPositions = lightPositionsVisitor.visit(sg)
 
 
-
+    /**
+     * Kamera und View Matrix mit Visitor holen
+     */
     const cameraVisitor = new CameraVisitor
     let {camera, view} = cameraVisitor.visit(sg)
 
+    /**
+     * Visitor erstellen
+     */
     let setupVisitor = new RasterSetupVisitor(gl, lightPositions)
     let rasterVisitor = new RasterVisitor(gl, phongShader, textureShader, setupVisitor.objects)
     let rayVisitor = new RayVisitorSupaFast(ctx, canvas.width, canvas.height)
     let animationVisitor = new AnimationVisitor();
+    let visitor: RayVisitorSupaFast | RasterVisitor
+
+    /**
+     * AnimationNodes mit Visitor holen
+     */
     let {animationNodeArray, minmaxNodeArray, driverNodeArray, scalerArray, rotationArray, cameraDriverNodes } = animationVisitor.visit(sg)
     let scalerNodes = scalerArray;
     let animationNodes= rotationArray
     let driverNodes = driverNodeArray
     let windowAnimationNodes = minmaxNodeArray
 
-    let visitor: RayVisitorSupaFast | RasterVisitor
+
     let fileDownloader=document.getElementById("btnForJsonDownload") as HTMLInputElement;
     fileDownloader.addEventListener('click', ()=>{
         let jsonVisitor = new JsonVisitor()
@@ -90,6 +103,9 @@ window.addEventListener('load', function loadPage() {
     })
 
 
+    /**
+     * Visitor aus localStorage holen und Buttons richtig checken
+     */
     let renderer = localStorage.getItem("renderer")
     if (renderer == "rasterizer") {
         btn1.checked = true
@@ -97,7 +113,10 @@ window.addEventListener('load', function loadPage() {
         btn2.checked = true
     }
 
-
+    /**
+     * Schauen, welcher Visitor benutzt wird, je nachdem welcher Button
+     * gecheckt ist und dann Szene laden
+     */
     function render() {
         if (btn1.checked) {
             btn1.checked = true
@@ -126,6 +145,10 @@ window.addEventListener('load', function loadPage() {
 
         let animationTime = 0;
 
+        /**
+         * ruft für alle Animationnodes die simulate Methode auf
+         * @param deltaT die Zeit, um die die Animation vorangetrieben wird
+         */
         function simulate(deltaT: number) {
             animationTime += deltaT;
             for (let animationNode of animationNodes) {
@@ -154,6 +177,13 @@ window.addEventListener('load', function loadPage() {
         let lastTimestamp = performance.now();
         let then = 0;
 
+        /**
+         * Ruft die simulate Methode auf
+         * Lässt den Kamera Visitor nochmal über den Szenengraph läufen
+         * um eine eventuelle Änderung der Kamera zu berücksichtigen
+         * und lässt dann den Visitor neu rendern
+         * @param timestamp
+         */
         function animate(timestamp: number) {
             simulate((timestamp - lastTimestamp));
             let {camera, view} = cameraVisitor.visit(sg)
@@ -168,6 +198,9 @@ window.addEventListener('load', function loadPage() {
             window.requestAnimationFrame(animate)
         );
 
+        /**
+         * EventListener für die Animations
+         */
         window.addEventListener('keydown', function (event) {
             switch (event.key) {
                 case "ArrowLeft":
@@ -267,6 +300,11 @@ window.addEventListener('load', function loadPage() {
             }
         });
 
+        /**
+         * gibt die Mausposition mit x und y Koordinaten zurück
+         * @param canvas
+         * @param evt
+         */
         function getMousePos(canvas: HTMLCanvasElement, evt: MouseEvent) {
             let rect = canvas.getBoundingClientRect();
             return {
@@ -276,6 +314,9 @@ window.addEventListener('load', function loadPage() {
         }
         //ist object damit updates in mouseclickvisitor übernommen werden, funktioniert wie pointer auf datenspeicher
         let lastTexture = {zahl: 0};
+        /**
+         * EventListener für Mausklick für Mausklickvisitor
+         */
         window.addEventListener('click', function (evt) {
             let mousePos = getMousePos(canvas, evt);
             let mouseVisitor = new mouseClickVisitor(ctx, canvas.width, canvas.height, mousePos, lastTexture)
@@ -289,6 +330,10 @@ window.addEventListener('load', function loadPage() {
         }
     }
 
+    /**
+     * setzt "renderer" im localstorage auf den angeklickten visitor
+     * und lädt dann die Seite neu
+     */
     btn1.addEventListener('click', function () {
         if (btn1.checked) {
             localStorage.setItem("renderer", "rasterizer")

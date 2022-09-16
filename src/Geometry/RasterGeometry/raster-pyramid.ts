@@ -26,11 +26,11 @@ export default class RasterPyramid {
      * Creates all WebGL buffers for the box
      *  looking in negative z axis direction
      * @param gl The canvas' context
-     * @param leftPoint
-     * @param rightPoint
-     * @param backPoint
-     * @param topPoint
-     * @param color
+     * @param leftPoint The left vertex of the pyramid
+     * @param rightPoint The right vertex of the pyramid
+     * @param backPoint The back vertex of the pyramid
+     * @param topPoint The top vertex of the pyramid
+     * @param color the color of the pyramid
      */
     constructor(
         private gl: WebGL2RenderingContext,

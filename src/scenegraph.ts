@@ -18,6 +18,8 @@ import {AnimationNode, DriverNode, MinMaxNode, RotationNode, ScalerNode} from ".
 import Camera from "./Camera/camera";
 import {JsonVisitor} from "./Visitors/jsonVisitor";
 import TextureTextBox from "./Geometry/RasterGeometry/texture-text-box";
+import RayVisitorSupaFast from "./Visitors/rayvisitor-supa-fast";
+import {RasterVisitor} from "./Visitors/rastervisitor";
 
 export default class Scenegraph {
     static wuerfelArray: Array<TicTacToeTextureNode> = []
@@ -44,7 +46,9 @@ export default class Scenegraph {
         const gl = canvas.getContext("webgl2");
         const ctx = canvas2.getContext("2d");
 
-        //Texturen
+        /**
+         * Texturen
+         */
         const textureGeist = new TextureBoxNode('geist.png');
         const textureHCILogo = new TextureBoxNode('hci-logo.png');
         const textureMinimize = new TextureBoxNode('Icons/minusIcon.jpg');
@@ -53,13 +57,18 @@ export default class Scenegraph {
         const textureKugelText = new TextureBoxNode('Icons/kugelText.png');
         const textureGeisterSchloss = new TextureBoxNode('ghost_castle.jpg');
 
-        //sg
+        /**
+         * Scenegraph Rootnode
+         */
         const sg = new GroupNode(new Rotation(new Vector(0, 0, 1, 0), 0));
         const gnTr = new GroupNode(new Translation(new Vector(-0.75, -0.75, -3, 0)));
 
         sg.add(gnTr);
 
-        //Camera
+        /**
+         * Kamera
+         * Anhängen eines Drivers an den Kameraknoten
+         */
         const sgcamera = new Camera(new Vector(0, 0, 0, 1),
             new Vector(0, 0, 0, 1),
             new Vector(0, 0, -1, 1),
@@ -86,7 +95,9 @@ export default class Scenegraph {
             sgcamera.kD = Number(kDElement.value);
         }
 
-        //Taskbar
+        /**
+         * Taskbar
+         */
         const TaskBarBox = new AABoxNode(new Vector(0.3, 0.05, 0.1, 1));
         const TaskBarTr = new GroupNode(new Translation(new Vector(0, -0.55, -1, 0)));
         const TaskBarSc = new GroupNode(new Scaling(new Vector(1.2, 0.08, 0.0001, 0)))
@@ -95,7 +106,9 @@ export default class Scenegraph {
         sg.add(TaskBarTr);
 
 
-        //Lichter
+        /**
+         * Lichter
+         */
         let light1 = this.getLight(new Vector(0,0,-0.5,0));
         let light2 = this.getLight(new Vector(0,.2,-0.8,0));
         let light3 = this.getLight(new Vector(0.2,.2,-1,0));
@@ -108,7 +121,9 @@ export default class Scenegraph {
         sg.add(lightAnimation3)
         // sg.add(light1)
 
-        //Video-Box
+        /**
+         * Video Box
+         */
         const videoBox = new TextureVideoBoxNode("moon.mp4");
         const videoBoxTr = new GroupNode(new Translation(new Vector(0, 0, -3, 0)));
         const videoBoxSc = new GroupNode(new Scaling(new Vector(3.7, 2.3, 2, 1)));
@@ -116,7 +131,9 @@ export default class Scenegraph {
         videoBoxTr.add(videoBoxSc);
         sg.add(videoBoxTr);
 
-        //Driver
+        /**
+         * Driver
+         */
         const driver = new TextureBoxNode("geist.png");
         const driver_Tr = new GroupNode(new Translation(new Vector(0.55, -0.48, -1, 0)))
         const driver_Sc = new GroupNode(new Scaling(new Vector(0.05, 0.05, 0.0001, 0)))
@@ -125,12 +142,16 @@ export default class Scenegraph {
         let driverAnimation = new DriverNode(driver_Tr, new Vector(0.55, -0.48, -1, 0), "box")
         sg.add(driverAnimation);
 
-        //Spooky Sphere
+        /**
+         * Spooky Sphere
+         */
         const sphere = new SphereNode(new Vector(0.3, 0.05, 0.1, 1));
         const sphere_Tr = new GroupNode(new Translation(new Vector(0, -0.1, 0, 0)))
         const sphere_Sc = new GroupNode(new Scaling(new Vector(0.7, 0.7, 0.7, 0)))
+        let sphereAnimation = new ScalerNode(sphere_Sc, new Vector(0.7, 0.7, 0.7, 0))
         sphere_Sc.add(sphere);
         sphere_Tr.add(sphere_Sc);
+        sphere_Tr.add(sphereAnimation)
         let window1 = this.getWindow(new Vector(-0.3, 0.5, -1, 0), sphere_Tr, "geist.png", 'Icons/sinisterSphere.png');
 
         sg.add(window1.root);
@@ -138,10 +159,17 @@ export default class Scenegraph {
         TBWindow1Tr.add(window1.ButtonTBTr);
         TaskBarTr.add(TBWindow1Tr);
 
-        //buhuu box
+        /**
+         * Buhuu Box
+         */
         const buhuuBox = new TextureTextBoxNode("BuHuu, I'm a Box!");
         const buhuuAABoxTr = new GroupNode(new Translation(new Vector(0,0,0.6,1)));
-        buhuuAABoxTr.add(buhuuBox);
+        const buhuuAABoxRt = new GroupNode(new Rotation(new Vector(0, 1, 0, 0), 1));
+        let buhuuAnimation = new RotationNode(buhuuAABoxRt, new Vector(0,1,0,0));
+        buhuuAABoxRt.add(buhuuBox);
+        buhuuAABoxTr.add(buhuuAABoxRt);
+        buhuuAABoxTr.add(buhuuAnimation)
+
 
         let window2 = this.getWindow(new Vector(-0.3, 0, -1, 0), buhuuAABoxTr, "many_ghosts.jpg", 'Icons/buhuBox.png');
         sg.add(window2.root);
@@ -150,7 +178,9 @@ export default class Scenegraph {
         TaskBarTr.add(TBWindow2Tr);
 
 
-        //TicTacToe
+        /**
+         * Tic Tac Toe
+         */
         let emptyTr = new GroupNode(new Translation(new Vector(0,0,0,0)))
         let tictactoeTr = new GroupNode(new Translation(new Vector(-0.4, 0.7, 0.5, 0)))
         let tictactoeCubeRow1Middle = this.getTicTacToeWuerfel(new Vector(0, 0, 0, 0))
@@ -176,7 +206,9 @@ export default class Scenegraph {
         tictactoeTr.add(tictactoeCubeRow3Left)
 
         //TODO: Eventuell nochmal leere Tranlation einfügen, sollte animation probleme machen
-        //reset TicTacToe
+        /**
+         * Reset Tic Tac Toe
+         */
         let resetTr = new GroupNode(new Translation(new Vector(0.8,-0.5,1,0)));
         let resetButton = new TicTacToeTextureNode('Icons/resetText.png');
 
@@ -185,7 +217,9 @@ export default class Scenegraph {
         emptyTr.add(resetTr)
         resetTr.add(resetSc)
 
-        //explenationTexture
+        /**
+         * explanation texture
+         */
         let explTr = new GroupNode(new Translation(new Vector(-.93,-1,1,0)));
         let explTexture = new TextureBoxNode('Icons/memoryExplenationText.png');
 
@@ -202,7 +236,9 @@ export default class Scenegraph {
         TBWindow3Tr.add(window3.ButtonTBTr);
         TaskBarTr.add(TBWindow3Tr);
 
-        //Possesed Pyramids
+        /**
+         * Posessed Pyramids
+         */
         //Big Pyramid
         const pyramid = new PyramidNode(new Vector(0.3, 0.05, 0.1, 1));
         const pyramid_Tr = new GroupNode(new Translation(new Vector(-1,-0.3, 0.4, 0)))

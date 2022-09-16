@@ -220,8 +220,7 @@ export class ScalerNode extends AnimationNode {
  * Klasse die eine Scaler Animation mit maximaler
  * und minimaler Größe repräsentiert
  */
-export class MinMaxNode
-    extends AnimationNode {
+export class MinMaxNode extends AnimationNode {
     /**
      * Der Vector, an dem entlang gescalet wird
      */
@@ -312,11 +311,7 @@ export class MinMaxNode
      * je nachdem ob und wie man User Input handelt
      * @extends AnimationNode
      */
-    export
-    class
-    DriverNode
-    extends
-    AnimationNode {
+    export class DriverNode extends AnimationNode {
     /**
      * Der Vector, von dem aus bewegt wird
      */
