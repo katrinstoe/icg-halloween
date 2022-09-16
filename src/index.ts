@@ -56,6 +56,9 @@ window.addEventListener('load', function loadPage() {
 
     const lightPositionsVisitor = new LightVisitor
     let lightPositions = lightPositionsVisitor.visit(sg)
+
+
+
     const cameraVisitor = new CameraVisitor
     let {camera, view} = cameraVisitor.visit(sg)
 
@@ -74,7 +77,6 @@ window.addEventListener('load', function loadPage() {
     fileDownloader.addEventListener('click', ()=>{
         let jsonVisitor = new JsonVisitor()
         jsonVisitor.download(sg)
-        console.log(jsonVisitor.jsonStack)
     })
     //https://stackoverflow.com/questions/16991341/json-parse-file-path
     let filePicker = document.getElementById("docpicker") as HTMLInputElement;
@@ -85,22 +87,18 @@ window.addEventListener('load', function loadPage() {
             let json:GroupNode = <GroupNode> JSON.parse(text)
             JsonLoader.deconstructFile(json)
         })
-        // console.log(file)
     })
 
 
     let renderer = localStorage.getItem("renderer")
-    console.log(renderer)
     if (renderer == "rasterizer") {
         btn1.checked = true
     } else {
         btn2.checked = true
     }
-    console.log(btn1.checked)
-    console.log(btn2.checked)
+
 
     function render() {
-        console.log("called")
         if (btn1.checked) {
             btn1.checked = true
             btn2.checked = false
@@ -108,7 +106,6 @@ window.addEventListener('load', function loadPage() {
             canvas2.style.display = "none"
             canvas.style.display = "block"
             loadScene()
-            // console.log(visitor)
         } else if (btn2.checked) {
             btn1.checked = false
             btn2.checked = true
@@ -116,31 +113,15 @@ window.addEventListener('load', function loadPage() {
             canvas2.style.display = "block"
             canvas.style.display = "none"
             loadScene()
-            // console.log(visitor)
         }
     }
 
     render()
 
     function loadScene() {
+
         if (btn1.checked) {
             setupVisitor.setup(sg);
-        }
-
-        shininessElement.onchange = function () {
-            camera.shininess = Number(shininessElement.value);
-        }
-        kSElement.onchange = function () {
-            camera.kS = Number(kSElement.value);
-            console.log(camera.kS)
-        }
-        kDElement.onchange = function () {
-            camera.kD = Number(kDElement.value);
-            console.log(camera.kD)
-        }
-        kAElement.onchange = function () {
-            camera.kD = Number(kDElement.value);
-            console.log(camera.kD)
         }
 
         let animationTime = 0;
@@ -181,19 +162,6 @@ window.addEventListener('load', function loadPage() {
             window.requestAnimationFrame(animate);
         }
 
-        //2. Version mit requestAnimationframe
-        shininessElement.onchange = function () {
-            camera.shininess = Number(shininessElement.value);
-        }
-        kSElement.onchange = function () {
-            camera.kS = Number(kSElement.value);
-        }
-        kDElement.onchange = function () {
-            camera.kD = Number(kDElement.value);
-        }
-        kAElement.onchange = function () {
-            camera.kA = Number(kAElement.value);
-        }
         Promise.all(
             [phongShader.load(), textureShader.load()]
         ).then(x =>
@@ -312,10 +280,8 @@ window.addEventListener('load', function loadPage() {
             let mousePos = getMousePos(canvas, evt);
             let mouseVisitor = new mouseClickVisitor(ctx, canvas.width, canvas.height, mousePos, lastTexture)
             let {camera, view, inverseView} = cameraVisitor.visit(sg)
-            console.log(origin)
             mouseVisitor.render(sg, camera, lightPositions, inverseView);
             setupVisitor.setup(sg);
-            console.log("TextureCount nach listener: " + lastTexture)
         }, false);
 
         function mouseClickedOn(event: { clientX: number; }) {
@@ -325,20 +291,16 @@ window.addEventListener('load', function loadPage() {
 
     btn1.addEventListener('click', function () {
         if (btn1.checked) {
-            console.log("render")
             localStorage.setItem("renderer", "rasterizer")
         } else if (btn2.checked) {
-            console.log("ray")
             localStorage.setItem("renderer", "rayTracer")
         }
         location.reload()
     });
     btn2.addEventListener('click', function () {
         if (btn1.checked) {
-            console.log("render")
             localStorage.setItem("renderer", "rasterizer")
         } else if (btn2.checked) {
-            console.log("ray")
             localStorage.setItem("renderer", "rayTracer")
         }
         location.reload()

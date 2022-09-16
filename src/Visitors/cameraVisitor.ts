@@ -44,7 +44,7 @@ export class CameraVisitor extends Visitor {
      * Die Invers Matrix der View Matrix
      */
     public inverseView: Matrix
-
+    shininess: number
 
     constructor() {
         super()

@@ -39,6 +39,8 @@ export default class Scenegraph {
         const kAElement = document.getElementById("kA") as HTMLInputElement;
         let kACalc = Number(kAElement.value)
 
+
+
         const gl = canvas.getContext("webgl2");
         const ctx = canvas2.getContext("2d");
 
@@ -71,6 +73,18 @@ export default class Scenegraph {
         sg.add(cameraAnimation)
         sg.add(cameraTr)
 
+        shininessElement.onchange = function () {
+            sgcamera.shininess = Number(shininessElement.value);
+        }
+        kSElement.onchange = function () {
+            sgcamera.kS = Number(kSElement.value);
+        }
+        kDElement.onchange = function () {
+            sgcamera.kD = Number(kDElement.value);
+        }
+        kAElement.onchange = function () {
+            sgcamera.kD = Number(kDElement.value);
+        }
 
         //Taskbar
         const TaskBarBox = new AABoxNode(new Vector(0.3, 0.05, 0.1, 1));
