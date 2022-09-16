@@ -97,7 +97,7 @@ Im folgenden wird erklärt wie die Anwendung zu bedienen ist:
 <!-- replace  "- [ ]" with "- [X]" when you tackled the topic -->
 | Nummer | Punkte | Beschreibung                                                     | bearbeitet               | Verantwortliche/r                | Bewertung |
 | ------ | ------ | ---------------------------------------------------------------- | ------------------------ | -------------------------------- | --------- |
-| M1     | 5      | Szenengraph                                                      | <ul><li>- [X] </li></ul> | Lina                             |           |
+| M1     | 5      | Szenengraph                                                      | <ul><li>- [X] </li></ul> | Lina, Katrin, Lisa                              |           |
 | M2     | 10     | Rasteriser & Ray Tracer                                          | <ul><li>- [X] </li></ul> | Katrin, Lisa                     |           |
 | M3     | 3      | min. drei eingebundene Objekte                                   | <ul><li>- [X] </li></ul> | Lisa                             |           |
 | M4     | 8      | min. drei verschiedene Animationsknoten                          | <ul><li>- [X] </li></ul> | Lisa                             |           |
