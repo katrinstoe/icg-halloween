@@ -25,7 +25,10 @@ export class JsonLoader implements Visitor {
         1. Command: JSON.parse ✓
         2. wie kann ich von hier aus auf Dateispeicherort zugreifen? Oder muss per eingabe festgelegt werden, wo Datei liegt? ✓
     2. Szenengraph aus Objekten erbauen
-    3. Infos wieder in Nodes geben
+        1. Riesiges if/switch statement, bei dem ich anhang type entscheide welche Art von Node es ist
+        2. Node an richtige visitMethode geben, in der Nde dann erstellt wird
+        3. rausfinden wohin die Node geadded wird, indem parent aus stack gefunden wird und dranhängt
+        4. ganzen sg zurückgeben
     4. Scenengraph an indexDatei geben
     */
     constructor() {
