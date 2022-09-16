@@ -24,8 +24,8 @@ export function intersectTriangle(ray: Ray, v0: Vector, v1: Vector, v2: Vector):
         return null;
     }
     // compute d parameter using equation 2
-    // let d = v0.dot(N.mul(-1));
-    let d = -N.dot(v0);
+    let d = v0.dot(N.mul(-1));
+    // let d = -N.dot(v0);
     let addedVec = N.dot(ray.origin);
     let t = -((addedVec+d)/(N.dot(ray.direction)));
 

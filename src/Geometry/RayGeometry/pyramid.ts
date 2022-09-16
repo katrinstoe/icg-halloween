@@ -40,21 +40,21 @@ export default class Pyramid {
          */
 
         this.vertices = [
-            leftPoint, rightPoint, backPoint,
+            leftPoint, top, rightPoint,
             rightPoint, top, backPoint,
-            top, leftPoint, backPoint,
-            leftPoint, top, rightPoint
+            backPoint, top, leftPoint,
+            backPoint, leftPoint, rightPoint
         ];
 
         this.indices = [
             // front
-            0, 1, 3,
+            0, 2, 1,
             // right
             1, 2, 3,
             // left
-            2, 0, 3,
+            3, 2, 0,
             // bottom
-            0, 2, 1
+            3, 0, 1
         ];
         this.color = color;
     }

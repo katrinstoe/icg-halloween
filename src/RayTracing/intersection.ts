@@ -40,4 +40,16 @@ export default class Intersection {
   get normal(): Vector {
     return this._normal;
   }
+
+  set t(value: number) {
+    this._t = value;
+  }
+
+  set point(value: Vector) {
+    this._point = value;
+  }
+
+  set normal(value: Vector) {
+    this._normal = value;
+  }
 }
