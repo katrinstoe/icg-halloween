@@ -77,19 +77,23 @@ export default class RasterTextureTextBox {
         ];
 
 
+        //wir createn einen neuen canvas
         this.canvas = document.createElement("canvas") as HTMLCanvasElement;
         this.canvas.width = 400;
         this.canvas.height = 400;
 
 
+        //Kontext des neuen Canvas
         const ctx = this.canvas.getContext('2d');
 
         //https://www.delphic.me.uk/tutorials/webgl-text
+        //set up the properties of the text we wish to render
         ctx.fillStyle = "#7e0016"; 	// This determines the text colour, it can take a hex value or rgba value (e.g. rgba(255,0,0,0.5))
         ctx.textAlign = "center";	// This determines the alignment of text, e.g. left, center, right
         ctx.textBaseline = "middle";	// This determines the baseline of the text, e.g. top, middle, bottom
         ctx.font = "40px monospace";	// This determines the size of the text and the font family used
 
+        //Kontext des Canvas füllt Text mit übergebenen String
         ctx.fillText(texture, this.canvas.width/2, this.canvas.height/2);
 
         this.initTexture()
@@ -118,8 +122,7 @@ export default class RasterTextureTextBox {
         ];
         let uvBuffer = this.gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, uvBuffer);
-        gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(uv),
-            gl.STATIC_DRAW);
+        gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(uv), gl.STATIC_DRAW);
         this.texCoords = uvBuffer;
         //Quelle: so wie raster-texture-box
         let triangles: Vector[] = []

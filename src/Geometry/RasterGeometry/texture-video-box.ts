@@ -83,6 +83,7 @@ export default class TextureVideoBox {
             ma.x, mi.y, ma.z, mi.x, mi.y, ma.z, mi.x, mi.y, mi.z
         ];
 
+
         let cubeTexture = this.initTexture(gl);
         this.video = this.setupVideo(url);
 
@@ -119,6 +120,7 @@ export default class TextureVideoBox {
             0, 1, 1, 1, 1, 0,
             1, 0, 0, 0, 0, 1,
         ];
+
         let uvBuffer = this.gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, uvBuffer);
         gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(uv),
@@ -215,6 +217,7 @@ export default class TextureVideoBox {
     }
 
     //Credits: Tino :) & https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial/Animating_textures_in_WebGL
+    // create an empty texture object, put a single pixel in it, and set its filtering for later use
     initTexture(gl: any) {
         const texture = gl.createTexture();
         gl.bindTexture(gl.TEXTURE_2D, texture);
@@ -245,6 +248,7 @@ export default class TextureVideoBox {
     }
 
     //Credits: Tino :) & https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial/Animating_textures_in_WebGL
+    //Wir createn video, setten zu autoplay, muten und loopen
     setupVideo(url: string) {
         const video = document.createElement('video');
 
@@ -258,6 +262,7 @@ export default class TextureVideoBox {
         // Waiting for these 2 events ensures
         // there is data in the video
 
+        //mit den Events überprüfen wir ob die Data avaliable ist und man das video auf die webgl texture uploaden kannGHOSTBUSTFriketchup
         video.addEventListener('playing', () => {
             this.playing = true;
             this.checkReady();

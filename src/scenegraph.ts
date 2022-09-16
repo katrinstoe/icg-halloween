@@ -326,6 +326,7 @@ export default class Scenegraph {
 
         //HB Button
         const ButtonHB = new TextureBoxButtonNode("Icons/minusIcon.jpg", () => {
+            //callbackfunction, wir setten active auf true wenn wir auf den Button clicken ->
             minmax.active = true;
         })
         minmax.active = false;
@@ -344,6 +345,7 @@ export default class Scenegraph {
         ButtonTBSc.add(ButtonTB);
         ButtonTBTr.add(ButtonTBSc);
 
+        //Wir adden alles an die MinmaxTr Node damit alles klein und groß wird
         MinmaxTr.add(windowHeaderTextTr);
         MinmaxTr.add(aabox_Tr);
         MinmaxTr.add(ButtonHBTr);
@@ -354,18 +356,6 @@ export default class Scenegraph {
         windowPosition.add(windowSize);
         root.add(windowPosition);
 
-
         return {root, minmax, ButtonTBTr};
     }
-
 };
-
-    // static verySmallGraph() {
-    //     let sg = new GroupNode(new Translation(new Vector(0,1,0,1)));
-    //     let aaBoxNode = new AABoxNode(new Vector(1,1,1,1));
-    //     let sphereNode = new SphereNode(new Vector(1,1,1,1));
-    //     sg.add(aaBoxNode);
-    //     sg.add(sphereNode);
-    //     new JsonVisitor().download(sg)
-    // }
-// };

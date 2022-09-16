@@ -240,7 +240,6 @@ export class MinMaxNode
     endSize = new Vector(1, 1, 1, 0);
     factor: number;
 
-
     /**
      * Kreiert eine neue MinMaxNode
      * @param groupNode Die GroupNode, an die die

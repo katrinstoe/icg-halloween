@@ -30,7 +30,6 @@ export default class Intersection {
     else return false;
   }
 
-
   get t(): number {
     return this._t;
   }
