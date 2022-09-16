@@ -82,12 +82,6 @@ export default class TextureVideoBox {
             mi.x, mi.y, mi.z, ma.x, mi.y, mi.z, ma.x, mi.y, ma.z,
             ma.x, mi.y, ma.z, mi.x, mi.y, ma.z, mi.x, mi.y, mi.z
         ];
-        //
-        // const vertexBuffer = gl.createBuffer();
-        // gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
-        // gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
-        // this.vertexBuffer = vertexBuffer;
-        // this.elements = vertices.length / 3;
 
         let cubeTexture = this.initTexture(gl);
         this.video = this.setupVideo(url);
@@ -209,6 +203,7 @@ export default class TextureVideoBox {
 
     }
 
+    //Credits: Tino :) & https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial/Animating_textures_in_WebGL
     updateTexture(gl: any, texture: WebGLTexture, video: HTMLVideoElement) {
         const level = 0;
         const internalFormat = gl.RGBA;
@@ -219,6 +214,7 @@ export default class TextureVideoBox {
             srcFormat, srcType, video);
     }
 
+    //Credits: Tino :) & https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial/Animating_textures_in_WebGL
     initTexture(gl: any) {
         const texture = gl.createTexture();
         gl.bindTexture(gl.TEXTURE_2D, texture);
@@ -248,6 +244,7 @@ export default class TextureVideoBox {
         return texture;
     }
 
+    //Credits: Tino :) & https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial/Animating_textures_in_WebGL
     setupVideo(url: string) {
         const video = document.createElement('video');
 
@@ -279,6 +276,7 @@ export default class TextureVideoBox {
         return video;
     }
 
+    //Credits: Tino :) & https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial/Animating_textures_in_WebGL
     checkReady() {
         if (this.playing && this.timeupdate) {
             this.copyVideo = true;
