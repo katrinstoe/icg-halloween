@@ -29,7 +29,7 @@ export default class mouseClickVisitor extends Visitor {
      * set individual pixels
      */
     imageData: ImageData;
-    // TODO declare instance variables here
+    //instance variables here
     model: Array<Matrix>
     inverse: Array<Matrix>
     intersection: Intersection | null;
@@ -58,7 +58,6 @@ export default class mouseClickVisitor extends Visitor {
         this.imageData = context.getImageData(0, 0, width, height);
         this.mousePos = mousePos;
         this.lastTexture = lastTexture;
-        //added
     }
 
     /**
@@ -81,7 +80,7 @@ export default class mouseClickVisitor extends Visitor {
         const width = this.imageData.width;
         const height = this.imageData.height;
         this.ray = Ray.makeRay(this.mousePos.x, this.mousePos.y, camera);
-        // TODO initialize the matrix stack
+        //initialize the matrix stack
         this.model = new Array<Matrix>(Matrix.identity())
         this.inverse = new Array<Matrix>(Matrix.identity())
         this.intersection = null;
@@ -89,11 +88,31 @@ export default class mouseClickVisitor extends Visitor {
         this.ray.origin = inverseView.mulVec(this.ray.origin)
         rootNode.accept(this);
         // this.intersection wird in den visit methoden überschrieben --> nach rootNode.accept(this) ist in this.intersection die gesuchte Intersection gespeichert
-        // TODO object manipulation einbauen; Manipulation passiert auch in den visit Methoden
         if (this.animation) {
             this.animation();
         }
     }
+
+
+    /**
+     * Visits a group node
+     * @param node The node to visit
+     */
+    visitGroupNode(node: GroupNode) {
+        //traverse the graph and build the model matrix
+        let children = node.children
+        let matrix = node.transform.getMatrix()
+        let inverseMatrix = node.transform.getInverseMatrix()
+        let identity = this.model[this.model.length - 1]
+        this.inverse.push(inverseMatrix)
+        this.model.push(matrix)
+        for (let child of children) {
+            child.accept(this);
+        }
+        this.model.pop()
+        this.inverse.pop()
+    }
+
 
     /**
      * Visits an aabox button node
@@ -102,7 +121,7 @@ export default class mouseClickVisitor extends Visitor {
     visitAABoxButtonNode(node: AABoxButtonNode): void {
         let toWorld = Matrix.identity();
         let fromWorld = Matrix.identity();
-        // TODO assign the model matrix and its inverse
+        //assign the model matrix and its inverse
         for (let i = 0; i < this.model.length; i++) {
             toWorld = toWorld.mul(this.model[i]);
             fromWorld = this.inverse[i].mul(fromWorld);
@@ -133,7 +152,7 @@ export default class mouseClickVisitor extends Visitor {
     visitTextureBoxButtonNode(node: TextureBoxButtonNode): void {
         let toWorld = Matrix.identity();
         let fromWorld = Matrix.identity();
-        // TODO assign the model matrix and its inverse
+        //assign the model matrix and its inverse
         for (let i = 0; i < this.model.length; i++) {
             toWorld = toWorld.mul(this.model[i]);
             fromWorld = this.inverse[i].mul(fromWorld);
@@ -157,24 +176,6 @@ export default class mouseClickVisitor extends Visitor {
 
 
 
-    /**
-     * Visits a group node
-     * @param node The node to visit
-     */
-    visitGroupNode(node: GroupNode) {
-        // TODO traverse the graph and build the model matrix
-        let children = node.children
-        let matrix = node.transform.getMatrix()
-        let inverseMatrix = node.transform.getInverseMatrix()
-        let identity = this.model[this.model.length - 1]
-        this.inverse.push(inverseMatrix)
-        this.model.push(matrix)
-        for (let child of children) {
-            child.accept(this);
-        }
-        this.model.pop()
-        this.inverse.pop()
-    }
 
     /**
      * Visits a sphere node
@@ -183,19 +184,17 @@ export default class mouseClickVisitor extends Visitor {
     visitSphereNode(node: SphereNode) {
         let toWorld = Matrix.identity();
         let fromWorld = Matrix.identity();
-        // TODO assign the model matrix and its inverse
+        //assign the model matrix and its inverse
         for (let i = 0; i < this.model.length; i++) {
             toWorld = toWorld.mul(this.model[i]);
             fromWorld = this.inverse[i].mul(fromWorld);
         }
         const ray = new Ray(fromWorld.mulVec(this.ray.origin), fromWorld.mulVec(this.ray.direction).normalize());
 
-        //let lightpos = fromWorld.mulVec(new Vector(1,1,1,1))
         let intersection = UNIT_SPHERE.intersect(ray);
         if (intersection) {
             const intersectionPointWorld = toWorld.mulVec(intersection.point);
             const intersectionNormalWorld = toWorld.mulVec(intersection.normal).normalize();
-            // @ts-ignore
             intersection = new Intersection(
                 (intersectionPointWorld.x - this.ray.origin.x) / this.ray.direction.x,
                 intersectionPointWorld,
@@ -215,7 +214,7 @@ export default class mouseClickVisitor extends Visitor {
     visitAABoxNode(node: AABoxNode) {
         let toWorld = Matrix.identity();
         let fromWorld = Matrix.identity();
-        // TODO assign the model matrix and its inverse
+        //assign the model matrix and its inverse
         for (let i = 0; i < this.model.length; i++) {
             toWorld = toWorld.mul(this.model[i]);
             fromWorld = this.inverse[i].mul(fromWorld);
@@ -244,7 +243,7 @@ export default class mouseClickVisitor extends Visitor {
     visitTextureBoxNode(node: TextureBoxNode) {
         let toWorld = Matrix.identity();
         let fromWorld = Matrix.identity();
-        // TODO assign the model matrix and its inverse
+        //assign the model matrix and its inverse
         for (let i = 0; i < this.model.length; i++) {
             toWorld = toWorld.mul(this.model[i]);
             fromWorld = this.inverse[i].mul(fromWorld);
@@ -265,18 +264,13 @@ export default class mouseClickVisitor extends Visitor {
         }
     }
 
-    /**
-     * Visits a textured box node
-     * @param node The node to visit
-     */
-    visitTextureVideoBoxNode(node: TextureVideoBoxNode) {
-    }
+
 
     visitPyramidNode(node: PyramidNode) {
 
         let toWorld = Matrix.identity();
         let fromWorld = Matrix.identity();
-        // TODO assign the model matrix and its inverse
+        //assign the model matrix and its inverse
         for (let i = 0; i < this.model.length; i++) {
             toWorld = toWorld.mul(this.model[i]);
             fromWorld = this.inverse[i].mul(fromWorld);
@@ -299,15 +293,6 @@ export default class mouseClickVisitor extends Visitor {
     }
 
 
-    visitTexturePyramidNode(node: TexturePyramidNode) {
-    }
-
-    visitCameraNode(node: CameraNode): void {
-    };
-
-    visitLightNode(node: LightNode): void {
-    };
-
     /**
      * Visits a tic tac toe texture node
      * @param node The node to visit
@@ -315,7 +300,7 @@ export default class mouseClickVisitor extends Visitor {
     visitTicTacToeTextureNode(node: TicTacToeTextureNode): void {
         let toWorld = Matrix.identity();
         let fromWorld = Matrix.identity();
-        // TODO assign the model matrix and its inverse
+        //assign the model matrix and its inverse
         for (let i = 0; i < this.model.length; i++) {
             toWorld = toWorld.mul(this.model[i]);
             fromWorld = this.inverse[i].mul(fromWorld);
@@ -331,14 +316,14 @@ export default class mouseClickVisitor extends Visitor {
                 intersectionPointWorld,
                 intersectionNormalWorld,
             );
-/**
- * Bis hier noch normale TextureBox
- * Jetzt checken wir hier ob auf die Box schonmal gedrückt wurde
- * wenn ja wird keine neue Texture gesetted
- * Falls nein schauen wir welche Texture zuletzt gesetzt wurde und setzen jenachdem Vampir-Tino oder Zauberer-Matthias
- * sollte die Box die Texture des Reset buttons haben werden alle im Scenengraph ins Würfel-Array gespeicherten Würfel wieder auf die Ausgangstextur gesetzt
- * lastTexture wird in index hochgezählt
- * */
+        /**
+         * Bis hier noch normale TextureBox
+         * Jetzt checken wir hier ob auf die Box schonmal gedrückt wurde
+         * wenn ja wird keine neue Texture gesetted
+         * Falls nein schauen wir welche Texture zuletzt gesetzt wurde und setzen jenachdem Vampir-Tino oder Zauberer-Matthias
+         * sollte die Box die Texture des Reset buttons haben werden alle im Scenengraph ins Würfel-Array gespeicherten Würfel wieder auf die Ausgangstextur gesetzt
+         * lastTexture wird in index hochgezählt
+         * */
             if (this.intersection === null || intersection.closerThan(this.intersection)) {
                 if (node.amountOfSwitches < 1) {
                     this.intersection = intersection;
@@ -362,6 +347,18 @@ export default class mouseClickVisitor extends Visitor {
 
         }
     }
+
+    visitTextureVideoBoxNode(node: TextureVideoBoxNode) {
+    }
+
+    visitTexturePyramidNode(node: TexturePyramidNode) {
+    }
+
+    visitCameraNode(node: CameraNode): void {
+    };
+
+    visitLightNode(node: LightNode): void {
+    };
 
     visitTextureTextBoxNode(node: TextureTextBoxNode){
     };
