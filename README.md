@@ -1,9 +1,12 @@
 # ICG Projekt von Gruppe 01
 <!-- Ein Bild der Anwendung muss im Ordner ./img relativ zu dieser Datei liegen -->
+# Projekt-Informationen
+- Development-Team: Lisa Rieder, Lina Seyfried, Katrin Stötter
+- Entstanden im Zuge des Moduls:  
+Interaktive Computergraphik Übung [122123, 10-MCS-ICGT-152-m01] der Julius-Maximilians-Universität Würzburg. Bachelor Studiengang Mensch-Computer Systeme.
+
 
 <img src="img/projektPic.jpg" width="75%">
-
-Dieses Repository beinhaltet das Projekt des Kurses  "Interaktive Computergraphik" von < Katrin Stötter, Lias Rieder und Lina Seyfried >. 
 
 # Projekt Struktur
 <!-- Ihr könnt die Projektstruktur beliebig beschreiben. Hier einfach mit dem Unix Programm `tree`  -->
